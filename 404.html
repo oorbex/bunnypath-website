@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BunnyPath</title>
+  <meta name="description" content="BunnyPath — 3 personalized play ideas daily for your little one.">
+  <meta property="og:title" content="BunnyPath — Play Ideas for Kids">
+  <meta property="og:description" content="You've been invited to BunnyPath! Get a free week of Premium with your friend's referral code.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F430;</text></svg>">
+  <style>
+    :root {
+      --gold: #F5A623;
+      --gold-vibrant: #E8960F;
+      --gold-deep: #C47F0A;
+      --gold-pale: #FFF8ED;
+      --cream: #FFFDF7;
+      --charcoal: #1F2937;
+      --charcoal-mid: #4B5563;
+      --charcoal-light: #6B7280;
+      --white: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    nav {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--charcoal);
+    }
+    .logo-emoji { font-size: 32px; }
+    .logo-text { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 48px 32px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(245,166,35,0.12), 0 1px 4px rgba(0,0,0,0.04);
+      border: 1px solid rgba(245,166,35,0.15);
+      width: 100%;
+    }
+
+    .card-emoji { font-size: 72px; margin-bottom: 20px; display: block; }
+
+    .card h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .card-subtitle {
+      font-size: 17px;
+      color: var(--charcoal-mid);
+      margin-bottom: 8px;
+    }
+
+    .referral-code-box {
+      display: inline-block;
+      background: var(--gold-pale);
+      border: 2px solid rgba(245,166,35,0.35);
+      border-radius: 12px;
+      padding: 12px 24px;
+      margin: 20px 0;
+    }
+    .referral-code-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--charcoal-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .referral-code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold-deep);
+      letter-spacing: 2px;
+    }
+
+    .card-note {
+      font-size: 14px;
+      color: var(--charcoal-light);
+      margin-bottom: 28px;
+    }
+    .card-note strong { color: var(--charcoal-mid); }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--charcoal);
+      color: white;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 17px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(31,41,55,0.25);
+      margin-bottom: 12px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(31,41,55,0.35);
+    }
+
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      background: white;
+      color: var(--charcoal);
+      border: 2px solid #E5E7EB;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 17px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 12px;
+    }
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .btn-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
+      color: white;
+      border: none;
+      border-radius: 100px;
+      padding: 10px 24px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      margin-bottom: 24px;
+    }
+    .btn-copy:hover { transform: translateY(-1px); }
+    .btn-copy.copied { background: #22C55E; }
+
+    .btn-icon { font-size: 22px; }
+
+    .features-mini {
+      text-align: left;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .features-mini li {
+      padding: 6px 0;
+      font-size: 15px;
+      color: var(--charcoal-mid);
+    }
+    .features-mini li::before {
+      content: '\2713';
+      color: var(--gold-vibrant);
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--charcoal);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    footer {
+      padding: 24px;
+      text-align: center;
+    }
+    footer a {
+      color: var(--charcoal-light);
+      text-decoration: none;
+      font-size: 13px;
+      margin: 0 12px;
+    }
+    footer a:hover { color: var(--gold-vibrant); }
+
+    .hidden { display: none; }
+
+    @media (max-width: 640px) {
+      .card { padding: 36px 24px; }
+      .card h1 { font-size: 24px; }
+      .referral-code { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">
+      <span class="logo-emoji">&#x1F430;</span>
+      <span class="logo-text">BunnyPath</span>
+    </a>
+  </nav>
+
+  <section class="main">
+    <div class="container">
+
+      <!-- REFERRAL PAGE -->
+      <div class="card hidden" id="referral-page">
+        <span class="card-emoji">&#x1F381;</span>
+        <h1 id="ref-heading">You've been invited to BunnyPath!</h1>
+        <p class="card-subtitle" id="ref-subtitle">Your friend shared their referral code with you.</p>
+
+        <div class="referral-code-box" id="ref-code-box">
+          <div class="referral-code-label">Your referral code</div>
+          <div class="referral-code" id="ref-code-display">---</div>
+        </div>
+
+        <button class="btn-copy" id="copy-btn" onclick="copyCode()">
+          Copy Code
+        </button>
+
+        <p class="card-note" id="ref-note">Download the app, tap "Have a referral code?" on the welcome screen, and paste this code to get <strong>1 free week of Premium</strong>.</p>
+
+        <a href="#" class="btn-primary" id="ref-ios-btn">
+          <span class="btn-icon">&#xF8FF;</span>
+          Download for iPhone
+        </a>
+        <a href="#" class="btn-secondary" onclick="event.preventDefault()">
+          <span class="btn-icon">&#x1F4F1;</span>
+          Android — Coming Soon
+        </a>
+
+        <ul class="features-mini">
+          <li>3 personalized play ideas every day</li>
+          <li>6,800+ curated activities</li>
+          <li>Track streaks and earn badges</li>
+          <li>7-day free trial included</li>
+        </ul>
+      </div>
+
+      <!-- ACTIVITY SHARE PAGE -->
+      <div class="card hidden" id="activity-page">
+        <span class="card-emoji">&#x2728;</span>
+        <h1>Check out this activity on BunnyPath!</h1>
+        <p class="card-subtitle">Download the app to see the full details, materials, and step-by-step instructions.</p>
+
+        <a href="#" class="btn-primary" id="activity-ios-btn" style="margin-top: 28px;">
+          <span class="btn-icon">&#xF8FF;</span>
+          Download for iPhone
+        </a>
+        <a href="#" class="btn-secondary" onclick="event.preventDefault()">
+          <span class="btn-icon">&#x1F4F1;</span>
+          Android — Coming Soon
+        </a>
+      </div>
+
+      <!-- GENERIC / 404 PAGE -->
+      <div class="card hidden" id="generic-page">
+        <span class="card-emoji">&#x1F430;</span>
+        <h1 id="generic-heading">Looking for BunnyPath?</h1>
+        <p class="card-subtitle" id="generic-subtitle">3 personalized play ideas every day for your little one.</p>
+
+        <a href="/" class="btn-primary" style="margin-top: 28px;">
+          Go to Homepage
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="toast" id="toast">Code copied!</div>
+
+  <footer>
+    <a href="/">Home</a>
+    <a href="/legal/privacy">Privacy</a>
+    <a href="/legal/terms">Terms</a>
+  </footer>
+
+  <script>
+    (function() {
+      var path = window.location.pathname;
+
+      // ---- REFERRAL: /ref/{CODE} ----
+      var refMatch = path.match(/^\/ref\/([A-Za-z0-9\-]+)\/?$/);
+      if (refMatch) {
+        var code = refMatch[1].toUpperCase();
+        document.getElementById('referral-page').classList.remove('hidden');
+        document.getElementById('ref-code-display').textContent = code;
+        document.title = 'BunnyPath \u2014 You\'re Invited!';
+        return;
+      }
+
+      // ---- ACTIVITY SHARE: /a/{ID} ----
+      var actMatch = path.match(/^\/a\/([A-Za-z0-9\-]+)\/?$/);
+      if (actMatch) {
+        document.getElementById('activity-page').classList.remove('hidden');
+        document.title = 'BunnyPath \u2014 Activity';
+        return;
+      }
+
+      // ---- FAMILY INVITE ----
+      if (path === '/family-invite' || path === '/family-invite/') {
+        document.getElementById('referral-page').classList.remove('hidden');
+        document.getElementById('ref-code-box').style.display = 'none';
+        document.getElementById('copy-btn').style.display = 'none';
+        document.getElementById('ref-heading').textContent = 'Join the family on BunnyPath!';
+        document.getElementById('ref-subtitle').textContent = 'You\'ve been invited to share play ideas with your family.';
+        document.getElementById('ref-note').textContent = 'Download the app to get started with 3 free daily play ideas.';
+        document.title = 'BunnyPath \u2014 Family Invite';
+        return;
+      }
+
+      // ---- LEGAL PAGES ----
+      if (path.startsWith('/legal/')) {
+        document.getElementById('generic-page').classList.remove('hidden');
+        document.getElementById('generic-heading').textContent = 'Legal Information';
+        document.getElementById('generic-subtitle').textContent = 'Please refer to the app for our full Privacy Policy and Terms of Service.';
+        return;
+      }
+
+      // ---- GENERIC 404 ----
+      document.getElementById('generic-page').classList.remove('hidden');
+    })();
+
+    function copyCode() {
+      var code = document.getElementById('ref-code-display').textContent;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(function() {
+          showToast();
+          markCopied();
+        });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = code;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+        markCopied();
+      }
+    }
+
+    function showToast() {
+      var toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2000);
+    }
+
+    function markCopied() {
+      var btn = document.getElementById('copy-btn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = 'Copy Code';
+        btn.classList.remove('copied');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

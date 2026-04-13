@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BunnyPath — Play Ideas for Kids</title>
+  <meta name="description" content="3 personalized play ideas daily for your little one. Age-appropriate, parent-approved activities with zero scrolling.">
+  <meta property="og:title" content="BunnyPath — Play Ideas for Kids">
+  <meta property="og:description" content="3 personalized play ideas daily. Creative, active, and discovery activities curated for your child's age.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bunnypath.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F430;</text></svg>">
+  <style>
+    :root {
+      --gold: #F5A623;
+      --gold-vibrant: #E8960F;
+      --gold-deep: #C47F0A;
+      --gold-pale: #FFF8ED;
+      --cream: #FFFDF7;
+      --charcoal: #1F2937;
+      --charcoal-mid: #4B5563;
+      --charcoal-light: #6B7280;
+      --white: #FFFFFF;
+      --radius: 16px;
+      --radius-sm: 12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--charcoal);
+    }
+    .logo-emoji { font-size: 32px; }
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
+      color: white;
+      padding: 10px 24px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 12px rgba(245,166,35,0.3);
+    }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(245,166,35,0.4);
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+    .hero-emoji {
+      font-size: 80px;
+      margin-bottom: 24px;
+      display: block;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(18px, 3vw, 22px);
+      color: var(--charcoal-mid);
+      max-width: 540px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+    }
+    .store-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .store-btn:hover {
+      transform: translateY(-2px);
+    }
+    .store-btn-ios {
+      background: var(--charcoal);
+      color: white;
+      box-shadow: 0 4px 16px rgba(31,41,55,0.25);
+    }
+    .store-btn-ios:hover { box-shadow: 0 8px 24px rgba(31,41,55,0.35); }
+    .store-btn-android {
+      background: white;
+      color: var(--charcoal);
+      border: 2px solid #E5E7EB;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .store-btn-android:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .store-icon { font-size: 24px; }
+
+    /* ---- SOCIAL PROOF BAR ---- */
+    .proof-bar {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 40px 0;
+      flex-wrap: wrap;
+    }
+    .proof-item { text-align: center; }
+    .proof-number {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--gold-vibrant);
+    }
+    .proof-label {
+      font-size: 14px;
+      color: var(--charcoal-light);
+      font-weight: 500;
+    }
+
+    /* ---- FEATURES ---- */
+    .features {
+      padding: 60px 0;
+    }
+    .features h2 {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 48px;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      border: 1px solid rgba(245,166,35,0.12);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(245,166,35,0.12);
+    }
+    .feature-emoji { font-size: 48px; margin-bottom: 16px; }
+    .feature-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 15px;
+      color: var(--charcoal-mid);
+      line-height: 1.5;
+    }
+
+    /* ---- HOW IT WORKS ---- */
+    .how {
+      padding: 60px 0;
+      text-align: center;
+    }
+    .how h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 48px;
+    }
+    .steps {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .step {
+      flex: 1;
+      min-width: 200px;
+      max-width: 280px;
+    }
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .step h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .step p { font-size: 14px; color: var(--charcoal-light); }
+
+    /* ---- TESTIMONIAL ---- */
+    .testimonial {
+      padding: 60px 0;
+      text-align: center;
+    }
+    .testimonial-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 40px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 4px 20px rgba(245,166,35,0.1);
+      border: 1px solid rgba(245,166,35,0.15);
+    }
+    .testimonial-text {
+      font-size: 20px;
+      font-style: italic;
+      color: var(--charcoal-mid);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+
+    /* ---- CTA BANNER ---- */
+    .cta-banner {
+      padding: 80px 0;
+      text-align: center;
+    }
+    .cta-card {
+      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
+      border-radius: 24px;
+      padding: 60px 40px;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 12px 40px rgba(245,166,35,0.3);
+    }
+    .cta-card h2 {
+      font-size: 32px;
+      color: white;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .cta-card p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 32px;
+    }
+    .cta-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      color: var(--gold-vibrant);
+      padding: 16px 36px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .cta-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid #E5E7EB;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--charcoal-light);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--gold-vibrant); }
+    .footer-copy {
+      font-size: 13px;
+      color: var(--charcoal-light);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 640px) {
+      .hero { padding: 48px 0 40px; }
+      .hero-emoji { font-size: 64px; }
+      .proof-bar { gap: 32px; }
+      .store-buttons { flex-direction: column; align-items: center; }
+      .store-btn { width: 100%; max-width: 280px; justify-content: center; }
+      .cta-card { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">
+        <span class="logo-emoji">&#x1F430;</span>
+        <span class="logo-text">BunnyPath</span>
+      </a>
+      <a href="#download" class="nav-cta">Download Free</a>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="hero-emoji">&#x1F430;</span>
+      <h1>Play ideas for kids.<br><span>Zero scrolling.</span></h1>
+      <p class="hero-sub">3 personalized activities every day, curated for your child's age. Creative, active, and discovery play — ready in seconds.</p>
+      <div class="store-buttons" id="download">
+        <a href="#" class="store-btn store-btn-ios" id="ios-btn">
+          <span class="store-icon">&#xF8FF;</span>
+          Download for iPhone
+        </a>
+        <a href="#" class="store-btn store-btn-android" onclick="event.preventDefault()">
+          <span class="store-icon">&#x1F4F1;</span>
+          Android — Coming Soon
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section>
+    <div class="container">
+      <div class="proof-bar">
+        <div class="proof-item">
+          <div class="proof-number">6,800+</div>
+          <div class="proof-label">curated activities</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-number">0 &ndash; 12</div>
+          <div class="proof-label">ages covered</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-number">3</div>
+          <div class="proof-label">fresh ideas daily</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-number">24</div>
+          <div class="proof-label">badges to earn</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="container">
+      <h2>Why parents love BunnyPath</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-emoji">&#x2728;</div>
+          <h3>Personalized for Your Child</h3>
+          <p>Activities matched to your child's age, interests, and what you have at home. No more scrolling Pinterest for hours.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-emoji">&#x1F3A8;</div>
+          <h3>Creative, Active &amp; Discovery</h3>
+          <p>A balanced mix every day. Art projects, outdoor adventures, and science experiments — all age-appropriate and parent-tested.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-emoji">&#x23F1;&#xFE0F;</div>
+          <h3>Ready in Under a Minute</h3>
+          <p>Simple materials, clear steps, quick prep. Because you don't have 30 minutes to set up a craft project.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-emoji">&#x1F4CA;</div>
+          <h3>Track Their Growth</h3>
+          <p>Activity streaks, earned badges, and a play history that shows how much your little one is learning through play.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-emoji">&#x1F496;</div>
+          <h3>Save Your Favorites</h3>
+          <p>Heart the activities your kids love and build a personal library of go-to ideas for any day.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-emoji">&#x1F389;</div>
+          <h3>Fun for the Whole Family</h3>
+          <p>Activities designed to bring parents and kids together. Less screen time, more memory-making.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="container">
+      <h2>How it works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Tell us about your child</h3>
+          <p>Name, age, and interests. Takes 30 seconds.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Get 3 daily ideas</h3>
+          <p>Tap "Surprise Me" and discover today's activities.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Play and track</h3>
+          <p>Complete activities, build streaks, and earn badges.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section class="testimonial">
+    <div class="container">
+      <div class="testimonial-card">
+        <p class="testimonial-text">"Worth every penny — I was spending 20 minutes on Pinterest every day looking for ideas. Now I just open BunnyPath."</p>
+        <p class="testimonial-author">— Sarah, mom of 2</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Start your free trial today</h2>
+        <p>7 days free. Unlimited ideas. Cancel anytime.</p>
+        <a href="#download" class="cta-download">
+          &#x1F430; Download BunnyPath
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="/legal/privacy">Privacy Policy</a>
+        <a href="/legal/terms">Terms of Service</a>
+        <a href="mailto:hello@bunnypath.com">Contact</a>
+      </div>
+      <p class="footer-copy">&copy; 2026 BunnyPath. Made with &#x1F9E1; for families everywhere.</p>
+    </div>
+  </footer>
+</body>
+</html>
