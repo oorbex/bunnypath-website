@@ -141,10 +141,10 @@
       display: flex; align-items: center; justify-content: center;
     }
     .detail-fade {
-      position: relative;
+      position: relative; overflow: hidden; flex: 1;
     }
     .detail-fade::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
       background: linear-gradient(transparent, white);
       pointer-events: none;
     }
@@ -374,10 +374,11 @@
             <span class="detail-material">Card stock</span>
           </div>
           <div class="detail-section-label">Steps</div>
-          <div class="detail-fade">
+          <div class="detail-fade" style="flex:1">
             <ol class="detail-steps">
               <li data-step="1">Cut sponges into shapes &mdash; stars, circles, hearts, or squares.</li>
               <li data-step="2">Pour different paint colors onto paper plates.</li>
+              <li data-step="3">Dip a sponge shape into paint and press firmly onto the card stock.</li>
             </ol>
           </div>
         </div>
