@@ -139,6 +139,7 @@
       transition: transform 0.2s, box-shadow 0.2s;
       box-shadow: 0 4px 16px rgba(31,41,55,0.25);
       margin-bottom: 12px;
+      min-height: 56px;
     }
     .btn-primary:hover {
       transform: translateY(-2px);
@@ -161,6 +162,7 @@
       font-size: 17px;
       transition: transform 0.2s, box-shadow 0.2s;
       margin-bottom: 12px;
+      min-height: 56px;
     }
     .btn-secondary:hover {
       transform: translateY(-1px);
@@ -340,6 +342,41 @@
         document.getElementById('referral-page').classList.remove('hidden');
         document.getElementById('ref-code-display').textContent = code;
         document.title = 'BunnyPath \u2014 You\'re Invited!';
+
+        // Platform detection for proper store attribution.
+        var ua = navigator.userAgent || '';
+        var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+        var isAndroid = /Android/i.test(ua);
+
+        // App Store campaign link — ct= survives through install to App
+        // Analytics, letting us track per-affiliate install counts.
+        // Replace APP_STORE_ID below with the numeric App Store ID once
+        // the app is live (App Store Connect → App Information → Apple ID).
+        var APP_STORE_ID = '0000000000';
+        var iosUrl = 'https://apps.apple.com/app/id' + APP_STORE_ID +
+                     '?ct=' + encodeURIComponent('REF_' + code) + '&mt=8';
+
+        // Play Install Referrer — referrer= string is preserved through
+        // install and readable on first app launch via InstallReferrerClient.
+        var androidUrl = 'https://play.google.com/store/apps/details' +
+                         '?id=com.kodsters.bunnypath' +
+                         '&referrer=' + encodeURIComponent('ref=' + code);
+
+        var iosBtn = document.getElementById('ref-ios-btn');
+        if (iosBtn) {
+          iosBtn.href = isAndroid ? androidUrl : iosUrl;
+          if (isAndroid) iosBtn.textContent = 'Open in Play Store';
+        }
+
+        // Copy the code to the clipboard automatically so iOS fresh installs
+        // can pick it up on first launch (before the user ever types).
+        // Silent best-effort — no prompt, no error surfacing.
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code).catch(function(){});
+          }
+        } catch (e) { /* ignore */ }
+
         return;
       }
 

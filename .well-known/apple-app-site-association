@@ -1,0 +1,27 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["783ZW8CX69.com.kodsters.bunnypath"],
+        "components": [
+          {
+            "/": "/ref/*",
+            "comment": "Affiliate/referral links — open the app directly"
+          },
+          {
+            "/": "/a/*",
+            "comment": "Activity share links"
+          },
+          {
+            "/": "/",
+            "?": { "ref": "?*" },
+            "comment": "Homepage with ref query param"
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["783ZW8CX69.com.kodsters.bunnypath"]
+  }
+}
