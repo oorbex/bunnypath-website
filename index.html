@@ -151,10 +151,16 @@
     }
 
     /* PROOF BAR */
-    .proof-bar { display: flex; justify-content: center; gap: 48px; padding: 40px 0; flex-wrap: wrap; }
+    .proof-bar { display: flex; justify-content: center; gap: 48px; padding: 40px 0 24px; flex-wrap: wrap; }
     .proof-item { text-align: center; }
     .proof-number { font-size: 28px; font-weight: 800; color: var(--gold-vibrant); }
     .proof-label { font-size: 14px; color: var(--charcoal-light); font-weight: 500; }
+    .fun-fact {
+      text-align: center; font-size: 15px; color: var(--charcoal-light);
+      font-style: italic; padding: 0 0 40px; max-width: 480px; margin: 0 auto;
+      line-height: 1.5;
+    }
+    .fun-fact strong { color: var(--gold-vibrant); font-style: normal; font-weight: 700; }
 
     /* FEATURES */
     .features { padding: 60px 0; }
@@ -408,6 +414,7 @@
           <div class="proof-label">badges to earn</div>
         </div>
       </div>
+      <p class="fun-fact">One activity a day — you'd still need <strong>54 years, 9 months and 20 days</strong> to try them all.</p>
     </div>
   </section>
 
