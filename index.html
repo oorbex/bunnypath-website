@@ -210,38 +210,6 @@
     .testimonial-name { font-weight: 600; font-size: 14px; }
     .testimonial-detail { font-size: 13px; color: var(--charcoal-light); }
 
-    /* PRICING */
-    .pricing { padding: 60px 0; text-align: center; }
-    .pricing h2 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
-    .pricing-sub { font-size: 17px; color: var(--charcoal-mid); margin-bottom: 40px; }
-    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 700px; margin: 0 auto; }
-    .price-card {
-      background: white; border-radius: var(--radius); padding: 32px; text-align: center;
-      border: 1px solid #E5E7EB; position: relative; transition: transform 0.2s;
-    }
-    .price-card:hover { transform: translateY(-4px); }
-    .price-card.popular { border: 2px solid var(--gold); box-shadow: 0 8px 32px rgba(245,166,35,0.15); }
-    .price-badge {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
-      color: white; font-size: 12px; font-weight: 700; padding: 4px 16px;
-      border-radius: 100px; white-space: nowrap;
-    }
-    .price-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-    .price-amount { font-size: 36px; font-weight: 800; color: var(--gold-vibrant); margin-bottom: 4px; }
-    .price-period { font-size: 14px; color: var(--charcoal-light); margin-bottom: 20px; }
-    .price-features { list-style: none; text-align: left; margin-bottom: 24px; }
-    .price-features li { padding: 6px 0; font-size: 14px; color: var(--charcoal-mid); }
-    .price-features li::before { content: '\2713'; color: var(--gold-vibrant); font-weight: 700; margin-right: 10px; }
-    .price-btn {
-      display: block; width: 100%; padding: 14px; border-radius: var(--radius-sm);
-      text-decoration: none; font-weight: 600; font-size: 15px; text-align: center;
-      transition: transform 0.2s;
-    }
-    .price-btn:hover { transform: translateY(-1px); }
-    .price-btn-outline { color: var(--charcoal); border: 2px solid #E5E7EB; background: white; }
-    .price-btn-gold { color: white; background: linear-gradient(135deg, var(--gold), var(--gold-vibrant)); box-shadow: 0 4px 12px rgba(245,166,35,0.3); }
-
     /* CTA BANNER */
     .cta-banner { padding: 80px 0; text-align: center; }
     .cta-card {
@@ -251,6 +219,7 @@
     }
     .cta-card h2 { font-size: 32px; color: white; font-weight: 700; margin-bottom: 12px; }
     .cta-card p { font-size: 18px; color: rgba(255,255,255,0.9); margin-bottom: 32px; }
+    .cta-pricing-note { font-size: 13px !important; color: rgba(255,255,255,0.5) !important; margin-top: 20px !important; margin-bottom: 0 !important; }
     .cta-download {
       display: inline-flex; align-items: center; gap: 10px; background: white;
       color: var(--gold-vibrant); padding: 16px 36px; border-radius: 100px;
@@ -523,52 +492,13 @@
     </div>
   </section>
 
-  <!-- PRICING -->
-  <section class="pricing">
-    <div class="container">
-      <h2>Simple pricing</h2>
-      <p class="pricing-sub">Start free. Upgrade when you're ready.</p>
-      <div class="pricing-grid">
-        <div class="price-card">
-          <div class="price-name">Free</div>
-          <div class="price-amount">$0</div>
-          <div class="price-period">forever</div>
-          <ul class="price-features">
-            <li>Daily activity ideas</li>
-            <li>1 child profile</li>
-            <li>Save up to 5 favorites</li>
-            <li>Basic search</li>
-          </ul>
-          <a href="#download" class="price-btn price-btn-outline">Download Free</a>
-        </div>
-        <div class="price-card popular">
-          <div class="price-badge">Most popular</div>
-          <div class="price-name">Premium</div>
-          <div class="price-amount">$9.99</div>
-          <div class="price-period">/month or $99/year (save 17%)</div>
-          <ul class="price-features">
-            <li>Unlimited activity ideas</li>
-            <li>Ad-free experience</li>
-            <li>Developmental tracking</li>
-            <li>Unlimited saved favorites</li>
-            <li>Unlimited child profiles</li>
-            <li>Unlimited activity searches</li>
-            <li>Filter by age, time, materials, and more</li>
-            <li>Activity planner</li>
-            <li>7-day free trial</li>
-          </ul>
-          <a href="#download" class="price-btn price-btn-gold">Start Free Trial</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- CTA BANNER -->
   <section class="cta-banner">
     <div class="container">
       <div class="cta-card">
         <h2>Make playtime effortless</h2>
         <p>7 days free. Unlimited ideas. Cancel anytime.</p>
+        <p class="cta-pricing-note">Free to download &mdash; Premium from $9.99/month.</p>
         <a href="#download" class="cta-download">&#x1F430; Download BunnyPath</a>
       </div>
     </div>
