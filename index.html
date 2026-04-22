@@ -219,13 +219,6 @@
     }
     .cta-card h2 { font-size: 32px; color: white; font-weight: 700; margin-bottom: 12px; }
     .cta-card p { font-size: 18px; color: rgba(255,255,255,0.9); margin-bottom: 32px; }
-.cta-download {
-      display: inline-flex; align-items: center; gap: 10px; background: white;
-      color: var(--gold-vibrant); padding: 16px 36px; border-radius: 100px;
-      text-decoration: none; font-weight: 700; font-size: 18px;
-      transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    }
-    .cta-download:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
 
     /* FOOTER */
     footer { padding: 40px 0; text-align: center; border-top: 1px solid #E5E7EB; }
@@ -497,7 +490,16 @@
       <div class="cta-card">
         <h2>Make playtime effortless</h2>
         <p>20,000 reasons to download. Cancel anytime.</p>
-<a href="#download" class="cta-download">&#x1F430; Download BunnyPath</a>
+<div class="store-buttons">
+          <a href="#" class="store-btn store-btn-ios" id="ios-btn-cta">
+            <span class="store-icon">&#xF8FF;</span>
+            Download for iPhone
+          </a>
+          <a href="#" class="store-btn store-btn-android">
+            <span class="store-icon">&#x1F4F1;</span>
+            Download for Android
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -506,9 +508,9 @@
   <footer>
     <div class="container">
       <div class="footer-links">
-        <a href="/legal/privacy">Privacy Policy</a>
-        <a href="/legal/terms">Terms of Service</a>
-        <a href="mailto:hello@bunnypath.com">Contact</a>
+        <a href="/legal/privacy">Privacy</a>
+        <a href="/legal/terms">Terms</a>
+        <a href="mailto:hello@bunnypath.com">hello@bunnypath.com</a>
       </div>
       <p class="footer-copy">&copy; 2026 BunnyPath. Made with &#x1F9E1; for families everywhere.</p>
     </div>
