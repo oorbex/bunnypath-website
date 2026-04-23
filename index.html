@@ -15,7 +15,9 @@
 <meta name="twitter:title" content="BunnyPath — Play ideas for kids 0–12">
 <meta name="twitter:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Download free.">
 <link rel="canonical" href="https://bunnypath.com/">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F430;</text></svg>">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="brand/favicon-96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="brand/favicon-180.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -45,13 +47,8 @@ nav.top{
   backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
   background:rgba(255,253,247,.78); border-bottom:1px solid rgba(245,166,35,.1);
 }
-.logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--charcoal); font-weight:800; font-size:22px}
-.logo .logo-mark{
-  width:40px; height:40px; border-radius:50%;
-  background:linear-gradient(135deg,#5EBDEE,#33A5E8);
-  display:flex; align-items:center; justify-content:center; font-size:22px;
-  box-shadow:0 6px 18px rgba(245,166,35,.3);
-}
+.logo{display:flex; align-items:center; text-decoration:none; color:var(--charcoal)}
+.logo-img{height:52px; width:auto; display:block; user-select:none; -webkit-user-drag:none}
 .nav-right{display:flex; align-items:center; gap:20px}
 .nav-link{color:var(--charcoal-mid); text-decoration:none; font-weight:600; font-size:14px}
 .nav-cta{
@@ -947,8 +944,7 @@ footer.nf{
   .nav-right{gap:10px}
   .nav-right .nav-link{display:none}
   .nav-cta{padding:9px 16px; font-size:13px}
-  .logo{font-size:18px}
-  .logo .logo-mark{width:34px; height:34px; font-size:18px}
+  .logo-img{height:42px}
 
   /* Hero diorama: shrink sun + clouds so they don't dominate */
   .diorama-sun{width:90px; height:90px; top:30px; right:6vw}
@@ -1337,7 +1333,22 @@ footer.nf{
 <!-- NAV -->
 <div class="container">
   <nav class="top">
-    <a href="#" class="logo"><span class="logo-mark">🐰</span><span>BunnyPath</span></a>
+    <a href="#" class="logo" aria-label="BunnyPath — home">
+      <picture>
+        <source type="image/webp"
+          srcset="brand/bunnypath-logo-nav.webp 1x,
+                  brand/bunnypath-logo-nav@2x.webp 2x,
+                  brand/bunnypath-logo-nav@3x.webp 3x">
+        <img class="logo-img"
+          src="brand/bunnypath-logo-nav@2x.png"
+          srcset="brand/bunnypath-logo-nav.png 1x,
+                  brand/bunnypath-logo-nav@2x.png 2x,
+                  brand/bunnypath-logo-nav@3x.png 3x"
+          alt="BunnyPath"
+          width="120" height="123"
+          loading="eager" decoding="async">
+      </picture>
+    </a>
     <div class="nav-right">
       <a href="#download" class="nav-cta">Download free</a>
     </div>
