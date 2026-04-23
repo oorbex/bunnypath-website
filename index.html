@@ -1,519 +1,3068 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>BunnyPath — The Largest Off-Screen Kid Activity Collection</title>
-  <meta name="description" content="20,000+ hand-crafted, off-screen activities for kids ages 0-12. Personalized play ideas at your fingertips. Download free for iPhone.">
-  <meta property="og:title" content="BunnyPath — Play Ideas for Kids">
-  <meta property="og:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0-12. Creative, active, and discovery play curated for your child's age.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://bunnypath.com">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F430;</text></svg>">
-  <style>
-    :root {
-      --gold: #F5A623;
-      --gold-vibrant: #E8960F;
-      --gold-deep: #C47F0A;
-      --gold-pale: #FFF8ED;
-      --cream: #FFFDF7;
-      --charcoal: #1F2937;
-      --charcoal-mid: #4B5563;
-      --charcoal-light: #6B7280;
-      --white: #FFFFFF;
-      --radius: 16px;
-      --radius-sm: 12px;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-      background: var(--cream);
-      color: var(--charcoal);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>BunnyPath — Play ideas for kids 0–12</title>
+<meta name="description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Personalized play ideas at your fingertips. Download free for iPhone and Android.">
+<meta name="theme-color" content="#FFFDF7">
+<meta property="og:title" content="BunnyPath — Play ideas for kids 0–12">
+<meta property="og:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Creative, active, and discovery play curated for your child's age.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bunnypath.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BunnyPath — Play ideas for kids 0–12">
+<meta name="twitter:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Download free.">
+<link rel="canonical" href="https://bunnypath.com/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F430;</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#F5A623; --gold-vibrant:#E8960F; --gold-deep:#C47F0A; --gold-pale:#FFF8ED;
+  --cream:#FFFDF7; --cream-warm:#FFF3D9;
+  --charcoal:#1F2937; --charcoal-mid:#4B5563; --charcoal-light:#6B7280;
+  --meadow:#9CC9A6; --meadow-deep:#6FA77D;
+  --sky:#CFE6F7; --sky-deep:#9FCDF0;
+  --petal:#F7B8B0; --petal-deep:#E8857A;
+  --night:#1A2340; --night-mid:#2B3760; --night-star:#FFE7A8;
+  --blue:#2372F5;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Nunito',-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;
+  color:var(--charcoal); line-height:1.55; background:var(--cream);
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif; letter-spacing:-.01em}
+.container{max-width:1160px; margin:0 auto; padding:0 28px; position:relative}
 
-    /* NAV */
-    nav { padding: 20px 0; display: flex; align-items: center; justify-content: space-between; }
-    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--charcoal); }
-    .logo-emoji { font-size: 32px; }
-    .logo-text { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-    .nav-cta {
-      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
-      color: white; padding: 10px 24px; border-radius: 100px; text-decoration: none;
-      font-weight: 600; font-size: 14px; transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 12px rgba(245,166,35,0.3);
-    }
-    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(245,166,35,0.4); }
+/* ──────────────── PAW PATH (scroll spine) ──────────────── */
+.paw-path{
+  position:fixed; left:max(24px,calc(50vw - 620px)); top:80px; bottom:0;
+  width:100px; pointer-events:none; z-index:40;
+}
+.paw-path svg{position:absolute; inset:0; width:100%; height:100%}
+.paw-path .stop{
+  position:absolute; left:50%; transform:translate(-50%,-50%);
+  width:36px; height:36px; border-radius:50%;
+  background:var(--cream); border:2px solid var(--gold);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; transition:all .4s cubic-bezier(.2,1.2,.3,1);
+}
+.paw-path .stop[style*="left"]{/* stop already has left from JS; transform keeps centering */}
+.paw-path .stop.active{
+  background:var(--gold); color:#fff;
+  box-shadow:0 0 0 6px rgba(245,166,35,.18), 0 8px 24px rgba(245,166,35,.4);
+  transform:translate(-50%,-50%) scale(1.15);
+}
+.paw-path .stop-label{
+  position:absolute; left:50px; top:50%; transform:translateY(-50%);
+  font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.14em;
+  color:var(--gold-deep); white-space:nowrap; opacity:0; transition:opacity .3s;
+}
+.paw-path .stop.active .stop-label{opacity:1}
 
-    /* HERO */
-    .hero { padding: 80px 0 40px; text-align: center; }
-    .hero-emoji { font-size: 80px; margin-bottom: 24px; display: block; animation: bounce 2s ease-in-out infinite; }
-    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    .hero h1 { font-size: clamp(36px,6vw,56px); font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 16px; }
-    .hero h1 span { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero-sub { font-size: clamp(18px,3vw,22px); color: var(--charcoal-mid); max-width: 560px; margin: 0 auto 40px; }
-    .store-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .store-btn {
-      display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px;
-      border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; font-size: 16px;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .store-btn:hover { transform: translateY(-2px); }
-    .store-btn-ios { background: var(--charcoal); color: white; box-shadow: 0 4px 16px rgba(31,41,55,0.25); }
-    .store-btn-ios:hover { box-shadow: 0 8px 24px rgba(31,41,55,0.35); }
-    .store-btn-android { background: white; color: var(--charcoal); border: 2px solid #E5E7EB; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    .store-icon { font-size: 24px; }
+/* Traveling bunny on the path */
+.path-bunny{
+  position:fixed; left:max(24px,calc(50vw - 620px)); top:80px;
+  width:100px; height:60px; margin-left:0; z-index:41;
+  transition:top .8s cubic-bezier(.3,1.2,.4,1), transform .3s;
+  pointer-events:none;
+}
+.path-bunny .bunny-body{
+  position:absolute; top:0; left:0;
+  font-size:38px; filter:drop-shadow(0 4px 8px rgba(31,41,55,.15));
+  animation:pathHop 1.6s ease-in-out infinite;
+  transition:left .8s cubic-bezier(.3,1.2,.4,1);
+  transform:translateX(-50%);
+}
+@keyframes pathHop{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-6px) rotate(2deg)}}
 
-    /* PHONE MOCKUP */
-    .mockup-section { padding: 40px 0 60px; text-align: center; }
-    .mockup-pair {
-      display: flex; gap: 24px; justify-content: center; align-items: stretch; flex-wrap: wrap;
-    }
-    .phone-frame {
-      width: 320px; background: white; border-radius: 32px;
-      padding: 24px 20px 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.04);
-      border: 1px solid #E5E7EB; position: relative; display: flex; flex-direction: column;
-    }
-    .phone-notch { width: 120px; height: 6px; background: #E5E7EB; border-radius: 3px; margin: 0 auto 20px; }
-    .phone-greeting { font-size: 18px; font-weight: 700; text-align: left; margin-bottom: 4px; }
-    .phone-child { font-size: 13px; color: var(--charcoal-light); text-align: left; margin-bottom: 16px; }
-    .phone-btn {
-      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
-      color: white; border: none; border-radius: 100px; padding: 12px 0; width: 100%;
-      font-weight: 700; font-size: 16px; margin-bottom: 20px; cursor: default;
-      box-shadow: 0 4px 16px rgba(245,166,35,0.3);
-    }
-    .activity-card {
-      display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px;
-      text-align: left; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.06);
-    }
-    .ac-creative { background: #FFF5F5; border-color: rgba(244,63,94,0.12); }
-    .ac-discovery { background: #EFF6FF; border-color: rgba(59,130,246,0.12); }
-    .ac-active { background: #ECFDF5; border-color: rgba(16,185,129,0.12); }
-    .ac-emoji { font-size: 28px; flex-shrink: 0; }
-    .ac-info { flex: 1; }
-    .ac-type { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-    .ac-type-c { color: #F43F5E; }
-    .ac-type-d { color: #3B82F6; }
-    .ac-type-a { color: #10B981; }
-    .ac-title { font-size: 14px; font-weight: 600; color: var(--charcoal); }
-    .ac-meta { font-size: 12px; color: var(--charcoal-light); }
+@media (max-width:900px){.paw-path,.path-bunny{display:none}}
 
-    /* DETAIL PHONE */
-    .detail-back { font-size: 13px; color: var(--charcoal-light); margin-bottom: 16px; text-align: left; }
-    .detail-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; text-align: left; }
-    .detail-header-emoji { font-size: 36px; }
-    .detail-header-info { flex: 1; }
-    .detail-title { font-size: 18px; font-weight: 700; color: var(--charcoal); line-height: 1.2; }
-    .detail-badges { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
-    .detail-badge {
-      font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px;
-      background: var(--gold-pale); color: var(--gold-deep);
-    }
-    .detail-section-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-      color: var(--charcoal-light); margin: 16px 0 8px; text-align: left;
-    }
-    .detail-desc {
-      font-size: 13px; color: var(--charcoal-mid); line-height: 1.5; text-align: left;
-    }
-    .detail-materials {
-      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px;
-    }
-    .detail-material {
-      font-size: 12px; padding: 4px 10px; border-radius: 8px;
-      background: #F3F4F6; color: var(--charcoal-mid);
-    }
-    .detail-steps { list-style: none; text-align: left; padding: 0; position: relative; }
-    .detail-steps li {
-      font-size: 13px; color: var(--charcoal-mid); padding: 6px 0 6px 28px;
-      position: relative; line-height: 1.4;
-    }
-    .detail-steps li::before {
-      content: attr(data-step);
-      position: absolute; left: 0; top: 6px;
-      width: 20px; height: 20px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
-      color: white; font-size: 11px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .detail-fade {
-      position: relative; overflow: hidden; flex: 1;
-    }
-    .detail-fade::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
-      background: linear-gradient(transparent, white);
-      pointer-events: none;
-    }
+/* ──────────────── NAV ──────────────── */
+nav.top{
+  position:sticky; top:0; z-index:50;
+  padding:18px 0; display:flex; align-items:center; justify-content:space-between;
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  background:rgba(255,253,247,.78); border-bottom:1px solid rgba(245,166,35,.1);
+}
+.logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--charcoal); font-weight:800; font-size:22px}
+.logo .logo-mark{
+  width:40px; height:40px; border-radius:50%;
+  background:linear-gradient(135deg,#5EBDEE,#33A5E8);
+  display:flex; align-items:center; justify-content:center; font-size:22px;
+  box-shadow:0 6px 18px rgba(245,166,35,.3);
+}
+.nav-right{display:flex; align-items:center; gap:20px}
+.nav-link{color:var(--charcoal-mid); text-decoration:none; font-weight:600; font-size:14px}
+.nav-cta{
+  background:var(--charcoal); color:#fff; padding:10px 22px; border-radius:100px;
+  text-decoration:none; font-weight:700; font-size:14px;
+  box-shadow:0 6px 18px rgba(31,41,55,.2); transition:transform .2s;
+}
+.nav-cta:hover{transform:translateY(-2px)}
 
-    /* PROOF BAR */
-    .proof-bar { display: flex; justify-content: center; gap: 48px; padding: 40px 0 24px; flex-wrap: wrap; }
-    .proof-item { text-align: center; }
-    .proof-number { font-size: 28px; font-weight: 800; color: var(--gold-vibrant); }
-    .proof-label { font-size: 14px; color: var(--charcoal-light); font-weight: 500; }
-    .fun-fact {
-      text-align: center; font-size: 15px; color: var(--charcoal-light);
-      font-style: italic; padding: 0 0 40px; max-width: 480px; margin: 0 auto;
-      line-height: 1.5;
-    }
-    .fun-fact strong { color: var(--gold-vibrant); font-style: normal; font-weight: 700; }
+/* ──────────────── LIVING BUNNY (cursor follower) ──────────────── */
+.living-bunny{
+  position:fixed; z-index:45; width:115px; height:138px;
+  pointer-events:auto;
+  transition:transform .6s cubic-bezier(.3,1.4,.4,1);
+  display:none;
+}
+@media(min-width:900px){.living-bunny{display:block}}
+.living-bunny .lb-svg{
+  filter:drop-shadow(0 10px 20px rgba(31,41,55,.22));
+  animation:idleBounce 2.4s ease-in-out infinite;
+  transform-origin:50% 88%;
+  overflow:visible;
+}
+.living-bunny .lb-pupil{
+  transition:transform .12s linear;
+  transform-box:fill-box; transform-origin:center;
+}
+/* Blink: scale eyes vertically every ~4s */
+.living-bunny .lb-eye{
+  transform-box:fill-box; transform-origin:center;
+  animation:bunnyBlink 4.6s ease-in-out infinite;
+}
+.living-bunny .lb-eye.right{animation-delay:.04s}
+@keyframes bunnyBlink{
+  0%, 92%, 100%{transform:scaleY(1)}
+  94%, 97%{transform:scaleY(.1)}
+}
+/* Ears: groups positioned at (78,70) and (122,70). Rotate around their base. */
+.living-bunny .lb-ear.left{
+  animation:earSwayL 5s ease-in-out infinite;
+  transform-box:view-box;
+}
+.living-bunny .lb-ear.right{
+  animation:earSwayR 5s ease-in-out infinite -2.5s;
+  transform-box:view-box;
+}
+@keyframes earSwayL{
+  0%,100%{transform:translate(78px,70px) rotate(-3deg)}
+  50%{transform:translate(78px,70px) rotate(3deg)}
+}
+@keyframes earSwayR{
+  0%,100%{transform:translate(122px,70px) rotate(3deg)}
+  50%{transform:translate(122px,70px) rotate(-3deg)}
+}
+.living-bunny:hover .lb-ear.left{animation:earWiggleL .5s ease-in-out infinite}
+.living-bunny:hover .lb-ear.right{animation:earWiggleR .5s ease-in-out infinite .1s}
+@keyframes earWiggleL{
+  0%,100%{transform:translate(78px,70px) rotate(-16deg)}
+  50%{transform:translate(78px,70px) rotate(10deg)}
+}
+@keyframes earWiggleR{
+  0%,100%{transform:translate(122px,70px) rotate(16deg)}
+  50%{transform:translate(122px,70px) rotate(-10deg)}
+}
+/* Paws — tiny subtle kneading motion */
+.living-bunny .lb-paw{
+  transform-box:fill-box; transform-origin:50% 0%;
+  animation:pawTap 2.6s ease-in-out infinite;
+}
+.living-bunny .lb-paw.right{animation-delay:-1.3s}
+@keyframes pawTap{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-1.5px) rotate(-2deg)}
+}
+@keyframes idleBounce{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
 
-    /* FEATURES */
-    .features { padding: 60px 0; }
-    .features h2 { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 48px; }
-    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-    .feature-card {
-      background: white; border-radius: var(--radius); padding: 32px 28px; text-align: center;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid rgba(245,166,35,0.12);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(245,166,35,0.12); }
-    .feature-emoji { font-size: 48px; margin-bottom: 16px; }
-    .feature-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-    .feature-card p { font-size: 15px; color: var(--charcoal-mid); line-height: 1.5; }
+/* ──────────────── HERO ──────────────── */
+.hero{
+  position:relative; padding:80px 0 40px; text-align:center;
+  overflow:hidden;
+}
+.hero-eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--gold-pale); color:var(--gold-deep);
+  padding:8px 18px; border-radius:100px;
+  font-weight:800; font-size:13px; letter-spacing:.06em; text-transform:uppercase;
+  margin-bottom:28px; border:1px solid rgba(245,166,35,.25);
+}
+.hero-eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--meadow-deep); animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{
+  font-size:clamp(42px,6.2vw,84px); font-weight:800; line-height:1.02;
+  margin-bottom:22px;
+}
+.hero h1 .gold{color:var(--gold-vibrant); font-style:italic; font-weight:600}
+.hero h1 .highlight{position:relative; display:inline-block}
+.hero h1 .highlight::after{
+  content:""; position:absolute; left:-4%; right:-4%; bottom:4%; height:36%;
+  background:rgba(245,166,35,.28); z-index:-1; border-radius:8px;
+  transform:skew(-3deg);
+}
+.hero-sub{
+  font-size:clamp(17px,1.8vw,21px); color:var(--charcoal-mid);
+  max-width:620px; margin:0 auto 36px;
+}
+.hero-sub-lead{
+  display:block; font-weight:800; color:var(--charcoal);
+  font-size:clamp(19px,2vw,24px); margin-bottom:10px;
+}
+.hero-sub-bunny{
+  display:block; margin:18px auto 0; width:72px; height:72px;
+  animation:hsbHop 3.2s ease-in-out infinite;
+  transform-origin:50% 90%;
+  filter:drop-shadow(0 6px 10px rgba(31,41,55,.08));
+}
+.hero-sub-bunny svg{width:100%; height:100%; display:block}
+.hero-sub-bunny .hsb-ears{transform-origin:50% 28px; animation:hsbEarWiggle 3.2s ease-in-out infinite}
+@keyframes hsbHop{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  25%{transform:translateY(-10px) rotate(-3deg)}
+  50%{transform:translateY(0) rotate(0deg)}
+  75%{transform:translateY(-6px) rotate(3deg)}
+}
+@keyframes hsbEarWiggle{
+  0%,100%{transform:rotate(0deg)}
+  25%{transform:rotate(-8deg)}
+  75%{transform:rotate(8deg)}
+}
+.store-buttons{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:32px}
+.store-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:12px;
+  padding:14px 28px; border-radius:14px;
+  min-width:230px; height:56px; box-sizing:border-box;
+  text-decoration:none; font-weight:700; font-size:15px;
+  transition:transform .2s, box-shadow .2s;
+}
+.store-btn-ios{background:var(--charcoal); color:#fff; box-shadow:0 8px 24px rgba(31,41,55,.22)}
+.store-btn-android{background:#fff; color:var(--charcoal); border:2px solid #E8E5DC; box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.store-btn:hover{transform:translateY(-3px)}
+.store-btn svg{width:22px; height:22px; flex-shrink:0}
+.store-icon{font-size:22px}
+.hero-meta{font-size:14px; color:var(--charcoal-light); display:flex; justify-content:center; gap:22px; flex-wrap:wrap}
+.hero-meta b{color:var(--charcoal); font-weight:800}
 
-    /* HOW IT WORKS */
-    .how { padding: 60px 0; text-align: center; }
-    .how h2 { font-size: 32px; font-weight: 700; margin-bottom: 48px; }
-    .steps { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
-    .step { flex: 1; min-width: 200px; max-width: 280px; }
-    .step-number {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
-      color: white; font-weight: 700; font-size: 20px;
-      display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
-    }
-    .step h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
-    .step p { font-size: 14px; color: var(--charcoal-light); }
+/* Hero paper-craft diorama (parallax layers) */
+.diorama{position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
+.diorama-sun{
+  position:absolute; top:50px; right:8vw; width:140px; height:140px;
+  opacity:.85;
+}
+.diorama-sun svg{width:100%; height:100%; display:block; animation:sunSpin 60s linear infinite; transform-origin:50% 50%}
+.diorama-sun .sun-face{animation:sunBob 6s ease-in-out infinite}
+@keyframes sunSpin{to{transform:rotate(360deg)}}
+@keyframes sunBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.diorama-cloud{
+  position:absolute; opacity:.8; pointer-events:none;
+}
+.diorama-cloud svg{width:100%; height:100%; display:block; overflow:visible}
+.cloud-1{top:80px; left:6vw; width:130px; height:50px; animation:drift 40s linear infinite}
+.cloud-2{top:170px; right:14vw; width:160px; height:60px; animation:drift 55s linear infinite reverse; animation-delay:-20s}
+.cloud-3{top:250px; left:18vw; width:100px; height:40px; animation:drift 48s linear infinite; animation-delay:-12s}
+@keyframes drift{
+  0%{transform:translateX(-20px)}
+  50%{transform:translateX(30px)}
+  100%{transform:translateX(-20px)}
+}
 
-    /* TESTIMONIALS */
-    .testimonials { padding: 60px 0; }
-    .testimonials h2 { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 40px; }
-    .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-    .testimonial-card {
-      background: white; border-radius: var(--radius); padding: 32px;
-      box-shadow: 0 4px 20px rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.12);
-    }
-    .testimonial-stars { color: var(--gold); font-size: 16px; margin-bottom: 12px; }
-    .testimonial-text { font-size: 15px; font-style: italic; color: var(--charcoal-mid); line-height: 1.6; margin-bottom: 16px; }
-    .testimonial-author { display: flex; align-items: center; gap: 12px; }
-    .testimonial-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold-pale), #FFE8C8);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 16px; color: var(--gold-deep);
-    }
-    .testimonial-name { font-weight: 600; font-size: 14px; }
-    .testimonial-detail { font-size: 13px; color: var(--charcoal-light); }
+/* Hill layers */
+.diorama-hills{position:absolute; left:0; right:0; bottom:-40px; height:260px; pointer-events:none}
+.hill{position:absolute; left:-5%; right:-5%; border-radius:50% 50% 0 0 / 100% 100% 0 0}
+.hill-back{bottom:40px; height:200px; background:linear-gradient(180deg,#BDDCC5,#9CC9A6)}
+.hill-mid{bottom:10px; height:160px; background:linear-gradient(180deg,#A2D0AD,#7EB88D); left:-15%; right:50%}
+.hill-front{bottom:0; height:130px; background:linear-gradient(180deg,#8AC196,#6FA77D); left:40%; right:-10%}
 
-    /* CTA BANNER */
-    .cta-banner { padding: 80px 0; text-align: center; }
-    .cta-card {
-      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
-      border-radius: 24px; padding: 60px 40px; max-width: 700px; margin: 0 auto;
-      box-shadow: 0 12px 40px rgba(245,166,35,0.3);
-    }
-    .cta-card h2 { font-size: 32px; color: white; font-weight: 700; margin-bottom: 12px; }
-    .cta-card p { font-size: 18px; color: rgba(255,255,255,0.9); margin-bottom: 32px; }
+.flower{position:absolute; width:14px; height:14px; border-radius:50%; opacity:.9}
+.flower::before,.flower::after{content:""; position:absolute; width:10px; height:10px; border-radius:50%; background:inherit}
+.flower::before{left:-6px; top:2px} .flower::after{right:-6px; top:2px}
+.flower .stem{position:absolute; top:10px; left:50%; width:2px; height:16px; background:var(--meadow-deep); transform:translateX(-50%)}
 
-    /* FOOTER */
-    footer { padding: 40px 0; text-align: center; border-top: 1px solid #E5E7EB; }
-    .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
-    .footer-links a { color: var(--charcoal-light); text-decoration: none; font-size: 14px; font-weight: 500; }
-    .footer-links a:hover { color: var(--gold-vibrant); }
-    .footer-copy { font-size: 13px; color: var(--charcoal-light); }
+/* ──────────────── TAP-TO-PREVIEW PHONES ──────────────── */
+.mockups{padding:40px 0 80px; text-align:center; position:relative}
+.mockup-hint{
+  display:inline-block; font-size:13px; color:var(--gold-deep); font-weight:800;
+  margin-bottom:24px; letter-spacing:.1em; text-transform:uppercase;
+}
+.mockup-hint::before{content:"👆 "; margin-right:4px}
+.phone-pair{display:flex; gap:48px; justify-content:center; align-items:flex-start; flex-wrap:wrap; perspective:1400px}
+.phone{
+  width:320px; min-height:600px; background:#fff; border-radius:42px;
+  padding:22px 20px 26px; position:relative;
+  border:10px solid #1F2937;
+  box-shadow:0 50px 100px rgba(245,166,35,.18), 0 25px 40px rgba(31,41,55,.12);
+  transition:transform .6s cubic-bezier(.3,1.2,.4,1);
+  transform-style:preserve-3d;
+  display:flex; flex-direction:column;
+}
+.phone.phone-left{transform:rotate(-4deg)}
+.phone.phone-right{transform:rotate(3deg); box-shadow:0 50px 100px rgba(35,114,245,.18), 0 25px 40px rgba(31,41,55,.12)}
+.phone:hover{transform:rotate(0) translateY(-8px)}
+.phone-notch{
+  position:absolute; top:14px; left:50%; transform:translateX(-50%);
+  width:90px; height:22px; background:#1F2937; border-radius:14px;
+}
+.phone-content{margin-top:26px; flex:1; display:flex; flex-direction:column}
+.phone-greeting{font-weight:800; font-size:18px; text-align:left; margin-bottom:2px}
+.phone-child{font-size:13px; color:var(--charcoal-light); text-align:left; margin-bottom:18px}
+.surprise-btn{
+  background:linear-gradient(135deg,var(--gold),var(--gold-vibrant));
+  color:#fff; border:none; border-radius:100px; padding:14px;
+  font-weight:800; font-size:15px; cursor:pointer;
+  box-shadow:0 8px 20px rgba(245,166,35,.35);
+  margin-bottom:16px; position:relative; overflow:hidden;
+  transition:transform .15s;
+}
+.surprise-btn:active{transform:scale(.97)}
+.surprise-btn .sparkle{
+  position:absolute; inset:0; background:linear-gradient(120deg, transparent 30%, rgba(255,255,255,.5) 50%, transparent 70%);
+  transform:translateX(-100%); animation:shimmer 3s infinite;
+}
+@keyframes shimmer{to{transform:translateX(100%)}}
 
-    /* RESPONSIVE */
-    @media (max-width: 640px) {
-      .hero { padding: 48px 0 32px; }
-      .hero-emoji { font-size: 64px; }
-      .proof-bar { gap: 32px; }
-      .store-buttons { flex-direction: column; align-items: center; }
-      .store-btn { width: 100%; max-width: 280px; justify-content: center; }
-      .cta-card { padding: 40px 24px; }
-      .phone-frame { max-width: 280px; }
-      .mockup-pair { gap: 16px; }
-    }
-  </style>
+.card-stack{display:flex; flex-direction:column; gap:10px; position:relative; min-height:260px}
+.activity-card{
+  display:flex; align-items:center; gap:12px; padding:13px;
+  border-radius:14px; border:1px solid rgba(0,0,0,.05);
+  text-align:left; cursor:pointer; position:relative;
+  transition:transform .25s, box-shadow .25s;
+  background:#fff;
+}
+.activity-card:hover{transform:translateX(4px); box-shadow:0 6px 14px rgba(31,41,55,.08)}
+.ac-creative{background:#FFF5F5; border-color:rgba(244,63,94,.15)}
+.ac-discovery{background:#EFF6FF; border-color:rgba(59,130,246,.15)}
+.ac-active{background:#ECFDF5; border-color:rgba(16,185,129,.15)}
+.ac-emoji{font-size:28px; flex-shrink:0; width:44px; height:44px; display:flex; align-items:center; justify-content:center; border-radius:12px; background:rgba(255,255,255,.6)}
+.ac-info{flex:1; min-width:0}
+.ac-type{font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.1em; margin-bottom:2px}
+.ac-type-c{color:#F43F5E} .ac-type-d{color:#3B82F6} .ac-type-a{color:#10B981}
+.ac-title{font-size:14px; font-weight:800; color:var(--charcoal); line-height:1.2}
+.ac-meta{font-size:11px; color:var(--charcoal-light); margin-top:2px}
+
+/* Card drop/flip animation states */
+.activity-card.dropping{animation:cardDrop .55s cubic-bezier(.3,1.4,.4,1) both}
+.activity-card.dropping:nth-child(1){animation-delay:.05s}
+.activity-card.dropping:nth-child(2){animation-delay:.2s}
+.activity-card.dropping:nth-child(3){animation-delay:.35s}
+.activity-card.dropping:nth-child(4){animation-delay:.5s}
+@keyframes cardDrop{
+  0%{opacity:0; transform:translateY(-40px) rotate(-6deg) scale(.9)}
+  60%{opacity:1; transform:translateY(4px) rotate(1deg) scale(1.02)}
+  100%{opacity:1; transform:translateY(0) rotate(0) scale(1)}
+}
+
+/* Right phone detail content */
+.detail-view{display:none; flex-direction:column; flex:1}
+.detail-view.active{display:flex; animation:fadeSlide .4s ease}
+@keyframes fadeSlide{from{opacity:0; transform:translateX(16px)}to{opacity:1; transform:translateX(0)}}
+.detail-back{font-size:13px; color:var(--charcoal-light); text-align:left; margin-bottom:14px; cursor:pointer; font-weight:600}
+.detail-header{display:flex; align-items:center; gap:12px; margin-bottom:14px; text-align:left}
+.detail-header-emoji{font-size:40px; width:60px; height:60px; display:flex; align-items:center; justify-content:center; border-radius:16px; background:var(--gold-pale)}
+.detail-title-row{flex:1}
+.detail-title{font-size:18px; font-weight:800; color:var(--charcoal); line-height:1.2; font-family:'Fraunces', serif}
+.detail-badges{display:flex; gap:6px; margin-top:6px; flex-wrap:wrap}
+.detail-badge{font-size:10px; font-weight:800; padding:3px 10px; border-radius:100px; background:var(--gold-pale); color:var(--gold-deep)}
+.detail-section-label{font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; color:var(--charcoal-light); margin:12px 0 8px; text-align:left}
+.detail-desc{font-size:13px; color:var(--charcoal-mid); line-height:1.5; text-align:left}
+.detail-materials{display:flex; flex-wrap:wrap; gap:6px}
+.detail-material{font-size:11px; padding:4px 10px; border-radius:8px; background:#F3F4F6; color:var(--charcoal-mid); font-weight:600}
+.detail-steps{list-style:none; text-align:left; padding:0}
+.detail-steps li{font-size:12px; color:var(--charcoal-mid); padding:5px 0 5px 26px; position:relative; line-height:1.4}
+.detail-steps li::before{
+  content:attr(data-step); position:absolute; left:0; top:4px;
+  width:18px; height:18px; border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold-vibrant));
+  color:#fff; font-size:10px; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* Default placeholder in right phone */
+.detail-empty{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:40px 20px; flex:1; text-align:center; color:var(--charcoal-light);
+}
+.detail-empty-icon{font-size:56px; margin-bottom:12px; opacity:.5}
+.detail-empty p{font-size:13px; line-height:1.5}
+.detail-empty b{color:var(--charcoal)}
+
+/* ──────────────── ACTIVITY EXPLOSION ──────────────── */
+.explosion-section{
+  padding:120px 0; position:relative;
+  background:linear-gradient(180deg, var(--cream) 0%, var(--cream-warm) 100%);
+  overflow:hidden;
+}
+.explosion-title{text-align:center; margin-bottom:40px}
+.explosion-title h2{font-size:clamp(34px,4.5vw,58px); font-weight:800; margin-bottom:10px}
+.explosion-title h2 em{color:var(--gold-vibrant); font-weight:600}
+.explosion-title p{font-size:17px; color:var(--charcoal-mid); max-width:540px; margin:0 auto}
+.explosion-stage{
+  position:relative; height:620px;
+  display:flex; align-items:center; justify-content:center;
+}
+.explosion-origin{
+  position:absolute; width:180px; height:220px; border-radius:16px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-vibrant));
+  box-shadow:0 24px 60px rgba(245,166,35,.35);
+  color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  font-weight:800; transition:transform .4s, opacity .4s; z-index:2;
+}
+.explosion-origin .eo-emoji{font-size:48px; margin-bottom:8px}
+.explosion-origin .eo-label{font-size:15px}
+.explosion-origin .eo-sub{font-size:11px; opacity:.85; font-weight:600; margin-top:4px}
+.explosion-origin.exploded{opacity:0; transform:scale(.5)}
+
+.tile-cloud{
+  position:absolute; inset:0; transform-style:preserve-3d;
+  perspective:1200px;
+}
+.explosion-tile{
+  position:absolute; width:52px; height:64px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; font-weight:800;
+  opacity:0; transform:translate(-50%,-50%);
+  transition:transform 1.4s cubic-bezier(.2,.8,.3,1), opacity .4s, box-shadow .2s;
+  will-change:transform;
+  box-shadow:0 4px 10px rgba(31,41,55,.08);
+  top:50%; left:50%;
+  cursor:pointer;
+  pointer-events:auto;
+}
+.explosion-tile:hover{
+  box-shadow:0 10px 24px rgba(31,41,55,.25), 0 0 0 3px rgba(245,166,35,.4);
+}
+
+/* Activity reveal card */
+.activity-reveal{
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%) scale(.8);
+  width:min(90%, 380px); z-index:500;
+  background:#fff;
+  border-radius:24px;
+  box-shadow:0 30px 80px rgba(31,41,55,.28);
+  padding:26px 26px 22px;
+  opacity:0; pointer-events:none;
+  transition:opacity .3s ease, transform .5s cubic-bezier(.3,1.5,.5,1);
+  text-align:left;
+  border:2px solid rgba(245,166,35,.25);
+}
+.activity-reveal.show{opacity:1; transform:translate(-50%,-50%) scale(1); pointer-events:auto}
+.ar-close{
+  position:absolute; top:12px; right:12px; width:30px; height:30px; border-radius:50%;
+  border:none; background:#F5F1E8; color:var(--charcoal); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700;
+  transition:background .2s, transform .2s;
+}
+.ar-close:hover{background:#E8E0CC; transform:rotate(90deg)}
+.ar-emoji-wrap{
+  width:72px; height:72px; border-radius:20px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:40px; margin-bottom:16px;
+  box-shadow:0 8px 20px rgba(31,41,55,.08);
+}
+.ar-category{
+  font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.14em;
+  color:var(--gold-deep); margin-bottom:8px;
+}
+.ar-name{
+  font-family:'Fraunces', serif;
+  font-size:28px; font-weight:700; line-height:1.15;
+  color:var(--charcoal); margin-bottom:14px;
+  text-wrap:pretty;
+}
+.ar-meta{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px}
+.ar-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; border-radius:100px;
+  background:var(--cream-warm); font-size:12px; font-weight:700; color:var(--charcoal-mid);
+  border:1px solid rgba(245,166,35,.18);
+}
+.ar-desc{
+  font-size:14px; color:var(--charcoal-mid); line-height:1.5;
+  padding-top:12px; border-top:1px dashed rgba(31,41,55,.1);
+}
+/* Backdrop dim when card is open */
+.explosion-stage.reveal-open .explosion-tile{opacity:.18 !important; filter:blur(1px); transition:opacity .3s, filter .3s}
+.explosion-stage.reveal-open .explosion-tile.active-tile{opacity:0 !important}
+.explosion-stage.reveal-open .explosion-cta{opacity:.2; pointer-events:none}
+.explosion-cta{
+  position:absolute; bottom:30px; left:50%; transform:translateX(-50%);
+  display:flex; gap:14px; align-items:center;
+}
+.explode-btn{
+  padding:12px 24px; border-radius:100px; border:none;
+  background:var(--charcoal); color:#fff; font-weight:800; font-size:14px;
+  cursor:pointer; box-shadow:0 8px 20px rgba(31,41,55,.2);
+  transition:transform .2s;
+}
+.explode-btn:hover{transform:translateY(-2px)}
+.explode-btn.secondary{background:#fff; color:var(--charcoal); border:2px solid #E5E3DA}
+.explosion-hint{font-size:13px; color:var(--charcoal-light); text-align:center; margin-top:14px}
+
+/* ──────────────── PICK-A-KID ──────────────── */
+.pickakid{padding:100px 0; background:#fff; position:relative}
+.pickakid-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center}
+@media(max-width:900px){.pickakid-grid{grid-template-columns:1fr; gap:40px}}
+.pickakid h2{font-size:clamp(32px,4vw,52px); font-weight:800; margin-bottom:14px; line-height:1.1}
+.pickakid h2 em{color:var(--gold-vibrant); font-weight:600}
+.pickakid .sub{font-size:17px; color:var(--charcoal-mid); margin-bottom:32px; max-width:440px}
+
+.age-dial{
+  background:var(--cream-warm); border-radius:22px; padding:28px;
+  border:2px solid rgba(245,166,35,.2);
+}
+.age-dial-label{font-size:12px; font-weight:800; color:var(--gold-deep); text-transform:uppercase; letter-spacing:.12em; margin-bottom:16px}
+.age-dial-readout{display:flex; align-items:baseline; gap:6px; margin-bottom:20px}
+.age-big{font-family:'Fraunces', serif; font-size:72px; font-weight:800; color:var(--charcoal); line-height:1}
+.age-suffix{font-size:20px; font-weight:700; color:var(--charcoal-mid)}
+.age-slider-wrap{position:relative; padding:14px 0}
+.age-slider{
+  -webkit-appearance:none; appearance:none;
+  width:100%; height:8px; border-radius:100px;
+  background:linear-gradient(90deg, #FFD6E4 0%, #FFE6A5 33%, #BDE7C3 66%, #B9D8F0 100%);
+  outline:none;
+}
+.age-slider::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width:32px; height:32px; border-radius:50%;
+  background:#fff; border:3px solid var(--gold-vibrant);
+  box-shadow:0 6px 18px rgba(245,166,35,.4); cursor:grab;
+}
+.age-slider::-moz-range-thumb{
+  width:32px; height:32px; border-radius:50%;
+  background:#fff; border:3px solid var(--gold-vibrant);
+  box-shadow:0 6px 18px rgba(245,166,35,.4); cursor:grab;
+}
+.age-ticks{position:relative; height:16px; margin-top:10px; font-size:11px; color:var(--charcoal-light); font-weight:700}
+.age-ticks span{position:absolute; top:0; transform:translateX(-50%); white-space:nowrap}
+.age-stage-label{
+  display:inline-flex; align-items:center; gap:8px;
+  background:#fff; padding:10px 18px; border-radius:100px;
+  font-weight:800; font-size:14px; margin-top:20px;
+  border:1.5px solid rgba(245,166,35,.25);
+}
+
+.kid-phone-wrap{position:relative; display:flex; justify-content:center}
+.kid-phone{
+  width:300px; min-height:560px; background:#fff; border-radius:40px;
+  border:10px solid #1F2937;
+  padding:22px 20px 26px;
+  box-shadow:0 40px 90px rgba(31,41,55,.2);
+  position:relative; display:flex; flex-direction:column;
+  transition:background .6s;
+}
+.kid-phone-notch{position:absolute; top:14px; left:50%; transform:translateX(-50%); width:80px; height:20px; background:#1F2937; border-radius:14px}
+.kid-phone-content{margin-top:24px; flex:1; display:flex; flex-direction:column}
+.kid-phone-greeting{font-weight:800; font-size:17px; text-align:left}
+.kid-phone-child{font-size:12px; color:var(--charcoal-light); margin-bottom:14px; text-align:left; transition:color .3s}
+.kid-phone-btn{
+  background:linear-gradient(135deg,var(--gold),var(--gold-vibrant));
+  color:#fff; border:none; border-radius:100px; padding:12px;
+  font-weight:800; font-size:14px; margin-bottom:14px;
+  box-shadow:0 6px 18px rgba(245,166,35,.3);
+  transition:background .4s;
+}
+.kid-cards{display:flex; flex-direction:column; gap:8px}
+.kid-card{
+  display:flex; align-items:center; gap:10px; padding:11px;
+  border-radius:12px; border:1px solid rgba(0,0,0,.05);
+  text-align:left; transition:all .5s;
+}
+.kid-card .kc-emoji{font-size:24px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:10px; background:rgba(255,255,255,.5)}
+.kid-card .kc-type{font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.1em}
+.kid-card .kc-title{font-size:13px; font-weight:800; color:var(--charcoal)}
+.kid-card .kc-meta{font-size:11px; color:var(--charcoal-light); margin-top:1px}
+
+/* Phone theme shells (based on age bracket) */
+.kid-phone[data-bracket="infant"]{background:linear-gradient(180deg, #FFF5F9, #fff)}
+.kid-phone[data-bracket="toddler"]{background:linear-gradient(180deg, #FFF9E8, #fff)}
+.kid-phone[data-bracket="preschool"]{background:linear-gradient(180deg, #F0F9E8, #fff)}
+.kid-phone[data-bracket="school"]{background:linear-gradient(180deg, #E8F3FB, #fff)}
+.kid-phone[data-bracket="preteen"]{background:linear-gradient(180deg, #F0EAFB, #fff)}
+
+/* Floaty decoration around phone */
+.kid-floaty{
+  position:absolute; font-size:36px; opacity:0; transform:scale(0);
+  transition:opacity .5s, transform .5s;
+  pointer-events:none;
+  filter:drop-shadow(0 4px 10px rgba(31,41,55,.15));
+}
+.kid-floaty.show{opacity:1; transform:scale(1)}
+.kid-floaty.f1{top:10%; left:-40px; animation:floatA 6s ease-in-out infinite}
+.kid-floaty.f2{top:35%; right:-40px; animation:floatB 5s ease-in-out infinite}
+.kid-floaty.f3{bottom:20%; left:-30px; animation:floatA 7s ease-in-out infinite reverse}
+.kid-floaty.f4{top:70%; right:-30px; animation:floatB 6.5s ease-in-out infinite reverse}
+@keyframes floatA{0%,100%{transform:translateY(0) rotate(-6deg) scale(1)}50%{transform:translateY(-12px) rotate(4deg) scale(1.05)}}
+@keyframes floatB{0%,100%{transform:translateY(0) rotate(6deg) scale(1)}50%{transform:translateY(-10px) rotate(-4deg) scale(1.08)}}
+
+/* ──────────────── CALENDAR 54 YEARS ──────────────── */
+.calendar-section{
+  padding:120px 0; text-align:center; position:relative; overflow:hidden;
+  background:linear-gradient(180deg, var(--cream-warm) 0%, var(--cream) 100%);
+}
+.calendar-lead{font-size:clamp(28px,3.8vw,46px); font-weight:800; max-width:900px; margin:0 auto 20px; line-height:1.15}
+.calendar-lead em{color:var(--gold-vibrant); font-weight:600; font-style:italic}
+.calendar-sub{font-size:17px; color:var(--charcoal-mid); margin-bottom:50px}
+.calendar-stage{
+  position:relative; min-height:360px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px;
+  perspective:1200px;
+}
+.calendar-book{
+  position:relative; width:280px; height:320px;
+  transform-style:preserve-3d;
+}
+.calendar-page{
+  position:absolute; inset:0; background:#fff; border-radius:12px;
+  box-shadow:0 20px 50px rgba(31,41,55,.15), 0 4px 10px rgba(31,41,55,.08);
+  display:flex; flex-direction:column; overflow:hidden;
+  transform-origin:left center;
+  backface-visibility:hidden;
+}
+.page-header{
+  padding:14px 20px; background:linear-gradient(135deg,var(--gold),var(--gold-vibrant));
+  color:#fff; display:flex; justify-content:space-between; align-items:center;
+}
+.page-header .month{font-weight:800; font-size:13px; letter-spacing:.12em; text-transform:uppercase}
+.page-header .year{font-size:12px; font-weight:700; opacity:.9}
+.page-grid{
+  flex:1; display:grid; grid-template-columns:repeat(7,1fr); grid-template-rows:repeat(5,1fr);
+  padding:12px; gap:3px;
+}
+.page-cell{
+  background:var(--cream); border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; color:var(--charcoal-light); font-weight:700;
+  position:relative;
+}
+.page-cell .spark{
+  position:absolute; font-size:11px; top:1px; right:3px; opacity:0;
+  animation:sparkPop .5s .1s ease forwards;
+}
+@keyframes sparkPop{to{opacity:1; transform:scale(1.1)}}
+
+.calendar-counter{
+  position:static; transform:none; text-align:center;
+}
+.calendar-counter .big{
+  font-family:'Fraunces', serif;
+  font-size:clamp(52px,6vw,84px); font-weight:800; color:var(--charcoal); line-height:1;
+}
+.calendar-counter .big .unit{color:var(--gold-vibrant)}
+.calendar-counter .label{font-size:14px; color:var(--charcoal-mid); margin-top:6px; font-weight:600}
+@media(max-width:900px){
+  .calendar-counter{position:static; transform:none; text-align:center; margin-top:30px}
+}
+.calendar-footer{margin-top:70px; font-size:15px; color:var(--charcoal-mid)}
+.calendar-footer b{color:var(--gold-deep)}
+
+/* ──────────────── TICKER ──────────────── */
+.ticker-wrap{
+  padding:0; background:var(--charcoal); color:#fff; overflow:hidden;
+  position:relative; border-top:4px solid var(--gold); border-bottom:4px solid var(--gold);
+}
+.ticker{
+  display:flex; gap:48px; align-items:center;
+  padding:18px 0;
+  animation:tickerSlide 50s linear infinite;
+  white-space:nowrap;
+}
+.ticker-item{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:14px; font-weight:700;
+}
+.ticker-item .pulse-dot{width:8px; height:8px; border-radius:50%; background:var(--meadow); animation:pulse 1.8s infinite}
+.ticker-item .tloc{color:#A8B3C7}
+.ticker-item em{color:var(--gold); font-style:normal; font-weight:800}
+@keyframes tickerSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ──────────────── TESTIMONIAL CORK BOARD ──────────────── */
+.cork{
+  padding:120px 0 100px; position:relative;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(205,133,63,.25) 0 3px, transparent 3px) 0 0/24px 24px,
+    radial-gradient(circle at 70% 60%, rgba(139,90,43,.2) 0 2px, transparent 2px) 0 0/18px 18px,
+    linear-gradient(180deg,#D4A574,#C29560);
+  overflow:hidden;
+}
+.cork::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:40px;
+  background:linear-gradient(180deg, rgba(0,0,0,.2), transparent);
+}
+.cork h2{
+  color:#FFFBEF; text-align:center; font-size:clamp(34px,4vw,52px); font-weight:800;
+  margin-bottom:12px;
+}
+.cork h2 em{font-style:italic; color:var(--gold-pale); font-weight:600}
+.cork .cork-sub{color:rgba(255,251,239,.85); text-align:center; margin-bottom:60px; font-size:17px}
+.cork-board{
+  position:relative; max-width:1040px; margin:0 auto; min-height:620px;
+}
+.pin{
+  position:absolute; top:-8px; left:50%; transform:translateX(-50%);
+  width:16px; height:16px; border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #FF7062, #C4362A);
+  box-shadow:0 4px 8px rgba(0,0,0,.25), inset -2px -2px 4px rgba(0,0,0,.2);
+  z-index:3;
+}
+.polaroid{
+  position:absolute; background:#FFFDF5; padding:16px 16px 50px;
+  box-shadow:0 14px 30px rgba(0,0,0,.2), 0 3px 6px rgba(0,0,0,.12);
+  transition:transform .3s, box-shadow .3s;
+  transform-origin:top center;
+}
+.polaroid:hover{transform:rotate(0deg) translateY(-6px) scale(1.03); z-index:5; box-shadow:0 20px 40px rgba(0,0,0,.25)}
+.polaroid .photo{
+  width:220px; height:220px;
+  background:linear-gradient(135deg, var(--gold-pale), #FFE2B8);
+  display:flex; align-items:center; justify-content:center;
+  font-size:72px; position:relative; overflow:hidden;
+}
+.polaroid .quote{
+  font-family:'Fraunces', serif; font-size:14px; font-style:italic;
+  color:var(--charcoal); margin-top:14px; line-height:1.45;
+  max-width:220px;
+}
+.polaroid .author{font-size:12px; color:var(--charcoal-light); margin-top:8px; font-weight:700}
+
+.sticky-note{
+  position:absolute; width:180px; padding:20px 18px;
+  background:#FEF089; box-shadow:0 8px 16px rgba(0,0,0,.15);
+  font-family:'Fraunces', serif; font-style:italic;
+  font-size:15px; color:var(--charcoal); line-height:1.4;
+  transform:rotate(-3deg);
+}
+.sticky-note .stars{font-style:normal; font-size:14px; margin-bottom:6px; color:#F5A623}
+.sticky-note .sn-author{font-size:12px; color:var(--charcoal-light); margin-top:10px; font-style:normal; font-weight:700}
+.sticky-note.pink{background:#FFB8C4}
+.sticky-note.blue{background:#B8D8F5}
+
+.kid-drawing{
+  position:absolute; width:260px; padding:16px;
+  background:#FFFDF5; box-shadow:0 12px 26px rgba(0,0,0,.18);
+  transform:rotate(4deg);
+}
+.kid-drawing .draw{
+  height:180px; background:#fff; border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  border:1px dashed #E5E3DA;
+  font-family:'Caveat', 'Comic Sans MS', cursive;
+  font-size:18px; color:#555; line-height:1.3; text-align:center; padding:10px;
+  position:relative;
+}
+.kid-drawing .draw svg{position:absolute; inset:0; width:100%; height:100%}
+.kid-drawing .caption{
+  margin-top:10px; font-family:'Caveat', cursive; font-size:18px; color:#444;
+  text-align:center;
+}
+
+/* ──────────────── FEATURES ──────────────── */
+.features{padding:100px 0}
+.features h2{font-size:clamp(32px,4vw,52px); font-weight:800; text-align:center; margin-bottom:14px}
+.features h2 em{color:var(--gold-vibrant); font-weight:600}
+.features-sub{text-align:center; color:var(--charcoal-mid); font-size:17px; margin-bottom:56px; max-width:560px; margin-left:auto; margin-right:auto}
+.feature-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px}
+.feature-card{
+  background:#fff; border-radius:20px; padding:32px 28px;
+  border:1.5px solid rgba(245,166,35,.15);
+  box-shadow:0 4px 14px rgba(0,0,0,.04);
+  transition:transform .25s, box-shadow .25s;
+  position:relative; overflow:hidden;
+}
+.feature-card::before{
+  content:""; position:absolute; inset:0 0 auto 0; height:4px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-vibrant));
+  transform:scaleX(0); transform-origin:left; transition:transform .3s;
+}
+.feature-card:hover{transform:translateY(-6px); box-shadow:0 16px 40px rgba(245,166,35,.15)}
+.feature-card:hover::before{transform:scaleX(1)}
+.feature-icon{
+  width:56px; height:56px; border-radius:16px;
+  background:var(--gold-pale); display:flex; align-items:center; justify-content:center;
+  font-size:30px; margin-bottom:18px;
+}
+.feature-card h3{font-size:20px; font-weight:800; margin-bottom:8px}
+.feature-card p{color:var(--charcoal-mid); font-size:15px}
+
+/* ──────────────── GARDEN FINALE ──────────────── */
+.garden{
+  position:relative; overflow:hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 10%, rgba(255,244,212,.9) 0%, transparent 60%),
+    linear-gradient(180deg, #FFF8EC 0%, #FFEFD2 45%, #FCE4B8 100%);
+  color:var(--charcoal);
+  padding:160px 0 60px;
+  margin-top:40px;
+  min-height:780px;
+}
+/* Soft sun */
+.garden::before{
+  content:""; position:absolute; top:-80px; left:50%; transform:translateX(-50%);
+  width:400px; height:400px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,231,168,.7) 0%, rgba(255,231,168,0) 65%);
+  pointer-events:none; z-index:0;
+}
+/* Soft horizon glow */
+.garden::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:140px;
+  background:linear-gradient(180deg, transparent, rgba(111,167,125,.12) 60%, rgba(111,167,125,.22));
+  pointer-events:none;
+}
+
+/* Hand-drawn grass sway at the base */
+.garden-grass{
+  position:absolute; left:0; right:0; bottom:0; height:120px;
+  z-index:1; pointer-events:none;
+}
+.garden-grass svg{width:100%; height:100%; display:block}
+
+/* The path's grand finale — a big curl that lands at the CTA */
+.garden-bloom-svg{
+  position:absolute; inset:0; width:100%; height:100%;
+  z-index:2; pointer-events:none;
+}
+.garden-bloom-svg .bloom-path{
+  fill:none;
+  stroke:rgba(245,166,35,.55);
+  stroke-width:2.5;
+  stroke-dasharray:5 7;
+  stroke-linecap:round;
+  stroke-dashoffset:2000;
+  animation:bloomDraw 2.6s .4s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes bloomDraw{to{stroke-dashoffset:0}}
+
+/* Butterflies */
+.butterfly{
+  position:absolute; font-size:22px;
+  filter:drop-shadow(0 4px 6px rgba(31,41,55,.15));
+  z-index:3; pointer-events:none;
+}
+.butterfly.b1{top:14%; left:12%; animation:flit1 9s ease-in-out infinite}
+.butterfly.b2{top:30%; right:10%; animation:flit2 11s ease-in-out infinite}
+.butterfly.b3{top:56%; left:18%; animation:flit3 13s ease-in-out infinite}
+@keyframes flit1{
+  0%,100%{transform:translate(0,0) rotate(-8deg)}
+  25%{transform:translate(40px,-20px) rotate(10deg)}
+  50%{transform:translate(80px,10px) rotate(-6deg)}
+  75%{transform:translate(30px,30px) rotate(8deg)}
+}
+@keyframes flit2{
+  0%,100%{transform:translate(0,0) rotate(5deg)}
+  33%{transform:translate(-50px,20px) rotate(-10deg)}
+  66%{transform:translate(-20px,-30px) rotate(8deg)}
+}
+@keyframes flit3{
+  0%,100%{transform:translate(0,0) rotate(-4deg)}
+  50%{transform:translate(60px,-40px) rotate(12deg)}
+}
+
+/* Flowers growing along the path — each bloom is a tiny polaroid */
+.garden-flowers{
+  position:absolute; inset:0; z-index:3; pointer-events:none;
+}
+.flower{
+  position:absolute; width:78px; transform-origin:50% 100%;
+  opacity:0;
+  animation:flowerPop .7s ease-out forwards;
+  pointer-events:auto;
+}
+.flower .stem{
+  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+  width:3px; background:#6FA77D; border-radius:2px;
+  transform-origin:50% 100%;
+  animation:stemGrow .6s ease-out backwards;
+}
+.flower .bloom-polaroid{
+  position:relative; margin:0 auto;
+  width:66px; height:82px;
+  background:#fff;
+  padding:5px 5px 14px;
+  border-radius:4px;
+  box-shadow:0 6px 18px rgba(31,41,55,.18), 0 2px 4px rgba(31,41,55,.1);
+  transform:rotate(var(--tilt,-3deg));
+  transition:transform .3s;
+}
+.flower:hover .bloom-polaroid{transform:rotate(0deg) scale(1.15); z-index:10}
+.flower .bloom-photo{
+  width:100%; height:56px;
+  border-radius:2px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:30px;
+}
+.flower .bloom-tag{
+  font-family:'Caveat', cursive;
+  font-size:11px; text-align:center; margin-top:3px;
+  color:var(--charcoal); font-weight:700;
+  line-height:1;
+}
+/* Petal halo behind each polaroid — subtle, like a flower face */
+.flower .petals{
+  position:absolute; top:-10px; left:50%; transform:translate(-50%,-10%);
+  width:108px; height:108px; pointer-events:none; opacity:.7;
+}
+.flower .petals svg{width:100%; height:100%; display:block}
+
+@keyframes flowerPop{
+  0%{opacity:0; transform:translateY(8px) scale(.4)}
+  70%{opacity:1; transform:translateY(-4px) scale(1.08)}
+  100%{opacity:1; transform:translateY(0) scale(1)}
+}
+@keyframes stemGrow{
+  from{height:0}
+}
+
+/* Content block */
+.garden-content{
+  position:relative; z-index:6; text-align:center;
+  max-width:640px; margin:60px auto 40px;
+  padding:0 24px;
+}
+.garden-content h2{
+  font-family:'Fraunces', serif;
+  font-size:clamp(44px,6vw,76px); font-weight:800; line-height:1.05;
+  letter-spacing:-0.015em;
+  margin-bottom:12px; color:var(--charcoal);
+}
+.garden-content h2 em{
+  font-style:italic; font-weight:500;
+  color:var(--gold-vibrant);
+}
+.garden-content .plant-line{
+  font-family:'Caveat', cursive;
+  font-size:clamp(28px,3.2vw,40px);
+  color:var(--charcoal-mid); font-weight:600;
+  margin-bottom:38px;
+  line-height:1.15;
+}
+.garden-cta{
+  display:inline-flex; gap:14px; flex-wrap:wrap; justify-content:center;
+}
+.garden-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding:16px 28px; border-radius:16px;
+  text-decoration:none; font-weight:700; font-size:15px;
+  transition:transform .2s, box-shadow .2s;
+  min-width:240px; box-sizing:border-box;
+}
+.garden-btn.primary{
+  background:var(--charcoal); color:#fff;
+  box-shadow:0 12px 30px rgba(31,41,55,.22);
+}
+.garden-btn.primary:hover{transform:translateY(-3px); box-shadow:0 18px 40px rgba(31,41,55,.3)}
+.garden-btn.ghost{
+  background:#fff; color:var(--charcoal);
+  border:1.5px solid rgba(31,41,55,.12);
+  box-shadow:0 6px 18px rgba(31,41,55,.08);
+}
+.garden-btn.ghost:hover{transform:translateY(-3px); box-shadow:0 12px 26px rgba(31,41,55,.15)}
+
+/* Footer on warm bg */
+footer.nf{
+  position:relative; z-index:6; margin-top:140px; padding:22px 0 0;
+  border-top:1px solid rgba(31,41,55,.1);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  font-size:13px; color:var(--charcoal-light);
+}
+.nf-links{display:flex; gap:22px; flex-wrap:wrap}
+.nf-links a{color:var(--charcoal-mid); text-decoration:none}
+.nf-links a:hover{color:var(--gold-vibrant)}
+
+@media (max-width:900px){
+  .explosion-stage{height:520px}
+  .cork-board{min-height:auto; display:grid; grid-template-columns:1fr 1fr; gap:40px}
+  .polaroid,.sticky-note,.kid-drawing{position:relative; top:auto!important; left:auto!important; right:auto!important; bottom:auto!important; transform:rotate(0deg)!important; margin:0 auto}
+  .pin{display:none}
+  .garden{padding:120px 0 40px; min-height:auto}
+  .flower{width:62px}
+  .flower .bloom-polaroid{width:54px; height:70px; padding:4px 4px 10px}
+  .flower .bloom-photo{height:44px; font-size:24px}
+  .butterfly{display:none}
+}
+@media (max-width:640px){
+  .cork-board{grid-template-columns:1fr}
+  .hero{padding:48px 0 24px}
+  .phone{width:min(100%,300px)}
+  /* On tiny screens, drop the path + flowers overlay; keep headline clean */
+  .garden-bloom-svg,.garden-flowers{display:none}
+  .garden{padding:80px 0 32px}
+  .garden-content{margin:0 auto 24px}
+}
+
+/* ──────────────── MOBILE POLISH PASS ──────────────── */
+@media (max-width:720px){
+  /* Nav: compact, hide secondary links, keep logo + CTA */
+  nav.top{padding:14px 0}
+  .nav-right{gap:10px}
+  .nav-right .nav-link{display:none}
+  .nav-cta{padding:9px 16px; font-size:13px}
+  .logo{font-size:18px}
+  .logo .logo-mark{width:34px; height:34px; font-size:18px}
+
+  /* Hero diorama: shrink sun + clouds so they don't dominate */
+  .diorama-sun{width:90px; height:90px; top:30px; right:6vw}
+  .cloud-1{top:60px; width:60px; height:20px}
+  .cloud-2{top:120px; width:72px; height:22px}
+  .cloud-3{top:180px; width:52px; height:18px}
+  .diorama-hills{height:180px; bottom:-20px}
+  .hill-back{height:140px}
+  .hill-mid{height:110px}
+  .hill-front{height:90px}
+
+  /* Explosion stage: taller than wide on mobile so nothing clips */
+  .explosion-stage{height:460px}
+  .explosion-origin{width:140px; height:170px}
+  .explosion-origin .eo-emoji{font-size:38px}
+  .explosion-tile{width:42px; height:52px; font-size:18px}
+
+  /* Calendar flipbook */
+  .calendar-stage{height:auto; padding:20px 0; flex-direction:column; gap:30px}
+  .calendar-book{width:240px; height:280px}
+  .calendar-counter{position:relative; top:auto; right:auto; transform:none; text-align:center}
+  .calendar-counter .big{font-size:56px}
+
+  /* Pick-a-kid dial: tighter */
+  .age-dial{padding:22px}
+  .age-big{font-size:56px}
+
+  /* Cork board polaroid: shrink photo so it fits a 375px screen w/ margins */
+  .polaroid{padding:12px 12px 40px; width:min(88vw,260px)}
+  .polaroid .photo{width:100%; height:200px; font-size:56px}
+  .polaroid .quote{max-width:100%; font-size:13px}
+  .sticky-note{width:min(86vw,240px); font-size:14px}
+  .kid-drawing{width:min(90vw,260px)}
+
+  /* Phone pair: stack with smaller gap */
+  .phone-pair{gap:28px}
+
+  /* Features + ticker padding */
+  .features{padding:72px 0}
+  .explosion-section{padding:80px 0}
+  .pickakid{padding:72px 0}
+  .calendar-section{padding:80px 0}
+
+  /* Night footer: stack & re-center */
+  footer.nf{flex-direction:column; text-align:center}
+  .nf-links{justify-content:center}
+}
+
+@media (max-width:420px){
+  .age-big{font-size:46px}
+  .explosion-stage{height:420px}
+  .explosion-tile{width:36px; height:44px; font-size:16px}
+  .calendar-book{width:220px; height:260px}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NEW SECTIONS — Pain-point-led copy
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 30-SECOND RESCUE ─────────────────────────────── */
+.rescue{
+  padding:110px 0; background:linear-gradient(180deg, var(--cream-warm) 0%, #FFEFDF 100%);
+  position:relative; overflow:hidden;
+}
+.rescue-head{text-align:center; max-width:640px; margin:0 auto 60px}
+.rescue-eyebrow{
+  display:inline-block; font-size:12px; font-weight:800; color:var(--gold-deep);
+  letter-spacing:.16em; text-transform:uppercase; margin-bottom:14px;
+}
+.rescue h2{font-size:clamp(32px,4.2vw,54px); font-weight:800; line-height:1.08; margin-bottom:14px}
+.rescue h2 em{color:var(--gold-vibrant); font-weight:600}
+.rescue-sub{color:var(--charcoal-mid); font-size:17px; line-height:1.55}
+
+.rescue-stage{
+  display:grid; grid-template-columns:1fr auto 1fr; gap:40px; align-items:center;
+  max-width:1080px; margin:0 auto;
+}
+.rescue-stage > *{min-width:0}
+@media(max-width:1000px){.rescue-stage{grid-template-columns:1fr; gap:28px}}
+
+/* Left: the chaos */
+.chaos-card{
+  position:relative; background:#fff; border-radius:22px; padding:26px;
+  border:2px solid rgba(244,63,94,.15);
+  box-shadow:0 20px 50px rgba(244,63,94,.08), 0 4px 10px rgba(31,41,55,.04);
+  min-height:380px; display:flex; flex-direction:column; gap:14px;
+}
+.chaos-label{
+  display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:800;
+  color:#DC2626; text-transform:uppercase; letter-spacing:.14em;
+}
+.chaos-label .chaos-dot{width:8px; height:8px; border-radius:50%; background:#DC2626; animation:chaosPulse 1.2s ease-in-out infinite}
+@keyframes chaosPulse{0%,100%{transform:scale(1); opacity:1}50%{transform:scale(1.4); opacity:.6}}
+.chaos-title{font-family:'Fraunces', serif; font-size:22px; font-weight:800; color:var(--charcoal); line-height:1.2}
+
+.chaos-tabs{
+  display:flex; gap:4px; background:#F3F4F6; padding:6px 6px 0; border-radius:10px 10px 0 0;
+  overflow-x:auto; scrollbar-width:none; flex-wrap:nowrap;
+}
+.chaos-tabs::-webkit-scrollbar{display:none}
+.chaos-tab{
+  flex-shrink:0; background:#fff; padding:7px 10px; font-size:10px; font-weight:700;
+  color:var(--charcoal-mid); border-radius:6px 6px 0 0; border:1px solid #E5E7EB;
+  border-bottom:none; white-space:nowrap; max-width:110px; overflow:hidden; text-overflow:ellipsis;
+  display:flex; align-items:center; gap:5px;
+}
+.chaos-tab .tx{color:#9CA3AF; font-size:11px}
+.chaos-tab.active{background:#fff; box-shadow:0 -2px 6px rgba(0,0,0,.04)}
+
+.chaos-browser{
+  background:#F9FAFB; border:1px solid #E5E7EB; border-radius:0 0 10px 10px;
+  padding:12px; font-size:11px; color:var(--charcoal-mid); line-height:1.5;
+  font-family:ui-monospace, Menlo, monospace;
+  position:relative; overflow:hidden; min-height:90px;
+}
+.chaos-browser .url{color:#9CA3AF; margin-bottom:8px; font-size:10px}
+.chaos-browser .q{color:#DC2626; font-weight:700}
+.chaos-ellipsis{color:#9CA3AF; animation:typing 1.8s steps(4) infinite}
+@keyframes typing{0%,33%{content:"."}66%{content:".."}100%{content:"..."}}
+
+.chaos-noise{
+  margin-top:auto; display:grid; grid-template-columns:1fr 1fr; gap:8px;
+  border-top:1px dashed #E5E7EB; padding-top:14px;
+}
+.noise-chip{
+  font-size:11px; color:var(--charcoal-mid); display:flex; align-items:center; gap:6px;
+  background:#FEF2F2; padding:8px 10px; border-radius:8px;
+}
+.noise-chip .ic{font-size:16px}
+
+/* Middle: the tap */
+.rescue-flow{
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  padding:20px;
+}
+.rescue-flow .arrow-down{
+  width:2px; height:50px; background:linear-gradient(180deg, transparent, var(--gold-vibrant), transparent);
+  position:relative;
+}
+.rescue-flow .arrow-down::after{
+  content:"▼"; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%);
+  color:var(--gold-vibrant); font-size:14px;
+}
+.rescue-tap-btn{
+  background:linear-gradient(135deg, var(--gold), var(--gold-vibrant));
+  color:#fff; border:none; border-radius:100px;
+  padding:18px 28px; font-weight:800; font-size:15px; cursor:pointer;
+  box-shadow:0 14px 30px rgba(245,166,35,.45);
+  display:inline-flex; align-items:center; gap:10px;
+  position:relative;
+  font-family:inherit;
+  animation:tapPulse 2.2s ease-in-out infinite;
+}
+@keyframes tapPulse{
+  0%,100%{box-shadow:0 14px 30px rgba(245,166,35,.45), 0 0 0 0 rgba(245,166,35,.6)}
+  50%{box-shadow:0 14px 30px rgba(245,166,35,.55), 0 0 0 16px rgba(245,166,35,0)}
+}
+.rescue-tap-btn:hover{transform:translateY(-2px)}
+.rescue-tap-btn .bunny{font-size:20px}
+.rescue-timer{
+  font-family:'Fraunces', serif; font-size:46px; font-weight:800;
+  color:var(--charcoal); line-height:1;
+}
+.rescue-timer .unit{color:var(--gold-vibrant); font-size:22px; margin-left:4px}
+.rescue-timer-label{font-size:11px; font-weight:800; color:var(--charcoal-light); text-transform:uppercase; letter-spacing:.14em}
+@media(max-width:900px){.rescue-flow{flex-direction:row; flex-wrap:wrap; justify-content:center}.rescue-flow .arrow-down{transform:rotate(-90deg); height:30px}}
+
+/* Right: the calm */
+.calm-card{
+  background:#fff; border-radius:22px; padding:26px;
+  border:2px solid rgba(16,185,129,.18);
+  box-shadow:0 20px 50px rgba(16,185,129,.1), 0 4px 10px rgba(31,41,55,.04);
+  min-height:380px; display:flex; flex-direction:column; gap:14px;
+  position:relative;
+}
+.calm-label{
+  display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:800;
+  color:#059669; text-transform:uppercase; letter-spacing:.14em;
+}
+.calm-label .calm-dot{width:8px; height:8px; border-radius:50%; background:#10B981}
+.calm-title{font-family:'Fraunces', serif; font-size:22px; font-weight:800; color:var(--charcoal); line-height:1.2}
+
+.rescue-activity{
+  background:linear-gradient(135deg, #FFF9EE, #FFEFD0);
+  border-radius:16px; padding:22px; border:1px solid rgba(245,166,35,.25);
+  animation:calmAppear .6s cubic-bezier(.3,1.4,.4,1) both;
+}
+@keyframes calmAppear{
+  0%{opacity:0; transform:translateY(20px) scale(.95)}
+  100%{opacity:1; transform:translateY(0) scale(1)}
+}
+.rescue-activity .ra-emoji{font-size:46px; margin-bottom:8px}
+.rescue-activity .ra-title{font-family:'Fraunces', serif; font-size:22px; font-weight:800; margin-bottom:6px}
+.rescue-activity .ra-meta{display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:var(--charcoal-mid); margin-bottom:12px}
+.rescue-activity .ra-meta b{color:var(--charcoal); font-weight:800}
+.rescue-activity .ra-steps{font-size:13px; color:var(--charcoal-mid); line-height:1.55}
+.rescue-activity .ra-steps b{color:var(--charcoal)}
+
+.calm-footer{
+  display:flex; gap:8px; margin-top:auto; padding-top:14px; border-top:1px dashed #D1FAE5;
+  font-size:12px; color:#059669; font-weight:700; align-items:center;
+}
+
+/* ─── FILTER CHIPS (5-min, nothing-to-buy) ─────────────────────── */
+.filters{
+  padding:110px 0; background:#fff; position:relative; overflow:hidden;
+}
+.filters-head{max-width:680px; margin:0 auto 44px; text-align:center}
+.filters-head .eyebrow{display:inline-block; font-size:12px; font-weight:800; color:var(--gold-deep); letter-spacing:.16em; text-transform:uppercase; margin-bottom:14px}
+.filters h2{font-size:clamp(32px,4.2vw,54px); font-weight:800; line-height:1.08; margin-bottom:12px}
+.filters h2 em{color:var(--gold-vibrant); font-weight:600}
+.filters-sub{color:var(--charcoal-mid); font-size:17px}
+
+.filter-demo{
+  max-width:960px; margin:0 auto;
+  background:var(--cream-warm); border-radius:24px; padding:36px;
+  border:2px solid rgba(245,166,35,.18);
+  box-shadow:0 20px 40px rgba(245,166,35,.08);
+}
+.chip-row{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:28px}
+.chip{
+  background:#fff; border:2px solid #E8E5DC; border-radius:100px;
+  padding:10px 18px; font-size:14px; font-weight:700; color:var(--charcoal);
+  cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+  transition:all .2s;
+  font-family:inherit;
+}
+.chip:hover{transform:translateY(-2px); border-color:var(--gold-vibrant); box-shadow:0 6px 14px rgba(245,166,35,.15)}
+.chip .chip-icon{font-size:16px}
+.chip.active{background:var(--charcoal); color:#fff; border-color:var(--charcoal); box-shadow:0 10px 20px rgba(31,41,55,.2)}
+.chip.active .chip-check{display:inline}
+.chip-check{display:none; font-size:12px}
+.chip-count{
+  background:linear-gradient(135deg, rgba(245,166,35,.12), rgba(245,166,35,.04));
+  border:2px dashed rgba(245,166,35,.55); color:var(--gold-deep);
+  cursor:default; font-weight:800;
+}
+.chip-count:hover{transform:none; box-shadow:none; border-color:rgba(245,166,35,.55)}
+
+.filter-results{
+  background:#fff; border-radius:18px; padding:24px;
+  min-height:240px; position:relative;
+}
+.filter-results-label{
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
+  font-size:12px; font-weight:800; color:var(--charcoal-light); text-transform:uppercase; letter-spacing:.14em;
+}
+.filter-results-label .count{color:var(--gold-deep)}
+.filter-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px}
+.filter-result-card{
+  background:var(--cream); border-radius:14px; padding:14px;
+  display:flex; align-items:center; gap:12px;
+  border:1px solid rgba(245,166,35,.15);
+  transition:transform .2s, box-shadow .2s;
+  animation:resultPop .35s ease both;
+}
+@keyframes resultPop{from{opacity:0; transform:translateY(10px) scale(.96)}to{opacity:1; transform:translateY(0) scale(1)}}
+.filter-result-card:hover{transform:translateY(-3px); box-shadow:0 10px 20px rgba(31,41,55,.08)}
+.frc-emoji{font-size:28px; flex-shrink:0; width:46px; height:46px; display:flex; align-items:center; justify-content:center; background:#fff; border-radius:12px}
+.frc-info{min-width:0}
+.frc-title{font-size:13px; font-weight:800; color:var(--charcoal); line-height:1.2}
+.frc-meta{font-size:10px; color:var(--charcoal-light); margin-top:2px; display:flex; gap:8px}
+.frc-meta b{color:var(--charcoal-mid); font-weight:700}
+
+
+/* ─── WEEKLY REFLECTION MIRROR ─────────────────────────────── */
+.mirror{
+  padding:110px 0; background:#fff; position:relative; overflow:hidden;
+}
+.mirror-inner{
+  max-width:1060px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1.1fr; gap:60px; align-items:center;
+}
+.mirror-inner > *{min-width:0}
+@media(max-width:900px){.mirror-inner{grid-template-columns:1fr; gap:44px}}
+
+.mirror-copy .eyebrow{display:inline-block; font-size:12px; font-weight:800; color:var(--gold-deep); letter-spacing:.16em; text-transform:uppercase; margin-bottom:14px}
+.mirror-copy h2{font-size:clamp(34px,4.4vw,54px); font-weight:800; line-height:1.08; margin-bottom:18px}
+.mirror-copy h2 em{color:var(--gold-vibrant); font-weight:600; font-style:italic}
+.mirror-copy .mirror-sub{color:var(--charcoal-mid); font-size:17px; line-height:1.6; margin-bottom:24px}
+
+.mirror-stats{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:14px;
+  margin-top:20px; max-width:360px;
+}
+.mstat{
+  background:var(--cream-warm); border-radius:14px; padding:14px 16px;
+  border:1.5px solid rgba(245,166,35,.15);
+}
+.mstat .m-num{font-family:'Fraunces', serif; font-size:30px; font-weight:800; color:var(--charcoal); line-height:1}
+.mstat .m-lbl{font-size:11px; font-weight:800; color:var(--charcoal-mid); text-transform:uppercase; letter-spacing:.1em; margin-top:4px}
+.mstat .m-emoji{font-size:18px; float:right; margin-top:-4px}
+
+/* Mirror mockup — the screen */
+.mirror-screen{
+  background:linear-gradient(180deg, var(--cream) 0%, #fff 100%);
+  border-radius:28px; padding:30px;
+  box-shadow:0 40px 80px rgba(31,41,55,.12), 0 10px 20px rgba(31,41,55,.06);
+  border:1.5px solid rgba(245,166,35,.15);
+  position:relative;
+}
+.mirror-screen-head{
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;
+}
+.mirror-week{font-size:12px; font-weight:800; color:var(--charcoal-light); text-transform:uppercase; letter-spacing:.12em}
+.mirror-streak{
+  display:inline-flex; align-items:center; gap:6px;
+  background:#FFF3D6; color:var(--gold-deep); padding:6px 12px; border-radius:100px;
+  font-size:12px; font-weight:800;
+}
+.mirror-hero-line{
+  font-family:'Fraunces', serif; font-size:28px; font-weight:800; color:var(--charcoal);
+  line-height:1.15; margin:8px 0 6px;
+}
+.mirror-hero-line em{color:var(--gold-vibrant); font-style:italic; font-weight:600}
+.mirror-hero-sub{color:var(--charcoal-mid); font-size:14px; margin-bottom:22px; line-height:1.5}
+
+.mirror-polaroids{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
+  margin-bottom:22px;
+}
+@media(max-width:520px){.mirror-polaroids{grid-template-columns:repeat(3,1fr)}}
+.mini-pol{
+  background:#FFFDF5; padding:6px 6px 14px; border-radius:4px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+  transform:rotate(var(--r, 0deg));
+  transition:transform .2s;
+  text-align:center;
+}
+.mini-pol:hover{transform:rotate(0) scale(1.05); z-index:2}
+.mini-pol-img{
+  width:100%; aspect-ratio:1; border-radius:2px;
+  display:flex; align-items:center; justify-content:center; font-size:28px;
+  background:linear-gradient(135deg, var(--gold-pale), #FFE2B8);
+}
+.mini-pol-label{font-size:9px; font-weight:700; color:var(--charcoal-mid); margin-top:6px; line-height:1.2; padding:0 3px}
+
+.mirror-categories{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(110px,1fr)); gap:8px;
+}
+.cat-pill{
+  background:#fff; border:1.5px solid #F3F0E8; border-radius:12px;
+  padding:10px 12px; display:flex; align-items:center; gap:10px;
+  font-size:12px; color:var(--charcoal); font-weight:700;
+}
+.cat-pill .cat-count{
+  margin-left:auto; font-family:'Fraunces', serif; font-size:18px; font-weight:800;
+  color:var(--gold-vibrant);
+}
+.cat-pill .cat-ic{font-size:16px}
+
+/* ─── TRUST STRIP ─────────────────────────────── */
+.trust{
+  padding:32px 0; background:var(--charcoal); color:#fff;
+  position:relative;
+}
+.trust-inner{
+  display:flex; justify-content:center; align-items:center; gap:30px; flex-wrap:wrap;
+  font-size:14px; font-weight:700; letter-spacing:.02em;
+}
+.trust-item{display:inline-flex; align-items:center; gap:10px}
+.trust-item .t-ic{
+  width:30px; height:30px; border-radius:50%;
+  background:rgba(245,166,35,.2); color:var(--gold-vibrant);
+  display:inline-flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0;
+}
+.trust-divider{width:1px; height:22px; background:rgba(255,255,255,.15)}
+@media(max-width:700px){.trust-divider{display:none}.trust-inner{gap:18px}.trust-item{font-size:13px}}
+
+/* Mobile polish for new sections */
+@media (max-width:720px){
+  .rescue, .filters, .mirror{padding:72px 0}
+  .chaos-card, .calm-card{min-height:auto; padding:22px}
+  .filter-demo{padding:22px}
+  .kid-card{padding:24px; padding-top:50px}
+  .mirror-screen{padding:22px}
+  .mirror-hero-line{font-size:22px}
+  .mirror-polaroids{grid-template-columns:repeat(4,1fr); gap:8px}
+}
+</style>
 </head>
 <body>
-  <!-- NAV -->
-  <div class="container">
-    <nav>
-      <a href="/" class="logo">
-        <span class="logo-emoji">&#x1F430;</span>
-        <span class="logo-text">BunnyPath</span>
-      </a>
-      <a href="#download" class="nav-cta">Download Free</a>
-    </nav>
+
+<!-- PAW PATH SPINE -->
+<div class="paw-path" id="pawPath">
+  <svg viewBox="0 0 100 1000" preserveAspectRatio="none">
+    <path id="pathLine"
+      d="M 50 20
+         C 30 120, 70 200, 50 300
+         S 30 460, 50 540
+         S 70 680, 50 780
+         S 30 920, 50 980"
+      stroke="rgba(245,166,35,.38)" stroke-width="2" stroke-dasharray="5 7" fill="none" stroke-linecap="round"/>
+  </svg>
+  <!-- Stops injected by JS -->
+</div>
+
+<!-- Traveling bunny on the path -->
+<div class="path-bunny" id="pathBunny">
+  <div class="bunny-body">🐇</div>
+</div>
+
+<!-- Living cursor-follower bunny (sitting, sticker-style) -->
+
+<!-- NAV -->
+<div class="container">
+  <nav class="top">
+    <a href="#" class="logo"><span class="logo-mark">🐰</span><span>BunnyPath</span></a>
+    <div class="nav-right">
+      <a href="#download" class="nav-cta">Download free</a>
+    </div>
+  </nav>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero-section" data-stop="hero">
+  <div class="diorama">
+    <div class="diorama-sun" aria-hidden="true">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="sun-body" cx="40%" cy="38%" r="65%">
+        <stop offset="0%" stop-color="#FFF2C8"/>
+        <stop offset="55%" stop-color="#FFD76A"/>
+        <stop offset="100%" stop-color="#F5A623"/>
+      </radialGradient>
+      <radialGradient id="sun-cheek" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#FF9EB0" stop-opacity=".85"/>
+        <stop offset="100%" stop-color="#FF9EB0" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- rays (spin with outer svg) -->
+    <g fill="#FFD76A">
+      <!-- 12 rays, slightly rounded wedges -->
+      <g transform="translate(100 100)">
+        <g><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
+        <g transform="rotate(30)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
+        <g transform="rotate(60)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
+        <g transform="rotate(90)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
+        <g transform="rotate(120)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
+        <g transform="rotate(150)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
+        <g transform="rotate(180)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
+        <g transform="rotate(210)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
+        <g transform="rotate(240)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
+        <g transform="rotate(270)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
+        <g transform="rotate(300)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
+        <g transform="rotate(330)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
+      </g>
+    </g>
+    <!-- face does NOT spin; counter-animated via class -->
+    <g class="sun-face">
+      <circle cx="100" cy="100" r="62" fill="url(#sun-body)" stroke="#EAA13A" stroke-width="1.5"/>
+      <!-- cheeks -->
+      <ellipse cx="72" cy="112" rx="11" ry="7" fill="url(#sun-cheek)"/>
+      <ellipse cx="128" cy="112" rx="11" ry="7" fill="url(#sun-cheek)"/>
+      <!-- eyes (closed happy curves) -->
+      <path d="M80 94 Q86 88 92 94" stroke="#5B3A10" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M108 94 Q114 88 120 94" stroke="#5B3A10" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <!-- smile -->
+      <path d="M84 118 Q100 132 116 118" stroke="#5B3A10" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    </g>
+  </svg>
+</div>
+    <div class="diorama-cloud cloud-1" aria-hidden="true">
+      <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#33A5E8">
+          <ellipse cx="50" cy="52" rx="34" ry="22"/>
+          <ellipse cx="92" cy="42" rx="32" ry="28"/>
+          <ellipse cx="130" cy="48" rx="28" ry="24"/>
+          <ellipse cx="160" cy="56" rx="24" ry="18"/>
+          <ellipse cx="100" cy="62" rx="60" ry="14"/>
+        </g>
+      </svg>
+    </div>
+    <div class="diorama-cloud cloud-2" aria-hidden="true">
+      <svg viewBox="0 0 220 90" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#33A5E8">
+          <ellipse cx="46" cy="58" rx="38" ry="24"/>
+          <ellipse cx="92" cy="44" rx="36" ry="30"/>
+          <ellipse cx="138" cy="50" rx="32" ry="26"/>
+          <ellipse cx="176" cy="60" rx="28" ry="20"/>
+          <ellipse cx="110" cy="70" rx="72" ry="16"/>
+        </g>
+      </svg>
+    </div>
+    <div class="diorama-cloud cloud-3" aria-hidden="true">
+      <svg viewBox="0 0 180 70" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#33A5E8">
+          <ellipse cx="44" cy="46" rx="28" ry="18"/>
+          <ellipse cx="80" cy="36" rx="26" ry="22"/>
+          <ellipse cx="114" cy="42" rx="22" ry="20"/>
+          <ellipse cx="140" cy="48" rx="20" ry="16"/>
+          <ellipse cx="92" cy="54" rx="54" ry="12"/>
+        </g>
+      </svg>
+    </div>
+    <div class="diorama-hills">
+      <div class="hill hill-back"></div>
+      <div class="hill hill-mid"></div>
+      <div class="hill hill-front"></div>
+    </div>
   </div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-      <span class="hero-emoji">&#x1F430;</span>
-      <h1>The largest, curated, off-screen<br>kid activity collection <span>in your pocket.</span></h1>
-      <p class="hero-sub">20,000+ hand-crafted activities for ages 0&ndash;12. Personalized for your child. One tap. Zero scrolling.</p>
-      <div class="store-buttons" id="download">
-        <a href="#" class="store-btn store-btn-ios" id="ios-btn">
-          <span class="store-icon">&#xF8FF;</span>
-          Download for iPhone
+  <div class="container">
+    <!-- <div class="hero-eyebrow"><span class="dot"></span> 20,000+ off-screen activities · ages 0–12</div> -->
+    <h1>
+      <span class="gold">20,000+</span> play ideas<br>
+      in your pocket
+    </h1>
+    <p class="hero-sub"><strong class="hero-sub-lead">Stop opening 80 tabs. Play ideas in one tap.</strong> Off-screen. Educational. Guilt-free. The largest, curated, developmental activity collection for ages 0-12.</p>
+    <div class="store-buttons" id="download">
+      <a href="#" class="store-btn store-btn-ios" aria-label="Download for iPhone">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.45-2.24-4.19-2.27-1.78-.18-3.48 1.05-4.39 1.05-.92 0-2.31-1.03-3.8-1-1.95.03-3.76 1.14-4.76 2.88-2.04 3.54-.52 8.78 1.46 11.66.97 1.41 2.12 3 3.61 2.94 1.45-.06 2-.94 3.75-.94 1.75 0 2.24.94 3.77.91 1.56-.03 2.55-1.44 3.5-2.86 1.12-1.64 1.58-3.23 1.6-3.32-.03-.01-3.06-1.17-3.02-4.7zM14.2 3.9c.8-.97 1.34-2.31 1.19-3.65-1.15.05-2.54.77-3.37 1.73-.74.85-1.4 2.22-1.22 3.53 1.28.1 2.6-.65 3.4-1.61z"/></svg>
+        <span>Download for iPhone</span>
+      </a>
+      <a href="#" class="store-btn store-btn-android" aria-label="Download for Android">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 2.57c-.36.36-.56.93-.56 1.67v15.52c0 .74.2 1.31.56 1.67l.09.08 8.7-8.7v-.16L3.27 2.48l-.09.09z" fill="#5BC9F4"/><path d="M15.13 15.69l-2.9-2.9v-.16l2.9-2.9.07.04 3.43 1.95c.98.56.98 1.47 0 2.03l-3.43 1.95-.07-.01z" fill="#FEE101"/><path d="M15.2 15.68L12.23 12.7 3.18 21.77c.33.33.85.37 1.45.04l10.57-6.13" fill="#EA4335"/><path d="M15.2 8.32L4.63 2.19c-.6-.33-1.12-.29-1.45.04l9.05 9.05 2.97-2.96z" fill="#34A853"/></svg>
+        <span>Download for Android</span>
+      </a>
+    </div>
+    <div class="hero-meta">
+      <span>❤️ <b>Built</b> by parents like you</span>
+      <span>🛡️ <b>100%</b> Wholesome</span>
+      <span>✂️ <b>Zero</b> screen time</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 30-SECOND RESCUE ============ -->
+<section class="rescue" data-stop="rescue" id="rescue">
+  <div class="container">
+    <div class="rescue-head">
+      <span class="rescue-eyebrow">The 10-second rescue</span>
+      <h2>It's 4:37pm. The kids are climbing the walls. <em>You have nothing.</em></h2>
+      <p class="rescue-sub">Stop googling, doom scrolling, apologizing, feeling guilty. One tap. Three great ideas. Done. Before someone asks for a snack for the 23rd time.</p>
+    </div>
+
+    <div class="rescue-stage">
+
+      <!-- LEFT: the chaos -->
+      <div class="chaos-card" aria-label="Before: chaos">
+        <div class="chaos-label"><span class="chaos-dot"></span> Before</div>
+        <div class="chaos-title">"Let me Google (Instagram or Pinterest) for 20 min to find something."</div>
+        <div class="chaos-tabs" role="presentation">
+          <div class="chaos-tab active">🔎 toddler activit…<span class="tx">✕</span></div>
+          <div class="chaos-tab">📌 Pinterest — craf…<span class="tx">✕</span></div>
+          <div class="chaos-tab">🎥 YouTube — rainy…<span class="tx">✕</span></div>
+          <div class="chaos-tab">📰 23 Easy Ideas fo…<span class="tx">✕</span></div>
+          <div class="chaos-tab">🛒 Amazon — sens…<span class="tx">✕</span></div>
+          <div class="chaos-tab">📝 mom blog fr…<span class="tx">✕</span></div>
+          <div class="chaos-tab">📸 Instagram r…<span class="tx">✕</span></div>
+        </div>
+        <div class="chaos-browser">
+          <div class="url">🔒 google.com/search?q=…</div>
+          <span class="q">"quiet activities for 3 year old no mess no screens"</span><span class="chaos-ellipsis"> ...</span>
+        </div>
+        <div class="chaos-noise">
+          <div class="noise-chip"><span class="ic">👶</span>"Mom, I'm BORED"</div>
+          <div class="noise-chip"><span class="ic">⏰</span>dinner in 47 min</div>
+          <div class="noise-chip"><span class="ic">🧠</span>brain: buffering</div>
+          <div class="noise-chip"><span class="ic">😵‍💫</span>14 tabs open later</div>
+        </div>
+      </div>
+
+      <!-- MIDDLE: the tap -->
+      <div class="rescue-flow">
+        <div class="rescue-timer-label">Then you tap</div>
+        <button class="rescue-tap-btn" type="button">
+          <span class="bunny">🐰</span> BunnyPath
+        </button>
+        <div class="arrow-down" aria-hidden="true"></div>
+        <div class="rescue-timer">10<span class="unit">sec</span></div>
+        <div class="rescue-timer-label">total</div>
+      </div>
+
+      <!-- RIGHT: the calm -->
+      <div class="calm-card" aria-label="After: one activity">
+        <div class="calm-label"><span class="calm-dot"></span> After</div>
+        <div class="calm-title">One great idea. Nothing else.</div>
+        <div class="rescue-activity">
+          <div class="ra-emoji">🧂</div>
+          <div class="ra-title">Salt-tray alphabet</div>
+          <div class="ra-meta">
+            <span>⏱ <b>10 min</b></span>
+            <span>🎯 <b>Ages 3–5</b></span>
+            <span>🧼 <b>Low mess</b></span>
+            <span>🎒 <b>No prep</b></span>
+          </div>
+          <div class="ra-steps">
+            <b>What you need:</b> salt, a baking tray, a finger.<br>
+            <b>What to do:</b> sprinkle salt, trace letters or shapes with a fingertip, shake to reset.
+          </div>
+        </div>
+        <div class="calm-footer">
+          ✨ Saved to today &nbsp;·&nbsp; Skip if not feeling it
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAP-TO-PREVIEW PHONES ============ -->
+<section class="mockups" data-stop="demo">
+  <div class="container">
+    <div class="mockup-hint">Play ideas. Step-by-step.</div>
+    <div class="phone-pair">
+
+      <!-- LEFT PHONE (Home / Surprise Me) -->
+      <div class="phone phone-left" id="leftPhone">
+        <div class="phone-notch"></div>
+        <div class="phone-content">
+          <div class="phone-greeting">Good morning, Sarah! 🐰</div>
+          <div class="phone-child">Emma, 3 yrs · Day 12 streak</div>
+          <button class="surprise-btn" id="surpriseBtn">
+            <span class="sparkle"></span>
+            Surprise Me! ✨
+          </button>
+          <div class="card-stack" id="cardStack">
+            <!-- cards get rendered here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PHONE (Detail) -->
+      <div class="phone phone-right" id="rightPhone">
+        <div class="phone-notch"></div>
+        <div class="phone-content" id="rightPhoneContent">
+          <div class="detail-empty">
+            <div class="detail-empty-icon">👆</div>
+            <p>Tap <b>Surprise Me!</b><br>then pick a card to see the details here.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACTIVITY EXPLOSION ============ -->
+<section class="explosion-section" data-stop="scale">
+  <div class="container">
+    <div class="explosion-title">
+      <h2>A library so big <em>it barely fits the screen.</em></h2>
+      <p>20,000+ activities and play ideas across 27 developmental categories. Tap the cards for examples.</p>
+    </div>
+    <div class="explosion-stage" id="explosionStage">
+      <div class="explosion-origin" id="explosionOrigin">
+        <div class="eo-emoji">🎁</div>
+        <div class="eo-label">20,000+</div>
+        <div class="eo-sub">curated activities</div>
+      </div>
+      <div class="tile-cloud" id="tileCloud"></div>
+      <div class="activity-reveal" id="activityReveal" role="dialog" aria-live="polite">
+        <button class="ar-close" id="arClose" aria-label="Close">×</button>
+        <div class="ar-emoji-wrap" id="arEmojiWrap"><span id="arEmoji">🎨</span></div>
+        <div class="ar-category" id="arCategory">Creative play</div>
+        <div class="ar-name" id="arName">Activity name</div>
+        <div class="ar-meta">
+          <span class="ar-chip" id="arAge"><span>👶</span><span>Ages 2–4</span></span>
+          <span class="ar-chip" id="arDuration"><span>⏱</span><span>10 min</span></span>
+          <span class="ar-chip" id="arMaterials"><span>🎒</span><span>No prep</span></span>
+        </div>
+        <div class="ar-desc" id="arDesc">One of 20,000+ hand-picked activities in the BunnyPath library.</div>
+      </div>
+      <div class="explosion-cta">
+        <button class="explode-btn" id="explodeBtn">Open the library 💥</button>
+        <button class="explode-btn secondary" id="resetExplodeBtn" style="display:none">Pack it up</button>
+      </div>
+    </div>
+    <p class="explosion-hint">Drag to spin the cloud. Each tile is a real activity.</p>
+  </div>
+</section>
+
+<!-- ============ PICK-A-KID ============ -->
+<section class="pickakid" data-stop="picker" id="how">
+  <div class="container">
+    <div class="pickakid-grid">
+      <div>
+        <h2>One app. <em>Every stage of childhood.</em></h2>
+        <p class="sub">Drag the slider. Watch the whole app re-shape itself for a different age — greetings, activities, pace, materials, even the vibe.</p>
+
+        <div class="age-dial">
+          <div class="age-dial-label">Your child is</div>
+          <div class="age-dial-readout">
+            <span class="age-big" id="ageBig">3</span>
+            <span class="age-suffix" id="ageSuffix">years old</span>
+          </div>
+          <div class="age-slider-wrap">
+            <input type="range" min="0" max="12" value="3" step="1" class="age-slider" id="ageSlider">
+          </div>
+          <div class="age-ticks">
+            <span style="left:calc(16px + (100% - 32px) * 0/12)">0</span><span style="left:calc(16px + (100% - 32px) * 2/12)">2</span><span style="left:calc(16px + (100% - 32px) * 4/12)">4</span><span style="left:calc(16px + (100% - 32px) * 6/12)">6</span><span style="left:calc(16px + (100% - 32px) * 8/12)">8</span><span style="left:calc(16px + (100% - 32px) * 10/12)">10</span><span style="left:calc(16px + (100% - 32px) * 12/12)">12</span>
+          </div>
+          <div class="age-stage-label" id="ageStageLabel">🌱 Preschool play</div>
+        </div>
+      </div>
+
+      <div class="kid-phone-wrap">
+        <div class="kid-floaty f1" id="floaty1">🎨</div>
+        <div class="kid-floaty f2" id="floaty2">🔍</div>
+        <div class="kid-floaty f3" id="floaty3">⚽</div>
+        <div class="kid-floaty f4" id="floaty4">✨</div>
+        <div class="kid-phone" id="kidPhone" data-bracket="preschool">
+          <div class="kid-phone-notch"></div>
+          <div class="kid-phone-content">
+            <div class="kid-phone-greeting" id="kpGreeting">Good morning, Emma! 🐰</div>
+            <div class="kid-phone-child" id="kpChild">Age 3 · Preschool</div>
+            <button class="kid-phone-btn">Surprise Me! ✨</button>
+            <div class="kid-cards" id="kidCards">
+              <!-- Cards injected -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FILTER CHIPS (5 min / nothing to buy) ============ -->
+<section class="filters" data-stop="filters" id="filters">
+  <div class="container">
+    <div class="filters-head">
+      <span class="eyebrow">5 minutes. Nothing to buy.</span>
+      <h2>Search and filter by what you <em>actually have</em> (or want).</h2>
+      <p class="filters-sub">Tight budget. Tight timeline. Tight bandwidth. Filter or search in thousands of ways.</p>
+    </div>
+
+    <div class="filter-demo">
+      <div class="chip-row" id="chipRow">
+        <button class="chip active" data-filter="quick" type="button"><span class="chip-icon">⚡</span>Under 5 min<span class="chip-check">✓</span></button>
+        <button class="chip active" data-filter="noprep" type="button"><span class="chip-icon">🎒</span>No prep<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="noscreens" type="button"><span class="chip-icon">🚫</span>No props<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="quiet" type="button"><span class="chip-icon">🤫</span>Quiet activity<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="independent" type="button"><span class="chip-icon">🧍</span>Independent play<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="outdoor" type="button"><span class="chip-icon">🌳</span>Outdoor<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="lowmess" type="button"><span class="chip-icon">🧼</span>Low mess<span class="chip-check">✓</span></button>
+        <span class="chip chip-count" aria-label="1000 plus filters available"><span class="chip-icon">✨</span>1000+ filters</span>
+      </div>
+
+      <div class="filter-results">
+        <div class="filter-results-label">
+          <span>Matching activities</span>
+          <span class="count" id="filterCount">247 matches</span>
+        </div>
+        <div class="filter-grid" id="filterGrid">
+          <!-- cards injected by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALENDAR / 54 YEARS ============ -->
+<section class="calendar-section" data-stop="scale2">
+  <div class="container">
+    <p class="calendar-lead">One activity a day. You'd need <em>54 years</em> to try them all.</p>
+    <p class="calendar-sub">Here's what that looks like at 50× speed. Scroll back up to reset.</p>
+
+    <div class="calendar-stage">
+      <div class="calendar-book" id="calendarBook">
+        <div class="calendar-page" id="calendarPage">
+          <div class="page-header">
+            <div class="month" id="pageMonth">January</div>
+            <div class="year" id="pageYear">Year 1</div>
+          </div>
+          <div class="page-grid" id="pageGrid"></div>
+        </div>
+      </div>
+      <div class="calendar-counter">
+        <div class="big"><span id="cntDays">0</span> <span class="unit">days</span></div>
+        <div class="label" id="cntLabel">Just getting started...</div>
+      </div>
+    </div>
+
+    <p class="calendar-footer">That's <b>54 years, 9 months and 20 days</b>. Your kid will outgrow the app before they finish it — and that's the point.</p>
+  </div>
+</section>
+
+<!-- ============ WEEKLY REFLECTION MIRROR ============ -->
+<section class="mirror" data-stop="mirror" id="mirror">
+  <div class="container">
+    <div class="mirror-inner">
+
+      <div class="mirror-copy">
+        <span class="eyebrow">Weekly reflection</span>
+        <h2>You did <em>more than you think</em>.</h2>
+        <p class="mirror-sub">At 2am your brain says "we barely did anything this week." BunnyPath's mirror shows you the truth. Your history. Every polaroid, every category, every little win. Quiet proof you can trust.</p>
+
+        <div class="mirror-stats">
+          <div class="mstat"><span class="m-emoji">🎨</span><div class="m-num">4</div><div class="m-lbl">Creative</div></div>
+          <div class="mstat"><span class="m-emoji">🔬</span><div class="m-num">3</div><div class="m-lbl">Science</div></div>
+          <div class="mstat"><span class="m-emoji">🏃</span><div class="m-num">6</div><div class="m-lbl">Movement</div></div>
+          <div class="mstat"><span class="m-emoji">📚</span><div class="m-num">5</div><div class="m-lbl">Reading</div></div>
+        </div>
+      </div>
+
+      <!-- The mirror screen -->
+      <div class="mirror-screen">
+        <div class="mirror-screen-head">
+          <div class="mirror-week">Week of Oct 7 – 13</div>
+          <div class="mirror-streak">🔥 12-day streak</div>
+        </div>
+        <div class="mirror-hero-line">You did <em>18 things</em> with Emma this week.</div>
+        <div class="mirror-hero-sub">Across 7 categories. That's a lot of tiny wins. Be proud.</div>
+
+        <div class="mirror-polaroids" aria-label="Activities completed">
+          <div class="mini-pol" style="--r:-3deg"><div class="mini-pol-img">🫧</div><div class="mini-pol-label">Bubble lab</div></div>
+          <div class="mini-pol" style="--r:2deg"><div class="mini-pol-img">🎨</div><div class="mini-pol-label">Leaf rubbing</div></div>
+          <div class="mini-pol" style="--r:-1deg"><div class="mini-pol-img">📚</div><div class="mini-pol-label">Story nest</div></div>
+          <div class="mini-pol" style="--r:3deg"><div class="mini-pol-img">🏃</div><div class="mini-pol-label">Animal yoga</div></div>
+          <div class="mini-pol" style="--r:2deg"><div class="mini-pol-img">🍪</div><div class="mini-pol-label">Cookie math</div></div>
+          <div class="mini-pol" style="--r:-2deg"><div class="mini-pol-img">🔭</div><div class="mini-pol-label">Cloud spotting</div></div>
+          <div class="mini-pol" style="--r:1deg"><div class="mini-pol-img">🎵</div><div class="mini-pol-label">Pots drum</div></div>
+          <div class="mini-pol" style="--r:-3deg"><div class="mini-pol-img">🌱</div><div class="mini-pol-label">Bean grow</div></div>
+        </div>
+
+        <div class="mirror-categories">
+          <div class="cat-pill"><span class="cat-ic">🎨</span>Creative<span class="cat-count">4</span></div>
+          <div class="cat-pill"><span class="cat-ic">🔬</span>Science<span class="cat-count">3</span></div>
+          <div class="cat-pill"><span class="cat-ic">🏃</span>Movement<span class="cat-count">6</span></div>
+          <div class="cat-pill"><span class="cat-ic">📚</span>Reading<span class="cat-count">5</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker" id="tickerRow"></div>
+</div>
+
+<!-- ============ TESTIMONIALS — CORK BOARD ============ -->
+<section class="cork" data-stop="parents" id="parents">
+  <div class="container">
+    <h2>What <em>parents</em> are pinning.</h2>
+    <p class="cork-sub">Real voices from parents, pinned straight from our inbox.</p>
+
+    <div class="cork-board" id="corkBoard">
+      <!-- Polaroid 1 -->
+      <div class="polaroid" style="top:0; left:4%; transform:rotate(-5deg)">
+        <div class="pin"></div>
+        <div class="photo">🎨</div>
+        <p class="quote">"I used to spend 30 minutes scrolling Pinterest or Instagram for inspiration and play ideas. Now we're playing in 30 seconds."</p>
+        <p class="author">— Sarah M., Portland OR</p>
+      </div>
+
+      <!-- Sticky note -->
+      <div class="sticky-note" style="top:30px; left:32%; transform:rotate(4deg)">
+        <div class="pin"></div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        "No more 'what should we do?' at 8am."
+        <div class="sn-author">— Jessica T.</div>
+      </div>
+
+      <!-- Polaroid 2 -->
+      <div class="polaroid" style="top:10px; right:4%; transform:rotate(3deg)">
+        <div class="pin"></div>
+        <div class="photo">🔍</div>
+        <p class="quote">"My 6yo now asks for 'BunnyPath time' the way he used to ask for YouTube. No joke."</p>
+        <p class="author">— Marcus R., Austin TX</p>
+      </div>
+
+      <!-- Polaroid 3: screen time pain -->
+      <div class="polaroid" style="top:300px; left:8%; transform:rotate(-4deg)">
+        <div class="pin"></div>
+        <div class="photo">📵</div>
+        <p class="quote">"Screen time used to be my babysitter because I was too tired to think of anything. Now the iPad stays in the drawer."</p>
+        <p class="author">— Priya K., Chicago IL</p>
+      </div>
+
+      <!-- Sticky pink -->
+      <div class="sticky-note pink" style="top:340px; left:36%; transform:rotate(-6deg)">
+        <div class="pin"></div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        "Grandma actually uses it. She has the toddler plan down like a pro now."
+        <div class="sn-author">— Rachel K.</div>
+      </div>
+
+      <!-- Polaroid 3 -->
+      <div class="polaroid" style="top:310px; right:6%; transform:rotate(5deg)">
+        <div class="pin"></div>
+        <div class="photo">🌲</div>
+        <p class="quote">"The streak system got my 7-year-old doing outdoor play 11 days in a row. I'm amazed."</p>
+        <p class="author">— Dana P., Denver CO</p>
+      </div>
+
+      <!-- Sticky blue -->
+      <div class="sticky-note blue" style="top:500px; left:30%; transform:rotate(2deg)">
+        <div class="pin"></div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        "We've done 47 activities we would never have thought of. It's like a tiny curator in my pocket."
+        <div class="sn-author">— Priya S.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="features" data-stop="features">
+  <div class="container">
+    <h2>Built like a real <em>play ritual</em>.</h2>
+    <p class="features-sub">No Pinterest or Instagram doom scrolling. A guilt-free, off-screen world of play ideas one tap away.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Personalized by age</h3>
+        <p>Activities adapt as your child grows. 2-year-old play is a different universe from 5-year-old play.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚖️</div>
+        <h3>Balanced daily</h3>
+        <p>One creative, one active, one discovery — well-rounded play without you planning a thing.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏱️</div>
+        <h3>Under a minute (if needed)</h3>
+        <p>Simple materials, clear steps, zero prep. Because you don't have 30 minutes to set up a craft.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌱</div>
+        <h3>Grows with streaks</h3>
+        <p>Activity streaks and badges turn daily play into something your kid actually looks forward to.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>Swap if it doesn't fit</h3>
+        <p>Raining? Swap outdoor for indoor instantly. You're always in control.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👨‍👩‍👧</div>
+        <h3>Share with family</h3>
+        <p>Grandparents, babysitters, and partners can see today's plan and join in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST STRIP ============ -->
+<section class="trust" data-stop="trust" aria-label="Privacy &amp; safety">
+  <div class="container">
+    <div class="trust-inner">
+      <div class="trust-item"><span class="t-ic">🔒</span>Zero tracking on kids</div>
+      <div class="trust-divider"></div>
+      <div class="trust-item"><span class="t-ic">📵</span>Off-screen by design</div>
+      <div class="trust-divider"></div>
+      <div class="trust-item"><span class="t-ic">✅</span>Every activity hand-vetted</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NIGHT SCENE FOOTER ============ -->
+<!-- ============ GARDEN FINALE ============ -->
+<section class="garden" data-stop="download-2">
+  <!-- The winding paw-path pays off: curls across the garden and blooms -->
+  <svg class="garden-bloom-svg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <!-- Path enters from top-left (where the spine path ends) and meanders across to meet the CTA center -->
+    <path class="bloom-path" d="
+      M 40 60
+      C 120 120, 220 40, 340 120
+      S 520 260, 420 360
+      S 280 560, 440 640
+      S 680 740, 700 680
+      S 860 480, 980 560
+      S 1220 640, 1340 500
+    "/>
+  </svg>
+
+  <!-- Flowers (polaroids) placed along the path -->
+  <div class="garden-flowers" id="gardenFlowers"></div>
+
+  <!-- Butterflies fluttering -->
+  <div class="butterfly b1" aria-hidden="true">🦋</div>
+  <div class="butterfly b2" aria-hidden="true">🦋</div>
+  <div class="butterfly b3" aria-hidden="true">🦋</div>
+
+  <!-- Grass silhouette at the horizon -->
+  <div class="garden-grass" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path d="M0,80 C120,60 200,90 320,70 C440,50 520,95 640,75 C760,55 840,90 960,70 C1080,50 1160,95 1280,75 C1360,62 1420,85 1440,80 L1440,120 L0,120 Z" fill="#6FA77D" opacity=".35"/>
+      <path d="M0,100 C100,85 220,105 340,92 C460,80 540,110 660,95 C780,82 880,108 1000,95 C1120,82 1220,108 1340,96 C1400,90 1440,100 1440,100 L1440,120 L0,120 Z" fill="#5A8F68" opacity=".5"/>
+    </svg>
+  </div>
+
+  <div class="container">
+    <div class="garden-content">
+      <h2>Every hop is <em>a memory.</em></h2>
+      <p class="plant-line">Plant yours today.</p>
+      <div class="garden-cta">
+        <a href="#" class="garden-btn primary" aria-label="Download for iPhone">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:20px;height:20px"><path d="M17.05 12.04c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.45-2.24-4.19-2.27-1.78-.18-3.48 1.05-4.39 1.05-.92 0-2.31-1.03-3.8-1-1.95.03-3.76 1.14-4.76 2.88-2.04 3.54-.52 8.78 1.46 11.66.97 1.41 2.12 3 3.61 2.94 1.45-.06 2-.94 3.75-.94 1.75 0 2.24.94 3.77.91 1.56-.03 2.55-1.44 3.5-2.86 1.12-1.64 1.58-3.23 1.6-3.32-.03-.01-3.06-1.17-3.02-4.7zM14.2 3.9c.8-.97 1.34-2.31 1.19-3.65-1.15.05-2.54.77-3.37 1.73-.74.85-1.4 2.22-1.22 3.53 1.28.1 2.6-.65 3.4-1.61z"/></svg>
+          <span>Download for iPhone</span>
         </a>
-        <a href="#" class="store-btn store-btn-android">
-          <span class="store-icon">&#x1F4F1;</span>
-          Download for Android
+        <a href="#" class="garden-btn ghost" aria-label="Download for Android">
+          <svg viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M3.18 2.57c-.36.36-.56.93-.56 1.67v15.52c0 .74.2 1.31.56 1.67l.09.08 8.7-8.7v-.16L3.27 2.48l-.09.09z" fill="#5BC9F4"/><path d="M15.13 15.69l-2.9-2.9v-.16l2.9-2.9.07.04 3.43 1.95c.98.56.98 1.47 0 2.03l-3.43 1.95-.07-.01z" fill="#FEE101"/><path d="M15.2 15.68L12.23 12.7 3.18 21.77c.33.33.85.37 1.45.04l10.57-6.13" fill="#EA4335"/><path d="M15.2 8.32L4.63 2.19c-.6-.33-1.12-.29-1.45.04l9.05 9.05 2.97-2.96z" fill="#34A853"/></svg>
+          <span>Download for Android</span>
         </a>
       </div>
     </div>
-  </section>
 
-  <!-- PHONE MOCKUPS -->
-  <section class="mockup-section">
-    <div class="container">
-      <div class="mockup-pair">
-        <!-- Phone 1: Home / Surprise Me -->
-        <div class="phone-frame">
-          <div class="phone-notch"></div>
-          <div class="phone-greeting">Good morning, Sarah! &#x1F430;</div>
-          <div class="phone-child">Emma, 3 yrs</div>
-          <div class="phone-btn">Surprise Me!</div>
-          <div class="activity-card ac-creative">
-            <span class="ac-emoji">&#x1F3A8;</span>
-            <div class="ac-info">
-              <div class="ac-type ac-type-c">Creative</div>
-              <div class="ac-title">Rainbow Sponge Stamps</div>
-              <div class="ac-meta">15 min &bull; No mess</div>
-            </div>
-          </div>
-          <div class="activity-card ac-discovery">
-            <span class="ac-emoji">&#x1F50D;</span>
-            <div class="ac-info">
-              <div class="ac-type ac-type-d">Discovery</div>
-              <div class="ac-title">Kitchen Science Lab</div>
-              <div class="ac-meta">20 min &bull; Easy setup</div>
-            </div>
-          </div>
-          <div class="activity-card ac-active">
-            <span class="ac-emoji">&#x1F3C3;</span>
-            <div class="ac-info">
-              <div class="ac-type ac-type-a">Active Play</div>
-              <div class="ac-title">Animal Freeze Dance</div>
-              <div class="ac-meta">10 min &bull; Indoor</div>
-            </div>
-          </div>
-          <div class="detail-fade" style="flex:1">
-            <div class="activity-card ac-discovery">
-              <span class="ac-emoji">&#x1F333;</span>
-              <div class="ac-info">
-                <div class="ac-type ac-type-d">Discovery</div>
-                <div class="ac-title">Backyard Bug Hunt</div>
-                <div class="ac-meta">15 min &bull; Outdoor</div>
-              </div>
-            </div>
+    <footer class="nf">
+      <div>© <span id="currentYear">2026</span> BunnyPath · Made with 🧡 for families everywhere.</div>
+      <div class="nf-links">
+        <a href="/legal/privacy/">Privacy</a>
+        <a href="/legal/terms/">Terms</a>
+        <a href="mailto:hello@bunnypath.com">Contact</a>
+      </div>
+    </footer>
+  </div>
+</section>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const ACTIVITIES_BY_AGE = {
+  infant:   { // 0-1
+    greeting:(n)=>`Peekaboo, ${n}! 🐰`,
+    childMeta:(age)=>`Age ${age} · Sensory & snuggles`,
+    bracketLabel:"🍼 Infant sensory",
+    bracket:"infant",
+    floaty:["🍼","🎵","👐","✨"],
+    cards:[
+      {type:"creative", tc:"c", emoji:"🫧", title:"Ribbon Peekaboo", meta:"5 min · No mess"},
+      {type:"discovery", tc:"d", emoji:"🔔", title:"Sound & Shake", meta:"10 min · Sensory"},
+      {type:"active", tc:"a", emoji:"🤸", title:"Tummy Time Jungle", meta:"8 min · Indoor"},
+    ]
+  },
+  toddler:  { // 2-3
+    greeting:(n)=>`Good morning, ${n}! 🐰`,
+    childMeta:(age)=>`Age ${age} · Toddler play`,
+    bracketLabel:"🌼 Toddler play",
+    bracket:"toddler",
+    floaty:["🧸","🎨","🪣","🌼"],
+    cards:[
+      {type:"creative", tc:"c", emoji:"🎨", title:"Rainbow Sponge Stamps", meta:"15 min · No mess"},
+      {type:"discovery", tc:"d", emoji:"🫘", title:"Bean Treasure Hunt", meta:"12 min · Sensory"},
+      {type:"active", tc:"a", emoji:"🤾", title:"Animal Freeze Dance", meta:"10 min · Indoor"},
+    ]
+  },
+  preschool:{ // 4-5
+    greeting:(n)=>`Hey ${n}! What are we making? 🐰`,
+    childMeta:(age)=>`Age ${age} · Preschool play`,
+    bracketLabel:"🌱 Preschool play",
+    bracket:"preschool",
+    floaty:["🎨","🔍","⚽","✨"],
+    cards:[
+      {type:"creative", tc:"c", emoji:"🏰", title:"Cardboard Castle Quest", meta:"25 min · Easy prep"},
+      {type:"discovery", tc:"d", emoji:"🧪", title:"Kitchen Science Lab", meta:"20 min · 3 materials"},
+      {type:"active", tc:"a", emoji:"🏃", title:"Backyard Bug Hunt", meta:"15 min · Outdoor"},
+    ]
+  },
+  school:   { // 6-9
+    greeting:(n)=>`Ready for today's quest, ${n}? 🐰`,
+    childMeta:(age)=>`Age ${age} · School-age adventures`,
+    bracketLabel:"🚀 School-age adventures",
+    bracket:"school",
+    floaty:["🧪","🎲","🚴","🔬"],
+    cards:[
+      {type:"creative", tc:"c", emoji:"📖", title:"Build-a-Comic Book", meta:"30 min · Solo or duo"},
+      {type:"discovery", tc:"d", emoji:"🔭", title:"Backyard Astronomer", meta:"20 min · Evening"},
+      {type:"active", tc:"a", emoji:"🛹", title:"Neighborhood Olympics", meta:"40 min · Outdoor"},
+    ]
+  },
+  preteen:  { // 10-12
+    greeting:(n)=>`What's the plan today, ${n}? 🐰`,
+    childMeta:(age)=>`Age ${age} · Pre-teen projects`,
+    bracketLabel:"🧭 Pre-teen projects",
+    bracket:"preteen",
+    floaty:["💡","🧱","🎤","🏕️"],
+    cards:[
+      {type:"creative", tc:"c", emoji:"🎙️", title:"Record a Mini Podcast", meta:"45 min · Solo"},
+      {type:"discovery", tc:"d", emoji:"🏗️", title:"Engineer a Bridge", meta:"35 min · STEM"},
+      {type:"active", tc:"a", emoji:"🥾", title:"Photo Scavenger Hike", meta:"60 min · Outdoor"},
+    ]
+  }
+};
+
+const DETAIL_DATA = {
+  "Rainbow Sponge Stamps":{
+    emoji:"🎨",
+    badges:["15 min","Ages 2–5","No mess"],
+    desc:"Create vibrant rainbow art using kitchen sponges cut into fun shapes. Kids dip, stamp, and layer colors to make one-of-a-kind masterpieces.",
+    materials:["Kitchen sponges","Washable paint","Paper plates","Card stock"],
+    steps:["Cut sponges into shapes — stars, circles, hearts, or squares.","Pour 3 paint colors onto paper plates.","Dip a sponge and press firmly onto card stock.","Layer colors to build a rainbow pattern."]
+  },
+  "Kitchen Science Lab":{
+    emoji:"🧪",
+    badges:["20 min","Ages 4–7","3 materials"],
+    desc:"Four kitchen experiments that look like magic but are all physics and chemistry. Great for asking 'why?' a hundred times.",
+    materials:["Baking soda","White vinegar","Food coloring","Small cups"],
+    steps:["Line up three cups and pour vinegar into each.","Add a drop of food coloring to each cup.","Spoon baking soda in and watch the fizz.","Compare which color 'erupted' the highest."]
+  },
+  "Animal Freeze Dance":{
+    emoji:"🤾",
+    badges:["10 min","Ages 2–6","Indoor"],
+    desc:"Dance like a frog, a flamingo, a T-rex. When the music stops, FREEZE. Giggle. Repeat.",
+    materials:["A speaker","A playlist","Open floor space"],
+    steps:["Pick 6 animals together and agree on a pose for each.","Start the music and call out an animal.","When the music stops, freeze in that animal's pose.","Swap who gets to be DJ."]
+  },
+  "Backyard Bug Hunt":{
+    emoji:"🏃",
+    badges:["15 min","Ages 3–7","Outdoor"],
+    desc:"A search-and-find mission for tiny creatures. Observe, don't collect. Every hunt ends with a new favorite bug.",
+    materials:["A magnifying glass","A little notebook","Curious eyes"],
+    steps:["Walk slowly around the yard or a patch of grass.","Look under rocks, leaves, and flower pots.","Sketch the first three bugs you spot.","Say thank you and put everything back as you found it."]
+  },
+  "Cardboard Castle Quest":{emoji:"🏰",badges:["25 min","Ages 3–6","Creative"],desc:"Turn one box into a kingdom. Windows, towers, and a dragon (crayon, optional).",materials:["A cardboard box","Scissors","Markers","Tape"],steps:["Cut a castle-top pattern along the box edges.","Cut out a door that swings open.","Decorate with markers — windows, flags, bricks.","Send a toy on a quest inside."]},
+  "Bean Treasure Hunt":{emoji:"🫘",badges:["12 min","Ages 1–3","Sensory"],desc:"Dried beans + a muffin tin + tiny treasures. Fine motor heaven.",materials:["Dried beans","A muffin tin","Small toys","A spoon"],steps:["Fill a shallow bin with dried beans.","Hide 6 small toys inside.","Give your child a spoon and a muffin tin.","Sort the treasures into the tin cups."]},
+  "Ribbon Peekaboo":{emoji:"🫧",badges:["5 min","Ages 0–1","Sensory"],desc:"Soft ribbons, your hands, and the most ancient game in the world.",materials:["A few soft ribbons","A lap"],steps:["Gather 3 soft ribbons of different textures.","Drape one over baby's head gently.","Say 'where's baby?' then pull it off: 'peekaboo!'","Repeat with each ribbon."]},
+  "Sound & Shake":{emoji:"🔔",badges:["10 min","Ages 0–1","Sensory"],desc:"Five household objects. Five different sounds. One curious baby.",materials:["An empty water bottle","Rice","A small bell","A wooden spoon"],steps:["Pour a little rice into an empty bottle and seal it.","Shake each object near baby, one at a time.","Watch which sound they turn toward.","Let baby touch each one (supervised)."]},
+  "Tummy Time Jungle":{emoji:"🤸",badges:["8 min","Ages 0–1","Motor"],desc:"A tummy time mini-scene with safe, contrasting shapes.",materials:["A blanket","2–3 high-contrast toys","A mirror"],steps:["Spread a blanket on the floor.","Place 2 high-contrast toys just out of reach.","Lay baby on tummy and cheer them on.","Stop when they fuss — this is a short game."]},
+  "Build-a-Comic Book":{emoji:"📖",badges:["30 min","Ages 6–10","Solo or duo"],desc:"Fold, draw, staple. In 30 minutes your kid is an author.",materials:["Printer paper","A stapler","Pencils","Markers"],steps:["Stack 4 sheets and fold in half to make a book.","Staple along the spine (parents do this step).","Sketch 8 panels of a short story.","Add colors and a cover title."]},
+  "Backyard Astronomer":{emoji:"🔭",badges:["20 min","Ages 6–12","Evening"],desc:"Constellations, a moon log, one wish. Works without a telescope.",materials:["A blanket","A phone with a star app","A notebook"],steps:["Lay down outside once it's dark.","Pick out 3 constellations using the app.","Sketch the moon's shape tonight.","Come back tomorrow — is it different?"]},
+  "Neighborhood Olympics":{emoji:"🛹",badges:["40 min","Ages 6–10","Outdoor"],desc:"5 backyard events, hand-drawn medals, one champion.",materials:["Chalk","A stopwatch","Paper","Markers"],steps:["Chalk out a start and finish line.","Design 5 events: long jump, dash, balance, hop, throw.","Time each one and write down scores.","Draw a medal for the winner."]},
+  "Record a Mini Podcast":{emoji:"🎙️",badges:["45 min","Ages 10–12","Solo"],desc:"5 minutes. One topic your kid cares about. A voice memo is enough.",materials:["A phone","Quiet room","A notebook"],steps:["Pick one topic your kid could talk about forever.","Outline 3 things they want to say.","Hit record and go. No takes, no stress.","Listen back together."]},
+  "Engineer a Bridge":{emoji:"🏗️",badges:["35 min","Ages 8–12","STEM"],desc:"Build a bridge from spaghetti that holds a can. Engineering, on a budget.",materials:["Uncooked spaghetti","Mini marshmallows","Tape","A soup can"],steps:["Plan a bridge shape on paper first.","Build the frame with spaghetti + marshmallows.","Test by placing the soup can on top.","If it breaks, improve and try again."]},
+  "Photo Scavenger Hike":{emoji:"🥾",badges:["60 min","Ages 8–12","Outdoor"],desc:"10 prompts, one walk, a phone camera. Best when done with a friend.",materials:["A phone","Walking shoes","A list of prompts"],steps:["Write 10 prompts: something red, something tiny, etc.","Go for a walk in your neighborhood or a park.","Snap one photo per prompt.","Come home and pick the best one from each."]}
+};
+
+function ageToBracketKey(age){
+  if(age<=1) return 'infant';
+  if(age<=3) return 'toddler';
+  if(age<=5) return 'preschool';
+  if(age<=9) return 'school';
+  return 'preteen';
+}
+
+/* Per-integer-age card overrides. Every age gets its own trio. */
+const CARDS_BY_AGE = {
+  0: [
+    {type:"creative",  tc:"c", emoji:"🫧", title:"Ribbon Peekaboo",       meta:"5 min · No mess"},
+    {type:"discovery", tc:"d", emoji:"🔔", title:"Sound & Shake",         meta:"10 min · Sensory"},
+    {type:"active",    tc:"a", emoji:"🤸", title:"Tummy Time Jungle",     meta:"8 min · Indoor"},
+  ],
+  1: [
+    {type:"creative",  tc:"c", emoji:"🖐️", title:"Squishy Paint Bag",     meta:"10 min · No mess"},
+    {type:"discovery", tc:"d", emoji:"🧺", title:"Texture Basket",        meta:"12 min · Sensory"},
+    {type:"active",    tc:"a", emoji:"🚶", title:"First-Steps Obstacle",  meta:"10 min · Indoor"},
+  ],
+  2: [
+    {type:"creative",  tc:"c", emoji:"🎨", title:"Rainbow Sponge Stamps", meta:"15 min · No mess"},
+    {type:"discovery", tc:"d", emoji:"🫘", title:"Bean Treasure Hunt",    meta:"12 min · Sensory"},
+    {type:"active",    tc:"a", emoji:"🤾", title:"Animal Freeze Dance",   meta:"10 min · Indoor"},
+  ],
+  3: [
+    {type:"creative",  tc:"c", emoji:"🧱", title:"Block-Tower Stories",   meta:"15 min · Easy prep"},
+    {type:"discovery", tc:"d", emoji:"🌈", title:"Color-Mix Magic",       meta:"12 min · 3 materials"},
+    {type:"active",    tc:"a", emoji:"🦘", title:"Bunny-Hop Trail",       meta:"10 min · Indoor"},
+  ],
+  4: [
+    {type:"creative",  tc:"c", emoji:"🏰", title:"Cardboard Castle Quest",meta:"25 min · Easy prep"},
+    {type:"discovery", tc:"d", emoji:"🧪", title:"Kitchen Science Lab",   meta:"20 min · 3 materials"},
+    {type:"active",    tc:"a", emoji:"🏃", title:"Backyard Bug Hunt",     meta:"15 min · Outdoor"},
+  ],
+  5: [
+    {type:"creative",  tc:"c", emoji:"✂️", title:"Paper-Plate Masks",     meta:"20 min · Easy prep"},
+    {type:"discovery", tc:"d", emoji:"🌱", title:"Grow a Bean in a Jar",  meta:"5 min + days"},
+    {type:"active",    tc:"a", emoji:"🪁", title:"Paper-Bag Kite Run",    meta:"25 min · Outdoor"},
+  ],
+  6: [
+    {type:"creative",  tc:"c", emoji:"📖", title:"Build-a-Comic Book",    meta:"30 min · Solo or duo"},
+    {type:"discovery", tc:"d", emoji:"🔭", title:"Backyard Astronomer",   meta:"20 min · Evening"},
+    {type:"active",    tc:"a", emoji:"🛹", title:"Neighborhood Olympics", meta:"40 min · Outdoor"},
+  ],
+  7: [
+    {type:"creative",  tc:"c", emoji:"🎨", title:"Q-Tip Pointillism",     meta:"25 min · Tabletop"},
+    {type:"discovery", tc:"d", emoji:"🌋", title:"Bubbling Volcano",      meta:"20 min · STEM"},
+    {type:"active",    tc:"a", emoji:"🧗", title:"Sidewalk Parkour",      meta:"30 min · Outdoor"},
+  ],
+  8: [
+    {type:"creative",  tc:"c", emoji:"🧵", title:"DIY Friendship Bracelets", meta:"30 min · Solo"},
+    {type:"discovery", tc:"d", emoji:"🔬", title:"Microscope Safari",     meta:"25 min · Curiosity"},
+    {type:"active",    tc:"a", emoji:"⚽", title:"Soccer Skills Circuit", meta:"35 min · Outdoor"},
+  ],
+  9: [
+    {type:"creative",  tc:"c", emoji:"🎬", title:"Stop-Motion Short Film",meta:"45 min · Phone"},
+    {type:"discovery", tc:"d", emoji:"🗺️", title:"Map Your Neighborhood", meta:"30 min · Creative"},
+    {type:"active",    tc:"a", emoji:"🚴", title:"Bike-Trail Challenge",  meta:"40 min · Outdoor"},
+  ],
+  10: [
+    {type:"creative",  tc:"c", emoji:"🎙️", title:"Record a Mini Podcast", meta:"45 min · Solo"},
+    {type:"discovery", tc:"d", emoji:"🏗️", title:"Engineer a Bridge",    meta:"35 min · STEM"},
+    {type:"active",    tc:"a", emoji:"🥾", title:"Photo Scavenger Hike",  meta:"60 min · Outdoor"},
+  ],
+  11: [
+    {type:"creative",  tc:"c", emoji:"📓", title:"Bullet-Journal Spread", meta:"40 min · Solo"},
+    {type:"discovery", tc:"d", emoji:"💡", title:"Invent-a-Gadget Sketch",meta:"45 min · STEM"},
+    {type:"active",    tc:"a", emoji:"🧗", title:"Rock-Climbing Session", meta:"90 min · Gym"},
+  ],
+  12: [
+    {type:"creative",  tc:"c", emoji:"💻", title:"Code a First Game",     meta:"60 min · Solo"},
+    {type:"discovery", tc:"d", emoji:"🍳", title:"Cook One Full Dinner",  meta:"75 min · Kitchen"},
+    {type:"active",    tc:"a", emoji:"🏕️", title:"Plan a Day-Hike Route", meta:"60 min · Outdoor"},
+  ],
+};
+
+/* Per-integer-age floaty emojis around the phone. */
+const FLOATY_BY_AGE = {
+  0:  ["🍼","🎵","👐","✨"],
+  1:  ["🧦","🪀","🫧","🌼"],
+  2:  ["🧸","🎨","🪣","🌼"],
+  3:  ["🧱","🌈","🦘","⭐"],
+  4:  ["🎨","🔍","⚽","✨"],
+  5:  ["✂️","🌱","🪁","🎈"],
+  6:  ["📖","🔭","🛹","🎲"],
+  7:  ["🖌️","🌋","🧗","🔍"],
+  8:  ["🧵","🔬","⚽","🌟"],
+  9:  ["🎬","🗺️","🚴","🎒"],
+  10: ["🎙️","🏗️","🥾","💡"],
+  11: ["📓","💡","🧗","🎧"],
+  12: ["💻","🍳","🏕️","🎯"],
+};
+
+/* =========================================================
+   LIVING BUNNY (cursor follower + eyes)
+   ========================================================= */
+(function livingBunny(){
+  const lb = document.getElementById('livingBunny');
+  if(!lb) return;
+  const pupils = lb.querySelectorAll('.lb-pupil');
+  let targetX = Math.max(20, window.innerWidth - 180);
+  let targetY = 180;
+
+  function reset(){
+    targetX = Math.max(20, window.innerWidth - 180);
+    targetY = 180;
+    lb.style.transform = `translate(${targetX}px, ${targetY}px)`;
+  }
+  reset(); window.addEventListener('resize', reset);
+
+  let hopTimer=null;
+  document.addEventListener('mousemove', (e)=>{
+    // pupils follow the cursor within each eye
+    pupils.forEach(p=>{
+      const r = p.getBoundingClientRect();
+      const dx = e.clientX - (r.left+r.width/2);
+      const dy = e.clientY - (r.top+r.height/2);
+      const angle = Math.atan2(dy,dx);
+      const mag = Math.min(1.8, Math.hypot(dx,dy)/220);
+      p.style.transform = `translate(${Math.cos(angle)*mag}px,${Math.sin(angle)*mag}px)`;
+    });
+
+    clearTimeout(hopTimer);
+    hopTimer = setTimeout(()=>{
+      targetX = Math.max(10, Math.min(window.innerWidth-110, e.clientX + 80));
+      targetY = Math.max(80, Math.min(window.innerHeight-120, e.clientY - 30));
+      lb.style.transform = `translate(${targetX}px, ${targetY}px)`;
+    }, 1200);
+  });
+
+  lb.style.transform = `translate(${targetX}px, ${targetY}px)`;
+})();
+
+/* =========================================================
+   PAW PATH + TRAVELING BUNNY
+   ========================================================= */
+(function pawPath(){
+  const path = document.getElementById('pawPath');
+  const bunny = document.getElementById('pathBunny');
+  if(!path||!bunny) return;
+
+  const stopDefs = [
+    {id:'rescue', label:'Rescue'},
+    {id:'demo', label:'Play Steps'},
+    {id:'scale', label:'Library'},
+    {id:'picker', label:'Any age'},
+    {id:'filters', label:'Filter'},
+    {id:'scale2', label:'Scale'},
+    {id:'mirror', label:'Reflect'},
+    {id:'parents', label:'Parents'},
+    {id:'features', label:'Why'},
+    {id:'download-2', label:'Get it'}
+  ];
+
+  // Find each section
+  const sections = stopDefs.map(s=>{
+    const el = document.querySelector(`[data-stop="${s.id}"]`);
+    return el ? {...s, el} : null;
+  }).filter(Boolean);
+
+  if(!sections.length) return;
+
+  // Inject stops — position each one along the actual SVG path so they trace the wind.
+  function positionStops(){
+    path.querySelectorAll('.stop').forEach(n=>n.remove());
+    const docH = document.body.scrollHeight;
+    const pathSvg = document.getElementById('pathLine');
+    const pathLen = pathSvg ? pathSvg.getTotalLength() : 0;
+    sections.forEach((s,i)=>{
+      const rect = s.el.getBoundingClientRect();
+      const top = rect.top + window.scrollY + rect.height*0.35;
+      const pct = Math.min(98, Math.max(2, (top/docH)*100));
+      // Sample the SVG path at the same normalized progress so stops ride the curve
+      let leftPct = 50;
+      if (pathSvg && pathLen) {
+        const pt = pathSvg.getPointAtLength(pathLen * (pct/100));
+        leftPct = pt.x; // viewBox is 0..100 wide, so x already maps to percent
+      }
+      const stop = document.createElement('div');
+      stop.className='stop';
+      stop.style.top = `${pct}%`;
+      stop.style.left = `${leftPct}%`;
+      const icons = ['🆘','👣','🎁','🎂','🔍','📅','🪞','🌟',null,'📲'];
+      const icon = icons[i];
+      if (icon === null) {
+        // Custom cloud-blue sparkle SVG for the "Why" stop
+        stop.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" style="display:block" aria-hidden="true"><path fill="#33A5E8" d="M12 2 L13.5 9 L20 10.5 L13.5 12 L12 19 L10.5 12 L4 10.5 L10.5 9 Z"/><circle cx="18.5" cy="4.5" r="1.6" fill="#5EBDEE"/><circle cx="5" cy="18" r="1.4" fill="#5EBDEE"/></svg>';
+      } else {
+        stop.textContent = icon || '•';
+      }
+      const label = document.createElement('div');
+      label.className = 'stop-label';
+      label.textContent = s.label;
+      stop.appendChild(label);
+      stop.addEventListener('click',()=> s.el.scrollIntoView({behavior:'smooth', block:'start'}));
+      stop.style.pointerEvents='auto'; stop.style.cursor='pointer';
+      path.appendChild(stop);
+      s._stopEl = stop;
+      s._pct = pct;
+      s._leftPct = leftPct;
+    });
+  }
+
+  positionStops();
+  window.addEventListener('resize', positionStops);
+  // Re-pos after images/fonts settle
+  window.addEventListener('load', ()=> setTimeout(positionStops, 200));
+
+  function onScroll(){
+    const docH = document.body.scrollHeight - window.innerHeight;
+    const scroll = window.scrollY;
+    const viewCenter = scroll + window.innerHeight*0.4;
+
+    // Find active section
+    let active = sections[0];
+    sections.forEach(s=>{
+      const top = s.el.getBoundingClientRect().top + window.scrollY;
+      if(top <= viewCenter) active = s;
+    });
+    sections.forEach(s=>{
+      if(s._stopEl) s._stopEl.classList.toggle('active', s===active);
+    });
+
+    // Bunny travels down based on scroll progress
+    const pct = Math.max(0, Math.min(1, scroll/docH));
+    const pathHeight = window.innerHeight * 0.85;
+    // Use the "active" section's pct to snap bunny to stops with small drift
+    if(active && active._stopEl){
+      const stopRect = active._stopEl.getBoundingClientRect();
+      bunny.style.top = `${stopRect.top - 10}px`;
+      // Horizontally follow the winding path too
+      const body = bunny.querySelector('.bunny-body');
+      if (body && typeof active._leftPct === 'number') {
+        body.style.left = `${active._leftPct}%`;
+      }
+    } else {
+      bunny.style.top = `${50 + pct*pathHeight}px`;
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+
+/* =========================================================
+   TAP-TO-PREVIEW PHONES
+   ========================================================= */
+(function phones(){
+  const btn = document.getElementById('surpriseBtn');
+  const stack = document.getElementById('cardStack');
+  const rightContent = document.getElementById('rightPhoneContent');
+  if(!btn||!stack) return;
+
+  const defaultCards = [
+    {type:"creative", tc:"c", emoji:"🎨", title:"Rainbow Sponge Stamps", meta:"15 min · No mess"},
+    {type:"discovery", tc:"d", emoji:"🧪", title:"Kitchen Science Lab", meta:"20 min · 3 materials"},
+    {type:"active", tc:"a", emoji:"🏃", title:"Backyard Bug Hunt", meta:"15 min · Outdoor"},
+  ];
+  const nextCards = [
+    {type:"creative", tc:"c", emoji:"🏰", title:"Cardboard Castle Quest", meta:"25 min · Easy prep"},
+    {type:"discovery", tc:"d", emoji:"🔭", title:"Backyard Astronomer", meta:"20 min · Evening"},
+    {type:"active", tc:"a", emoji:"🤾", title:"Animal Freeze Dance", meta:"10 min · Indoor"},
+  ];
+  let current = defaultCards.slice();
+
+  function render(cards, animate){
+    stack.innerHTML = '';
+    cards.forEach((c,i)=>{
+      const el = document.createElement('div');
+      el.className = `activity-card ac-${c.type}${animate?' dropping':''}`;
+      el.innerHTML = `
+        <div class="ac-emoji">${c.emoji}</div>
+        <div class="ac-info">
+          <div class="ac-type ac-type-${c.tc}">${c.type.replace('-',' ')}</div>
+          <div class="ac-title">${c.title}</div>
+          <div class="ac-meta">${c.meta}</div>
+        </div>
+      `;
+      el.addEventListener('click',()=> showDetail(c.title));
+      stack.appendChild(el);
+      if(animate){
+        setTimeout(()=> el.classList.remove('dropping'), 900);
+      }
+    });
+  }
+
+  render(current, false);
+
+  btn.addEventListener('click',()=>{
+    current = current === defaultCards ? nextCards : defaultCards;
+    render(current, true);
+    // pulse the button
+    btn.animate([
+      {transform:'scale(1)'},{transform:'scale(.95)'},{transform:'scale(1.04)'},{transform:'scale(1)'}
+    ],{duration:500, easing:'cubic-bezier(.3,1.2,.4,1)'});
+  });
+
+  function showDetail(title){
+    const d = DETAIL_DATA[title];
+    if(!d){ rightContent.innerHTML = `<div class="detail-empty"><div class="detail-empty-icon">🐰</div><p>Coming soon!</p></div>`; return; }
+    rightContent.innerHTML = `
+      <div class="detail-view active">
+        <div class="detail-back">← Back</div>
+        <div class="detail-header">
+          <div class="detail-header-emoji">${d.emoji}</div>
+          <div class="detail-title-row">
+            <div class="detail-title">${title}</div>
+            <div class="detail-badges">${d.badges.map(b=>`<span class="detail-badge">${b}</span>`).join('')}</div>
           </div>
         </div>
+        <div class="detail-section-label">About</div>
+        <p class="detail-desc">${d.desc}</p>
+        <div class="detail-section-label">Materials</div>
+        <div class="detail-materials">${d.materials.map(m=>`<span class="detail-material">${m}</span>`).join('')}</div>
+        <div class="detail-section-label">Steps</div>
+        <ol class="detail-steps">${d.steps.map((s,i)=>`<li data-step="${i+1}">${s}</li>`).join('')}</ol>
+      </div>
+    `;
+    rightContent.querySelector('.detail-back').addEventListener('click',()=>{
+      rightContent.innerHTML = `<div class="detail-empty"><div class="detail-empty-icon">👆</div><p>Tap <b>Surprise Me!</b><br>then pick a card to see the details here.</p></div>`;
+    });
+  }
+})();
 
-        <!-- Phone 2: Activity Detail -->
-        <div class="phone-frame">
-          <div class="phone-notch"></div>
-          <div class="detail-back">&#x2190; Back</div>
-          <div class="detail-header">
-            <span class="detail-header-emoji">&#x1F3A8;</span>
-            <div class="detail-header-info">
-              <div class="detail-title">Rainbow Sponge Stamps</div>
-              <div class="detail-badges">
-                <span class="detail-badge">15 min</span>
-                <span class="detail-badge">Ages 2&ndash;5y</span>
-                <span class="detail-badge">No mess</span>
-              </div>
-            </div>
-          </div>
-          <div class="detail-section-label">About</div>
-          <p class="detail-desc">Create vibrant rainbow art using kitchen sponges cut into fun shapes. Kids dip, stamp, and layer colors to make one-of-a-kind masterpieces.</p>
-          <div class="detail-section-label">Materials</div>
-          <div class="detail-materials">
-            <span class="detail-material">Kitchen sponges</span>
-            <span class="detail-material">Washable paint</span>
-            <span class="detail-material">Paper plates</span>
-            <span class="detail-material">Card stock</span>
-          </div>
-          <div class="detail-section-label">Steps</div>
-          <div class="detail-fade" style="flex:1">
-            <ol class="detail-steps">
-              <li data-step="1">Cut sponges into shapes &mdash; stars, circles, hearts, or squares.</li>
-              <li data-step="2">Pour different paint colors onto paper plates.</li>
-              <li data-step="3">Dip a sponge shape into paint and press firmly onto the card stock.</li>
-            </ol>
-          </div>
+/* =========================================================
+   ACTIVITY EXPLOSION
+   ========================================================= */
+(function explosion(){
+  const stage = document.getElementById('explosionStage');
+  const origin = document.getElementById('explosionOrigin');
+  const cloud = document.getElementById('tileCloud');
+  const btn = document.getElementById('explodeBtn');
+  const resetBtn = document.getElementById('resetExplodeBtn');
+  if(!stage||!cloud) return;
+
+  // Start in exploded state so visitors see the cloud immediately on first load.
+  origin.classList.add('exploded');
+  btn.style.display = 'none';
+  resetBtn.style.display = 'inline-block';
+
+  const palettes = [
+    {bg:'#FFF5F5', fg:'#F43F5E', emoji:'🎨'},
+    {bg:'#EFF6FF', fg:'#3B82F6', emoji:'🔍'},
+    {bg:'#ECFDF5', fg:'#10B981', emoji:'🏃'},
+    {bg:'#FEF9C3', fg:'#CA8A04', emoji:'🧩'},
+    {bg:'#F5E8FB', fg:'#9333EA', emoji:'🎭'},
+    {bg:'#E0F2FE', fg:'#0284C7', emoji:'🫧'},
+    {bg:'#FEE7E2', fg:'#E8857A', emoji:'🌸'},
+    {bg:'#E8F6E9', fg:'#6FA77D', emoji:'🌱'},
+    {bg:'#FFF8ED', fg:'#E8960F', emoji:'✨'},
+    {bg:'#FFEBC8', fg:'#C47F0A', emoji:'🦋'},
+    {bg:'#DBEAFE', fg:'#2563EB', emoji:'🔭'},
+    {bg:'#F3F4F6', fg:'#6B7280', emoji:'📚'},
+  ];
+  const ACTIVITIES = [
+    {emoji:'🎨', name:'Finger Paint Rainbows', cat:'Creative', age:'Ages 2–4', time:'15 min', prep:'Paint + paper'},
+    {emoji:'🧪', name:'Bubbling Volcano', cat:'Science', age:'Ages 5–8', time:'20 min', prep:'Baking soda'},
+    {emoji:'🏃', name:'Hop-the-Floor Tape Maze', cat:'Gross motor', age:'Ages 3–6', time:'10 min', prep:'Masking tape'},
+    {emoji:'🔭', name:'Backyard Stargazing', cat:'Discovery', age:'Ages 6–10', time:'30 min', prep:'Clear night'},
+    {emoji:'🫧', name:'Giant Bubble Wand Party', cat:'Outdoor', age:'Ages 3–8', time:'20 min', prep:'Dish soap'},
+    {emoji:'🎭', name:'Pillow-Fort Puppet Show', cat:'Pretend play', age:'Ages 4–7', time:'25 min', prep:'Socks + pillows'},
+    {emoji:'🧩', name:'DIY Puzzle from a Photo', cat:'Problem solving', age:'Ages 5–9', time:'20 min', prep:'Printed photo'},
+    {emoji:'🌸', name:'Flower-Petal Suncatcher', cat:'Nature craft', age:'Ages 4–8', time:'30 min', prep:'Contact paper'},
+    {emoji:'🌱', name:'Sprout a Bean in a Jar', cat:'Science', age:'Ages 3–7', time:'5 min (+ days)', prep:'Cotton ball + bean'},
+    {emoji:'🦋', name:'Symmetry Butterfly Prints', cat:'Creative', age:'Ages 3–6', time:'15 min', prep:'Paint + fold'},
+    {emoji:'🎵', name:'Kitchen Pot Drum Line', cat:'Music', age:'Ages 1–4', time:'10 min', prep:'Pots + spoon'},
+    {emoji:'📚', name:'Make-Your-Own Story Book', cat:'Literacy', age:'Ages 4–8', time:'30 min', prep:'Paper + stapler'},
+    {emoji:'🚀', name:'Straw Rocket Launch', cat:'STEM', age:'Ages 5–9', time:'15 min', prep:'Paper + straw'},
+    {emoji:'🏰', name:'Cardboard Box Castle', cat:'Building', age:'Ages 3–7', time:'45 min', prep:'Big box'},
+    {emoji:'🪁', name:'Paper Bag Kite', cat:'Outdoor', age:'Ages 5–9', time:'20 min', prep:'Paper bag + string'},
+    {emoji:'🌈', name:'Skittles Rainbow Diffusion', cat:'Science', age:'Ages 4–8', time:'10 min', prep:'Skittles + plate'},
+    {emoji:'🧸', name:'Teddy Bear Tea Party', cat:'Pretend play', age:'Ages 2–5', time:'20 min', prep:'Stuffies + cups'},
+    {emoji:'🧁', name:'Sprinkle Math Cupcakes', cat:'Math + baking', age:'Ages 5–8', time:'40 min', prep:'Cupcake mix'},
+    {emoji:'🎲', name:'Roll-a-Story Dice Game', cat:'Storytelling', age:'Ages 5–10', time:'15 min', prep:'Dice + words'},
+    {emoji:'⭐', name:'Glow-in-the-Dark Ceiling Stars', cat:'Calm time', age:'Ages 3–9', time:'15 min', prep:'Star stickers'},
+    {emoji:'🔔', name:'Jingle-Bell Balance Walk', cat:'Motor skills', age:'Ages 2–5', time:'10 min', prep:'Bells + string'},
+    {emoji:'🎪', name:'Living Room Circus', cat:'Pretend play', age:'Ages 4–8', time:'30 min', prep:'Costumes'},
+    {emoji:'🖌️', name:'Q-Tip Pointillism Art', cat:'Creative', age:'Ages 4–8', time:'25 min', prep:'Q-tips + paint'},
+    {emoji:'🧱', name:'Spaghetti Marshmallow Tower', cat:'Engineering', age:'Ages 6–10', time:'20 min', prep:'Spaghetti + marsh.'},
+    {emoji:'🧬', name:'DNA Ladder from Candy', cat:'Science', age:'Ages 7–10', time:'25 min', prep:'Twizzlers + gummies'},
+    {emoji:'🔍', name:'Backyard Bug Safari', cat:'Nature', age:'Ages 3–7', time:'30 min', prep:'Magnifier'},
+    {emoji:'🎤', name:'Living Room Karaoke', cat:'Music', age:'Ages 4–10', time:'20 min', prep:'Any song'},
+    {emoji:'🌊', name:'Ocean in a Bottle', cat:'Science', age:'Ages 3–7', time:'10 min', prep:'Oil + water + bottle'},
+    {emoji:'🍃', name:'Leaf Rubbing Collage', cat:'Nature craft', age:'Ages 3–7', time:'20 min', prep:'Crayons + leaves'},
+    {emoji:'🔮', name:'Glitter Calm-Down Jar', cat:'Mindfulness', age:'Ages 3–8', time:'15 min', prep:'Glitter + bottle'},
+  ];
+
+  // Scale tile count + spread to viewport. On wide screens we push tiles almost to the edges;
+  // on mobile we keep it tighter so nothing clips.
+  const vw = Math.min(window.innerWidth, 1600);
+  const isNarrow = vw < 720;
+  const TILE_COUNT = isNarrow ? 56 : (vw < 1100 ? 84 : 108);
+  const horizontalReach = isNarrow ? (vw*0.42) : Math.min(vw*0.46, 720); // half-width the cloud fills
+  const verticalReach = isNarrow ? 180 : 230;
+  const depthReach = isNarrow ? 240 : 340;
+  const tiles = [];
+
+  for(let i=0;i<TILE_COUNT;i++){
+    const t = document.createElement('div');
+    t.className = 'explosion-tile';
+    const p = palettes[i%palettes.length];
+    t.style.background = p.bg;
+    t.style.color = p.fg;
+    const act = ACTIVITIES[i % ACTIVITIES.length];
+    t.textContent = act.emoji;
+    t.dataset.idx = i % ACTIVITIES.length;
+    t.dataset.bg = p.bg;
+    t.dataset.fg = p.fg;
+    t.setAttribute('aria-label', act.name);
+    cloud.appendChild(t);
+    // Target position: ellipsoid that's much wider than tall, so the cloud feels like it
+    // "barely fits the screen" horizontally while staying compact vertically.
+    const theta = Math.random()*Math.PI*2;
+    const phi = Math.acos(2*Math.random()-1);
+    // Bias points toward the shell so the cloud has a defined outer edge
+    const rNorm = 0.55 + Math.random()*0.45;
+    tiles.push({
+      el:t,
+      tx:Math.cos(theta)*Math.sin(phi)*horizontalReach*rNorm,
+      ty:(Math.cos(phi))*verticalReach*rNorm,
+      tz:Math.sin(theta)*Math.sin(phi)*depthReach*rNorm,
+      rot:(Math.random()*40-20)
+    });
+  }
+
+  let exploded = true;
+  let rotateY = 0;
+  let rotateX = -8;
+  let dragVelocity = 0;
+  let isDragging = false;
+  let lastDragX = 0;
+
+  function updateTiles(){
+    tiles.forEach((t,i)=>{
+      if(!exploded){
+        t.el.style.opacity = 0;
+        t.el.style.transform = `translate(-50%,-50%) translate3d(0,0,0) scale(.2)`;
+      } else {
+        const cosY = Math.cos(rotateY*Math.PI/180);
+        const sinY = Math.sin(rotateY*Math.PI/180);
+        const cosX = Math.cos(rotateX*Math.PI/180);
+        const sinX = Math.sin(rotateX*Math.PI/180);
+        // Rotate around Y then X
+        let x1 = t.tx*cosY + t.tz*sinY;
+        let z1 = -t.tx*sinY + t.tz*cosY;
+        let y2 = t.ty*cosX - z1*sinX;
+        let z2 = t.ty*sinX + z1*cosX;
+        const scale = (z2+400)/500;
+        t.el.style.opacity = 0.45 + Math.max(0, Math.min(.55, (z2+250)/500));
+        t.el.style.transform = `translate(-50%,-50%) translate3d(${x1}px,${y2}px,${z2}px) scale(${scale}) rotate(${t.rot}deg)`;
+        t.el.style.zIndex = Math.round(z2);
+      }
+    });
+  }
+  updateTiles();
+
+  // ---- Activity reveal card ----
+  const reveal = document.getElementById('activityReveal');
+  const arClose = document.getElementById('arClose');
+  const arEmoji = document.getElementById('arEmoji');
+  const arEmojiWrap = document.getElementById('arEmojiWrap');
+  const arCategory = document.getElementById('arCategory');
+  const arName = document.getElementById('arName');
+  const arAge = document.getElementById('arAge');
+  const arDuration = document.getElementById('arDuration');
+  const arMaterials = document.getElementById('arMaterials');
+
+  function showActivity(tileEl){
+    const idx = parseInt(tileEl.dataset.idx, 10);
+    const act = ACTIVITIES[idx];
+    if(!act) return;
+    // Fill content
+    arEmoji.textContent = act.emoji;
+    arEmojiWrap.style.background = tileEl.dataset.bg;
+    arEmojiWrap.style.color = tileEl.dataset.fg;
+    arCategory.textContent = act.cat;
+    arCategory.style.color = tileEl.dataset.fg;
+    arName.textContent = act.name;
+    arAge.innerHTML = '<span>👶</span><span>'+act.age+'</span>';
+    arDuration.innerHTML = '<span>⏱</span><span>'+act.time+'</span>';
+    arMaterials.innerHTML = '<span>🎒</span><span>'+act.prep+'</span>';
+    // Dim other tiles, hide this one
+    stage.querySelectorAll('.explosion-tile.active-tile').forEach(t=>t.classList.remove('active-tile'));
+    tileEl.classList.add('active-tile');
+    stage.classList.add('reveal-open');
+    reveal.classList.add('show');
+  }
+  function hideActivity(){
+    reveal.classList.remove('show');
+    stage.classList.remove('reveal-open');
+    stage.querySelectorAll('.explosion-tile.active-tile').forEach(t=>t.classList.remove('active-tile'));
+  }
+  // Click any tile
+  cloud.addEventListener('click', (e)=>{
+    const tile = e.target.closest('.explosion-tile');
+    if(!tile || !exploded) return;
+    e.stopPropagation();
+    showActivity(tile);
+  });
+  arClose.addEventListener('click', hideActivity);
+  // Click outside card (but inside stage) closes
+  stage.addEventListener('click', (e)=>{
+    if(!reveal.classList.contains('show')) return;
+    if(e.target.closest('.activity-reveal')) return;
+    if(e.target.closest('.explosion-tile')) return;
+    hideActivity();
+  });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideActivity(); });
+
+  btn.addEventListener('click',()=>{
+    exploded = true;
+    origin.classList.add('exploded');
+    resetBtn.style.display='inline-block';
+    btn.style.display='none';
+    tiles.forEach((t,i)=>{
+      setTimeout(()=>{ /* CSS transition handles it */ }, i*8);
+    });
+    updateTiles();
+  });
+  resetBtn.addEventListener('click',()=>{
+    exploded = false;
+    origin.classList.remove('exploded');
+    resetBtn.style.display='none';
+    btn.style.display='inline-block';
+    updateTiles();
+  });
+
+  // Drag to rotate
+  function onDown(e){
+    if(!exploded) return;
+    isDragging = true;
+    lastDragX = (e.touches?e.touches[0].clientX:e.clientX);
+    dragVelocity = 0;
+  }
+  function onMove(e){
+    if(!isDragging) return;
+    const x = (e.touches?e.touches[0].clientX:e.clientX);
+    const dx = x - lastDragX;
+    rotateY += dx*0.4;
+    dragVelocity = dx;
+    lastDragX = x;
+    updateTiles();
+  }
+  function onUp(){ isDragging = false; }
+  stage.addEventListener('mousedown', onDown);
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+  stage.addEventListener('touchstart', onDown, {passive:true});
+  window.addEventListener('touchmove', onMove, {passive:true});
+  window.addEventListener('touchend', onUp);
+
+  // Auto-rotate
+  function raf(){
+    const paused = reveal && reveal.classList.contains('show');
+    if(exploded && !isDragging && !paused){
+      rotateY += 0.25 + dragVelocity*0.04;
+      dragVelocity *= 0.92;
+      updateTiles();
+    }
+    requestAnimationFrame(raf);
+  }
+  raf();
+
+  // Auto-trigger when scrolled into view
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && !exploded){
+        setTimeout(()=> btn.click(), 300);
+      }
+    });
+  },{threshold:.35});
+  io.observe(stage);
+})();
+
+/* =========================================================
+   PICK-A-KID
+   ========================================================= */
+(function pickAKid(){
+  const slider = document.getElementById('ageSlider');
+  const ageBig = document.getElementById('ageBig');
+  const ageSuffix = document.getElementById('ageSuffix');
+  const stageLabel = document.getElementById('ageStageLabel');
+  const phone = document.getElementById('kidPhone');
+  const greeting = document.getElementById('kpGreeting');
+  const childMeta = document.getElementById('kpChild');
+  const cardsEl = document.getElementById('kidCards');
+  const floaties = [
+    document.getElementById('floaty1'),
+    document.getElementById('floaty2'),
+    document.getElementById('floaty3'),
+    document.getElementById('floaty4')
+  ];
+  if(!slider) return;
+
+  const NAMES = ['Emma','Oliver','Mia','Leo','Sofia','Noah','Ava','Kai'];
+  let currentName = 'Emma';
+
+  function update(){
+    const age = parseInt(slider.value,10);
+    const bk = ageToBracketKey(age);
+    const data = ACTIVITIES_BY_AGE[bk];
+
+    ageBig.textContent = age;
+    ageSuffix.textContent = age === 1 ? 'year old' : 'years old';
+    stageLabel.textContent = data.bracketLabel;
+
+    phone.dataset.bracket = data.bracket;
+    greeting.textContent = data.greeting(currentName);
+    childMeta.textContent = data.childMeta(age);
+
+    // Prefer per-age card overrides; fall back to bracket cards.
+    const cards = CARDS_BY_AGE[age] || data.cards;
+    cardsEl.innerHTML = cards.map(c=>`
+      <div class="kid-card ac-${c.type}" style="background:${c.type==='creative'?'#FFF5F5':c.type==='discovery'?'#EFF6FF':'#ECFDF5'}">
+        <div class="kc-emoji">${c.emoji}</div>
+        <div>
+          <div class="kc-type" style="color:${c.type==='creative'?'#F43F5E':c.type==='discovery'?'#3B82F6':'#10B981'}">${c.type==='active'?'Active Play':c.type}</div>
+          <div class="kc-title">${c.title}</div>
+          <div class="kc-meta">${c.meta}</div>
         </div>
       </div>
-    </div>
-  </section>
+    `).join('');
 
-  <!-- SOCIAL PROOF -->
-  <section>
-    <div class="container">
-      <div class="proof-bar">
-        <div class="proof-item">
-          <div class="proof-number">20,000+</div>
-          <div class="proof-label">curated activities</div>
-        </div>
-        <div class="proof-item">
-          <div class="proof-number">0 &ndash; 12</div>
-          <div class="proof-label">ages covered</div>
-        </div>
-        <div class="proof-item">
-          <div class="proof-number">3</div>
-          <div class="proof-label">fresh ideas daily</div>
-        </div>
-        <div class="proof-item">
-          <div class="proof-number">24</div>
-          <div class="proof-label">badges to earn</div>
-        </div>
-      </div>
-      <p class="fun-fact">One activity a day. You'd still need <strong>54 years, 9 months and 20 days</strong> to try them all.</p>
-    </div>
-  </section>
+    // Floaty emojis — per-age if available, else bracket default.
+    const floatySet = FLOATY_BY_AGE[age] || data.floaty;
+    floatySet.forEach((emoji,i)=>{
+      if(!floaties[i]) return;
+      floaties[i].textContent = emoji;
+      floaties[i].classList.add('show');
+    });
+  }
+  slider.addEventListener('input', update);
+  update();
+})();
 
-  <!-- HOW IT WORKS -->
-  <section class="how">
-    <div class="container">
-      <h2>Simple as 1-2-3</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <h3>Tell us about your child</h3>
-          <p>Age, interests, what they love. Takes 30 seconds.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <h3>Tap "Surprise Me!"</h3>
-          <p>BunnyPath picks the perfect activities for today.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <h3>Play and track</h3>
-          <p>Complete activities, build streaks, and earn badges.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+/* =========================================================
+   CALENDAR 54 YEARS
+   ========================================================= */
+(function calendar(){
+  const grid = document.getElementById('pageGrid');
+  const monthEl = document.getElementById('pageMonth');
+  const yearEl = document.getElementById('pageYear');
+  const page = document.getElementById('calendarPage');
+  const cntDays = document.getElementById('cntDays');
+  const cntLabel = document.getElementById('cntLabel');
+  const section = page.closest('.calendar-section');
+  if(!grid||!page||!section) return;
 
-  <!-- FEATURES -->
-  <section class="features">
-    <div class="container">
-      <h2>Why parents love BunnyPath</h2>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <div class="feature-emoji">&#x1F3AF;</div>
-          <h3>Personalized by Age</h3>
-          <p>Activities adapt as your child grows. What works for a 2-year-old is different from a 5-year-old.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-emoji">&#x2696;&#xFE0F;</div>
-          <h3>Balanced Every Day</h3>
-          <p>One creative, one active, one discovery — so your child gets well-rounded play without you planning it.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-emoji">&#x23F1;&#xFE0F;</div>
-          <h3>Ready in Under a Minute</h3>
-          <p>Simple materials, clear steps, quick prep. Because you don't have 30 minutes to set up a craft.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-emoji">&#x1F4CA;</div>
-          <h3>Track Their Growth</h3>
-          <p>Activity streaks, earned badges, and a play history that shows how much they're learning through play.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-emoji">&#x1F504;</div>
-          <h3>Swap If It Doesn't Fit</h3>
-          <p>Raining outside? Swap the outdoor activity for an indoor one instantly. You're always in control.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-emoji">&#x1F46A;</div>
-          <h3>Share with Family</h3>
-          <p>Grandparents, babysitters, and partners can all see today's activities and join the fun.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const EMOJIS = ['🎨','🔍','🏃','🧪','🎭','🧩','🌸','🌱','🦋','🎵','📚','🚀','🏰','🪁','🌈','🧸','🎲','⭐','🔔','✨'];
 
-  <!-- TESTIMONIALS -->
-  <section class="testimonials">
-    <div class="container">
-      <h2>Parents are loving it</h2>
-      <div class="testimonial-grid">
-        <div class="testimonial-card">
-          <div class="testimonial-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</div>
-          <p class="testimonial-text">"I used to spend 20 minutes scrolling Pinterest for activity ideas. Now I open BunnyPath and we're playing in seconds."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">S</div>
-            <div>
-              <div class="testimonial-name">Sarah M.</div>
-              <div class="testimonial-detail">Mom of 1 &bull; Portland, OR</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</div>
-          <p class="testimonial-text">"The balance of active, creative, and discovery play is genius. I never have to think about whether my kids are getting enough variety."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">J</div>
-            <div>
-              <div class="testimonial-name">Jessica T.</div>
-              <div class="testimonial-detail">Mom of 2 &bull; Austin, TX</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</div>
-          <p class="testimonial-text">"I share the daily cards with my mom who watches the kids twice a week. She loves having a plan and the kids love the consistency."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">R</div>
-            <div>
-              <div class="testimonial-name">Rachel K.</div>
-              <div class="testimonial-detail">Mom of 1 &bull; Denver, CO</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  let currentMonth = 0; // 0-based: total months counted
+  const TOTAL_MONTHS = 54*12 + 9; // ~54y 9mo
 
-  <!-- CTA BANNER -->
-  <section class="cta-banner">
-    <div class="container">
-      <div class="cta-card">
-        <h2>Make playtime effortless</h2>
-        <p>20,000 reasons to download. Cancel anytime.</p>
-<div class="store-buttons">
-          <a href="#" class="store-btn store-btn-ios" id="ios-btn-cta">
-            <span class="store-icon">&#xF8FF;</span>
-            Download for iPhone
-          </a>
-          <a href="#" class="store-btn store-btn-android">
-            <span class="store-icon">&#x1F4F1;</span>
-            Download for Android
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+  function renderPage(monthIndex){
+    const m = monthIndex % 12;
+    const y = Math.floor(monthIndex/12)+1;
+    monthEl.textContent = MONTHS[m];
+    yearEl.textContent = `Year ${y}`;
+    grid.innerHTML = '';
+    for(let d=1; d<=30; d++){
+      const c = document.createElement('div');
+      c.className='page-cell';
+      c.textContent = d;
+      // Sparkle on ~80% of days (every day gets an activity)
+      if(Math.random() < 0.85){
+        const s = document.createElement('span');
+        s.className='spark';
+        s.style.animationDelay = `${Math.random()*0.4}s`;
+        s.textContent = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+        c.appendChild(s);
+      }
+      grid.appendChild(c);
+    }
+  }
+  renderPage(0);
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <div class="footer-links">
-        <a href="/legal/privacy">Privacy</a>
-        <a href="/legal/terms">Terms</a>
-        <a href="mailto:hello@bunnypath.com">hello@bunnypath.com</a>
-      </div>
-      <p class="footer-copy">&copy; 2026 BunnyPath. Made with &#x1F9E1; for families everywhere.</p>
-    </div>
-  </footer>
+  // Update counter + flip pages as section scrolls
+  function updateProgress(){
+    const rect = section.getBoundingClientRect();
+    const winH = window.innerHeight;
+    const total = rect.height + winH;
+    const passed = winH - rect.top;
+    const pct = Math.max(0, Math.min(1, passed/total));
+    const targetMonth = Math.floor(pct * TOTAL_MONTHS);
+    if(targetMonth !== currentMonth){
+      currentMonth = targetMonth;
+      // Quick flip animation
+      page.animate([
+        {transform:'rotateY(0deg)', opacity:1},
+        {transform:'rotateY(-60deg)', opacity:.4, offset:.5},
+        {transform:'rotateY(0deg)', opacity:1}
+      ],{duration:280, easing:'ease'});
+      renderPage(Math.min(TOTAL_MONTHS-1, currentMonth));
+    }
+    const days = Math.min(20000, Math.round(pct*20000));
+    cntDays.textContent = days.toLocaleString();
+    if(days < 100) cntLabel.textContent = 'Just getting started...';
+    else if(days<1000) cntLabel.textContent = `Year ${Math.floor(currentMonth/12)+1} · still loads left`;
+    else if(days<10000) cntLabel.textContent = 'Middle of the marathon';
+    else if(days<19000) cntLabel.textContent = 'Almost there — decades deep';
+    else cntLabel.textContent = '54 years, 9 months, 20 days ✨';
+  }
+  window.addEventListener('scroll', updateProgress, {passive:true});
+  updateProgress();
+})();
+
+/* =========================================================
+   LIVE ACTIVITY TICKER
+   ========================================================= */
+(function ticker(){
+  const el = document.getElementById('tickerRow');
+  if(!el) return;
+  const items = [
+    {age:4, city:'Seattle, WA', emoji:'🎨', activity:'Rainbow Sponge Stamps'},
+    {age:7, city:'Austin, TX', emoji:'🔭', activity:'Backyard Astronomer'},
+    {age:2, city:'Portland, OR', emoji:'🫘', activity:'Bean Treasure Hunt'},
+    {age:9, city:'Denver, CO', emoji:'🏗️', activity:'Engineer a Bridge'},
+    {age:3, city:'Brooklyn, NY', emoji:'🤾', activity:'Animal Freeze Dance'},
+    {age:5, city:'Chicago, IL', emoji:'🏰', activity:'Cardboard Castle Quest'},
+    {age:8, city:'San Diego, CA', emoji:'🛹', activity:'Neighborhood Olympics'},
+    {age:6, city:'Boston, MA', emoji:'📖', activity:'Build-a-Comic Book'},
+    {age:11, city:'Nashville, TN', emoji:'🎙️', activity:'Mini Podcast'},
+    {age:4, city:'Minneapolis, MN', emoji:'🧪', activity:'Kitchen Science Lab'},
+    {age:10, city:'Phoenix, AZ', emoji:'🥾', activity:'Photo Scavenger Hike'},
+    {age:3, city:'Miami, FL', emoji:'🏃', activity:'Backyard Bug Hunt'},
+  ];
+  function makeItem(i){
+    return `<div class="ticker-item">
+      <span class="pulse-dot"></span>
+      <span>${i.emoji}</span>
+      <span>A <em>${i.age}-year-old</em> in <span class="tloc">${i.city}</span> just started <em>${i.activity}</em></span>
+    </div>`;
+  }
+  // Double the content so the -50% loop is seamless
+  const html = items.map(makeItem).join('') + items.map(makeItem).join('');
+  el.innerHTML = html;
+})();
+
+/* =========================================================
+   GARDEN — bloom flowers along the path
+   ========================================================= */
+(function garden(){
+  const holder = document.getElementById('gardenFlowers');
+  const section = document.querySelector('.garden');
+  const svg = document.querySelector('.garden-bloom-svg');
+  const pathEl = svg && svg.querySelector('.bloom-path');
+  if(!holder || !section || !pathEl) return;
+
+  // Each flower is a mini-polaroid of an activity
+  const blooms = [
+    {emoji:'🎨', tag:'paint'},
+    {emoji:'🫧', tag:'bubbles'},
+    {emoji:'🏃', tag:'run'},
+    {emoji:'🧩', tag:'puzzle'},
+    {emoji:'📚', tag:'read'},
+    {emoji:'🔭', tag:'explore'},
+    {emoji:'🎵', tag:'dance'},
+    {emoji:'🌱', tag:'garden'},
+    {emoji:'🪁', tag:'kite'},
+    {emoji:'🧁', tag:'bake'},
+    {emoji:'🫂', tag:'snuggle'},
+    {emoji:'✨', tag:'wonder'}
+  ];
+
+  const petalColors = ['#F7B8B0','#FFD59E','#C8E6B3','#B8D8F5','#F5C4E0','#FDE7A3','#E8CDEF'];
+
+  function petalSVG(color){
+    // Soft 5-petal daisy behind the polaroid
+    return `<svg viewBox="0 0 100 100" aria-hidden="true">
+      <g transform="translate(50 50)">
+        ${[0,1,2,3,4,5,6].map(i=>{
+          const a = (i/7)*360;
+          return `<ellipse cx="0" cy="-28" rx="14" ry="22" fill="${color}" opacity=".85" transform="rotate(${a})"/>`;
+        }).join('')}
+        <circle r="12" fill="#FFE7A8"/>
+      </g>
+    </svg>`;
+  }
+
+  function render(){
+    holder.innerHTML = '';
+    const rect = section.getBoundingClientRect();
+    const W = rect.width;
+    const H = rect.height;
+    if(!W || !H) return;
+
+    // Find where the path lies in section coords.
+    // The SVG uses viewBox 0 0 1400 900 with preserveAspectRatio="xMidYMid slice",
+    // so we sample in SVG space and convert to section-% ourselves.
+    const VBw = 1400, VBh = 900;
+    const pathLen = pathEl.getTotalLength();
+
+    // Compute how the SVG's 1400x900 maps into the section's WxH with slice (cover).
+    const scale = Math.max(W / VBw, H / VBh);
+    const drawnW = VBw * scale, drawnH = VBh * scale;
+    const offX = (W - drawnW) / 2;
+    const offY = (H - drawnH) / 2;
+
+    blooms.forEach((b,i)=>{
+      // Skip first and last 4% of path to avoid edges
+      const t = 0.06 + (i/(blooms.length-1)) * 0.88;
+      const pt = pathEl.getPointAtLength(pathLen * t);
+
+      // Convert svg-space point → section-px
+      const px = offX + pt.x * scale;
+      const py = offY + pt.y * scale;
+
+      // Skip if outside the visible section (for the final curl off-right)
+      if(py < 30 || py > H - 30 || px < 20 || px > W - 20) return;
+
+      const flower = document.createElement('a');
+      flower.className = 'flower';
+      flower.href = '#';
+      flower.onclick = (e)=> e.preventDefault();
+      flower.style.left = `${px}px`;
+      flower.style.bottom = `${H - py}px`;  // anchor flower base at the path
+      flower.style.animationDelay = `${0.4 + i*.08}s`;
+      flower.style.setProperty('--tilt', `${(Math.random()*10 - 5).toFixed(1)}deg`);
+
+      const stemH = 30 + Math.round(Math.random() * 28);
+      const color = petalColors[i % petalColors.length];
+
+      flower.innerHTML = `
+        <div class="stem" style="height:${stemH}px; animation-delay:${0.2 + i*.08}s"></div>
+        <div class="petals" style="top:${-stemH - 50}px">${petalSVG(color)}</div>
+        <div class="bloom-polaroid" style="margin-bottom:${stemH}px; background:#fff">
+          <div class="bloom-photo" style="background:${color}22">${b.emoji}</div>
+          <div class="bloom-tag">${b.tag}</div>
+        </div>
+      `;
+      holder.appendChild(flower);
+    });
+  }
+
+  // Render as soon as possible — don't wait for IO.
+  let rendered = false;
+  function tryRender(){
+    if(rendered) return;
+    const rect = section.getBoundingClientRect();
+    if(!rect.width) return;
+    rendered = true;
+    render();
+  }
+  if (document.readyState === 'complete') tryRender();
+  else window.addEventListener('load', tryRender);
+  // Fallback in case 'load' already fired
+  requestAnimationFrame(()=> requestAnimationFrame(tryRender));
+  window.addEventListener('resize', ()=>{ if(rendered) render(); });
+})();
+
+/* =========================================================
+   PARALLAX on diorama
+   ========================================================= */
+(function parallax(){
+  const sun = document.querySelector('.diorama-sun');
+  const clouds = document.querySelectorAll('.diorama-cloud');
+  const hillBack = document.querySelector('.hill-back');
+  const hillMid = document.querySelector('.hill-mid');
+  const hillFront = document.querySelector('.hill-front');
+  window.addEventListener('scroll',()=>{
+    const y = window.scrollY;
+    if(sun) sun.style.transform = `translateY(${y*0.15}px) rotate(${y*0.05}deg)`;
+    clouds.forEach((c,i)=>{
+      c.style.transform = `translateY(${y*(0.1+i*0.05)}px)`;
+    });
+    if(hillBack) hillBack.style.transform = `translateY(${y*0.08}px)`;
+    if(hillMid) hillMid.style.transform = `translateY(${y*0.12}px)`;
+    if(hillFront) hillFront.style.transform = `translateY(${y*0.18}px)`;
+  }, {passive:true});
+})();
+
+/* ──────────────── FILTER CHIPS ──────────────── */
+(function(){
+  const chipRow = document.getElementById('chipRow');
+  const grid = document.getElementById('filterGrid');
+  const countEl = document.getElementById('filterCount');
+  if (!chipRow || !grid) return;
+
+  // Each activity tagged with the filter keys it satisfies
+  const POOL = [
+    {emoji:'🧂', title:'Magic salt writing', age:'3–6', time:'10 min', tags:['quick','noprep','noscreens','quiet','lowmess']},
+    {emoji:'🫧', title:'Rainbow bubble storm', age:'2–5', time:'3 min', tags:['quick','noprep','noscreens','lowmess']},
+    {emoji:'📖', title:'Pillow fort story nook', age:'3–10', time:'15 min', tags:['noprep','noscreens','quiet','independent','lowmess']},
+    {emoji:'🌿', title:'Nature treasure quest', age:'3–8', time:'20 min', tags:['noprep','noscreens','outdoor','lowmess']},
+    {emoji:'🧩', title:'Sock monster match-up', age:'2–4', time:'5 min', tags:['quick','noprep','noscreens','quiet','independent','lowmess']},
+    {emoji:'🎨', title:'Crayon rainbow race', age:'2–6', time:'25 min', tags:['noprep','noscreens','lowmess']},
+    {emoji:'🪨', title:'Gravity-defying towers', age:'3–8', time:'10 min', tags:['quick','noprep','noscreens','quiet','independent','outdoor','lowmess']},
+    {emoji:'🎵', title:'Kitchen rock concert', age:'2–5', time:'10 min', tags:['quick','noprep','noscreens','lowmess']},
+    {emoji:'🧸', title:'Stuffie tea party', age:'3–6', time:'20 min', tags:['noprep','noscreens','independent','lowmess']},
+    {emoji:'🌦', title:'Cloud-shape detective', age:'4–10', time:'15 min', tags:['noprep','noscreens','quiet','outdoor','lowmess']},
+    {emoji:'🔤', title:'Alphabet spy mission', age:'3–6', time:'10 min', tags:['quick','noprep','noscreens','lowmess']},
+    {emoji:'🌱', title:'Grow a beanstalk', age:'4–10', time:'5 min', tags:['quick','noscreens','quiet','independent','lowmess']},
+    {emoji:'🦆', title:'Animal yoga safari', age:'3–8', time:'10 min', tags:['quick','noprep','noscreens','lowmess']},
+    {emoji:'📦', title:'Epic cardboard castle', age:'3–10', time:'30 min', tags:['noprep','noscreens','quiet','independent']},
+    {emoji:'🌈', title:'Rainbow sprint', age:'2–6', time:'5 min', tags:['quick','noprep','noscreens','outdoor','lowmess']},
+    {emoji:'🪁', title:'Catch your shadow', age:'3–8', time:'15 min', tags:['noprep','noscreens','outdoor','lowmess']},
+    {emoji:'🍪', title:'Snack-time math wizard', age:'4–8', time:'20 min', tags:['noprep','noscreens','lowmess']},
+    {emoji:'🔦', title:'Flashlight tent stories', age:'3–8', time:'10 min', tags:['quick','noprep','noscreens','quiet','lowmess']},
+  ];
+
+  const state = new Set(['quick','noprep']);
+  // total pool displayed as marketing number
+  const TOTAL_LIBRARY = 20480;
+
+  function render(){
+    const active = [...state];
+    const matches = POOL.filter(a => active.every(t => a.tags.includes(t)));
+    // Display up to 8 cards
+    const show = matches.slice(0,8);
+    grid.innerHTML = '';
+    show.forEach(a=>{
+      const c = document.createElement('div');
+      c.className = 'filter-result-card';
+      c.innerHTML = `<div class="frc-emoji">${a.emoji}</div>
+        <div class="frc-info">
+          <div class="frc-title">${a.title}</div>
+          <div class="frc-meta"><b>⏱ ${a.time}</b><b>🎯 ${a.age}</b></div>
+        </div>`;
+      grid.appendChild(c);
+    });
+    // Rough \"library-wide\" count scaled to feel meaningful — seeded so default filters show ~4,286
+    const ratio = matches.length / POOL.length || 0;
+    const bigCount = Math.max(matches.length, Math.round(TOTAL_LIBRARY * ratio * 0.42 / 10) * 10 || 0);
+    countEl.textContent = active.length === 0
+      ? `${TOTAL_LIBRARY.toLocaleString()}+ activities`
+      : `${bigCount.toLocaleString()} matching`;
+    if (matches.length === 0){
+      grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--charcoal-light); font-size:13px">No matches — try fewer filters</div>';
+    }
+  }
+
+  chipRow.addEventListener('click', e=>{
+    const b = e.target.closest('.chip');
+    if (!b) return;
+    const f = b.dataset.filter;
+    if (state.has(f)){ state.delete(f); b.classList.remove('active'); }
+    else { state.add(f); b.classList.add('active'); }
+    render();
+  });
+
+  render();
+})();
+
+/* Dynamic copyright year */
+(function(){
+  const y = document.getElementById('currentYear');
+  if (y) y.textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
