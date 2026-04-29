@@ -4,20 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Bunny Path — Play ideas for parents of kids 0–12</title>
-<meta name="description" content="20,000+ hand-crafted, off-screen activities for parents of kids 0–12. Personalized play ideas at your fingertips. Download free for iPhone and Android.">
+<title>Bunny Path — Play ideas for kids 0–12</title>
+<meta name="description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Personalized play ideas at your fingertips. Download free for iPhone and Android.">
 <meta name="theme-color" content="#FFFDF7">
-<meta property="og:title" content="Bunny Path — Play ideas for parents of kids 0–12">
-<meta property="og:description" content="20,000+ hand-crafted, off-screen activities for parents of kids 0–12. Creative, active, and discovery play curated for your child's age.">
+<meta property="og:title" content="Bunny Path — Play ideas for kids 0–12">
+<meta property="og:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Creative, active, and discovery play curated for your child's age.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bunnypath.com">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Bunny Path — Play ideas for parents of kids 0–12">
-<meta name="twitter:description" content="20,000+ hand-crafted, off-screen activities for parents of kids 0–12. Download free.">
+<meta name="twitter:title" content="Bunny Path — Play ideas for kids 0–12">
+<meta name="twitter:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Download free.">
 <link rel="canonical" href="https://bunnypath.com/">
-<link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="brand/favicon-96.png">
-<link rel="apple-touch-icon" sizes="180x180" href="brand/favicon-180.png">
+<link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#E37756">
+<link rel="manifest" href="/assets/favicon/site.webmanifest">
+<meta name="theme-color" content="#E37756">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -34,7 +39,7 @@
 html{scroll-behavior:smooth}
 body{
   font-family:'Nunito',-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;
-  color:var(--charcoal); line-height:1.55; background:var(--cream);
+  color:var(--charcoal); line-height:1.55; background:#FCF7F3;
   -webkit-font-smoothing:antialiased; overflow-x:hidden;
 }
 h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif; letter-spacing:-.01em}
@@ -43,18 +48,18 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif; letter-spacing:-.01em}
 /* ──────────────── NAV ──────────────── */
 nav.top{
   position:sticky; top:0; z-index:50;
-  padding:18px 0; display:flex; align-items:center; justify-content:space-between;
-  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-  background:rgba(255,253,247,.78); border-bottom:1px solid rgba(245,166,35,.1);
+  padding:10px 0;
+  background:transparent; border-bottom:none;
 }
-.logo{display:flex; align-items:center; text-decoration:none; color:var(--charcoal)}
-.logo-img{height:52px; width:auto; display:block; user-select:none; -webkit-user-drag:none}
+.nav-inner{display:flex; align-items:center; justify-content:space-between}
+.logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--charcoal); font-weight:800; font-size:22px}
+.logo img{display:block; height:150px; width:auto; margin:-22px 0 -50px; position:relative; z-index:2}
 .nav-right{display:flex; align-items:center; gap:20px}
 .nav-link{color:var(--charcoal-mid); text-decoration:none; font-weight:600; font-size:14px}
 .nav-cta{
-  background:var(--charcoal); color:#fff; padding:10px 22px; border-radius:100px;
+  background:#E37756; color:#fff; padding:10px 22px; border-radius:100px;
   text-decoration:none; font-weight:700; font-size:14px;
-  box-shadow:0 6px 18px rgba(31,41,55,.2); transition:transform .2s;
+  box-shadow:0 6px 18px rgba(227,119,86,.3); transition:transform .2s;
 }
 .nav-cta:hover{transform:translateY(-2px)}
 
@@ -127,9 +132,28 @@ nav.top{
 
 /* ──────────────── HERO ──────────────── */
 .hero{
-  position:relative; padding:80px 0 40px; text-align:center;
+  position:relative; padding:80px 0 40px; text-align:left;
   overflow:hidden;
+  display:flex; flex-direction:column;
 }
+/* Desktop: push the hero copy + buttons + meta row down within the
+   diorama. The `.hero` section's min-height is already locked to 66vw
+   so the diorama renders fully; nudging top padding slides the content
+   block down inside that same canvas without truncating the image. */
+@media (min-width:901px){
+  .hero{
+    padding-top:calc(80px + 4vw);
+  }
+}
+.hero .container{display:flex; flex-direction:column; flex:1; min-height:inherit}
+.hero .container > h1,
+.hero .container > p.hero-sub,
+.hero .container > .store-buttons,
+.hero .container > .hero-meta{
+  max-width:620px;
+}
+
+.hero-sub{margin-left:0 !important}
 .hero-eyebrow{
   display:inline-flex; align-items:center; gap:8px;
   background:var(--gold-pale); color:var(--gold-deep);
@@ -142,8 +166,10 @@ nav.top{
 .hero h1{
   font-size:clamp(42px,6.2vw,84px); font-weight:800; line-height:1.02;
   margin-bottom:22px;
+  color:#4A2B18;  /* warm deep brown for "in your pocket" */
 }
-.hero h1 .gold{color:var(--gold-vibrant); font-style:italic; font-weight:600}
+.hero h1 .gold{color:#E37756; font-style:normal; font-weight:800}
+.hero h1 .meadow{color:#8BA44C; font-weight:800}
 .hero h1 .highlight{position:relative; display:inline-block}
 .hero h1 .highlight::after{
   content:""; position:absolute; left:-4%; right:-4%; bottom:4%; height:36%;
@@ -155,7 +181,7 @@ nav.top{
   max-width:620px; margin:0 auto 36px;
 }
 .hero-sub-lead{
-  display:block; font-weight:800; color:var(--charcoal);
+  display:block; font-weight:800; color:#8BA44C;
   font-size:clamp(19px,2vw,24px); margin-bottom:10px;
 }
 .hero-sub-bunny{
@@ -177,30 +203,49 @@ nav.top{
   25%{transform:rotate(-8deg)}
   75%{transform:rotate(8deg)}
 }
-.store-buttons{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:32px}
+.store-buttons{display:flex; gap:14px; justify-content:flex-start; flex-wrap:wrap; margin-bottom:32px}
 .store-btn{
   display:inline-flex; align-items:center; justify-content:center; gap:12px;
   padding:14px 28px; border-radius:14px;
+  border:2px solid transparent;
   min-width:230px; height:56px; box-sizing:border-box;
   text-decoration:none; font-weight:700; font-size:15px;
   transition:transform .2s, box-shadow .2s;
 }
-.store-btn-ios{background:var(--charcoal); color:#fff; box-shadow:0 8px 24px rgba(31,41,55,.22)}
-.store-btn-android{background:#fff; color:var(--charcoal); border:2px solid #E8E5DC; box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.store-btn-ios{background:#E37756; color:#fff; box-shadow:0 8px 24px rgba(227,119,86,.32)}
+.store-btn-android{background:#fff; color:var(--charcoal); border-color:#E8E5DC; box-shadow:0 4px 14px rgba(0,0,0,.05)}
 .store-btn:hover{transform:translateY(-3px)}
 .store-btn svg{width:22px; height:22px; flex-shrink:0}
 .store-icon{font-size:22px}
-.hero-meta{font-size:14px; color:var(--charcoal-light); display:flex; justify-content:center; gap:22px; flex-wrap:wrap}
+.hero-meta{font-size:14px; color:var(--charcoal-light); display:flex; justify-content:flex-start; gap:22px; flex-wrap:wrap}
 .hero-meta b{color:var(--charcoal); font-weight:800}
 
 /* Hero paper-craft diorama (parallax layers) */
 .diorama{position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
-.diorama-sun{
-  position:absolute; top:50px; right:8vw; width:140px; height:140px;
-  opacity:.85;
+
+/* Single full-bleed hero underlay (watercolor background + bunny baked in).
+   Sized to WIDTH so the whole scene (ears included) is always visible; the
+   area above the image is filled with matching cream so it blends. */
+.diorama{background:#FCF8F3}
+.diorama-underlay{
+  position:absolute; left:0; right:0; bottom:0;
+  width:100%; height:auto;
+  display:block;
 }
-.diorama-sun svg{width:100%; height:100%; display:block; animation:sunSpin 60s linear infinite; transform-origin:50% 50%}
-.diorama-sun .sun-face{animation:sunBob 6s ease-in-out infinite}
+/* Reserve enough hero height to show the FULL underlay image (3:2 ratio — 1536×1024)
+   so the sun + bunny's ears never get clipped. */
+.hero{min-height:66vw}
+@media (max-width:640px){
+  .hero{min-height:100vw}
+}
+.diorama-sun{
+  position:absolute; top:5vw; right:9vw;
+  width:11vw; height:11vw; max-width:140px; max-height:140px;
+  pointer-events:none;
+}
+.diorama-sun svg{width:100%; height:100%; display:block}
+.diorama-sun .sun-rays{animation:sunSpin 30s linear infinite; transform-origin:50% 50%}
+.diorama-sun .sun-face{animation:sunBob 4.5s ease-in-out infinite; transform-origin:50% 50%}
 @keyframes sunSpin{to{transform:rotate(360deg)}}
 @keyframes sunBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 .diorama-cloud{
@@ -216,6 +261,26 @@ nav.top{
   100%{transform:translateX(-20px)}
 }
 
+/* Hero bunny mascot sitting on the hill */
+.diorama-bunny{
+  position:absolute; right:5vw; bottom:60px;
+  width:min(360px, 28vw); height:auto;
+  pointer-events:none; user-select:none;
+  animation:bunnyIdle 5s ease-in-out infinite;
+  filter:drop-shadow(0 14px 18px rgba(0,0,0,.10));
+  z-index:2;
+}
+@keyframes bunnyIdle{
+  0%,100%{transform:translateY(0) rotate(-.5deg)}
+  50%    {transform:translateY(-6px) rotate(.5deg)}
+}
+@media (max-width:900px){
+  .diorama-bunny{width:min(260px, 40vw); right:3vw; bottom:50px}
+}
+@media (max-width:640px){
+  .diorama-bunny{width:180px; right:-10px; bottom:30px; opacity:.92}
+}
+
 /* Hill layers */
 .diorama-hills{position:absolute; left:0; right:0; bottom:-40px; height:260px; pointer-events:none}
 .hill{position:absolute; left:-5%; right:-5%; border-radius:50% 50% 0 0 / 100% 100% 0 0}
@@ -229,13 +294,65 @@ nav.top{
 .flower .stem{position:absolute; top:10px; left:50%; width:2px; height:16px; background:var(--meadow-deep); transform:translateX(-50%)}
 
 /* ──────────────── TAP-TO-PREVIEW PHONES ──────────────── */
-.mockups{padding:40px 0 80px; text-align:center; position:relative}
+.mockups{
+  padding:80px 0 260px;   /* extra bottom padding pushes the bunny underlay below the copy */
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  background:#FDF4EA;  /* matches the sky of the underlay PNG */
+}
+.mockups-underlay{
+  position:absolute; left:0; right:0; bottom:0;
+  width:100%; height:auto;
+  display:block;
+  pointer-events:none; user-select:none;
+  z-index:0;
+}
+.mockups > .container{position:relative; z-index:1}
+.mockups-grid{
+  display:grid;
+  grid-template-columns: 1fr minmax(380px, 720px);
+  gap:40px;
+  align-items:start;   /* anchor copy to top so it clears the bunny below */
+}
+.mockups-copy{text-align:left}
+.mockups-copy .mockup-hint{
+  margin-bottom:20px;
+  color:#CE6405;           /* burnt orange from reference */
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.22em;    /* tight uppercase tracking */
+}
+.mockups-copy .mockup-hint::before{content:""; margin:0} /* no emoji here */
+.mockups-copy h2{
+  font-family:'Fraunces', serif;
+  font-size:clamp(30px, 3.9vw, 50px);
+  font-weight:800;
+  line-height:1.1;
+  color:#4A2B18;           /* match hero "in your pocket" warm deep brown */
+  margin-bottom:18px;
+  text-wrap:balance;
+  letter-spacing:-.005em;
+}
+.mockups-copy h2 em{
+  color:#E16E08;           /* vibrant italic orange */
+  font-style:italic;
+  font-weight:700;
+}
+.mockups-copy p{
+  font-family:'Nunito', sans-serif;
+  font-size:16px;
+  color:#6B6A68;
+  line-height:1.6;
+  max-width:440px;
+  font-weight:500;
+}
 .mockup-hint{
   display:inline-block; font-size:13px; color:var(--gold-deep); font-weight:800;
   margin-bottom:24px; letter-spacing:.1em; text-transform:uppercase;
 }
 .mockup-hint::before{content:"👆 "; margin-right:4px}
-.phone-pair{display:flex; gap:48px; justify-content:center; align-items:flex-start; flex-wrap:wrap; perspective:1400px}
+.phone-pair{display:flex; gap:48px; justify-content:center; align-items:flex-start; flex-wrap:wrap; perspective:1400px; margin-top:140px}
 .phone{
   width:320px; min-height:600px; background:#fff; border-radius:42px;
   padding:22px 20px 26px; position:relative;
@@ -337,24 +454,17 @@ nav.top{
 
 /* ──────────────── ACTIVITY EXPLOSION ──────────────── */
 .explosion-section{
-  padding:120px 0; position:relative;
+  padding:120px 0 40px; position:relative;
   background:linear-gradient(180deg, var(--cream) 0%, var(--cream-warm) 100%);
   overflow:hidden;
 }
 .explosion-title{text-align:center; margin-bottom:40px}
-.explosion-title h2{font-size:clamp(34px,4.5vw,58px); font-weight:800; margin-bottom:10px}
-.explosion-title h2 em{color:var(--gold-vibrant); font-weight:600}
+.explosion-title h2{font-size:clamp(34px,4.5vw,58px); font-weight:800; margin-bottom:10px; color:#4A2B18}
+.explosion-title h2 em{color:#8BA44C; font-weight:700; font-style:italic}
 .explosion-title p{font-size:17px; color:var(--charcoal-mid); max-width:540px; margin:0 auto}
 .explosion-stage{
   position:relative; height:620px;
   display:flex; align-items:center; justify-content:center;
-}
-.explosion-origin{
-  position:absolute; width:180px; height:220px; border-radius:16px;
-  background:linear-gradient(135deg,var(--gold),var(--gold-vibrant));
-  box-shadow:0 24px 60px rgba(245,166,35,.35);
-  color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  font-weight:800; transition:transform .4s, opacity .4s; z-index:2;
 }
 .explosion-origin .eo-emoji{font-size:48px; margin-bottom:8px}
 .explosion-origin .eo-label{font-size:15px}
@@ -446,15 +556,32 @@ nav.top{
 }
 .explode-btn:hover{transform:translateY(-2px)}
 .explode-btn.secondary{background:#fff; color:var(--charcoal); border:2px solid #E5E3DA}
-.explosion-hint{font-size:13px; color:var(--charcoal-light); text-align:center; margin-top:14px}
+.explosion-hint{font-size:13px; color:var(--charcoal-light); text-align:center; margin-top:110px; margin-bottom:0}
 
 /* ──────────────── PICK-A-KID ──────────────── */
-.pickakid{padding:100px 0; background:#fff; position:relative}
+.pickakid{
+  padding:100px 0; position:relative;
+  background:
+    linear-gradient(180deg, rgba(255,253,247,.5) 0%, rgba(255,253,247,.2) 40%, rgba(255,253,247,0) 100%),
+    url('assets/pickakid-bg-v2.png') center bottom / cover no-repeat,
+    #FDE8E0;
+}
 .pickakid-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center}
 @media(max-width:900px){.pickakid-grid{grid-template-columns:1fr; gap:40px}}
 .pickakid h2{font-size:clamp(32px,4vw,52px); font-weight:800; margin-bottom:14px; line-height:1.1}
 .pickakid h2 em{color:var(--gold-vibrant); font-weight:600}
-.pickakid .sub{font-size:17px; color:var(--charcoal-mid); margin-bottom:32px; max-width:440px}
+.pickakid-headline{
+  font-weight:800;
+  font-size:clamp(40px, 5.2vw, 72px);
+  line-height:1.02;
+  letter-spacing:-.015em;
+  margin-bottom:18px;
+}
+.pickakid-headline > span{display:block}
+.pickakid-headline .pk-brown{color:#4A2B18}
+.pickakid-headline .pk-coral{color:#E87868}
+.pickakid-headline .pk-green{color:#88A868}
+.pickakid .sub{font-size:18px; color:#2C3542; margin-bottom:32px; max-width:440px; line-height:1.55}
 
 .age-dial{
   background:var(--cream-warm); border-radius:22px; padding:28px;
@@ -531,16 +658,22 @@ nav.top{
 
 /* Floaty decoration around phone */
 .kid-floaty{
-  position:absolute; font-size:36px; opacity:0; transform:scale(0);
+  position:absolute; width:48px; height:48px; opacity:0; transform:scale(0);
   transition:opacity .5s, transform .5s;
   pointer-events:none;
-  filter:drop-shadow(0 4px 10px rgba(31,41,55,.15));
+  filter:drop-shadow(0 4px 10px rgba(31,41,55,.18));
+  display:flex; align-items:center; justify-content:center;
 }
+.kid-floaty svg{width:100%; height:100%; display:block; stroke-width:2}
+.kid-floaty.f1{color:#E37756}
+.kid-floaty.f2{color:#8BA44C}
+.kid-floaty.f3{color:#E8960F}
+.kid-floaty.f4{color:#B79DD9}
 .kid-floaty.show{opacity:1; transform:scale(1)}
-.kid-floaty.f1{top:10%; left:-40px; animation:floatA 6s ease-in-out infinite}
-.kid-floaty.f2{top:35%; right:-40px; animation:floatB 5s ease-in-out infinite}
-.kid-floaty.f3{bottom:20%; left:-30px; animation:floatA 7s ease-in-out infinite reverse}
-.kid-floaty.f4{top:70%; right:-30px; animation:floatB 6.5s ease-in-out infinite reverse}
+.kid-floaty.f1{top:6%; left:-8px; animation:floatA 6s ease-in-out infinite}
+.kid-floaty.f2{top:28%; right:-8px; animation:floatB 5s ease-in-out infinite}
+.kid-floaty.f3{bottom:16%; left:0; animation:floatA 7s ease-in-out infinite reverse}
+.kid-floaty.f4{top:62%; right:0; animation:floatB 6.5s ease-in-out infinite reverse}
 @keyframes floatA{0%,100%{transform:translateY(0) rotate(-6deg) scale(1)}50%{transform:translateY(-12px) rotate(4deg) scale(1.05)}}
 @keyframes floatB{0%,100%{transform:translateY(0) rotate(6deg) scale(1)}50%{transform:translateY(-10px) rotate(-4deg) scale(1.08)}}
 
@@ -549,8 +682,9 @@ nav.top{
   padding:120px 0; text-align:center; position:relative; overflow:hidden;
   background:linear-gradient(180deg, var(--cream-warm) 0%, var(--cream) 100%);
 }
-.calendar-lead{font-size:clamp(28px,3.8vw,46px); font-weight:800; max-width:900px; margin:0 auto 20px; line-height:1.15}
-.calendar-lead em{color:var(--gold-vibrant); font-weight:600; font-style:italic}
+.calendar-lead{font-family:'Fraunces', serif; font-size:clamp(28px,3.8vw,46px); font-weight:800; max-width:900px; margin:0 auto 20px; line-height:1.15; color:#4A2B18; letter-spacing:-.01em}
+.calendar-lead em{color:#E87868; font-weight:700; font-style:normal}
+.calendar-lead .cal-green{color:#88A868}
 .calendar-sub{font-size:17px; color:var(--charcoal-mid); margin-bottom:50px}
 .calendar-stage{
   position:relative; min-height:360px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px;
@@ -594,9 +728,9 @@ nav.top{
 }
 .calendar-counter .big{
   font-family:'Fraunces', serif;
-  font-size:clamp(52px,6vw,84px); font-weight:800; color:var(--charcoal); line-height:1;
+  font-size:clamp(52px,6vw,84px); font-weight:800; color:#4A2B18; line-height:1;
 }
-.calendar-counter .big .unit{color:var(--gold-vibrant)}
+.calendar-counter .big .unit{color:#88A868}
 .calendar-counter .label{font-size:14px; color:var(--charcoal-mid); margin-top:6px; font-weight:600}
 @media(max-width:900px){
   .calendar-counter{position:static; transform:none; text-align:center; margin-top:30px}
@@ -641,10 +775,15 @@ nav.top{
   color:#FFFBEF; text-align:center; font-size:clamp(34px,4vw,52px); font-weight:800;
   margin-bottom:12px;
 }
-.cork h2 em{font-style:italic; color:var(--gold-pale); font-weight:600}
+.cork h2 em{font-style:italic; color:#B8D070; font-weight:700}
 .cork .cork-sub{color:rgba(255,251,239,.85); text-align:center; margin-bottom:60px; font-size:17px}
 .cork-board{
-  position:relative; max-width:1040px; margin:0 auto; min-height:620px;
+  position:relative; max-width:1040px; margin:0 auto; min-height:0;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:60px 40px;
+  justify-items:center;
+  padding:20px 0 40px;
 }
 .pin{
   position:absolute; top:-8px; left:50%; transform:translateX(-50%);
@@ -654,7 +793,7 @@ nav.top{
   z-index:3;
 }
 .polaroid{
-  position:absolute; background:#FFFDF5; padding:16px 16px 50px;
+  position:relative; background:#FFFDF5; padding:16px 16px 50px;
   box-shadow:0 14px 30px rgba(0,0,0,.2), 0 3px 6px rgba(0,0,0,.12);
   transition:transform .3s, box-shadow .3s;
   transform-origin:top center;
@@ -674,8 +813,8 @@ nav.top{
 .polaroid .author{font-size:12px; color:var(--charcoal-light); margin-top:8px; font-weight:700}
 
 .sticky-note{
-  position:absolute; width:180px; padding:20px 18px;
-  background:#FEF089; box-shadow:0 8px 16px rgba(0,0,0,.15);
+  position:relative; width:220px; padding:22px 20px;
+  background:#F4C84A; box-shadow:0 8px 16px rgba(0,0,0,.15);
   font-family:'Fraunces', serif; font-style:italic;
   font-size:15px; color:var(--charcoal); line-height:1.4;
   transform:rotate(-3deg);
@@ -683,7 +822,11 @@ nav.top{
 .sticky-note .stars{font-style:normal; font-size:14px; margin-bottom:6px; color:#F5A623}
 .sticky-note .sn-author{font-size:12px; color:var(--charcoal-light); margin-top:10px; font-style:normal; font-weight:700}
 .sticky-note.pink{background:#FFB8C4}
-.sticky-note.blue{background:#B8D8F5}
+.sticky-note.blue{background:#B8E1F2}
+.sticky-note.coral{background:#F5B5A8}
+.sticky-note.green{background:#BFE5AE}
+.sticky-note.lavender{background:#D4C5F0}
+.cork-wide{grid-column:2 / span 1; justify-self:center}
 
 .kid-drawing{
   position:absolute; width:260px; padding:16px;
@@ -706,8 +849,8 @@ nav.top{
 
 /* ──────────────── FEATURES ──────────────── */
 .features{padding:100px 0}
-.features h2{font-size:clamp(32px,4vw,52px); font-weight:800; text-align:center; margin-bottom:14px}
-.features h2 em{color:var(--gold-vibrant); font-weight:600}
+.features h2{font-size:clamp(32px,4vw,52px); font-weight:800; text-align:center; margin-bottom:14px; color:#4A2B18}
+.features h2 em{color:#8BA44C; font-weight:800; font-style:italic}
 .features-sub{text-align:center; color:var(--charcoal-mid); font-size:17px; margin-bottom:56px; max-width:560px; margin-left:auto; margin-right:auto}
 .feature-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px}
 .feature-card{
@@ -727,188 +870,225 @@ nav.top{
 .feature-icon{
   width:56px; height:56px; border-radius:16px;
   background:var(--gold-pale); display:flex; align-items:center; justify-content:center;
-  font-size:30px; margin-bottom:18px;
+  margin-bottom:18px;
 }
+.feature-icon svg{width:34px; height:34px; display:block}
+/* per-card icon backgrounds: subtle tint matching the icon hue */
+.feature-card.fc-target .feature-icon{background:#FFE9C2}
+.feature-card.fc-balance .feature-icon{background:#E7EFD3}
+.feature-card.fc-time .feature-icon{background:#FFD8C2}
+.feature-card.fc-grow .feature-icon{background:#DCEAD0}
+.feature-card.fc-swap .feature-icon{background:#FFE2D0}
+.feature-card.fc-share .feature-icon{background:#FFE9C2}
 .feature-card h3{font-size:20px; font-weight:800; margin-bottom:8px}
 .feature-card p{color:var(--charcoal-mid); font-size:15px}
 
 /* ──────────────── GARDEN FINALE ──────────────── */
 .garden{
   position:relative; overflow:hidden;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 10%, rgba(255,244,212,.9) 0%, transparent 60%),
-    linear-gradient(180deg, #FFF8EC 0%, #FFEFD2 45%, #FCE4B8 100%);
+  /* Image is 1536×1024 (3:2). Use `contain` so the entire scene — including the
+     bottom row of polaroid cards — is always visible. Height = viewport-width × 2/3
+     so the image fits exactly with no letterboxing; a cream matte fills any extra. */
+  background:#FBEFE3 url('assets/garden-scene.png') center top/100% auto no-repeat;
   color:var(--charcoal);
-  padding:160px 0 60px;
-  margin-top:40px;
-  min-height:780px;
+  padding:0 0 40px;
+  min-height:calc(100vw * 2 / 3);
 }
-/* Soft sun */
-.garden::before{
-  content:""; position:absolute; top:-80px; left:50%; transform:translateX(-50%);
-  width:400px; height:400px; border-radius:50%;
-  background:radial-gradient(circle, rgba(255,231,168,.7) 0%, rgba(255,231,168,0) 65%);
-  pointer-events:none; z-index:0;
-}
-/* Soft horizon glow */
-.garden::after{
-  content:""; position:absolute; left:0; right:0; bottom:0; height:140px;
-  background:linear-gradient(180deg, transparent, rgba(111,167,125,.12) 60%, rgba(111,167,125,.22));
-  pointer-events:none;
-}
+.garden::before{content:none}
 
-/* Hand-drawn grass sway at the base */
+/* Rolling sage hills silhouette */
 .garden-grass{
-  position:absolute; left:0; right:0; bottom:0; height:120px;
+  position:absolute; left:0; right:0; bottom:0; height:210px;
   z-index:1; pointer-events:none;
 }
 .garden-grass svg{width:100%; height:100%; display:block}
 
-/* The path's grand finale — a big curl that lands at the CTA */
+/* Dashed winding path that threads through the cards */
 .garden-bloom-svg{
   position:absolute; inset:0; width:100%; height:100%;
   z-index:2; pointer-events:none;
 }
 .garden-bloom-svg .bloom-path{
   fill:none;
-  stroke:rgba(245,166,35,.55);
-  stroke-width:2.5;
-  stroke-dasharray:5 7;
+  stroke:#E8A766;
+  stroke-width:2;
+  stroke-dasharray:6 8;
   stroke-linecap:round;
-  stroke-dashoffset:2000;
-  animation:bloomDraw 2.6s .4s cubic-bezier(.4,0,.2,1) forwards;
+  opacity:.85;
+  stroke-dashoffset:2400;
+  animation:bloomDraw 2.8s .4s cubic-bezier(.4,0,.2,1) forwards;
 }
 @keyframes bloomDraw{to{stroke-dashoffset:0}}
 
-/* Butterflies */
-.butterfly{
-  position:absolute; font-size:22px;
-  filter:drop-shadow(0 4px 6px rgba(31,41,55,.15));
-  z-index:3; pointer-events:none;
-}
-.butterfly.b1{top:14%; left:12%; animation:flit1 9s ease-in-out infinite}
-.butterfly.b2{top:30%; right:10%; animation:flit2 11s ease-in-out infinite}
-.butterfly.b3{top:56%; left:18%; animation:flit3 13s ease-in-out infinite}
-@keyframes flit1{
-  0%,100%{transform:translate(0,0) rotate(-8deg)}
-  25%{transform:translate(40px,-20px) rotate(10deg)}
-  50%{transform:translate(80px,10px) rotate(-6deg)}
-  75%{transform:translate(30px,30px) rotate(8deg)}
-}
-@keyframes flit2{
-  0%,100%{transform:translate(0,0) rotate(5deg)}
-  33%{transform:translate(-50px,20px) rotate(-10deg)}
-  66%{transform:translate(-20px,-30px) rotate(8deg)}
-}
-@keyframes flit3{
-  0%,100%{transform:translate(0,0) rotate(-4deg)}
-  50%{transform:translate(60px,-40px) rotate(12deg)}
-}
-
-/* Flowers growing along the path — each bloom is a tiny polaroid */
-.garden-flowers{
+/* Scattered decorative sprigs + flowers (flat illustrated, absolutely positioned) */
+.garden-decor{
   position:absolute; inset:0; z-index:3; pointer-events:none;
 }
-.flower{
-  position:absolute; width:78px; transform-origin:50% 100%;
-  opacity:0;
-  animation:flowerPop .7s ease-out forwards;
-  pointer-events:auto;
+.garden-decor .sprig,
+.garden-decor .bloom,
+.garden-decor .wing{
+  position:absolute;
+  filter:drop-shadow(0 3px 5px rgba(31,41,55,.08));
 }
-.flower .stem{
-  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-  width:3px; background:#6FA77D; border-radius:2px;
-  transform-origin:50% 100%;
-  animation:stemGrow .6s ease-out backwards;
-}
-.flower .bloom-polaroid{
-  position:relative; margin:0 auto;
-  width:66px; height:82px;
-  background:#fff;
-  padding:5px 5px 14px;
-  border-radius:4px;
-  box-shadow:0 6px 18px rgba(31,41,55,.18), 0 2px 4px rgba(31,41,55,.1);
-  transform:rotate(var(--tilt,-3deg));
-  transition:transform .3s;
-}
-.flower:hover .bloom-polaroid{transform:rotate(0deg) scale(1.15); z-index:10}
-.flower .bloom-photo{
-  width:100%; height:56px;
-  border-radius:2px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:30px;
-}
-.flower .bloom-tag{
-  font-family:'Caveat', cursive;
-  font-size:11px; text-align:center; margin-top:3px;
-  color:var(--charcoal); font-weight:700;
-  line-height:1;
-}
-/* Petal halo behind each polaroid — subtle, like a flower face */
-.flower .petals{
-  position:absolute; top:-10px; left:50%; transform:translate(-50%,-10%);
-  width:108px; height:108px; pointer-events:none; opacity:.7;
-}
-.flower .petals svg{width:100%; height:100%; display:block}
 
-@keyframes flowerPop{
-  0%{opacity:0; transform:translateY(8px) scale(.4)}
-  70%{opacity:1; transform:translateY(-4px) scale(1.08)}
-  100%{opacity:1; transform:translateY(0) scale(1)}
+/* Butterflies — softly flitting */
+.wing{animation:flit 10s ease-in-out infinite}
+.wing.w1{top:18%; left:38%; animation-duration:9s}
+.wing.w2{top:22%; right:32%; animation-duration:11s; animation-delay:-3s}
+@keyframes flit{
+  0%,100%{transform:translate(0,0) rotate(-6deg)}
+  25%{transform:translate(12px,-10px) rotate(8deg)}
+  50%{transform:translate(20px,4px) rotate(-4deg)}
+  75%{transform:translate(8px,12px) rotate(6deg)}
 }
-@keyframes stemGrow{
-  from{height:0}
+
+/* Polaroid cards scattered on the path */
+.garden-cards{
+  position:absolute; inset:0; z-index:4; pointer-events:none;
+}
+.gcard{
+  position:absolute;
+  width:92px;
+  background:#FFFDF8;
+  padding:9px 9px 16px;
+  border-radius:6px;
+  box-shadow:
+    0 1px 0 rgba(31,41,55,.04),
+    0 10px 22px rgba(31,41,55,.12),
+    0 2px 4px rgba(31,41,55,.08);
+  transform:rotate(var(--tilt,-3deg));
+  transition:transform .3s cubic-bezier(.2,1.2,.3,1);
+  pointer-events:auto;
+  opacity:1;
+}
+.gcard:hover{transform:rotate(0deg) translateY(-4px) scale(1.06); z-index:20}
+.gcard .gcard-photo{
+  width:100%; height:68px;
+  display:flex; align-items:flex-end; justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.gcard .gcard-photo svg{display:block; width:100%; height:100%}
+/* Thin blue horizon line under each illustration */
+.gcard .gcard-line{
+  height:2px; background:#7FB8E5; border-radius:1px;
+  margin:4px 2px 6px;
+  opacity:.75;
+}
+.gcard .gcard-tag{
+  font-family:'Caveat', cursive;
+  font-size:15px; text-align:center;
+  color:#5A4A3C; font-weight:600;
+  line-height:1;
+  letter-spacing:.01em;
 }
 
 /* Content block */
 .garden-content{
   position:relative; z-index:6; text-align:center;
-  max-width:640px; margin:60px auto 40px;
+  max-width:720px; margin:0 auto;
   padding:0 24px;
+  /* Push content into the center-top clear zone of the garden-scene image.
+     Image aspect is 3:2, so vertical offsets scale with viewport width. */
+  margin-top:calc(100vw * 0.18);
+  margin-bottom:calc(100vw * 0.08);
+}
+/* Desktop: nudge the headline + plant line + buttons further down so they
+   land lower on the garden scene. The image's clear center zone is roomy
+   on wider screens — pushing the copy down keeps it from feeling like it
+   floats too close to the section's top edge. */
+@media (min-width:901px){
+  .garden-content{
+    margin-top:calc(100vw * 0.24);
+  }
 }
 .garden-content h2{
   font-family:'Fraunces', serif;
-  font-size:clamp(44px,6vw,76px); font-weight:800; line-height:1.05;
+  font-size:clamp(44px,5.4vw,72px); font-weight:800; line-height:1.1;
   letter-spacing:-0.015em;
-  margin-bottom:12px; color:var(--charcoal);
+  margin-bottom:18px; color:#4A2B18;
 }
 .garden-content h2 em{
-  font-style:italic; font-weight:500;
-  color:var(--gold-vibrant);
+  font-style:italic; font-weight:700;
+  color:#E37756;
 }
 .garden-content .plant-line{
   font-family:'Caveat', cursive;
-  font-size:clamp(28px,3.2vw,40px);
-  color:var(--charcoal-mid); font-weight:600;
-  margin-bottom:38px;
+  font-size:clamp(30px,3.2vw,40px);
+  color:#8BA44C; font-weight:600;
+  margin-bottom:40px;
   line-height:1.15;
 }
 .garden-cta{
-  display:inline-flex; gap:14px; flex-wrap:wrap; justify-content:center;
+  display:inline-flex; gap:16px; flex-wrap:nowrap; justify-content:center;
 }
 .garden-btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:10px;
-  padding:16px 28px; border-radius:16px;
-  text-decoration:none; font-weight:700; font-size:15px;
+  display:inline-flex; align-items:center; justify-content:center; gap:12px;
+  padding:20px 32px; border-radius:18px;
+  text-decoration:none; font-weight:700; font-size:17px;
   transition:transform .2s, box-shadow .2s;
-  min-width:240px; box-sizing:border-box;
+  min-width:270px; box-sizing:border-box;
 }
 .garden-btn.primary{
-  background:var(--charcoal); color:#fff;
-  box-shadow:0 12px 30px rgba(31,41,55,.22);
+  background:#E37756; color:#fff;
+  box-shadow:0 12px 30px rgba(227,119,86,.35);
 }
-.garden-btn.primary:hover{transform:translateY(-3px); box-shadow:0 18px 40px rgba(31,41,55,.3)}
+.garden-btn.primary:hover{transform:translateY(-3px); box-shadow:0 18px 40px rgba(227,119,86,.45)}
 .garden-btn.ghost{
-  background:#fff; color:var(--charcoal);
+  background:#fff; color:#2B2218;
   border:1.5px solid rgba(31,41,55,.12);
   box-shadow:0 6px 18px rgba(31,41,55,.08);
 }
 .garden-btn.ghost:hover{transform:translateY(-3px); box-shadow:0 12px 26px rgba(31,41,55,.15)}
 
+/* Mobile garden: drop the desktop scene image (which has cards/butterflies
+   baked in at desktop scale) and use a clean cream layout with a soft
+   illustrated footer band instead. */
+@media (max-width:900px){
+  .garden-cards,.garden-decor,.garden-bloom-svg{display:none}
+  .garden{
+    background:#FBEFE3;
+    padding:80px 0 56px;
+    min-height:auto;
+  }
+  .garden::after{
+    content:""; display:block;
+    position:absolute; left:0; right:0; bottom:0;
+    height:140px;
+    background:url('assets/garden-scene.png') center bottom/200% auto no-repeat;
+    opacity:.55;
+    pointer-events:none;
+    mask-image:linear-gradient(to bottom, transparent 0%, #000 40%, #000 100%);
+    -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 40%, #000 100%);
+  }
+  .garden-content{
+    margin-top:120px !important;
+    margin-bottom:140px !important;
+    padding:0 24px;
+  }
+  .garden-content h2{font-size:clamp(36px,8vw,52px); margin-bottom:14px}
+  .garden-content .plant-line{font-size:clamp(26px,6vw,34px); margin-bottom:28px}
+  .garden-cta{
+    flex-direction:column;
+    gap:10px;
+    width:100%;
+    max-width:280px;
+    margin:0 auto;
+    align-items:stretch;
+  }
+  .garden-btn{width:100%; min-width:0; max-width:none; height:44px; padding:8px 18px; font-size:14px; border-radius:12px; gap:10px}
+  .garden-btn svg{width:18px; height:18px}
+}
+
 /* Footer on warm bg */
-footer.nf{
-  position:relative; z-index:6; margin-top:140px; padding:22px 0 0;
+/* Footer — own row below garden */
+.nf-wrap{
+  background:#F5E4D0;
   border-top:1px solid rgba(31,41,55,.1);
+  padding:22px 0;
+  position:relative; z-index:10;
+}
+.nf{
   display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
   font-size:13px; color:var(--charcoal-light);
 }
@@ -918,10 +1098,10 @@ footer.nf{
 
 @media (max-width:900px){
   .explosion-stage{height:520px}
-  .cork-board{min-height:auto; display:grid; grid-template-columns:1fr 1fr; gap:40px}
-  .polaroid,.sticky-note,.kid-drawing{position:relative; top:auto!important; left:auto!important; right:auto!important; bottom:auto!important; transform:rotate(0deg)!important; margin:0 auto}
+  .cork-board{grid-template-columns:1fr 1fr; gap:40px}
+  .cork-wide{grid-column:1 / -1; justify-self:center}
+  .polaroid,.sticky-note,.kid-drawing{transform:rotate(0deg)!important; margin:0 auto}
   .pin{display:none}
-  .garden{padding:120px 0 40px; min-height:auto}
   .flower{width:62px}
   .flower .bloom-polaroid{width:54px; height:70px; padding:4px 4px 10px}
   .flower .bloom-photo{height:44px; font-size:24px}
@@ -929,25 +1109,47 @@ footer.nf{
 }
 @media (max-width:640px){
   .cork-board{grid-template-columns:1fr}
-  .hero{padding:48px 0 24px}
+  /* Mobile hero: image fills the hero as a full background (cover-fit so the bunny
+     stays anchored bottom-right and the empty sky fills the text area). Text sits
+     over the image just like desktop — no awkward stacked layout. */
+  .hero{padding:32px 0 0; min-height:auto; text-align:left; background:#FCF8F3; margin-bottom:0}
+  .hero .container{position:relative; z-index:2; padding-bottom:40px}
+  .hero .diorama{position:absolute; inset:0; z-index:0; overflow:hidden; background:#FCF8F3}
+  .mockups{margin-top:0 !important}
+  .hero .diorama-underlay{
+    position:absolute; inset:0; top:0; left:0; right:0; bottom:0;
+    width:100%; height:100%;
+    object-fit:cover; object-position:75% bottom;
+    display:block;
+  }
+  .hero h1{font-size:clamp(36px,9vw,52px); text-align:left}
+  .hero h1 br{display:none}
+  .hero h1 .gold,
+  .hero h1 .meadow{display:inline}
+  .hero-sub{margin:0 0 24px !important; max-width:260px}
+  .hero-sub-lead{font-size:17px}
+  .store-buttons{justify-content:flex-start; gap:10px; flex-direction:column; align-items:flex-start}
+  .store-btn{min-width:0; width:auto; max-width:none; height:44px; padding:8px 18px; font-size:14px; border-radius:12px; gap:10px}
+  .store-btn svg{width:18px; height:18px}
+  .hero-meta{justify-content:flex-start}
   .phone{width:min(100%,300px)}
   /* On tiny screens, drop the path + flowers overlay; keep headline clean */
   .garden-bloom-svg,.garden-flowers{display:none}
-  .garden{padding:80px 0 32px}
-  .garden-content{margin:0 auto 24px}
+  .garden{padding:80px 0 56px}
+  .garden-content{margin:120px auto 140px !important}
 }
 
 /* ──────────────── MOBILE POLISH PASS ──────────────── */
 @media (max-width:720px){
   /* Nav: compact, hide secondary links, keep logo + CTA */
-  nav.top{padding:14px 0}
+  nav.top{padding:8px 0}
   .nav-right{gap:10px}
   .nav-right .nav-link{display:none}
   .nav-cta{padding:9px 16px; font-size:13px}
-  .logo-img{height:42px}
+  .logo img{height:92px; margin:-14px 0 -30px}
 
-  /* Hero diorama: shrink sun + clouds so they don't dominate */
-  .diorama-sun{width:90px; height:90px; top:30px; right:6vw}
+  /* Hero diorama: shrink sun on mobile so it doesn't dominate */
+  .diorama-sun{width:64px; height:64px; top:18px; right:14px; max-width:none; max-height:none}
   .cloud-1{top:60px; width:60px; height:20px}
   .cloud-2{top:120px; width:72px; height:22px}
   .cloud-3{top:180px; width:52px; height:18px}
@@ -979,17 +1181,30 @@ footer.nf{
   .sticky-note{width:min(86vw,240px); font-size:14px}
   .kid-drawing{width:min(90vw,260px)}
 
+  /* Floaty icons: pull outside the phone so they don't get clipped by the bezel */
+  .kid-phone-wrap{padding:0 28px}
+  .kid-floaty{width:38px; height:38px}
+  .kid-floaty.f1{top:6%; left:-6px}
+  .kid-floaty.f2{top:32%; right:-6px}
+  .kid-floaty.f3{bottom:14%; left:-2px}
+  .kid-floaty.f4{top:62%; right:-2px}
+
   /* Phone pair: stack with smaller gap */
   .phone-pair{gap:28px}
+  .mockups{padding:48px 0 180px}
+  .mockups-grid{grid-template-columns:1fr; gap:32px}
+  .mockups-copy{text-align:center}
+  .mockups-copy p{margin-left:auto; margin-right:auto}
+  .mockups-underlay{opacity:.55}
 
   /* Features + ticker padding */
   .features{padding:72px 0}
-  .explosion-section{padding:80px 0}
+  .explosion-section{padding:80px 0 28px}
   .pickakid{padding:72px 0}
   .calendar-section{padding:80px 0}
 
-  /* Night footer: stack & re-center */
-  footer.nf{flex-direction:column; text-align:center}
+  /* Footer: stack & re-center */
+  .nf{flex-direction:column; text-align:center}
   .nf-links{justify-content:center}
 }
 
@@ -1152,11 +1367,40 @@ footer.nf{
 .filters{
   padding:110px 0; background:#fff; position:relative; overflow:hidden;
 }
-.filters-head{max-width:680px; margin:0 auto 44px; text-align:center}
+.filters-head{max-width:680px; margin:0 auto 44px; text-align:center; position:relative}
 .filters-head .eyebrow{display:inline-block; font-size:12px; font-weight:800; color:var(--gold-deep); letter-spacing:.16em; text-transform:uppercase; margin-bottom:14px}
-.filters h2{font-size:clamp(32px,4.2vw,54px); font-weight:800; line-height:1.08; margin-bottom:12px}
-.filters h2 em{color:var(--gold-vibrant); font-weight:600}
+.filters h2{font-size:clamp(32px,4.2vw,54px); font-weight:800; line-height:1.08; margin-bottom:12px; color:#4A2B18}
+.filters h2 em{color:#E37756; font-weight:800; font-style:italic}
+.filters h2 .meadow{color:#8BA44C; font-weight:800}
 .filters-sub{color:var(--charcoal-mid); font-size:17px}
+.filters-glass{
+  position:absolute;
+  left:-220px;
+  top:90px;
+  width:360px;
+  height:auto;
+  pointer-events:none;
+  user-select:none;
+}
+.filters-backpack{
+  position:absolute;
+  right:-300px;
+  top:130px;
+  width:420px;
+  height:auto;
+  pointer-events:none;
+  user-select:none;
+}
+@media (max-width:1080px){
+  .filters-glass{left:-20px; top:10px; width:240px; opacity:.85}
+  .filters-backpack{right:-20px; top:10px; width:220px; opacity:.85}
+}
+@media (max-width:720px){
+  .filters-backpack{display:none}
+}
+@media (max-width:720px){
+  .filters-glass{display:none}
+}
 
 .filter-demo{
   max-width:960px; margin:0 auto;
@@ -1222,8 +1466,8 @@ footer.nf{
 @media(max-width:900px){.mirror-inner{grid-template-columns:1fr; gap:44px}}
 
 .mirror-copy .eyebrow{display:inline-block; font-size:12px; font-weight:800; color:var(--gold-deep); letter-spacing:.16em; text-transform:uppercase; margin-bottom:14px}
-.mirror-copy h2{font-size:clamp(34px,4.4vw,54px); font-weight:800; line-height:1.08; margin-bottom:18px}
-.mirror-copy h2 em{color:var(--gold-vibrant); font-weight:600; font-style:italic}
+.mirror-copy h2{font-size:clamp(34px,4.4vw,54px); font-weight:800; line-height:1.08; margin-bottom:18px; color:#4A2B18}
+.mirror-copy h2 em{color:#8BA44C; font-weight:700; font-style:italic}
 .mirror-copy .mirror-sub{color:var(--charcoal-mid); font-size:17px; line-height:1.6; margin-bottom:24px}
 
 .mirror-stats{
@@ -1256,10 +1500,10 @@ footer.nf{
   font-size:12px; font-weight:800;
 }
 .mirror-hero-line{
-  font-family:'Fraunces', serif; font-size:28px; font-weight:800; color:var(--charcoal);
+  font-family:'Fraunces', serif; font-size:28px; font-weight:800; color:#4A2B18;
   line-height:1.15; margin:8px 0 6px;
 }
-.mirror-hero-line em{color:var(--gold-vibrant); font-style:italic; font-weight:600}
+.mirror-hero-line em{color:#E37756; font-style:italic; font-weight:700}
 .mirror-hero-sub{color:var(--charcoal-mid); font-size:14px; margin-bottom:22px; line-height:1.5}
 
 .mirror-polaroids{
@@ -1299,7 +1543,8 @@ footer.nf{
 /* ─── TRUST STRIP ─────────────────────────────── */
 .trust{
   padding:32px 0; background:var(--charcoal); color:#fff;
-  position:relative;
+  position:relative; z-index:2;
+  margin-bottom:-80px;
 }
 .trust-inner{
   display:flex; justify-content:center; align-items:center; gap:30px; flex-wrap:wrap;
@@ -1325,137 +1570,40 @@ footer.nf{
   .mirror-polaroids{grid-template-columns:repeat(4,1fr); gap:8px}
 }
 </style>
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 
-<!-- Living cursor-follower bunny (sitting, sticker-style) -->
-
 <!-- NAV -->
-<div class="container">
-  <nav class="top">
-    <a href="#" class="logo" aria-label="Bunny Path — home">
-      <picture>
-        <source type="image/webp"
-          srcset="brand/bunnypath-logo-nav.webp 1x,
-                  brand/bunnypath-logo-nav@2x.webp 2x,
-                  brand/bunnypath-logo-nav@3x.webp 3x">
-        <img class="logo-img"
-          src="brand/bunnypath-logo-nav@2x.png"
-          srcset="brand/bunnypath-logo-nav.png 1x,
-                  brand/bunnypath-logo-nav@2x.png 2x,
-                  brand/bunnypath-logo-nav@3x.png 3x"
-          alt="Bunny Path"
-          width="120" height="121"
-          loading="eager" decoding="async">
-      </picture>
-    </a>
+<nav class="top">
+  <div class="container nav-inner">
+    <a href="#" class="logo" aria-label="Bunny Path"><img src="assets/logo.png" alt="Bunny Path"></a>
     <div class="nav-right">
       <a href="#download" class="nav-cta">Download free</a>
     </div>
-  </nav>
-</div>
+  </div>
+</nav>
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero-section" data-stop="hero">
   <div class="diorama">
-    <div class="diorama-sun" aria-hidden="true">
-  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="sun-body" cx="40%" cy="38%" r="65%">
-        <stop offset="0%" stop-color="#FFF2C8"/>
-        <stop offset="55%" stop-color="#FFD76A"/>
-        <stop offset="100%" stop-color="#F5A623"/>
-      </radialGradient>
-      <radialGradient id="sun-cheek" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#FF9EB0" stop-opacity=".85"/>
-        <stop offset="100%" stop-color="#FF9EB0" stop-opacity="0"/>
-      </radialGradient>
-    </defs>
-    <!-- rays (spin with outer svg) -->
-    <g fill="#FFD76A">
-      <!-- 12 rays, slightly rounded wedges -->
-      <g transform="translate(100 100)">
-        <g><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
-        <g transform="rotate(30)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
-        <g transform="rotate(60)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
-        <g transform="rotate(90)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
-        <g transform="rotate(120)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
-        <g transform="rotate(150)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
-        <g transform="rotate(180)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
-        <g transform="rotate(210)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
-        <g transform="rotate(240)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
-        <g transform="rotate(270)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
-        <g transform="rotate(300)"><rect x="-5" y="-96" width="10" height="18" rx="5"/></g>
-        <g transform="rotate(330)"><rect x="-4" y="-94" width="8" height="14" rx="4"/></g>
-      </g>
-    </g>
-    <!-- face does NOT spin; counter-animated via class -->
-    <g class="sun-face">
-      <circle cx="100" cy="100" r="62" fill="url(#sun-body)" stroke="#EAA13A" stroke-width="1.5"/>
-      <!-- cheeks -->
-      <ellipse cx="72" cy="112" rx="11" ry="7" fill="url(#sun-cheek)"/>
-      <ellipse cx="128" cy="112" rx="11" ry="7" fill="url(#sun-cheek)"/>
-      <!-- eyes (closed happy curves) -->
-      <path d="M80 94 Q86 88 92 94" stroke="#5B3A10" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-      <path d="M108 94 Q114 88 120 94" stroke="#5B3A10" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-      <!-- smile -->
-      <path d="M84 118 Q100 132 116 118" stroke="#5B3A10" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-    </g>
-  </svg>
-</div>
-    <div class="diorama-cloud cloud-1" aria-hidden="true">
-      <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
-        <g fill="#33A5E8">
-          <ellipse cx="50" cy="52" rx="34" ry="22"/>
-          <ellipse cx="92" cy="42" rx="32" ry="28"/>
-          <ellipse cx="130" cy="48" rx="28" ry="24"/>
-          <ellipse cx="160" cy="56" rx="24" ry="18"/>
-          <ellipse cx="100" cy="62" rx="60" ry="14"/>
-        </g>
-      </svg>
-    </div>
-    <div class="diorama-cloud cloud-2" aria-hidden="true">
-      <svg viewBox="0 0 220 90" xmlns="http://www.w3.org/2000/svg">
-        <g fill="#33A5E8">
-          <ellipse cx="46" cy="58" rx="38" ry="24"/>
-          <ellipse cx="92" cy="44" rx="36" ry="30"/>
-          <ellipse cx="138" cy="50" rx="32" ry="26"/>
-          <ellipse cx="176" cy="60" rx="28" ry="20"/>
-          <ellipse cx="110" cy="70" rx="72" ry="16"/>
-        </g>
-      </svg>
-    </div>
-    <div class="diorama-cloud cloud-3" aria-hidden="true">
-      <svg viewBox="0 0 180 70" xmlns="http://www.w3.org/2000/svg">
-        <g fill="#33A5E8">
-          <ellipse cx="44" cy="46" rx="28" ry="18"/>
-          <ellipse cx="80" cy="36" rx="26" ry="22"/>
-          <ellipse cx="114" cy="42" rx="22" ry="20"/>
-          <ellipse cx="140" cy="48" rx="20" ry="16"/>
-          <ellipse cx="92" cy="54" rx="54" ry="12"/>
-        </g>
-      </svg>
-    </div>
-    <div class="diorama-hills">
-      <div class="hill hill-back"></div>
-      <div class="hill hill-mid"></div>
-      <div class="hill hill-front"></div>
-    </div>
+    <img class="diorama-underlay" src="assets/hero-underlay.png" alt="" aria-hidden="true">
   </div>
 
   <div class="container">
     <!-- <div class="hero-eyebrow"><span class="dot"></span> 20,000+ off-screen activities · ages 0–12</div> -->
     <h1>
-      <span class="gold">20,000+</span> play ideas<br>
+      <span class="gold">20,000+</span><br>
+      <span class="meadow">play ideas</span><br>
       in your pocket
     </h1>
     <p class="hero-sub"><strong class="hero-sub-lead">Stop opening 80 tabs. Play ideas in one tap.</strong> Off-screen. Educational. Guilt-free. The largest, curated, developmental activity collection for ages 0-12.</p>
     <div class="store-buttons" id="download">
-      <a href="#" class="store-btn store-btn-ios" aria-label="Download for iPhone">
+      <a href="https://apps.apple.com/app/id6761960397" class="store-btn store-btn-ios" aria-label="Download for iPhone">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.45-2.24-4.19-2.27-1.78-.18-3.48 1.05-4.39 1.05-.92 0-2.31-1.03-3.8-1-1.95.03-3.76 1.14-4.76 2.88-2.04 3.54-.52 8.78 1.46 11.66.97 1.41 2.12 3 3.61 2.94 1.45-.06 2-.94 3.75-.94 1.75 0 2.24.94 3.77.91 1.56-.03 2.55-1.44 3.5-2.86 1.12-1.64 1.58-3.23 1.6-3.32-.03-.01-3.06-1.17-3.02-4.7zM14.2 3.9c.8-.97 1.34-2.31 1.19-3.65-1.15.05-2.54.77-3.37 1.73-.74.85-1.4 2.22-1.22 3.53 1.28.1 2.6-.65 3.4-1.61z"/></svg>
         <span>Download for iPhone</span>
       </a>
-      <a href="#" class="store-btn store-btn-android" aria-label="Download for Android">
+      <a href="https://play.google.com/store/apps/details?id=com.kodsters.bunnypath" class="store-btn store-btn-android" aria-label="Download for Android">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 2.57c-.36.36-.56.93-.56 1.67v15.52c0 .74.2 1.31.56 1.67l.09.08 8.7-8.7v-.16L3.27 2.48l-.09.09z" fill="#5BC9F4"/><path d="M15.13 15.69l-2.9-2.9v-.16l2.9-2.9.07.04 3.43 1.95c.98.56.98 1.47 0 2.03l-3.43 1.95-.07-.01z" fill="#FEE101"/><path d="M15.2 15.68L12.23 12.7 3.18 21.77c.33.33.85.37 1.45.04l10.57-6.13" fill="#EA4335"/><path d="M15.2 8.32L4.63 2.19c-.6-.33-1.12-.29-1.45.04l9.05 9.05 2.97-2.96z" fill="#34A853"/></svg>
         <span>Download for Android</span>
       </a>
@@ -1468,91 +1616,23 @@ footer.nf{
   </div>
 </section>
 
-<!-- ============ 30-SECOND RESCUE ============ -->
-<section class="rescue" data-stop="rescue" id="rescue">
-  <div class="container">
-    <div class="rescue-head">
-      <span class="rescue-eyebrow">The 10-second rescue</span>
-      <h2>It's 4:37pm. The kids are climbing the walls. <em>You have nothing.</em></h2>
-      <p class="rescue-sub">Stop googling, doom scrolling, apologizing, feeling guilty. One tap. Three great ideas. Done. Before someone asks for a snack for the 23rd time.</p>
-    </div>
-
-    <div class="rescue-stage">
-
-      <!-- LEFT: the chaos -->
-      <div class="chaos-card" aria-label="Before Bunny Path: chaos">
-        <div class="chaos-label"><span class="chaos-dot"></span> Before Bunny Path</div>
-        <div class="chaos-title">"Let me Google (Instagram or Pinterest) for 20 min to find something."</div>
-        <div class="chaos-tabs" role="presentation">
-          <div class="chaos-tab active">🔎 toddler activit…<span class="tx">✕</span></div>
-          <div class="chaos-tab">📌 Pinterest — craf…<span class="tx">✕</span></div>
-          <div class="chaos-tab">🎥 YouTube — rainy…<span class="tx">✕</span></div>
-          <div class="chaos-tab">📰 23 Easy Ideas fo…<span class="tx">✕</span></div>
-          <div class="chaos-tab">🛒 Amazon — sens…<span class="tx">✕</span></div>
-          <div class="chaos-tab">📝 mom blog fr…<span class="tx">✕</span></div>
-          <div class="chaos-tab">📸 Instagram r…<span class="tx">✕</span></div>
-        </div>
-        <div class="chaos-browser">
-          <div class="url">🔒 google.com/search?q=…</div>
-          <span class="q">"quiet activities for 3 year old no mess no screens"</span><span class="chaos-ellipsis"> ...</span>
-        </div>
-        <div class="chaos-noise">
-          <div class="noise-chip"><span class="ic">👶</span>"Mom, I'm BORED"</div>
-          <div class="noise-chip"><span class="ic">⏰</span>dinner in 47 min</div>
-          <div class="noise-chip"><span class="ic">🧠</span>brain: buffering</div>
-          <div class="noise-chip"><span class="ic">😵‍💫</span>14 tabs open later</div>
-        </div>
-      </div>
-
-      <!-- MIDDLE: the tap -->
-      <div class="rescue-flow">
-        <div class="rescue-timer-label">Then you tap</div>
-        <button class="rescue-tap-btn" type="button">
-          <span class="bunny">🐰</span> Bunny Path
-        </button>
-        <div class="arrow-down" aria-hidden="true"></div>
-        <div class="rescue-timer">10<span class="unit">sec</span></div>
-        <div class="rescue-timer-label">total</div>
-      </div>
-
-      <!-- RIGHT: the calm -->
-      <div class="calm-card" aria-label="After: one activity">
-        <div class="calm-label"><span class="calm-dot"></span> After</div>
-        <div class="calm-title">One great idea. Nothing else.</div>
-        <div class="rescue-activity">
-          <div class="ra-emoji">🧂</div>
-          <div class="ra-title">Salt-tray alphabet</div>
-          <div class="ra-meta">
-            <span>⏱ <b>10 min</b></span>
-            <span>🎯 <b>Ages 3–5</b></span>
-            <span>🧼 <b>Low mess</b></span>
-            <span>🎒 <b>No prep</b></span>
-          </div>
-          <div class="ra-steps">
-            <b>What you need:</b> salt, a baking tray, a finger.<br>
-            <b>What to do:</b> sprinkle salt, trace letters or shapes with a fingertip, shake to reset.
-          </div>
-        </div>
-        <div class="calm-footer">
-          ✨ Saved to today &nbsp;·&nbsp; Skip if not feeling it
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 <!-- ============ TAP-TO-PREVIEW PHONES ============ -->
 <section class="mockups" data-stop="demo">
+  <img class="mockups-underlay" src="assets/mockups-underlay.png" alt="" aria-hidden="true">
   <div class="container">
-    <div class="mockup-hint">Play ideas. Step-by-step.</div>
-    <div class="phone-pair">
+    <div class="mockups-grid">
+      <div class="mockups-copy">
+        <div class="mockup-hint">The 10-second rescue</div>
+        <h2>It's 4:37pm.<br>The kids are<br>climbing the walls.</h2>
+        <p>Stop googling, doom scrolling, apologizing, feeling guilty. One tap. Three great ideas. Excited kids. Fulfilled you.</p>
+      </div>
+      <div class="phone-pair">
 
       <!-- LEFT PHONE (Home / Surprise Me) -->
       <div class="phone phone-left" id="leftPhone">
         <div class="phone-notch"></div>
         <div class="phone-content">
-          <div class="phone-greeting">Good morning, Sarah! 🐰</div>
+          <div class="phone-greeting">Good morning, Sarah! 🐇</div>
           <div class="phone-child">Emma, 3 yrs · Day 12 streak</div>
           <button class="surprise-btn" id="surpriseBtn">
             <span class="sparkle"></span>
@@ -1576,6 +1656,7 @@ footer.nf{
       </div>
 
     </div>
+    </div>
   </div>
 </section>
 
@@ -1587,11 +1668,6 @@ footer.nf{
       <p>20,000+ activities and play ideas across 27 developmental categories. Tap the cards for examples.</p>
     </div>
     <div class="explosion-stage" id="explosionStage">
-      <div class="explosion-origin" id="explosionOrigin">
-        <div class="eo-emoji">🎁</div>
-        <div class="eo-label">20,000+</div>
-        <div class="eo-sub">curated activities</div>
-      </div>
       <div class="tile-cloud" id="tileCloud"></div>
       <div class="activity-reveal" id="activityReveal" role="dialog" aria-live="polite">
         <button class="ar-close" id="arClose" aria-label="Close">×</button>
@@ -1605,10 +1681,6 @@ footer.nf{
         </div>
         <div class="ar-desc" id="arDesc">One of 20,000+ hand-picked activities in the Bunny Path library.</div>
       </div>
-      <div class="explosion-cta">
-        <button class="explode-btn" id="explodeBtn">Open the library 💥</button>
-        <button class="explode-btn secondary" id="resetExplodeBtn" style="display:none">Pack it up</button>
-      </div>
     </div>
     <p class="explosion-hint">Drag to spin the cloud. Each tile is a real activity.</p>
   </div>
@@ -1619,8 +1691,12 @@ footer.nf{
   <div class="container">
     <div class="pickakid-grid">
       <div>
-        <h2>One app. <em>Every stage of childhood.</em></h2>
-        <p class="sub">Drag the slider. Watch the whole app re-shape itself for a different age — greetings, activities, pace, materials, even the vibe.</p>
+        <h2 class="pickakid-headline">
+          <span class="pk-brown">One app.</span>
+          <span class="pk-coral">Every stage of</span>
+          <span class="pk-green">childhood.</span>
+        </h2>
+        <p class="sub">Drag the slider. Watch the whole app re-shape itself for a different age: activities, pace, materials, even the vibe.</p>
 
         <div class="age-dial">
           <div class="age-dial-label">Your child is</div>
@@ -1639,14 +1715,15 @@ footer.nf{
       </div>
 
       <div class="kid-phone-wrap">
-        <div class="kid-floaty f1" id="floaty1">🎨</div>
-        <div class="kid-floaty f2" id="floaty2">🔍</div>
-        <div class="kid-floaty f3" id="floaty3">⚽</div>
-        <div class="kid-floaty f4" id="floaty4">✨</div>
+        <!-- Floating age-bracket icons (Lucide; populated by JS) -->
+        <div class="kid-floaty f1" id="floaty1"></div>
+        <div class="kid-floaty f2" id="floaty2"></div>
+        <div class="kid-floaty f3" id="floaty3"></div>
+        <div class="kid-floaty f4" id="floaty4"></div>
         <div class="kid-phone" id="kidPhone" data-bracket="preschool">
           <div class="kid-phone-notch"></div>
           <div class="kid-phone-content">
-            <div class="kid-phone-greeting" id="kpGreeting">Good morning, Emma! 🐰</div>
+            <div class="kid-phone-greeting" id="kpGreeting">Good morning, Emma! 🐇</div>
             <div class="kid-phone-child" id="kpChild">Age 3 · Preschool</div>
             <button class="kid-phone-btn">Surprise Me! ✨</button>
             <div class="kid-cards" id="kidCards">
@@ -1663,8 +1740,10 @@ footer.nf{
 <section class="filters" data-stop="filters" id="filters">
   <div class="container">
     <div class="filters-head">
+      <img class="filters-glass" src="assets/magnifying-glass.png" alt="" aria-hidden="true">
+      <img class="filters-backpack" src="assets/backpack-star.png" alt="" aria-hidden="true">
       <span class="eyebrow">5 minutes. Nothing to buy.</span>
-      <h2>Search and filter by what you <em>actually have</em> (or want).</h2>
+      <h2>Search and filter by what you <em>actually have</em> <span class="meadow">(or want).</span></h2>
       <p class="filters-sub">Tight budget. Tight timeline. Tight bandwidth. Filter or search in thousands of ways.</p>
     </div>
 
@@ -1696,7 +1775,7 @@ footer.nf{
 <!-- ============ CALENDAR / 54 YEARS ============ -->
 <section class="calendar-section" data-stop="scale2">
   <div class="container">
-    <p class="calendar-lead">One activity a day. You'd need <em>54 years</em> to try them all.</p>
+    <p class="calendar-lead">At one activity a day, you'd need <em>54 years</em> <span class="cal-green">to try them all.</span></p>
     <p class="calendar-sub">Here's what that looks like at 50× speed. Scroll back up to reset.</p>
 
     <div class="calendar-stage">
@@ -1777,63 +1856,71 @@ footer.nf{
 <!-- ============ TESTIMONIALS — CORK BOARD ============ -->
 <section class="cork" data-stop="parents" id="parents">
   <div class="container">
-    <h2>What <em>parents</em> are pinning.</h2>
+    <h2>What <em>parents</em> are (saying) pinning.</h2>
     <p class="cork-sub">Real voices from parents, pinned straight from our inbox.</p>
 
     <div class="cork-board" id="corkBoard">
-      <!-- Polaroid 1 -->
-      <div class="polaroid" style="top:0; left:4%; transform:rotate(-5deg)">
+      <!-- Sticky coral -->
+      <div class="sticky-note coral" style="transform:rotate(-4deg)">
         <div class="pin"></div>
-        <div class="photo">🎨</div>
-        <p class="quote">"I used to spend 30 minutes scrolling Pinterest or Instagram for inspiration and play ideas. Now we're playing in 30 seconds."</p>
-        <p class="author">— Sarah M., Portland OR</p>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        "I used to spend 30 minutes scrolling Pinterest or Instagram for inspiration and play ideas. Now we're playing in 30 seconds."
+        <div class="sn-author">— Sarah M., Portland OR</div>
       </div>
 
       <!-- Sticky note -->
-      <div class="sticky-note" style="top:30px; left:32%; transform:rotate(4deg)">
+      <div class="sticky-note" style="transform:rotate(3deg)">
         <div class="pin"></div>
         <div class="stars">⭐⭐⭐⭐⭐</div>
         "No more 'what should we do?' at 8am."
         <div class="sn-author">— Jessica T.</div>
       </div>
 
-      <!-- Polaroid 2 -->
-      <div class="polaroid" style="top:10px; right:4%; transform:rotate(3deg)">
+      <!-- Sticky green -->
+      <div class="sticky-note green" style="transform:rotate(3deg)">
         <div class="pin"></div>
-        <div class="photo">🔍</div>
-        <p class="quote">"My 6yo now asks for 'Bunny Path time' the way he used to ask for YouTube. No joke."</p>
-        <p class="author">— Marcus R., Austin TX</p>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        "My 6yo now asks for 'Bunny Path time' the way he used to ask for YouTube. No joke."
+        <div class="sn-author">— Marcus R., Austin TX</div>
       </div>
 
-      <!-- Polaroid 3: screen time pain -->
-      <div class="polaroid" style="top:300px; left:8%; transform:rotate(-4deg)">
+      <!-- Sticky lavender: screen time pain -->
+      <div class="sticky-note lavender" style="transform:rotate(-3deg)">
         <div class="pin"></div>
-        <div class="photo">📵</div>
-        <p class="quote">"Screen time used to be my babysitter because I was too tired to think of anything. Now the iPad stays in the drawer."</p>
-        <p class="author">— Priya K., Chicago IL</p>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        "Screen time used to be my babysitter because I was too tired to think of anything. Now the iPad stays in the drawer."
+        <div class="sn-author">— Anna K., Chicago IL</div>
       </div>
 
       <!-- Sticky pink -->
-      <div class="sticky-note pink" style="top:340px; left:36%; transform:rotate(-6deg)">
+      <div class="sticky-note pink" style="transform:rotate(-4deg)">
         <div class="pin"></div>
         <div class="stars">⭐⭐⭐⭐⭐</div>
         "Grandma actually uses it. She has the toddler plan down like a pro now."
         <div class="sn-author">— Rachel K.</div>
       </div>
 
-      <!-- Polaroid 3 -->
-      <div class="polaroid" style="top:310px; right:6%; transform:rotate(5deg)">
-        <div class="pin"></div>
-        <div class="photo">🌲</div>
-        <p class="quote">"The streak system got my 7-year-old doing outdoor play 11 days in a row. I'm amazed."</p>
-        <p class="author">— Dana P., Denver CO</p>
-      </div>
-
       <!-- Sticky blue -->
-      <div class="sticky-note blue" style="top:500px; left:30%; transform:rotate(2deg)">
+      <div class="sticky-note blue" style="transform:rotate(4deg)">
         <div class="pin"></div>
         <div class="stars">⭐⭐⭐⭐⭐</div>
-        "We've done 47 activities we would never have thought of. It's like a tiny curator in my pocket."
+        "The streak system got my 7-year-old doing outdoor play 11 days in a row. I'm amazed."
+        <div class="sn-author">— Dana P., Denver CO</div>
+      </div>
+
+      <!-- Sticky green: babysitter -->
+      <div class="sticky-note green" style="transform:rotate(-2deg)">
+        <div class="pin"></div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        "It's an amazing app. Now I build the babysitter a full day of activities in a few minutes, my kids are engaged, and the babysitter actually thanks me."
+        <div class="sn-author">— Lauren H., Brooklyn NY</div>
+      </div>
+
+      <!-- Sticky yellow (spans below, centered) -->
+      <div class="sticky-note cork-wide" style="transform:rotate(2deg)">
+        <div class="pin"></div>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        "We've done 41 activities we would never have thought of. It's like a tiny curator in my pocket."
         <div class="sn-author">— Priya S.</div>
       </div>
     </div>
@@ -1846,33 +1933,83 @@ footer.nf{
     <h2>Built like a real <em>play ritual</em>.</h2>
     <p class="features-sub">No Pinterest or Instagram doom scrolling. A guilt-free, off-screen world of play ideas one tap away.</p>
     <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🎯</div>
+      <div class="feature-card fc-target">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="13" fill="#FFFBEF" stroke="#4A2B18" stroke-width="2"/>
+            <circle cx="16" cy="16" r="8.5" fill="#E8960F" stroke="#4A2B18" stroke-width="1.5"/>
+            <circle cx="16" cy="16" r="4" fill="#E37756" stroke="#4A2B18" stroke-width="1.5"/>
+            <path d="M16 16 L26 6" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/>
+            <path d="M22 6 L26 6 L26 10" stroke="#4A2B18" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
         <h3>Personalized by age</h3>
         <p>Activities adapt as your child grows. 2-year-old play is a different universe from 5-year-old play.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚖️</div>
+      <div class="feature-card fc-balance">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M16 6 L16 26" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/>
+            <path d="M9 9 L23 9" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/>
+            <path d="M9 9 L5 17 L13 17 Z" fill="#E37756" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M23 9 L19 17 L27 17 Z" fill="#8BA44C" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/>
+            <rect x="13" y="24" width="6" height="3" rx="1" fill="#E8960F" stroke="#4A2B18" stroke-width="1.5"/>
+          </svg>
+        </div>
         <h3>Balanced daily</h3>
         <p>One creative, one active, one discovery — well-rounded play without you planning a thing.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">⏱️</div>
+      <div class="feature-card fc-time">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <rect x="13" y="3" width="6" height="2.5" rx="1" fill="#4A2B18"/>
+            <circle cx="16" cy="18" r="11" fill="#FFFBEF" stroke="#4A2B18" stroke-width="2"/>
+            <path d="M16 18 L16 11" stroke="#E37756" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M16 18 L21 21" stroke="#E8960F" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="16" cy="18" r="1.5" fill="#4A2B18"/>
+            <path d="M24 9 L26 7" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
         <h3>Under a minute (if needed)</h3>
         <p>Simple materials, clear steps, zero prep. Because you don't have 30 minutes to set up a craft.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🌱</div>
+      <div class="feature-card fc-grow">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M16 27 L16 14" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16 17 C 10 17, 8 12, 9 8 C 13 8, 16 11, 16 17 Z" fill="#8BA44C" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M16 14 C 22 14, 24 9, 23 5 C 19 5, 16 8, 16 14 Z" fill="#B8D070" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M9 28 Q 16 25 23 28" stroke="#4A2B18" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <circle cx="24" cy="10" r="1.5" fill="#E8960F"/>
+          </svg>
+        </div>
         <h3>Grows with streaks</h3>
         <p>Activity streaks and badges turn daily play into something your kid actually looks forward to.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔄</div>
+      <div class="feature-card fc-swap">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M6 12 A 10 10 0 0 1 24 9" stroke="#E37756" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M20 5 L24 9 L20 13" stroke="#E37756" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M26 20 A 10 10 0 0 1 8 23" stroke="#8BA44C" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M12 27 L8 23 L12 19" stroke="#8BA44C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="16" cy="16" r="2" fill="#E8960F" stroke="#4A2B18" stroke-width="1"/>
+          </svg>
+        </div>
         <h3>Swap if it doesn't fit</h3>
         <p>Raining? Swap outdoor for indoor instantly. You're always in control.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">👨‍👩‍👧</div>
+      <div class="feature-card fc-share">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <circle cx="9" cy="11" r="3.5" fill="#E37756" stroke="#4A2B18" stroke-width="1.5"/>
+            <path d="M3 23 C 3 18, 6 16, 9 16 C 12 16, 15 18, 15 23 Z" fill="#E37756" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="23" cy="11" r="3.5" fill="#E8960F" stroke="#4A2B18" stroke-width="1.5"/>
+            <path d="M17 23 C 17 18, 20 16, 23 16 C 26 16, 29 18, 29 23 Z" fill="#E8960F" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="16" cy="22" r="2.5" fill="#8BA44C" stroke="#4A2B18" stroke-width="1.5"/>
+            <path d="M12 30 C 12 26.5, 14 25, 16 25 C 18 25, 20 26.5, 20 30 Z" fill="#8BA44C" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <h3>Share with family</h3>
         <p>Grandparents, babysitters, and partners can see today's plan and join in.</p>
       </div>
@@ -1884,7 +2021,7 @@ footer.nf{
 <section class="trust" data-stop="trust" aria-label="Privacy &amp; safety">
   <div class="container">
     <div class="trust-inner">
-      <div class="trust-item"><span class="t-ic">🔒</span>No behavioral ad targeting</div>
+      <div class="trust-item"><span class="t-ic">🔒</span>Zero tracking on kids</div>
       <div class="trust-divider"></div>
       <div class="trust-item"><span class="t-ic">📵</span>Off-screen by design</div>
       <div class="trust-divider"></div>
@@ -1896,34 +2033,12 @@ footer.nf{
 <!-- ============ NIGHT SCENE FOOTER ============ -->
 <!-- ============ GARDEN FINALE ============ -->
 <section class="garden" data-stop="download-2">
-  <!-- Garden bloom decoration: a sweeping curve with flowers across the CTA -->
-  <svg class="garden-bloom-svg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <!-- Path enters from top-left (where the spine path ends) and meanders across to meet the CTA center -->
-    <path class="bloom-path" d="
-      M 40 60
-      C 120 120, 220 40, 340 120
-      S 520 260, 420 360
-      S 280 560, 440 640
-      S 680 740, 700 680
-      S 860 480, 980 560
-      S 1220 640, 1340 500
-    "/>
-  </svg>
-
-  <!-- Flowers (polaroids) placed along the path -->
-  <div class="garden-flowers" id="gardenFlowers"></div>
-
-  <!-- Butterflies fluttering -->
-  <div class="butterfly b1" aria-hidden="true">🦋</div>
-  <div class="butterfly b2" aria-hidden="true">🦋</div>
-  <div class="butterfly b3" aria-hidden="true">🦋</div>
-
-  <!-- Grass silhouette at the horizon -->
-  <div class="garden-grass" aria-hidden="true">
-    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-      <path d="M0,80 C120,60 200,90 320,70 C440,50 520,95 640,75 C760,55 840,90 960,70 C1080,50 1160,95 1280,75 C1360,62 1420,85 1440,80 L1440,120 L0,120 Z" fill="#6FA77D" opacity=".35"/>
-      <path d="M0,100 C100,85 220,105 340,92 C460,80 540,110 660,95 C780,82 880,108 1000,95 C1120,82 1220,108 1340,96 C1400,90 1440,100 1440,100 L1440,120 L0,120 Z" fill="#5A8F68" opacity=".5"/>
-    </svg>
+  <!-- Butterflies only — background (path, grass, cards, flowers) now provided by the garden-scene image -->
+  <div class="garden-decor" aria-hidden="true">
+    <!-- Blue butterfly -->
+    <svg class="wing w1" width="44" height="36" viewBox="0 0 44 36"><defs><linearGradient id="bwg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#A9D4F0"/><stop offset="100%" stop-color="#5B97C9"/></linearGradient></defs><g><path d="M22 18 C16 6, 4 6, 4 14 C4 22, 14 26, 22 18 Z" fill="url(#bwg1)" stroke="#4478A9" stroke-width=".8"/><path d="M22 18 C28 6, 40 6, 40 14 C40 22, 30 26, 22 18 Z" fill="url(#bwg1)" stroke="#4478A9" stroke-width=".8"/><path d="M22 18 C18 24, 12 32, 15 34 C19 35, 21 26, 22 18 Z" fill="#BEDCF2" stroke="#4478A9" stroke-width=".8"/><path d="M22 18 C26 24, 32 32, 29 34 C25 35, 23 26, 22 18 Z" fill="#BEDCF2" stroke="#4478A9" stroke-width=".8"/><ellipse cx="22" cy="18" rx="1.2" ry="6" fill="#2B2218"/><path d="M21 12 L18 7 M23 12 L26 7" stroke="#2B2218" stroke-width=".8" fill="none" stroke-linecap="round"/></g></svg>
+    <!-- Peach butterfly (mid-right) -->
+    <svg class="wing w2" width="38" height="30" viewBox="0 0 38 30"><defs><linearGradient id="bwg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F4B58A"/><stop offset="100%" stop-color="#D98B62"/></linearGradient></defs><g><path d="M19 15 C13 4, 3 4, 3 12 C3 19, 12 22, 19 15 Z" fill="url(#bwg2)" stroke="#B56F47" stroke-width=".7"/><path d="M19 15 C25 4, 35 4, 35 12 C35 19, 26 22, 19 15 Z" fill="url(#bwg2)" stroke="#B56F47" stroke-width=".7"/><path d="M19 15 C15 20, 10 28, 13 29 C16 29, 18 22, 19 15 Z" fill="#F8CEB2" stroke="#B56F47" stroke-width=".7"/><path d="M19 15 C23 20, 28 28, 25 29 C22 29, 20 22, 19 15 Z" fill="#F8CEB2" stroke="#B56F47" stroke-width=".7"/><ellipse cx="19" cy="15" rx="1" ry="5" fill="#2B2218"/></g></svg>
   </div>
 
   <div class="container">
@@ -1931,27 +2046,33 @@ footer.nf{
       <h2>Every hop is <em>a memory.</em></h2>
       <p class="plant-line">Plant yours today.</p>
       <div class="garden-cta">
-        <a href="#" class="garden-btn primary" aria-label="Download for iPhone">
+        <a href="https://apps.apple.com/app/id6761960397" class="garden-btn primary" aria-label="Download for iPhone">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:20px;height:20px"><path d="M17.05 12.04c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.45-2.24-4.19-2.27-1.78-.18-3.48 1.05-4.39 1.05-.92 0-2.31-1.03-3.8-1-1.95.03-3.76 1.14-4.76 2.88-2.04 3.54-.52 8.78 1.46 11.66.97 1.41 2.12 3 3.61 2.94 1.45-.06 2-.94 3.75-.94 1.75 0 2.24.94 3.77.91 1.56-.03 2.55-1.44 3.5-2.86 1.12-1.64 1.58-3.23 1.6-3.32-.03-.01-3.06-1.17-3.02-4.7zM14.2 3.9c.8-.97 1.34-2.31 1.19-3.65-1.15.05-2.54.77-3.37 1.73-.74.85-1.4 2.22-1.22 3.53 1.28.1 2.6-.65 3.4-1.61z"/></svg>
           <span>Download for iPhone</span>
         </a>
-        <a href="#" class="garden-btn ghost" aria-label="Download for Android">
+        <a href="https://play.google.com/store/apps/details?id=com.kodsters.bunnypath" class="garden-btn ghost" aria-label="Download for Android">
           <svg viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M3.18 2.57c-.36.36-.56.93-.56 1.67v15.52c0 .74.2 1.31.56 1.67l.09.08 8.7-8.7v-.16L3.27 2.48l-.09.09z" fill="#5BC9F4"/><path d="M15.13 15.69l-2.9-2.9v-.16l2.9-2.9.07.04 3.43 1.95c.98.56.98 1.47 0 2.03l-3.43 1.95-.07-.01z" fill="#FEE101"/><path d="M15.2 15.68L12.23 12.7 3.18 21.77c.33.33.85.37 1.45.04l10.57-6.13" fill="#EA4335"/><path d="M15.2 8.32L4.63 2.19c-.6-.33-1.12-.29-1.45.04l9.05 9.05 2.97-2.96z" fill="#34A853"/></svg>
           <span>Download for Android</span>
         </a>
       </div>
     </div>
+  </div>
+</section>
 
-    <footer class="nf">
+<!-- Footer lives outside the garden so scattered cards can't overlap it -->
+<footer class="nf-wrap">
+  <div class="container">
+    <div class="nf">
       <div>© <span id="currentYear">2026</span> Bunny Path · Made with 🧡 for families everywhere.</div>
       <div class="nf-links">
+        <a href="/">Home</a>
         <a href="/legal/privacy/">Privacy</a>
         <a href="/legal/terms/">Terms</a>
         <a href="mailto:hello@bunnypath.com">Contact</a>
       </div>
-    </footer>
+    </div>
   </div>
-</section>
+</footer>
 
 <script>
 /* =========================================================
@@ -1959,11 +2080,11 @@ footer.nf{
    ========================================================= */
 const ACTIVITIES_BY_AGE = {
   infant:   { // 0-1
-    greeting:(n)=>`Peekaboo, ${n}! 🐰`,
+    greeting:(n)=>`Peekaboo, ${n}! 🐇`,
     childMeta:(age)=>`Age ${age} · Sensory & snuggles`,
     bracketLabel:"🍼 Infant sensory",
     bracket:"infant",
-    floaty:["🍼","🎵","👐","✨"],
+    floaty:["baby","music","heart","sparkles"],
     cards:[
       {type:"creative", tc:"c", emoji:"🫧", title:"Ribbon Peekaboo", meta:"5 min · No mess"},
       {type:"discovery", tc:"d", emoji:"🔔", title:"Sound & Shake", meta:"10 min · Sensory"},
@@ -1971,11 +2092,11 @@ const ACTIVITIES_BY_AGE = {
     ]
   },
   toddler:  { // 2-3
-    greeting:(n)=>`Good morning, ${n}! 🐰`,
+    greeting:(n)=>`Good morning, ${n}! 🐇`,
     childMeta:(age)=>`Age ${age} · Toddler play`,
     bracketLabel:"🌼 Toddler play",
     bracket:"toddler",
-    floaty:["🧸","🎨","🪣","🌼"],
+    floaty:["rabbit","palette","flower","star"],
     cards:[
       {type:"creative", tc:"c", emoji:"🎨", title:"Rainbow Sponge Stamps", meta:"15 min · No mess"},
       {type:"discovery", tc:"d", emoji:"🫘", title:"Bean Treasure Hunt", meta:"12 min · Sensory"},
@@ -1983,11 +2104,11 @@ const ACTIVITIES_BY_AGE = {
     ]
   },
   preschool:{ // 4-5
-    greeting:(n)=>`Hey ${n}! What are we making? 🐰`,
+    greeting:(n)=>`Hey ${n}! What are we making? 🐇`,
     childMeta:(age)=>`Age ${age} · Preschool play`,
     bracketLabel:"🌱 Preschool play",
     bracket:"preschool",
-    floaty:["🎨","🔍","⚽","✨"],
+    floaty:["palette","search","trophy","sparkles"],
     cards:[
       {type:"creative", tc:"c", emoji:"🏰", title:"Cardboard Castle Quest", meta:"25 min · Easy prep"},
       {type:"discovery", tc:"d", emoji:"🧪", title:"Kitchen Science Lab", meta:"20 min · 3 materials"},
@@ -1995,11 +2116,11 @@ const ACTIVITIES_BY_AGE = {
     ]
   },
   school:   { // 6-9
-    greeting:(n)=>`Ready for today's quest, ${n}? 🐰`,
+    greeting:(n)=>`Ready for today's quest, ${n}? 🐇`,
     childMeta:(age)=>`Age ${age} · School-age adventures`,
     bracketLabel:"🚀 School-age adventures",
     bracket:"school",
-    floaty:["🧪","🎲","🚴","🔬"],
+    floaty:["microscope","dices","bike","telescope"],
     cards:[
       {type:"creative", tc:"c", emoji:"📖", title:"Build-a-Comic Book", meta:"30 min · Solo or duo"},
       {type:"discovery", tc:"d", emoji:"🔭", title:"Backyard Astronomer", meta:"20 min · Evening"},
@@ -2007,11 +2128,11 @@ const ACTIVITIES_BY_AGE = {
     ]
   },
   preteen:  { // 10-12
-    greeting:(n)=>`What's the plan today, ${n}? 🐰`,
+    greeting:(n)=>`What's the plan today, ${n}? 🐇`,
     childMeta:(age)=>`Age ${age} · Pre-teen projects`,
     bracketLabel:"🧭 Pre-teen projects",
     bracket:"preteen",
-    floaty:["💡","🧱","🎤","🏕️"],
+    floaty:["lightbulb","building-2","mic","tent"],
     cards:[
       {type:"creative", tc:"c", emoji:"🎙️", title:"Record a Mini Podcast", meta:"45 min · Solo"},
       {type:"discovery", tc:"d", emoji:"🏗️", title:"Engineer a Bridge", meta:"35 min · STEM"},
@@ -2139,21 +2260,21 @@ const CARDS_BY_AGE = {
   ],
 };
 
-/* Per-integer-age floaty emojis around the phone. */
+/* Per-integer-age floaty Lucide icon names around the phone. */
 const FLOATY_BY_AGE = {
-  0:  ["🍼","🎵","👐","✨"],
-  1:  ["🧦","🪀","🫧","🌼"],
-  2:  ["🧸","🎨","🪣","🌼"],
-  3:  ["🧱","🌈","🦘","⭐"],
-  4:  ["🎨","🔍","⚽","✨"],
-  5:  ["✂️","🌱","🪁","🎈"],
-  6:  ["📖","🔭","🛹","🎲"],
-  7:  ["🖌️","🌋","🧗","🔍"],
-  8:  ["🧵","🔬","⚽","🌟"],
-  9:  ["🎬","🗺️","🚴","🎒"],
-  10: ["🎙️","🏗️","🥾","💡"],
-  11: ["📓","💡","🧗","🎧"],
-  12: ["💻","🍳","🏕️","🎯"],
+  0:  ["baby","music","heart","sparkles"],
+  1:  ["rabbit","music","sparkles","flower"],
+  2:  ["palette","blocks","flower","star"],
+  3:  ["blocks","rainbow","sparkles","star"],
+  4:  ["palette","search","trophy","sparkles"],
+  5:  ["scissors","sprout","kite","party-popper"],
+  6:  ["book-open","telescope","skateboard","dices"],
+  7:  ["paintbrush","mountain","compass","search"],
+  8:  ["microscope","dices","trophy","star"],
+  9:  ["clapperboard","map","bike","backpack"],
+  10: ["mic","building-2","tent","lightbulb"],
+  11: ["notebook-pen","lightbulb","mountain","headphones"],
+  12: ["laptop","chef-hat","tent","target"],
 };
 
 /* =========================================================
@@ -2251,7 +2372,7 @@ const FLOATY_BY_AGE = {
 
   function showDetail(title){
     const d = DETAIL_DATA[title];
-    if(!d){ rightContent.innerHTML = `<div class="detail-empty"><div class="detail-empty-icon">🐰</div><p>Coming soon!</p></div>`; return; }
+    if(!d){ rightContent.innerHTML = `<div class="detail-empty"><div class="detail-empty-icon">🐇</div><p>Coming soon!</p></div>`; return; }
     rightContent.innerHTML = `
       <div class="detail-view active">
         <div class="detail-back">← Back</div>
@@ -2274,6 +2395,9 @@ const FLOATY_BY_AGE = {
       rightContent.innerHTML = `<div class="detail-empty"><div class="detail-empty-icon">👆</div><p>Tap <b>Surprise Me!</b><br>then pick a card to see the details here.</p></div>`;
     });
   }
+
+  // Default: show Kitchen Science Lab so the right phone isn't empty on arrival.
+  showDetail('Kitchen Science Lab');
 })();
 
 /* =========================================================
@@ -2281,16 +2405,8 @@ const FLOATY_BY_AGE = {
    ========================================================= */
 (function explosion(){
   const stage = document.getElementById('explosionStage');
-  const origin = document.getElementById('explosionOrigin');
   const cloud = document.getElementById('tileCloud');
-  const btn = document.getElementById('explodeBtn');
-  const resetBtn = document.getElementById('resetExplodeBtn');
   if(!stage||!cloud) return;
-
-  // Start in exploded state so visitors see the cloud immediately on first load.
-  origin.classList.add('exploded');
-  btn.style.display = 'none';
-  resetBtn.style.display = 'inline-block';
 
   const palettes = [
     {bg:'#FFF5F5', fg:'#F43F5E', emoji:'🎨'},
@@ -2344,9 +2460,23 @@ const FLOATY_BY_AGE = {
   const vw = Math.min(window.innerWidth, 1600);
   const isNarrow = vw < 720;
   const TILE_COUNT = isNarrow ? 56 : (vw < 1100 ? 84 : 108);
-  const horizontalReach = isNarrow ? (vw*0.42) : Math.min(vw*0.46, 720); // half-width the cloud fills
-  const verticalReach = isNarrow ? 180 : 230;
-  const depthReach = isNarrow ? 240 : 340;
+  // Globe-like: horizontal diameter == depth diameter (equator is a circle),
+  // vertical axis slightly shorter so the shape rotates uniformly around Y.
+  // On mobile, clamp the equator tighter so rotating tiles never clip out of the
+  // stage horizontally OR vertically. Account for tile width (~42px) by leaving
+  // ~30px of padding on each edge.
+  const tileHalf = isNarrow ? 24 : 30;
+  const equator = isNarrow
+    ? Math.max(90, (vw/2) - tileHalf - 12)   // half-width minus tile + gutter
+    : Math.min(vw*0.42, 520);
+  const horizontalReach = equator;
+  const depthReach = equator;
+  // On mobile, verticalReach must also stay within the stage height (420-460px).
+  // Stage half-height minus tile-half minus gutter.
+  const stageH = isNarrow ? (vw < 420 ? 420 : 460) : 620;
+  const verticalReach = isNarrow
+    ? Math.min(equator * 0.55, (stageH/2) - tileHalf - 12)
+    : equator * 0.55;
   const tiles = [];
 
   for(let i=0;i<TILE_COUNT;i++){
@@ -2362,17 +2492,21 @@ const FLOATY_BY_AGE = {
     t.dataset.fg = p.fg;
     t.setAttribute('aria-label', act.name);
     cloud.appendChild(t);
-    // Target position: ellipsoid that's much wider than tall, so the cloud feels like it
-    // "barely fits the screen" horizontally while staying compact vertically.
-    const theta = Math.random()*Math.PI*2;
-    const phi = Math.acos(2*Math.random()-1);
-    // Bias points toward the shell so the cloud has a defined outer edge
-    const rNorm = 0.55 + Math.random()*0.45;
+    // Uniform distribution on an ellipsoid shell via Fibonacci lattice (golden angle).
+    // Gives an even, non-clumpy spread instead of Math.random() lumps.
+    const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+    const y = 1 - (i / (TILE_COUNT - 1)) * 2;        // -1 → 1
+    const radius = Math.sqrt(1 - y*y);
+    const theta = GOLDEN * i;
+    // Tiny jitter so the grid doesn't look mechanical
+    const jx = (Math.random()-.5)*0.08;
+    const jy = (Math.random()-.5)*0.08;
+    const jz = (Math.random()-.5)*0.08;
     tiles.push({
       el:t,
-      tx:Math.cos(theta)*Math.sin(phi)*horizontalReach*rNorm,
-      ty:(Math.cos(phi))*verticalReach*rNorm,
-      tz:Math.sin(theta)*Math.sin(phi)*depthReach*rNorm,
+      tx:(Math.cos(theta)*radius + jx) * horizontalReach,
+      ty:(y + jy) * verticalReach,
+      tz:(Math.sin(theta)*radius + jz) * depthReach,
       rot:(Math.random()*40-20)
     });
   }
@@ -2399,8 +2533,8 @@ const FLOATY_BY_AGE = {
         let z1 = -t.tx*sinY + t.tz*cosY;
         let y2 = t.ty*cosX - z1*sinX;
         let z2 = t.ty*sinX + z1*cosX;
-        const scale = (z2+400)/500;
-        t.el.style.opacity = 0.45 + Math.max(0, Math.min(.55, (z2+250)/500));
+        const scale = Math.max(0.4, Math.min(1.15, (z2+400)/600));
+        t.el.style.opacity = 0.55 + Math.max(0, Math.min(.45, (z2+250)/600));
         t.el.style.transform = `translate(-50%,-50%) translate3d(${x1}px,${y2}px,${z2}px) scale(${scale}) rotate(${t.rot}deg)`;
         t.el.style.zIndex = Math.round(z2);
       }
@@ -2461,23 +2595,8 @@ const FLOATY_BY_AGE = {
   });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideActivity(); });
 
-  btn.addEventListener('click',()=>{
-    exploded = true;
-    origin.classList.add('exploded');
-    resetBtn.style.display='inline-block';
-    btn.style.display='none';
-    tiles.forEach((t,i)=>{
-      setTimeout(()=>{ /* CSS transition handles it */ }, i*8);
-    });
-    updateTiles();
-  });
-  resetBtn.addEventListener('click',()=>{
-    exploded = false;
-    origin.classList.remove('exploded');
-    resetBtn.style.display='none';
-    btn.style.display='inline-block';
-    updateTiles();
-  });
+  // Cloud is always exploded — no open/reset buttons anymore.
+  updateTiles();
 
   // Drag to rotate
   function onDown(e){
@@ -2515,15 +2634,7 @@ const FLOATY_BY_AGE = {
   }
   raf();
 
-  // Auto-trigger when scrolled into view
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting && !exploded){
-        setTimeout(()=> btn.click(), 300);
-      }
-    });
-  },{threshold:.35});
-  io.observe(stage);
+  // Cloud is always visible — no auto-trigger needed.
 })();
 
 /* =========================================================
@@ -2575,13 +2686,16 @@ const FLOATY_BY_AGE = {
       </div>
     `).join('');
 
-    // Floaty emojis — per-age if available, else bracket default.
+    // Floaty icons (Lucide) — per-age if available, else bracket default.
     const floatySet = FLOATY_BY_AGE[age] || data.floaty;
-    floatySet.forEach((emoji,i)=>{
+    floatySet.forEach((name,i)=>{
       if(!floaties[i]) return;
-      floaties[i].textContent = emoji;
+      floaties[i].innerHTML = `<i data-lucide="${name}"></i>`;
       floaties[i].classList.add('show');
     });
+    if(window.lucide && typeof window.lucide.createIcons === 'function'){
+      window.lucide.createIcons();
+    }
   }
   slider.addEventListener('input', update);
   update();
@@ -2666,24 +2780,24 @@ const FLOATY_BY_AGE = {
   const el = document.getElementById('tickerRow');
   if(!el) return;
   const items = [
-    {age:4, city:'Seattle, WA', emoji:'🎨', activity:'Rainbow Sponge Stamps'},
-    {age:7, city:'Austin, TX', emoji:'🔭', activity:'Backyard Astronomer'},
-    {age:2, city:'Portland, OR', emoji:'🫘', activity:'Bean Treasure Hunt'},
-    {age:9, city:'Denver, CO', emoji:'🏗️', activity:'Engineer a Bridge'},
-    {age:3, city:'Brooklyn, NY', emoji:'🤾', activity:'Animal Freeze Dance'},
-    {age:5, city:'Chicago, IL', emoji:'🏰', activity:'Cardboard Castle Quest'},
-    {age:8, city:'San Diego, CA', emoji:'🛹', activity:'Neighborhood Olympics'},
-    {age:6, city:'Boston, MA', emoji:'📖', activity:'Build-a-Comic Book'},
-    {age:11, city:'Nashville, TN', emoji:'🎙️', activity:'Mini Podcast'},
-    {age:4, city:'Minneapolis, MN', emoji:'🧪', activity:'Kitchen Science Lab'},
-    {age:10, city:'Phoenix, AZ', emoji:'🥾', activity:'Photo Scavenger Hike'},
-    {age:3, city:'Miami, FL', emoji:'🏃', activity:'Backyard Bug Hunt'},
+    {name:'Emma',    emoji:'🎨',  activity:'Rainbow Sponge Stamps'},
+    {name:'Oliver',  emoji:'🔭',  activity:'Backyard Astronomer'},
+    {name:'Mia',     emoji:'🫘',  activity:'Bean Treasure Hunt'},
+    {name:'Leo',     emoji:'🏗️', activity:'Engineer a Bridge'},
+    {name:'Sofia',   emoji:'🤾',  activity:'Animal Freeze Dance'},
+    {name:'Noah',    emoji:'🏰',  activity:'Cardboard Castle Quest'},
+    {name:'Ava',     emoji:'🛹',  activity:'Neighborhood Olympics'},
+    {name:'Kai',     emoji:'📖',  activity:'Build-a-Comic Book'},
+    {name:'Jasmine', emoji:'🎙️', activity:'Mini Podcast'},
+    {name:'Jimmy',   emoji:'🧪',  activity:'Kitchen Science Lab'},
+    {name:'Zoe',     emoji:'🥾',  activity:'Photo Scavenger Hike'},
+    {name:'Theo',    emoji:'🏃',  activity:'Backyard Bug Hunt'},
   ];
   function makeItem(i){
     return `<div class="ticker-item">
       <span class="pulse-dot"></span>
       <span>${i.emoji}</span>
-      <span>A <em>${i.age}-year-old</em> in <span class="tloc">${i.city}</span> just started <em>${i.activity}</em></span>
+      <span><em>${i.name}</em> just started <em>${i.activity}</em></span>
     </div>`;
   }
   // Double the content so the -50% loop is seamless
@@ -2692,115 +2806,223 @@ const FLOATY_BY_AGE = {
 })();
 
 /* =========================================================
-   GARDEN — bloom flowers along the path
+   GARDEN — polaroid cards scattered along the winding path
    ========================================================= */
 (function garden(){
-  const holder = document.getElementById('gardenFlowers');
+  const holder = document.getElementById('gardenCards');
   const section = document.querySelector('.garden');
-  const svg = document.querySelector('.garden-bloom-svg');
-  const pathEl = svg && svg.querySelector('.bloom-path');
-  if(!holder || !section || !pathEl) return;
+  if(!holder || !section) return;
 
-  // Each flower is a mini-polaroid of an activity
-  const blooms = [
-    {emoji:'🎨', tag:'paint'},
-    {emoji:'🫧', tag:'bubbles'},
-    {emoji:'🏃', tag:'run'},
-    {emoji:'🧩', tag:'puzzle'},
-    {emoji:'📚', tag:'read'},
-    {emoji:'🔭', tag:'explore'},
-    {emoji:'🎵', tag:'dance'},
-    {emoji:'🌱', tag:'garden'},
-    {emoji:'🪁', tag:'kite'},
-    {emoji:'🧁', tag:'bake'},
-    {emoji:'🫂', tag:'snuggle'},
-    {emoji:'✨', tag:'wonder'}
-  ];
-
-  const petalColors = ['#F7B8B0','#FFD59E','#C8E6B3','#B8D8F5','#F5C4E0','#FDE7A3','#E8CDEF'];
-
-  function petalSVG(color){
-    // Soft 5-petal daisy behind the polaroid
-    return `<svg viewBox="0 0 100 100" aria-hidden="true">
-      <g transform="translate(50 50)">
-        ${[0,1,2,3,4,5,6].map(i=>{
-          const a = (i/7)*360;
-          return `<ellipse cx="0" cy="-28" rx="14" ry="22" fill="${color}" opacity=".85" transform="rotate(${a})"/>`;
-        }).join('')}
-        <circle r="12" fill="#FFE7A8"/>
+  // Soft-illustrated icons with gradient highlights, matching the reference's watercolor feel.
+  const ART = {
+    // Iridescent colored bubbles
+    bubbles:()=>`<svg viewBox="0 0 80 68"><defs>
+      <radialGradient id="b1" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="35%" stop-color="#E3F1FA"/><stop offset="100%" stop-color="#9CC9EA"/></radialGradient>
+      <radialGradient id="b2" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="35%" stop-color="#FCE2DC"/><stop offset="100%" stop-color="#F0A898"/></radialGradient>
+      <radialGradient id="b3" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="35%" stop-color="#FFF2CE"/><stop offset="100%" stop-color="#F3CE7A"/></radialGradient>
+    </defs>
+    <g><circle cx="52" cy="22" r="9" fill="url(#b3)"/><circle cx="50" cy="20" r="2.2" fill="#fff" opacity=".85"/>
+    <circle cx="30" cy="34" r="13" fill="url(#b1)"/><circle cx="26" cy="30" r="3.2" fill="#fff" opacity=".9"/>
+    <circle cx="56" cy="44" r="8" fill="url(#b2)"/><circle cx="54" cy="42" r="2" fill="#fff" opacity=".85"/></g></svg>`,
+    // Running figure with motion lines
+    run:()=>`<svg viewBox="0 0 80 68"><defs><linearGradient id="rsh" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#FFE082"/><stop offset="100%" stop-color="#F2C14E"/></linearGradient><linearGradient id="rsk" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#FADDBA"/><stop offset="100%" stop-color="#E8B98A"/></linearGradient></defs>
+    <g>
+      <!-- motion lines -->
+      <path d="M14 22 L22 22 M12 30 L22 30 M14 38 L20 38" stroke="#E8A766" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
+      <!-- head -->
+      <circle cx="44" cy="18" r="7" fill="url(#rsk)"/>
+      <!-- hair tuft -->
+      <path d="M40 13 Q44 9 48 13" stroke="#8B6236" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- body (yellow shirt) -->
+      <path d="M36 26 Q34 36 42 42 L48 46" stroke="url(#rsh)" stroke-width="9" fill="none" stroke-linecap="round"/>
+      <!-- front arm -->
+      <path d="M42 30 L30 28" stroke="url(#rsk)" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- back arm -->
+      <path d="M46 30 L56 24" stroke="url(#rsk)" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- back leg (shorts to knee) -->
+      <path d="M42 42 L34 50" stroke="#5B97C9" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <!-- calf + shoe -->
+      <path d="M34 50 L30 58" stroke="url(#rsk)" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="28" cy="59" rx="4" ry="2" fill="#E89B82"/>
+      <!-- front leg -->
+      <path d="M48 46 L54 56" stroke="#5B97C9" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="56" cy="58" rx="4" ry="2" fill="#E89B82"/>
+      <!-- baseline dash -->
+      <path d="M22 62 L58 62" stroke="#7FB8E5" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/>
+    </g></svg>`,
+    // Green jigsaw puzzle piece
+    puzzle:()=>`<svg viewBox="0 0 80 68"><defs><linearGradient id="pz" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#9AD187"/><stop offset="100%" stop-color="#5EA44E"/></linearGradient></defs>
+    <g transform="translate(40 34) rotate(-8) translate(-22 -20)">
+      <path d="M0 4 Q0 0 4 0 L14 0 Q14 -7 22 -7 Q30 -7 30 0 L40 0 Q44 0 44 4 L44 14 Q51 14 51 22 Q51 30 44 30 L44 36 Q44 40 40 40 L4 40 Q0 40 0 36 L0 26 Q-7 26 -7 18 Q-7 10 0 10 Z"
+        fill="url(#pz)" stroke="#3E7D33" stroke-width="1.4" stroke-linejoin="round"/>
+      <!-- highlight -->
+      <path d="M5 4 Q5 3 7 3 L14 3" stroke="#C9E6B6" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
+    </g></svg>`,
+    // Stack of 3 colored books
+    read:()=>`<svg viewBox="0 0 80 68"><defs>
+      <linearGradient id="bk1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#9AD187"/><stop offset="100%" stop-color="#5EA44E"/></linearGradient>
+      <linearGradient id="bk2" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#F4B58A"/><stop offset="100%" stop-color="#D98B62"/></linearGradient>
+      <linearGradient id="bk3" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#9CC9EA"/><stop offset="100%" stop-color="#5B97C9"/></linearGradient>
+    </defs>
+    <g>
+      <!-- bottom: green (widest) -->
+      <rect x="14" y="48" width="52" height="10" rx="2" fill="url(#bk1)" stroke="#3E7D33" stroke-width="1.2"/>
+      <line x1="20" y1="52" x2="60" y2="52" stroke="#fff" stroke-width="0.8" opacity=".4"/>
+      <!-- middle: peach -->
+      <rect x="20" y="34" width="42" height="14" rx="2" fill="url(#bk2)" stroke="#B56F47" stroke-width="1.2"/>
+      <line x1="24" y1="38" x2="58" y2="38" stroke="#fff" stroke-width="0.8" opacity=".45"/>
+      <!-- top: blue (narrower, offset slightly) -->
+      <rect x="26" y="18" width="34" height="16" rx="2" fill="url(#bk3)" stroke="#4478A9" stroke-width="1.2"/>
+      <line x1="30" y1="22" x2="56" y2="22" stroke="#fff" stroke-width="0.8" opacity=".5"/>
+      <!-- bookmark peeking from middle book -->
+      <path d="M52 34 L52 44 L54 40 L56 44 L56 34" fill="#F5D07A" stroke="#C9A050" stroke-width="0.8"/>
+    </g></svg>`,
+    // Telescope on tripod
+    explore:()=>`<svg viewBox="0 0 80 68"><defs><linearGradient id="tsc" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#E3E6EC"/><stop offset="100%" stop-color="#9EA4AD"/></linearGradient><linearGradient id="tsb" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#9CC9EA"/><stop offset="100%" stop-color="#5B97C9"/></linearGradient></defs>
+    <g>
+      <!-- tripod legs -->
+      <path d="M28 58 L36 36" stroke="#5A4A3C" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M52 58 L44 36" stroke="#5A4A3C" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M40 58 L40 40" stroke="#5A4A3C" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- tube (tilted up-right) -->
+      <g transform="translate(40 30) rotate(-22)">
+        <rect x="-14" y="-5" width="32" height="10" rx="3" fill="url(#tsc)" stroke="#6F7680" stroke-width="1.2"/>
+        <!-- big end (eyepiece) -->
+        <ellipse cx="18" cy="0" rx="3" ry="5" fill="url(#tsb)" stroke="#4478A9" stroke-width="1"/>
+        <!-- small end (viewer) -->
+        <rect x="-16" y="-3" width="4" height="6" rx="1.5" fill="#5A4A3C"/>
       </g>
-    </svg>`;
-  }
+      <!-- star/twinkle in sky -->
+      <path d="M62 14 L64 18 L68 19 L64 20 L62 24 L60 20 L56 19 L60 18 Z" fill="#F5D07A"/>
+    </g></svg>`,
+    // Pot of crayons poking up
+    draw:()=>`<svg viewBox="0 0 80 68"><defs><linearGradient id="cup" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#9ECAE8"/><stop offset="100%" stop-color="#5B97C9"/></linearGradient></defs>
+    <g>
+      <!-- crayons (staggered) -->
+      <g>
+        <!-- red -->
+        <rect x="24" y="18" width="6" height="22" rx="1" fill="#E89B82" stroke="#C47A62" stroke-width="1"/>
+        <path d="M24 18 L27 14 L30 18 Z" fill="#C47A62"/>
+        <!-- yellow -->
+        <rect x="32" y="12" width="6" height="28" rx="1" fill="#F5D07A" stroke="#C9A050" stroke-width="1"/>
+        <path d="M32 12 L35 8 L38 12 Z" fill="#C9A050"/>
+        <!-- green -->
+        <rect x="40" y="16" width="6" height="24" rx="1" fill="#9AD187" stroke="#5EA44E" stroke-width="1"/>
+        <path d="M40 16 L43 12 L46 16 Z" fill="#5EA44E"/>
+        <!-- purple -->
+        <rect x="48" y="20" width="6" height="20" rx="1" fill="#BFA2E0" stroke="#8A6EB5" stroke-width="1"/>
+        <path d="M48 20 L51 16 L54 20 Z" fill="#8A6EB5"/>
+      </g>
+      <!-- cup (trapezoidal) -->
+      <path d="M20 40 L60 40 L56 60 L24 60 Z" fill="url(#cup)" stroke="#4478A9" stroke-width="1.3" stroke-linejoin="round"/>
+      <!-- rim highlight -->
+      <ellipse cx="40" cy="40" rx="20" ry="2" fill="#fff" opacity=".35"/>
+    </g></svg>`,
+    // Rainbow diamond kite with tail
+    kite:()=>`<svg viewBox="0 0 80 68"><g>
+      <!-- kite diamond with 4 color panels -->
+      <path d="M40 8 L58 30 L40 52 L22 30 Z" fill="none" stroke="#5A4A3C" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M40 8 L40 30 L22 30 Z" fill="#7FB8E5"/>
+      <path d="M40 8 L40 30 L58 30 Z" fill="#F5D07A"/>
+      <path d="M40 30 L22 30 L40 52 Z" fill="#E89B82"/>
+      <path d="M40 30 L58 30 L40 52 Z" fill="#9AD187"/>
+      <!-- cross spines -->
+      <path d="M40 8 L40 52 M22 30 L58 30" stroke="#5A4A3C" stroke-width="1" opacity=".8"/>
+      <!-- tail with bows -->
+      <path d="M40 52 Q36 58 42 60 Q38 64 42 66" stroke="#5A4A3C" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <path d="M37 57 L43 57" stroke="#E89B82" stroke-width="2" stroke-linecap="round"/>
+      <path d="M40 63 L44 63" stroke="#F5D07A" stroke-width="2" stroke-linecap="round"/>
+      <!-- flying string -->
+      <path d="M22 30 Q14 26 10 18" stroke="#5A4A3C" stroke-width="1" fill="none" stroke-linecap="round" opacity=".5"/>
+    </g></svg>`,
+    // Cupcake with frosting
+    bake:()=>`<svg viewBox="0 0 80 68"><defs>
+      <linearGradient id="wrap" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#C9966B"/><stop offset="100%" stop-color="#8B5E3C"/></linearGradient>
+      <linearGradient id="fr" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#FFFDF8"/><stop offset="100%" stop-color="#F0D2A8"/></linearGradient>
+    </defs>
+    <g>
+      <!-- wrapper (trapezoidal, ridges) -->
+      <path d="M22 40 L58 40 L54 60 L26 60 Z" fill="url(#wrap)" stroke="#6B4223" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M30 40 L28 60 M38 40 L37 60 M46 40 L47 60 M54 40 L52 60" stroke="#6B4223" stroke-width="0.8" opacity=".6"/>
+      <!-- frosting swirl -->
+      <path d="M22 40 Q22 30 28 28 Q28 22 36 22 Q36 14 44 16 Q50 14 52 22 Q58 22 58 30 Q60 38 54 40 Z"
+        fill="url(#fr)" stroke="#C9966B" stroke-width="1.2" stroke-linejoin="round"/>
+      <!-- sprinkles -->
+      <path d="M30 30 l2 -2" stroke="#E89B82" stroke-width="2" stroke-linecap="round"/>
+      <path d="M42 24 l2 -2" stroke="#7FB8E5" stroke-width="2" stroke-linecap="round"/>
+      <path d="M50 30 l2 -2" stroke="#9AD187" stroke-width="2" stroke-linecap="round"/>
+      <!-- cherry -->
+      <circle cx="40" cy="14" r="3" fill="#E06C5C" stroke="#B54B3C" stroke-width="0.8"/>
+      <path d="M40 11 Q42 8 44 7" stroke="#5EA44E" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </g></svg>`,
+    // Stack of fluffy blue pillows
+    snuggle:()=>`<svg viewBox="0 0 80 68"><defs>
+      <linearGradient id="pl1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#BEDCF2"/><stop offset="100%" stop-color="#5B97C9"/></linearGradient>
+      <linearGradient id="pl2" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#D4E7F5"/><stop offset="100%" stop-color="#7FB8E5"/></linearGradient>
+      <linearGradient id="pl3" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#E7F1F9"/><stop offset="100%" stop-color="#A5C9E6"/></linearGradient>
+    </defs>
+    <g>
+      <!-- bottom pillow -->
+      <path d="M14 48 Q14 40 22 40 L58 40 Q66 40 66 48 Q66 56 58 58 L22 58 Q14 56 14 48 Z" fill="url(#pl1)" stroke="#4478A9" stroke-width="1.2"/>
+      <!-- middle pillow -->
+      <path d="M18 36 Q18 28 26 28 L54 28 Q62 28 62 36 Q62 42 54 42 L26 42 Q18 42 18 36 Z" fill="url(#pl2)" stroke="#4478A9" stroke-width="1.2"/>
+      <!-- top pillow -->
+      <path d="M24 22 Q24 14 32 14 L48 14 Q56 14 56 22 Q56 28 48 28 L32 28 Q24 28 24 22 Z" fill="url(#pl3)" stroke="#4478A9" stroke-width="1.2"/>
+      <!-- little tufts -->
+      <circle cx="40" cy="48" r="1" fill="#4478A9" opacity=".5"/>
+      <circle cx="40" cy="35" r="1" fill="#4478A9" opacity=".5"/>
+      <circle cx="40" cy="21" r="1" fill="#4478A9" opacity=".5"/>
+    </g></svg>`,
+    // Golden sparkles (4-point star with tiny dots)
+    wonder:()=>`<svg viewBox="0 0 80 68"><defs><radialGradient id="sp" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#FFF2CE"/><stop offset="100%" stop-color="#E8A766"/></radialGradient></defs>
+    <g>
+      <!-- big 4-point sparkle -->
+      <path d="M40 10 Q42 28 58 34 Q42 40 40 58 Q38 40 22 34 Q38 28 40 10 Z" fill="url(#sp)" stroke="#C9892F" stroke-width="1.2" stroke-linejoin="round"/>
+      <!-- tiny twinkles -->
+      <path d="M18 20 Q19 25 23 26 Q19 27 18 32 Q17 27 13 26 Q17 25 18 20 Z" fill="#F5D07A"/>
+      <path d="M62 48 Q62.5 51 65 51.5 Q62.5 52 62 55 Q61.5 52 59 51.5 Q61.5 51 62 48 Z" fill="#F5D07A"/>
+      <!-- center dot -->
+      <circle cx="40" cy="34" r="1.4" fill="#fff" opacity=".8"/>
+    </g></svg>`
+  };
+
+  // Positions (x%, y%) — cards cluster around the centered headline like in reference 8.png
+  // Kept above 72% to avoid overlapping the footer/hill.
+  const CARDS = [
+    {key:'bubbles', x:13,  y:12, tilt:-6, delay:.1},
+    {key:'run',     x:19,  y:30, tilt:-2, delay:.18},
+    {key:'puzzle',  x:24,  y:50, tilt:-5, delay:.26},
+    {key:'read',    x:12,  y:56, tilt:4,  delay:.34},
+    {key:'explore', x:19,  y:72, tilt:-3, delay:.42},
+    {key:'draw',    x:42,  y:80, tilt:-4, delay:.5},
+    {key:'kite',    x:58,  y:78, tilt:3,  delay:.58},
+    {key:'wonder',  x:73,  y:80, tilt:-3, delay:.66},
+    {key:'snuggle', x:80,  y:60, tilt:5,  delay:.74},
+    {key:'bake',    x:78,  y:36, tilt:-4, delay:.82}
+  ];
 
   function render(){
     holder.innerHTML = '';
-    const rect = section.getBoundingClientRect();
-    const W = rect.width;
-    const H = rect.height;
-    if(!W || !H) return;
-
-    // Find where the path lies in section coords.
-    // The SVG uses viewBox 0 0 1400 900 with preserveAspectRatio="xMidYMid slice",
-    // so we sample in SVG space and convert to section-% ourselves.
-    const VBw = 1400, VBh = 900;
-    const pathLen = pathEl.getTotalLength();
-
-    // Compute how the SVG's 1400x900 maps into the section's WxH with slice (cover).
-    const scale = Math.max(W / VBw, H / VBh);
-    const drawnW = VBw * scale, drawnH = VBh * scale;
-    const offX = (W - drawnW) / 2;
-    const offY = (H - drawnH) / 2;
-
-    blooms.forEach((b,i)=>{
-      // Skip first and last 4% of path to avoid edges
-      const t = 0.06 + (i/(blooms.length-1)) * 0.88;
-      const pt = pathEl.getPointAtLength(pathLen * t);
-
-      // Convert svg-space point → section-px
-      const px = offX + pt.x * scale;
-      const py = offY + pt.y * scale;
-
-      // Skip if outside the visible section (for the final curl off-right)
-      if(py < 30 || py > H - 30 || px < 20 || px > W - 20) return;
-
-      const flower = document.createElement('a');
-      flower.className = 'flower';
-      flower.href = '#';
-      flower.onclick = (e)=> e.preventDefault();
-      flower.style.left = `${px}px`;
-      flower.style.bottom = `${H - py}px`;  // anchor flower base at the path
-      flower.style.animationDelay = `${0.4 + i*.08}s`;
-      flower.style.setProperty('--tilt', `${(Math.random()*10 - 5).toFixed(1)}deg`);
-
-      const stemH = 30 + Math.round(Math.random() * 28);
-      const color = petalColors[i % petalColors.length];
-
-      flower.innerHTML = `
-        <div class="stem" style="height:${stemH}px; animation-delay:${0.2 + i*.08}s"></div>
-        <div class="petals" style="top:${-stemH - 50}px">${petalSVG(color)}</div>
-        <div class="bloom-polaroid" style="margin-bottom:${stemH}px; background:#fff">
-          <div class="bloom-photo" style="background:${color}22">${b.emoji}</div>
-          <div class="bloom-tag">${b.tag}</div>
-        </div>
+    CARDS.forEach(c=>{
+      const el = document.createElement('a');
+      el.className = 'gcard';
+      el.href = '#';
+      el.onclick = (e)=> e.preventDefault();
+      el.style.left = `${c.x}%`;
+      el.style.top  = `${c.y}%`;
+      el.style.setProperty('--tilt', `${c.tilt}deg`);
+      el.style.setProperty('--delay', `${c.delay}s`);
+      el.innerHTML = `
+        <div class="gcard-photo">${(ART[c.key]||ART.wonder)()}</div>
+        <div class="gcard-line"></div>
+        <div class="gcard-tag">${c.key}</div>
       `;
-      holder.appendChild(flower);
+      holder.appendChild(el);
     });
   }
 
-  // Render as soon as possible — don't wait for IO.
-  let rendered = false;
-  function tryRender(){
-    if(rendered) return;
-    const rect = section.getBoundingClientRect();
-    if(!rect.width) return;
-    rendered = true;
-    render();
-  }
-  if (document.readyState === 'complete') tryRender();
-  else window.addEventListener('load', tryRender);
-  // Fallback in case 'load' already fired
-  requestAnimationFrame(()=> requestAnimationFrame(tryRender));
-  window.addEventListener('resize', ()=>{ if(rendered) render(); });
+  render();
+  window.addEventListener('resize', render);
 })();
 
 /* =========================================================

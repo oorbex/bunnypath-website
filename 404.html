@@ -4,12 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Bunny Path</title>
-  <meta name="description" content="Bunny Path — 20,000+ hand-crafted, off-screen activities for kids ages 0-12.">
+  <title>Bunny Path — Play Ideas for Kids</title>
+  <meta name="description" content="20,000+ hand-crafted, off-screen activities for kids ages 0-12. Tap to download.">
   <meta property="og:title" content="Bunny Path — Play Ideas for Kids">
-  <meta property="og:description" content="You've been invited to Bunny Path! Get a free week of Premium with your friend's referral code.">
+  <meta property="og:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0-12. Tap to download.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F430;</text></svg>">
+  <meta property="og:url" content="https://bunnypath.com/">
+  <meta property="og:site_name" content="Bunny Path">
+  <meta property="og:image" content="https://bunnypath.com/assets/logo.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:image:alt" content="Bunny Path">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bunny Path — Play Ideas for Kids">
+  <meta name="twitter:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0-12. Tap to download.">
+  <meta name="twitter:image" content="https://bunnypath.com/assets/logo.png">
+  <link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon/favicon-48.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+  <link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#E37756">
+  <link rel="manifest" href="/assets/favicon/site.webmanifest">
+  <meta name="theme-color" content="#E37756">
   <style>
     :root {
       --gold: #F5A623;
@@ -44,7 +61,7 @@
     }
 
     nav {
-      padding: 20px 24px;
+      padding: 10px 24px 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -56,8 +73,20 @@
       text-decoration: none;
       color: var(--charcoal);
     }
-    .logo-emoji { font-size: 32px; }
-    .logo-text { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+    /* Same logo treatment as the homepage and the legal pages — the
+       wordmark image bleeds slightly outside the nav for a confident
+       brand presence rather than a tucked-in emoji. */
+    .logo img {
+      display: block;
+      height: 130px;
+      width: auto;
+      margin: -22px 0 -40px;
+      position: relative;
+      z-index: 2;
+    }
+    @media (max-width: 640px) {
+      .logo img { height: 88px; margin: -14px 0 -26px; }
+    }
 
     .main {
       flex: 1;
@@ -241,18 +270,54 @@
 
     .hidden { display: none; }
 
+    /* Activity-share landing — pill row + description */
+    .activity-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 14px 0 18px;
+    }
+    .activity-meta-pill {
+      background: var(--gold-pale);
+      color: var(--gold-deep);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(245,166,35,0.25);
+    }
+    .activity-description {
+      font-size: 15px;
+      color: var(--charcoal-mid);
+      line-height: 1.55;
+      margin: 0 0 14px;
+      text-align: left;
+    }
+    .activity-hint {
+      font-size: 13px;
+      color: var(--charcoal-light);
+      margin: 0 0 24px;
+    }
+    .activity-loading {
+      font-size: 14px;
+      color: var(--charcoal-light);
+      font-style: italic;
+      margin: 8px 0 18px;
+    }
+
     @media (max-width: 640px) {
       .card { padding: 36px 24px; }
       .card h1 { font-size: 24px; }
       .referral-code { font-size: 20px; }
+      .activity-meta-pill { font-size: 12px; padding: 5px 10px; }
     }
   </style>
 </head>
 <body>
   <nav>
-    <a href="/" class="logo">
-      <span class="logo-emoji">&#x1F430;</span>
-      <span class="logo-text">Bunny Path</span>
+    <a href="/" class="logo" aria-label="Bunny Path">
+      <img src="/assets/logo.png" alt="Bunny Path">
     </a>
   </nav>
 
@@ -295,9 +360,13 @@
 
       <!-- ACTIVITY SHARE PAGE -->
       <div class="card hidden" id="activity-page">
-        <span class="card-emoji">&#x2728;</span>
-        <h1>Check out this activity on Bunny Path!</h1>
-        <p class="card-subtitle">Download the app to see the full details, materials, and step-by-step instructions.</p>
+        <span class="card-emoji" id="activity-emoji">&#x2728;</span>
+        <h1 id="activity-title">Check out this activity on Bunny Path!</h1>
+        <div class="activity-meta hidden" id="activity-meta"></div>
+        <p class="activity-loading" id="activity-loading">Loading activity&hellip;</p>
+        <p class="activity-description hidden" id="activity-description"></p>
+        <p class="activity-hint hidden" id="activity-hint">Download the app to see the full details, materials, and step-by-step instructions.</p>
+        <p class="card-subtitle" id="activity-fallback-subtitle">Download the app to see the full details, materials, and step-by-step instructions.</p>
 
         <a href="#" class="btn-primary" id="activity-ios-btn" style="margin-top: 28px;">
           <span class="btn-icon">&#xF8FF;</span>
@@ -311,7 +380,7 @@
 
       <!-- GENERIC / 404 PAGE -->
       <div class="card hidden" id="generic-page">
-        <span class="card-emoji">&#x1F430;</span>
+        <span class="card-emoji">&#x1F407;</span>
         <h1 id="generic-heading">Looking for Bunny Path?</h1>
         <p class="card-subtitle" id="generic-subtitle">20,000+ off-screen activities for your little one.</p>
 
@@ -336,6 +405,38 @@
       var path = window.location.pathname;
       var search = window.location.search || '';
 
+      // Numeric App Store ID (App Store Connect → App Information → Apple ID).
+      // The `ct=` campaign token survives through install and is readable in
+      // App Store Connect Analytics → Sources, so per-share / per-referral
+      // attribution is preserved through the redirect.
+      var APP_STORE_ID = '6761960397';
+      var ANDROID_BUNDLE = 'com.kodsters.bunnypath';
+
+      // Supabase REST endpoint + anon key. The anon key is designed for
+      // client-side use and only grants the access the table's RLS policy
+      // allows — `activities` is public read-only, same as the Flutter app.
+      var SUPABASE_URL = 'https://ffffbbmzuwcpwuhodpvb.supabase.co';
+      var SUPABASE_ANON_KEY = 'sb_publishable_yu_WSkvV-p5vnb1mqAbR6g_H5x3FFCK';
+
+      // Pull `?r=CODE` out of the query string regardless of which branch
+      // we end up taking — it's optional everywhere it appears.
+      function getQueryRefCode() {
+        var m = search.match(/[?&]r=([A-Za-z0-9\-]+)/);
+        return m ? m[1] : '';
+      }
+
+      function buildIosStoreUrl(campaignToken) {
+        var u = 'https://apps.apple.com/app/id' + APP_STORE_ID + '?mt=8';
+        if (campaignToken) u += '&ct=' + encodeURIComponent(campaignToken);
+        return u;
+      }
+
+      function buildAndroidStoreUrl(referrerKv) {
+        var u = 'https://play.google.com/store/apps/details?id=' + ANDROID_BUNDLE;
+        if (referrerKv) u += '&referrer=' + encodeURIComponent(referrerKv);
+        return u;
+      }
+
       // Shared renderer for the referral landing card. Pulls the platform
       // detection + store-link + auto-clipboard logic out of the legacy
       // and identity-anchored branches so they stay in lock-step.
@@ -347,12 +448,8 @@
         var ua = navigator.userAgent || '';
         var isAndroid = /Android/i.test(ua);
 
-        var APP_STORE_ID = '0000000000';
-        var iosUrl = 'https://apps.apple.com/app/id' + APP_STORE_ID +
-                     '?ct=' + encodeURIComponent('REF_' + code) + '&mt=8';
-        var androidUrl = 'https://play.google.com/store/apps/details' +
-                         '?id=com.kodsters.bunnypath' +
-                         '&referrer=' + encodeURIComponent('ref=' + code);
+        var iosUrl = buildIosStoreUrl('REF_' + code);
+        var androidUrl = buildAndroidStoreUrl('ref=' + code);
 
         var iosBtn = document.getElementById('ref-ios-btn');
         if (iosBtn) {
@@ -365,6 +462,177 @@
             navigator.clipboard.writeText(code).catch(function(){});
           }
         } catch (e) { /* ignore */ }
+      }
+
+      // Type-emoji map. Stored types are exactly these three strings — see
+      // CLAUDE.md schema constraints. Default to a neutral sparkle if a row
+      // ever drifts from the allowlist.
+      var TYPE_EMOJI = {
+        'Active play': '🏃',
+        'Discovery': '🔍',
+        'Creative': '🎨'
+      };
+
+      function escapeHtml(s) {
+        if (s == null) return '';
+        return String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function truncate(s, n) {
+        if (!s) return '';
+        s = String(s);
+        if (s.length <= n) return s;
+        // Trim back to the previous space for a cleaner break before the ellipsis.
+        var cut = s.slice(0, n);
+        var lastSpace = cut.lastIndexOf(' ');
+        if (lastSpace > n - 30) cut = cut.slice(0, lastSpace);
+        return cut.replace(/[\s,;:.\-]+$/, '') + '…';
+      }
+
+      // Hydrate the activity card with real content from Supabase. Silent
+      // on failure — the static fallback copy is already in place when this
+      // runs, so a network error / 404 / RLS denial just leaves the generic
+      // "Check out this activity" copy visible.
+      function fetchAndRenderActivity(activityId) {
+        var loadingEl = document.getElementById('activity-loading');
+        var fallbackSubtitle = document.getElementById('activity-fallback-subtitle');
+        // The route accepts BOTH 36-char UUIDs (legacy share URLs) and
+        // 5-char base32 short_ids (migration 026 — influencer-friendly
+        // share URLs like /a/xqr4j). Pick the right column for the
+        // lookup so it hits the appropriate index.
+        var isUuid = activityId.length === 36 && activityId.indexOf('-') !== -1;
+        var lookupKey = isUuid ? 'id' : 'short_id';
+        var lookupValue = isUuid ? activityId : activityId.toLowerCase();
+        var url = SUPABASE_URL + '/rest/v1/activities'
+          + '?' + lookupKey + '=eq.' + encodeURIComponent(lookupValue)
+          + '&select=title,description,type,time,age_range';
+
+        function showFallback() {
+          if (loadingEl) loadingEl.classList.add('hidden');
+          // Keep the static subtitle visible so the card still reads cleanly.
+        }
+
+        if (typeof fetch !== 'function') { showFallback(); return; }
+
+        fetch(url, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Accept': 'application/json'
+          }
+        }).then(function(res) {
+          if (!res.ok) throw new Error('http ' + res.status);
+          return res.json();
+        }).then(function(rows) {
+          if (!rows || !rows.length) { showFallback(); return; }
+          var a = rows[0];
+
+          var titleEl = document.getElementById('activity-title');
+          if (titleEl && a.title) titleEl.textContent = a.title;
+
+          // Build the meta pill row.
+          var pills = [];
+          if (a.type) {
+            var emoji = TYPE_EMOJI[a.type] || '✨';
+            pills.push('<span class="activity-meta-pill">' + emoji + ' ' + escapeHtml(a.type) + '</span>');
+          }
+          if (a.time) {
+            pills.push('<span class="activity-meta-pill">⏱ ' + escapeHtml(a.time) + '</span>');
+          }
+          if (a.age_range) {
+            pills.push('<span class="activity-meta-pill">👶 Ages ' + escapeHtml(a.age_range) + '</span>');
+          }
+          if (pills.length) {
+            var metaEl = document.getElementById('activity-meta');
+            metaEl.innerHTML = pills.join('');
+            metaEl.classList.remove('hidden');
+          }
+
+          if (a.description) {
+            var descEl = document.getElementById('activity-description');
+            descEl.textContent = truncate(a.description, 200);
+            descEl.classList.remove('hidden');
+          }
+
+          // Hide loading + the static fallback subtitle; show the smaller hint.
+          if (loadingEl) loadingEl.classList.add('hidden');
+          if (fallbackSubtitle) fallbackSubtitle.classList.add('hidden');
+          var hintEl = document.getElementById('activity-hint');
+          if (hintEl) hintEl.classList.remove('hidden');
+
+          if (a.title) {
+            document.title = 'Bunny Path — ' + a.title;
+          }
+        }).catch(function(err) {
+          try { console.warn('[bunnypath] activity fetch failed', err); } catch (e) {}
+          showFallback();
+        });
+      }
+
+      // Renderer for the activity-share landing — reached when someone taps
+      // a `/a/{id}?r={code}` link without the app installed (Universal Links
+      // bypass this entirely on iOS when the app is installed). The buttons
+      // get wired with full attribution: the activity id AND the referral
+      // code are baked into the App Store campaign token / Play Install
+      // Referrer string, so the app can read either signal on first launch
+      // and land the user on the exact activity with the right referrer
+      // credited. Activity content is hydrated client-side from the public
+      // Supabase REST endpoint via the anon key.
+      function renderActivity(activityId, refCode) {
+        document.getElementById('activity-page').classList.remove('hidden');
+        document.title = 'Bunny Path — Activity';
+
+        // Kick off the content fetch immediately — the card is already
+        // visible with loading copy, and we paint over it when the row
+        // resolves.
+        fetchAndRenderActivity(activityId);
+
+        var ua = navigator.userAgent || '';
+        var isAndroid = /Android/i.test(ua);
+
+        // Campaign token shape: ACT_<id>[_REF_<code>]. App Store Connect
+        // caps `ct=` at 100 chars; UUID + 6-char ref fits well under.
+        var campaignToken = 'ACT_' + activityId;
+        if (refCode) campaignToken += '_REF_' + refCode;
+        var iosUrl = buildIosStoreUrl(campaignToken);
+
+        // Play Install Referrer: deliver activity id + ref as kv pairs the
+        // app can parse on first launch via InstallReferrerClient.
+        var androidReferrer = 'activity=' + activityId;
+        if (refCode) androidReferrer += '&ref=' + refCode;
+        var androidUrl = buildAndroidStoreUrl(androidReferrer);
+
+        var iosBtn = document.getElementById('activity-ios-btn');
+        if (iosBtn) {
+          iosBtn.href = isAndroid ? androidUrl : iosUrl;
+          if (isAndroid) {
+            iosBtn.innerHTML = '<span class="btn-icon">&#x1F4F1;</span> Download for Android';
+          }
+        }
+        // Make the secondary "Android — Coming Soon" tile a real link too,
+        // so an iOS user can copy/share the Android URL with a friend.
+        var androidBtn = document.querySelector('#activity-page .btn-secondary');
+        if (androidBtn) {
+          androidBtn.setAttribute('href', androidUrl);
+          androidBtn.removeAttribute('onclick');
+          androidBtn.innerHTML = '<span class="btn-icon">&#x1F4F1;</span> Download for Android';
+        }
+
+        // Auto-clipboard the ref code if present — same trick the referral
+        // path uses; the deferred-deep-link clipboard read on first app
+        // launch will credit the install.
+        if (refCode) {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(refCode.toLowerCase()).catch(function(){});
+            }
+          } catch (e) { /* ignore */ }
+        }
       }
 
       // ---- LEGACY REFERRAL: /ref/{CODE} ----
@@ -386,11 +654,10 @@
         return;
       }
 
-      // ---- ACTIVITY SHARE: /a/{ID} ----
+      // ---- ACTIVITY SHARE: /a/{ID}[?r=CODE] ----
       var actMatch = path.match(/^\/a\/([A-Za-z0-9\-]+)\/?$/);
       if (actMatch) {
-        document.getElementById('activity-page').classList.remove('hidden');
-        document.title = 'Bunny Path \u2014 Activity';
+        renderActivity(actMatch[1], getQueryRefCode());
         return;
       }
 

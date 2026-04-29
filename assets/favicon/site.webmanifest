@@ -1,0 +1,29 @@
+{
+  "name": "Bunny Path",
+  "short_name": "Bunny Path",
+  "description": "20,000+ developmental play ideas for ages 0–12 — off-screen, educational, guilt-free.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FCF8F3",
+  "theme_color": "#E37756",
+  "icons": [
+    {
+      "src": "/assets/favicon/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/favicon/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/favicon/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
