@@ -874,13 +874,11 @@ nav.top{
   transition:transform .25s, box-shadow .25s;
   position:relative; overflow:hidden;
 }
-.feature-card::before{
-  content:""; position:absolute; inset:0 0 auto 0; height:4px;
-  background:linear-gradient(90deg,var(--gold),var(--gold-vibrant));
-  transform:scaleX(0); transform-origin:left; transition:transform .3s;
-}
+/* Top-accent gold bar removed — the animated `::before` line that
+   appeared on hover read as a "click to expand" affordance, suggesting
+   the card was openable when it isn't. Hover lift kept; no more
+   accent. */
 .feature-card:hover{transform:translateY(-6px); box-shadow:0 16px 40px rgba(245,166,35,.15)}
-.feature-card:hover::before{transform:scaleX(1)}
 .feature-icon{
   width:56px; height:56px; border-radius:16px;
   background:var(--gold-pale); display:flex; align-items:center; justify-content:center;
