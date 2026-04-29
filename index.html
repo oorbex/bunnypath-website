@@ -144,6 +144,17 @@ nav.top{
   .hero{
     padding-top:calc(80px + 4vw);
   }
+  /* Lift the diorama image so the bunny in the lower-right of the
+     underlay clears the fold on common desktop viewports. The image is
+     bottom-anchored, so the cream `.diorama` background fills the gap
+     below — it blends seamlessly. Tuned to ~9% of viewport width:
+     ~92px on 1024, ~130px on 1440, ~173px on 1920.
+     Specificity note: qualifying with `.hero` (0,0,2,0) is needed
+     because the base `.diorama-underlay` rule (0,0,1,0) sits later in
+     the source file and would otherwise win the cascade tie. */
+  .hero .diorama-underlay{
+    bottom:9vw;
+  }
 }
 .hero .container{display:flex; flex-direction:column; flex:1; min-height:inherit}
 .hero .container > h1,
