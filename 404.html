@@ -312,6 +312,324 @@
       .referral-code { font-size: 20px; }
       .activity-meta-pill { font-size: 12px; padding: 5px 10px; }
     }
+
+    /* ── Rich activity-share landing (Worker-rendered) ──────────────── */
+
+    /* Sender attribution bar — sticky at the top of the card */
+    .sender-bar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      margin: -48px -32px 24px;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
+      color: white;
+      font-size: 15px;
+      font-weight: 500;
+      text-align: center;
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 2px 8px rgba(245,166,35,0.25);
+    }
+    .sender-bar strong { font-weight: 700; }
+    @media (max-width: 640px) {
+      .sender-bar { margin: -36px -24px 20px; padding: 12px 16px; font-size: 14px; }
+    }
+
+    .activity-card { text-align: center; }
+    .activity-card .activity-title {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 4px;
+    }
+    @media (max-width: 640px) {
+      .activity-card .activity-title { font-size: 22px; }
+    }
+
+    .activity-section {
+      text-align: left;
+      margin: 28px 0 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(31,41,55,0.08);
+    }
+    .activity-section-h {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--charcoal-mid);
+      margin: 0 0 12px;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .bullet-list li {
+      position: relative;
+      padding: 6px 0 6px 28px;
+      font-size: 15px;
+      color: var(--charcoal);
+      line-height: 1.5;
+    }
+    .bullet-list li::before {
+      content: '\2713';
+      position: absolute;
+      left: 4px;
+      top: 6px;
+      color: var(--gold-vibrant);
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .bullet-list-sparkle li::before {
+      content: '\2728';
+      font-size: 14px;
+    }
+
+    .step-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: step;
+    }
+    .step-list li {
+      position: relative;
+      padding: 12px 0 12px 44px;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--charcoal);
+    }
+    .step-list li + li {
+      border-top: 1px solid rgba(31,41,55,0.05);
+    }
+    .step-list .step-num {
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gold-pale);
+      color: var(--gold-deep);
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Locked steps — blurred, low-opacity, unselectable, with a card-wide
+       lock overlay. */
+    .step-blur-wrap {
+      position: relative;
+      margin-top: 12px;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .step-blur-wrap .step-locked {
+      filter: blur(3px);
+      opacity: 0.5;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .step-lock-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px 24px;
+      background: linear-gradient(to bottom, rgba(255,253,247,0.55) 0%, rgba(255,253,247,0.95) 50%);
+      text-align: center;
+    }
+    .step-lock-overlay .lock-icon {
+      font-size: 28px;
+    }
+    .step-lock-overlay .lock-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--charcoal);
+      max-width: 320px;
+      line-height: 1.4;
+    }
+
+    /* Cohort prompt (Play B) */
+    .cohort-prompt {
+      margin: 28px 0 16px;
+      padding: 20px;
+      background: var(--gold-pale);
+      border: 1px solid rgba(245,166,35,0.25);
+      border-radius: 16px;
+    }
+    .cohort-q {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin: 0 0 12px;
+      text-align: center;
+    }
+    .cohort-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .cohort-chip {
+      flex: 1 1 auto;
+      min-width: 110px;
+      padding: 10px 14px;
+      background: white;
+      border: 1.5px solid rgba(31,41,55,0.12);
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal-mid);
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s, color 0.15s, background 0.15s;
+      font-family: inherit;
+    }
+    .cohort-chip:hover { transform: translateY(-1px); border-color: var(--gold); color: var(--charcoal); }
+    .cohort-chip.selected {
+      background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
+      border-color: var(--gold-vibrant);
+      color: white;
+    }
+    .cohort-chip.selected::after {
+      content: ' \2713';
+      font-weight: 700;
+    }
+
+    /* CTA tertiary (Play C — Text me the link) */
+    .btn-tertiary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--gold-pale);
+      color: var(--gold-deep);
+      border: 1.5px solid rgba(245,166,35,0.35);
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: transform 0.2s;
+      margin-bottom: 8px;
+      min-height: 48px;
+    }
+    .btn-tertiary:hover { transform: translateY(-1px); }
+    .btn-tertiary-link {
+      display: block;
+      font-size: 13px;
+      color: var(--charcoal-light);
+      text-decoration: underline;
+      text-align: center;
+      margin: 4px 0 8px;
+    }
+
+    /* Related activities (Section 7) */
+    .related-section { margin-top: 32px; }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .related-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 8px;
+      background: var(--gold-pale);
+      border: 1px solid rgba(245,166,35,0.2);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--charcoal);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .related-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245,166,35,0.18);
+    }
+    .related-emoji { font-size: 26px; }
+    .related-title {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.25;
+      text-align: center;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .related-pill {
+      font-size: 10px;
+      color: var(--gold-deep);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    @media (max-width: 480px) {
+      .related-grid { grid-template-columns: 1fr; }
+      .related-card { flex-direction: row; justify-content: flex-start; padding: 12px 14px; gap: 12px; }
+      .related-title { text-align: left; -webkit-line-clamp: 1; }
+    }
+
+    /* Social-proof strip (Section 10) */
+    .social-proof-strip {
+      margin: 32px -32px -48px;
+      padding: 24px 32px;
+      background: #FDF4EA;
+      border-radius: 0 0 24px 24px;
+      text-align: center;
+    }
+    .social-proof-strip p {
+      font-size: 14px;
+      color: var(--charcoal-mid);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .social-proof-strip p + p { margin-top: 6px; }
+    .social-proof-strip strong { color: var(--charcoal); font-weight: 700; }
+    @media (max-width: 640px) {
+      .social-proof-strip { margin: 28px -24px -36px; padding: 20px 24px; }
+    }
+
+    /* Floating "Open in app" CTA (Section 8) */
+    .floating-cta {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--charcoal);
+      color: white;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      max-width: calc(100vw - 32px);
+    }
+    .floating-cta:hover {
+      transform: translateX(-50%) translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.22);
+    }
+    .floating-cta-emoji { font-size: 20px; }
+    .floating-cta-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    @media (max-width: 480px) {
+      .floating-cta { padding: 12px 22px; font-size: 15px; bottom: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -574,6 +892,92 @@
         });
       }
 
+      // Wire up the Worker-prerendered rich activity card. The HTML +
+      // store URLs are already in the DOM; this just adds:
+      //   - UA-aware swap (Android users see Android first)
+      //   - Cohort-prompt interactivity (Play B)
+      //   - Floating-CTA href + label updates from the cohort
+      //   - Auto-clipboard the ref code so deferred-deep-link still works
+      function wireRichActivityPage(dataNode) {
+        var data;
+        try { data = JSON.parse(dataNode.textContent || '{}'); } catch (e) { data = {}; }
+        var iosUrl = data.iosUrl || '';
+        var androidUrl = data.androidUrl || '';
+        var refCode = (data.refCode || '').toString();
+
+        document.title = 'Bunny Path — Activity';
+
+        var ua = navigator.userAgent || '';
+        var isAndroid = /Android/i.test(ua);
+
+        // UA-aware: on Android the primary button should go to Play.
+        var iosBtn = document.getElementById('activity-ios-btn');
+        var androidBtn = document.getElementById('activity-android-btn');
+        if (isAndroid && iosBtn && androidBtn) {
+          // Swap order visually by toggling the .btn-primary / .btn-secondary
+          // classes — minimal DOM churn, keeps both buttons present so a
+          // user can still pick the other store.
+          iosBtn.classList.remove('btn-primary');
+          iosBtn.classList.add('btn-secondary');
+          androidBtn.classList.remove('btn-secondary');
+          androidBtn.classList.add('btn-primary');
+        }
+
+        // Floating CTA — primary store target, follows the same UA logic.
+        var floating = document.getElementById('floating-cta');
+        if (floating) {
+          floating.href = isAndroid ? androidUrl : iosUrl;
+        }
+
+        // Cohort prompt (Play B). Persist to localStorage; the iOS app
+        // can pick it up via the deferred-deep-link clipboard handoff in
+        // a follow-up build.
+        var cohortChips = document.querySelectorAll('.cohort-chip');
+        // Restore any previously selected cohort.
+        var stored = '';
+        try { stored = localStorage.getItem('bp_landing_age_cohort') || ''; } catch (e) {}
+        if (stored) {
+          cohortChips.forEach(function(c) {
+            if (c.getAttribute('data-cohort') === stored) {
+              c.classList.add('selected');
+              updateFloatingCtaCopy(c.getAttribute('data-label'));
+            }
+          });
+        }
+        cohortChips.forEach(function(chip) {
+          chip.addEventListener('click', function() {
+            cohortChips.forEach(function(c) { c.classList.remove('selected'); });
+            chip.classList.add('selected');
+            var cohort = chip.getAttribute('data-cohort') || '';
+            var label = chip.getAttribute('data-label') || '';
+            try { localStorage.setItem('bp_landing_age_cohort', cohort); } catch (e) {}
+            updateFloatingCtaCopy(label);
+          });
+        });
+
+        function updateFloatingCtaCopy(cohortLabel) {
+          if (!floating) return;
+          var labelEl = floating.querySelector('.floating-cta-label');
+          if (!labelEl) return;
+          if (cohortLabel) {
+            labelEl.textContent = 'Open app — start with ' + cohortLabel;
+          } else {
+            labelEl.textContent = floating.getAttribute('data-default-label') || 'Open in app';
+          }
+        }
+
+        // Auto-clipboard the ref code so the deferred-deep-link handoff
+        // on first launch can credit the install. Same trick the legacy
+        // minimal card does — kept here for parity.
+        if (refCode) {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(refCode.toLowerCase()).catch(function(){});
+            }
+          } catch (e) { /* ignore */ }
+        }
+      }
+
       // Renderer for the activity-share landing — reached when someone taps
       // a `/a/{id}?r={code}` link without the app installed (Universal Links
       // bypass this entirely on iOS when the app is installed). The buttons
@@ -657,7 +1061,18 @@
       // ---- ACTIVITY SHARE: /a/{ID}[?r=CODE] ----
       var actMatch = path.match(/^\/a\/([A-Za-z0-9\-]+)\/?$/);
       if (actMatch) {
-        renderActivity(actMatch[1], getQueryRefCode());
+        // Two cases:
+        //   (a) Worker pre-rendered the rich card — `#bp-activity-data`
+        //       is in the DOM. Just wire interactivity (cohort + floating
+        //       CTA + UA-aware download targets) and exit.
+        //   (b) Worker didn't fire (local dev / fallback) — render the
+        //       legacy minimal client-side card.
+        var serverData = document.getElementById('bp-activity-data');
+        if (serverData) {
+          wireRichActivityPage(serverData);
+        } else {
+          renderActivity(actMatch[1], getQueryRefCode());
+        }
         return;
       }
 

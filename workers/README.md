@@ -1,14 +1,25 @@
-# Bunny Path — Activity OG Worker
+# Bunny Path — Activity OG + Rich-Landing Worker
 
-Cloudflare Worker that injects per-activity Open Graph tags into responses
-for `bunnypath.com/a/{id}` so iMessage / WhatsApp / Twitter / Slack /
-Facebook generate rich previews with the actual activity title and
-description, instead of the generic OG block baked into `404.html`.
+Cloudflare Worker that does two things on `bunnypath.com`:
 
-The Worker runs **only** on `/a/*`. Every other path on the site
-(`/`, `/legal/...`, `/.well-known/...`, `/ref/...`, the 6-char referral
-codes, the 404 fallback, all assets) is passed straight through to the
-GitHub Pages origin and is unaffected.
+1. **Per-activity OG tags** for `/a/{id}` so iMessage / WhatsApp /
+   Twitter / Slack / Facebook generate rich previews with the actual
+   activity title and description (not the generic OG block in
+   `404.html`).
+2. **Server-renders the rich activity-share landing card** — sender
+   attribution bar, full description, materials list, first 2 steps
+   visible / rest blurred behind a specific gate, benefits, related
+   activities, social-proof strip, smart-app-banner, floating "Open in
+   app" CTA, age-cohort prompt, and SMS / mailto fallbacks. Pre-rendered
+   server-side so search engines / unfurlers see the full page and the
+   user gets no hydration flash.
+
+The Worker is configured for the catch-all route `bunnypath.com/*` and
+dispatches by path shape:
+
+- `/a/{uuid|short_id}` — activity-share landing (rich, server-rendered)
+- `/{6-char}` — referral landing (OG-only; body is still client-rendered)
+- everything else — passthrough to GitHub Pages origin (unchanged)
 
 ---
 
@@ -47,6 +58,26 @@ wrangler secret put SUPABASE_ANON_KEY
 # When prompted, paste:
 #   sb_publishable_yu_WSkvV-p5vnb1mqAbR6g_H5x3FFCK
 ```
+
+## Sender personalization (SOTA pattern)
+
+The "Sarah shared this with you" line on the activity-share landing
+needs to read `profiles.name` keyed on `referral_code`. The `profiles`
+table has owner-only RLS, so the anon key alone returns `[]`.
+
+Rather than giving the Worker a service-role key (which would bypass
+ALL RLS on every table — a critical-finding security misconfiguration
+for an internet-facing edge function), the Worker calls a narrowly-
+scoped Postgres RPC: `public.get_referrer_first_name(p_code text)`,
+created by migration 027.
+
+The RPC uses `SECURITY DEFINER` to read past `profiles` RLS *internally*
+but exposes only the first whitespace-token of `name` (e.g. "Sarah Smith"
+→ "Sarah"). Even if the Worker is compromised, the blast radius is one
+first name per known referral code — not the entire DB.
+
+No additional Cloudflare secrets needed. The Worker uses the same anon
+key it already has for activity lookups.
 
 ---
 
