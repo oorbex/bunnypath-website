@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>BunnyPath</title>
-  <meta name="description" content="BunnyPath — 20,000+ hand-crafted, off-screen activities for kids ages 0-12.">
-  <meta property="og:title" content="BunnyPath — Play Ideas for Kids">
-  <meta property="og:description" content="You've been invited to BunnyPath! Get a free week of Premium with your friend's referral code.">
+  <title>Bunny Path</title>
+  <meta name="description" content="Bunny Path — 20,000+ hand-crafted, off-screen activities for kids ages 0-12.">
+  <meta property="og:title" content="Bunny Path — Play Ideas for Kids">
+  <meta property="og:description" content="You've been invited to Bunny Path! Get a free week of Premium with your friend's referral code.">
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F430;</text></svg>">
   <style>
@@ -252,7 +252,7 @@
   <nav>
     <a href="/" class="logo">
       <span class="logo-emoji">&#x1F430;</span>
-      <span class="logo-text">BunnyPath</span>
+      <span class="logo-text">Bunny Path</span>
     </a>
   </nav>
 
@@ -262,7 +262,7 @@
       <!-- REFERRAL PAGE -->
       <div class="card hidden" id="referral-page">
         <span class="card-emoji">&#x1F381;</span>
-        <h1 id="ref-heading">You've been invited to BunnyPath!</h1>
+        <h1 id="ref-heading">You've been invited to Bunny Path!</h1>
         <p class="card-subtitle" id="ref-subtitle">Your friend shared their referral code with you.</p>
 
         <div class="referral-code-box" id="ref-code-box">
@@ -296,7 +296,7 @@
       <!-- ACTIVITY SHARE PAGE -->
       <div class="card hidden" id="activity-page">
         <span class="card-emoji">&#x2728;</span>
-        <h1>Check out this activity on BunnyPath!</h1>
+        <h1>Check out this activity on Bunny Path!</h1>
         <p class="card-subtitle">Download the app to see the full details, materials, and step-by-step instructions.</p>
 
         <a href="#" class="btn-primary" id="activity-ios-btn" style="margin-top: 28px;">
@@ -312,7 +312,7 @@
       <!-- GENERIC / 404 PAGE -->
       <div class="card hidden" id="generic-page">
         <span class="card-emoji">&#x1F430;</span>
-        <h1 id="generic-heading">Looking for BunnyPath?</h1>
+        <h1 id="generic-heading">Looking for Bunny Path?</h1>
         <p class="card-subtitle" id="generic-subtitle">20,000+ off-screen activities for your little one.</p>
 
         <a href="/" class="btn-primary" style="margin-top: 28px;">
@@ -334,30 +334,22 @@
   <script>
     (function() {
       var path = window.location.pathname;
+      var search = window.location.search || '';
 
-      // ---- REFERRAL: /ref/{CODE} ----
-      var refMatch = path.match(/^\/ref\/([A-Za-z0-9\-]+)\/?$/);
-      if (refMatch) {
-        var code = refMatch[1].toUpperCase();
+      // Shared renderer for the referral landing card. Pulls the platform
+      // detection + store-link + auto-clipboard logic out of the legacy
+      // and identity-anchored branches so they stay in lock-step.
+      function renderReferral(code) {
         document.getElementById('referral-page').classList.remove('hidden');
         document.getElementById('ref-code-display').textContent = code;
-        document.title = 'BunnyPath \u2014 You\'re Invited!';
+        document.title = 'Bunny Path — You\'re Invited!';
 
-        // Platform detection for proper store attribution.
         var ua = navigator.userAgent || '';
-        var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
         var isAndroid = /Android/i.test(ua);
 
-        // App Store campaign link — ct= survives through install to App
-        // Analytics, letting us track per-affiliate install counts.
-        // Replace APP_STORE_ID below with the numeric App Store ID once
-        // the app is live (App Store Connect → App Information → Apple ID).
         var APP_STORE_ID = '0000000000';
         var iosUrl = 'https://apps.apple.com/app/id' + APP_STORE_ID +
                      '?ct=' + encodeURIComponent('REF_' + code) + '&mt=8';
-
-        // Play Install Referrer — referrer= string is preserved through
-        // install and readable on first app launch via InstallReferrerClient.
         var androidUrl = 'https://play.google.com/store/apps/details' +
                          '?id=com.kodsters.bunnypath' +
                          '&referrer=' + encodeURIComponent('ref=' + code);
@@ -368,15 +360,29 @@
           if (isAndroid) iosBtn.textContent = 'Open in Play Store';
         }
 
-        // Copy the code to the clipboard automatically so iOS fresh installs
-        // can pick it up on first launch (before the user ever types).
-        // Silent best-effort — no prompt, no error surfacing.
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(code).catch(function(){});
           }
         } catch (e) { /* ignore */ }
+      }
 
+      // ---- LEGACY REFERRAL: /ref/{CODE} ----
+      // Build 46 share URLs use this shape; we keep them resolving here
+      // so anyone who already shared a /ref/MAYA-PLAY-AD1F link still
+      // lands on the install page.
+      var refMatch = path.match(/^\/ref\/([A-Za-z0-9\-]+)\/?$/);
+      if (refMatch) {
+        renderReferral(refMatch[1].toUpperCase());
+        return;
+      }
+
+      // ---- NEW SHORT REFERRAL: /{6-char-code} ----
+      // 28-char base32-style alphabet (no 0/O, 1/l/I, U). The app's
+      // deep_link_service enforces the same regex on the receiving side.
+      var codeMatch = path.match(/^\/([abcdefghjkmnpqrstvwxyz23456789]{6})\/?$/i);
+      if (codeMatch) {
+        renderReferral(codeMatch[1].toLowerCase());
         return;
       }
 
@@ -384,7 +390,7 @@
       var actMatch = path.match(/^\/a\/([A-Za-z0-9\-]+)\/?$/);
       if (actMatch) {
         document.getElementById('activity-page').classList.remove('hidden');
-        document.title = 'BunnyPath \u2014 Activity';
+        document.title = 'Bunny Path \u2014 Activity';
         return;
       }
 
@@ -393,10 +399,10 @@
         document.getElementById('referral-page').classList.remove('hidden');
         document.getElementById('ref-code-box').style.display = 'none';
         document.getElementById('copy-btn').style.display = 'none';
-        document.getElementById('ref-heading').textContent = 'Join the family on BunnyPath!';
+        document.getElementById('ref-heading').textContent = 'Join the family on Bunny Path!';
         document.getElementById('ref-subtitle').textContent = 'You\'ve been invited to share play ideas with your family.';
         document.getElementById('ref-note').textContent = 'Download the app to explore 20,000+ off-screen activities for your kids.';
-        document.title = 'BunnyPath \u2014 Family Invite';
+        document.title = 'Bunny Path \u2014 Family Invite';
         return;
       }
 

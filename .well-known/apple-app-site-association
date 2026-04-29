@@ -6,16 +6,60 @@
         "components": [
           {
             "/": "/ref/*",
-            "comment": "Affiliate/referral links — open the app directly"
+            "comment": "Legacy referral links — open the app"
           },
           {
             "/": "/a/*",
-            "comment": "Activity share links"
+            "comment": "Activity share links — open the app"
+          },
+          {
+            "/": "/legal/*",
+            "exclude": true,
+            "comment": "Marketing/legal pages stay in browser"
+          },
+          {
+            "/": "/family-invite",
+            "exclude": true,
+            "comment": "Family invite landing stays in browser"
+          },
+          {
+            "/": "/.well-known/*",
+            "exclude": true,
+            "comment": "Reserved well-known paths stay in browser"
+          },
+          {
+            "/": "/about",
+            "exclude": true,
+            "comment": "Marketing about page stays in browser"
+          },
+          {
+            "/": "/privacy",
+            "exclude": true,
+            "comment": "Marketing privacy page stays in browser"
+          },
+          {
+            "/": "/terms",
+            "exclude": true,
+            "comment": "Marketing terms page stays in browser"
+          },
+          {
+            "/": "/support",
+            "exclude": true,
+            "comment": "Marketing support page stays in browser"
+          },
+          {
+            "/": "/blog/*",
+            "exclude": true,
+            "comment": "Blog pages stay in browser"
           },
           {
             "/": "/",
-            "?": { "ref": "?*" },
-            "comment": "Homepage with ref query param"
+            "exclude": true,
+            "comment": "Bare homepage stays in browser"
+          },
+          {
+            "/": "/*",
+            "comment": "Catch-all: short referral codes and any future single-segment app deep link. The app's deep_link_service enforces the strict 6-char base32 shape; anything that doesn't match falls through to the marketing site's 404 handler."
           }
         ]
       }
