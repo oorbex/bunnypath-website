@@ -2,19 +2,20 @@ name = "bunnypath-activity-og"
 main = "activity-og-worker.js"
 compatibility_date = "2025-01-01"
 
-# The Worker is bound to the production zone via a route trigger. Add the
-# route in the Cloudflare dashboard (Workers & Pages -> this Worker ->
-# Triggers -> Add Route) rather than here, since `routes` requires the
-# zone_id and most folks find the dashboard friendlier for that step.
-#
-# Route to add:
-#   Pattern: bunnypath.com/a/*
-#   Zone:    bunnypath.com
-#
-# If you'd rather declare it in code, uncomment and fill in zone_id:
-# routes = [
-#   { pattern = "bunnypath.com/a/*", zone_name = "bunnypath.com" }
-# ]
+# Route trigger — declared here so `wrangler deploy` wires it up
+# automatically; no manual dashboard step required. `zone_name` resolves
+# to the zone_id at deploy time as long as the bunnypath.com zone is in
+# the Cloudflare account associated with this `wrangler login`.
+routes = [
+  # Activity-share links — Worker injects per-activity OG tags
+  { pattern = "bunnypath.com/a/*", zone_name = "bunnypath.com" },
+  # Catch-all so root-level referral codes (`bunnypath.com/{6char}`) hit
+  # the Worker. Without this, GitHub Pages returns 404 and unfurlers
+  # (WhatsApp/Slack/iMessage) skip OG fetching, so referral links
+  # generate no preview at all. The Worker dispatches by path shape:
+  # activity / referral / passthrough.
+  { pattern = "bunnypath.com/*", zone_name = "bunnypath.com" }
+]
 
 # SUPABASE_ANON_KEY is uploaded as a secret, not stored here:
 #   wrangler secret put SUPABASE_ANON_KEY

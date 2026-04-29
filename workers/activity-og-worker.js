@@ -25,68 +25,119 @@ const SITE_ORIGIN = 'https://bunnypath.com';
 // no wordmark) so previews didn't match the homepage brand.
 const OG_IMAGE = 'https://bunnypath.com/assets/og-image.png';
 const ACTIVITY_PATH_RE = /^\/a\/([A-Za-z0-9-]+)\/?$/;
+// 6-char base32-style referral codes — same alphabet the Flutter app uses
+// (excludes 0/O, 1/l/I, U for human-readability). Lives at the root path.
+const REFERRAL_PATH_RE = /^\/([abcdefghjkmnpqrstvwxyz23456789]{6})\/?$/i;
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    const match = url.pathname.match(ACTIVITY_PATH_RE);
 
-    // Anything that isn't /a/{id} is a pure passthrough — Cloudflare's
-    // route should already scope us to /a/*, but belt-and-braces in case
-    // the route is broadened later.
-    if (!match) {
-      return fetch(request);
+    // ── Activity-share link: /a/{id}[?r={ref}] ────────────────────────
+    const activityMatch = url.pathname.match(ACTIVITY_PATH_RE);
+    if (activityMatch) {
+      return handleActivity(request, activityMatch[1], url, env);
     }
 
-    const activityId = match[1];
-    const refCode = url.searchParams.get('r') || '';
-
-    // Look up the activity. RLS on `activities` is public-read (same as
-    // the Flutter app), so the anon key is sufficient.
-    const activity = await fetchActivity(activityId, env.SUPABASE_ANON_KEY);
-
-    // If we couldn't find or load the activity, fall through to the
-    // origin's 404.html — its client-side JS will render its generic
-    // activity card and link to the App Store with attribution preserved.
-    if (!activity) {
-      return fetch(request);
+    // ── Referral link: /{6-char-code} ─────────────────────────────────
+    // Origin returns 404 for these (they're soft-routed by 404.html's
+    // client-side JS). Most unfurlers (WhatsApp, Slack, iMessage) skip
+    // OG fetching when the response is a 4XX — so we override status to
+    // 200 and inject referral-specific OG tags so previews actually
+    // render.
+    const referralMatch = url.pathname.match(REFERRAL_PATH_RE);
+    if (referralMatch) {
+      return handleReferral(request, referralMatch[1].toLowerCase());
     }
 
-    // Pull the origin shell. We re-fetch the same URL so GitHub Pages's
-    // 404 fallback delivers 404.html — that's the page the client-side
-    // router already renders for /a/{id}.
-    const originResponse = await fetch(request);
-    const canonicalUrl = buildCanonicalUrl(activityId, refCode);
-    const meta = buildMeta(activity, canonicalUrl);
-
-    // HTMLRewriter streams — no full-buffer string concat. We blow away
-    // the existing static OG/twitter/title/description tags in <head>
-    // and inject the activity-specific block before </head>.
-    const rewritten = new HTMLRewriter()
-      .on('head title', { element(el) { el.remove(); } })
-      .on('head meta[name="description"]', { element(el) { el.remove(); } })
-      .on('head meta[property^="og:"]', { element(el) { el.remove(); } })
-      .on('head meta[name^="twitter:"]', { element(el) { el.remove(); } })
-      .on('head', {
-        element(el) {
-          el.append(meta, { html: true });
-        },
-      })
-      .transform(originResponse);
-
-    // Return a fresh Response so we can override cache headers without
-    // inheriting GitHub Pages's defaults verbatim.
-    const headers = new Headers(rewritten.headers);
-    headers.set('content-type', 'text/html; charset=utf-8');
-    headers.set('cache-control', 'public, max-age=300, s-maxage=300');
-    headers.set('x-bunnypath-og', 'rendered');
-
-    return new Response(rewritten.body, {
-      status: 200,
-      headers,
-    });
+    // Everything else (homepage, /legal/*, /assets/*, /.well-known/*,
+    // etc.) is a pure passthrough.
+    return fetch(request);
   },
 };
+
+async function handleActivity(request, activityId, url, env) {
+  const refCode = url.searchParams.get('r') || '';
+
+  // Look up the activity. RLS on `activities` is public-read (same as
+  // the Flutter app), so the anon key is sufficient.
+  const activity = await fetchActivity(activityId, env.SUPABASE_ANON_KEY);
+
+  // If we couldn't find or load the activity, fall through to the
+  // origin's 404.html — its client-side JS will render its generic
+  // activity card and link to the App Store with attribution preserved.
+  if (!activity) {
+    return fetch(request);
+  }
+
+  // Pull the origin shell. We re-fetch the same URL so GitHub Pages's
+  // 404 fallback delivers 404.html — that's the page the client-side
+  // router already renders for /a/{id}.
+  const originResponse = await fetch(request);
+  const canonicalUrl = buildCanonicalUrl(activityId, refCode);
+  const meta = buildMeta(activity, canonicalUrl);
+
+  const rewritten = new HTMLRewriter()
+    .on('head title', { element(el) { el.remove(); } })
+    .on('head meta[name="description"]', { element(el) { el.remove(); } })
+    .on('head meta[property^="og:"]', { element(el) { el.remove(); } })
+    .on('head meta[name^="twitter:"]', { element(el) { el.remove(); } })
+    .on('head meta[name="robots"]', { element(el) { el.remove(); } })
+    .on('head', { element(el) { el.append(meta, { html: true }); } })
+    .transform(originResponse);
+
+  const headers = new Headers(rewritten.headers);
+  headers.set('content-type', 'text/html; charset=utf-8');
+  headers.set('cache-control', 'public, max-age=300, s-maxage=300');
+  headers.set('x-bunnypath-og', 'rendered');
+
+  return new Response(rewritten.body, { status: 200, headers });
+}
+
+async function handleReferral(request, code) {
+  const upperCode = code.toUpperCase();
+  const originResponse = await fetch(request);
+
+  // Build the referral-specific OG block. Different copy from the
+  // activity flow — this is "you've been invited" framing.
+  const meta = `\n` +
+    `<title>You're invited to Bunny Path</title>\n` +
+    `<meta name="description" content="Get a free week of Premium with code ${upperCode}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta property="og:type" content="website">\n` +
+    `<meta property="og:url" content="${SITE_ORIGIN}/${code}">\n` +
+    `<meta property="og:site_name" content="Bunny Path">\n` +
+    `<meta property="og:title" content="You're invited to Bunny Path">\n` +
+    `<meta property="og:description" content="Get a free week of Premium with code ${upperCode}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta property="og:image" content="${OG_IMAGE}">\n` +
+    `<meta property="og:image:width" content="512">\n` +
+    `<meta property="og:image:height" content="512">\n` +
+    `<meta property="og:image:alt" content="Bunny Path">\n` +
+    `<meta name="twitter:card" content="summary_large_image">\n` +
+    `<meta name="twitter:title" content="You're invited to Bunny Path">\n` +
+    `<meta name="twitter:description" content="Get a free week of Premium with code ${upperCode}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta name="twitter:image" content="${OG_IMAGE}">\n`;
+
+  const rewritten = new HTMLRewriter()
+    .on('head title', { element(el) { el.remove(); } })
+    .on('head meta[name="description"]', { element(el) { el.remove(); } })
+    .on('head meta[property^="og:"]', { element(el) { el.remove(); } })
+    .on('head meta[name^="twitter:"]', { element(el) { el.remove(); } })
+    // Strip the "noindex" robots tag — it's appropriate for the generic
+    // 404.html fallback case but we DO want crawlers to render the
+    // referral preview when this URL shape resolves.
+    .on('head meta[name="robots"]', { element(el) { el.remove(); } })
+    .on('head', { element(el) { el.append(meta, { html: true }); } })
+    .transform(originResponse);
+
+  const headers = new Headers(rewritten.headers);
+  headers.set('content-type', 'text/html; charset=utf-8');
+  headers.set('cache-control', 'public, max-age=300, s-maxage=300');
+  headers.set('x-bunnypath-og', 'rendered-referral');
+
+  // Status override: GitHub Pages returns 404 for /{code} but we want
+  // unfurlers to see 200 so they actually generate a preview.
+  return new Response(rewritten.body, { status: 200, headers });
+}
 
 async function fetchActivity(id, anonKey) {
   if (!anonKey) return null;
