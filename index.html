@@ -144,14 +144,13 @@ nav.top{
   .hero{
     padding-top:calc(80px + 4vw);
   }
-  /* Lift the diorama image so the bunny in the lower-right of the
-     underlay clears the fold on common desktop viewports. The image is
-     bottom-anchored, so the cream `.diorama` background fills the gap
-     below — it blends seamlessly. Tuned to ~9% of viewport width:
-     ~92px on 1024, ~130px on 1440, ~173px on 1920.
-     Specificity note: qualifying with `.hero` (0,0,2,0) is needed
-     because the base `.diorama-underlay` rule (0,0,1,0) sits later in
-     the source file and would otherwise win the cascade tie. */
+  /* Lift the diorama image so the bunny clears the fold on common
+     desktop viewports. Specificity note: qualifying with `.hero`
+     (0,0,2,0) is needed because the base `.diorama-underlay` rule
+     (0,0,1,0) sits later in source order and would otherwise win.
+     Pairs with the peach `.diorama` background below — the strip of
+     diorama background that shows beneath the lifted image now reads
+     as a continuation of the next section, not a stray white band. */
   .hero .diorama-underlay{
     bottom:9vw;
   }
@@ -237,7 +236,11 @@ nav.top{
 /* Single full-bleed hero underlay (watercolor background + bunny baked in).
    Sized to WIDTH so the whole scene (ears included) is always visible; the
    area above the image is filled with matching cream so it blends. */
-.diorama{background:#FCF8F3}
+/* Match the next section's peach (`.mockups` uses #FDF4EA) so the
+   strip of diorama background that shows below the lifted underlay
+   image reads as a continuation of the next section, not a white
+   band between the two. */
+.diorama{background:#FDF4EA}
 .diorama-underlay{
   position:absolute; left:0; right:0; bottom:0;
   width:100%; height:auto;
