@@ -17,7 +17,13 @@
 
 const SUPABASE_URL = 'https://ffffbbmzuwcpwuhodpvb.supabase.co';
 const SITE_ORIGIN = 'https://bunnypath.com';
-const OG_IMAGE = 'https://bunnypath.com/assets/logo.png';
+// 512×512 ~256 KB — the full Bunny Path wordmark (same artwork as the
+// homepage nav and `assets/logo.png`), downscaled and saved separately
+// as `og-image.png` so social-preview clients fetch a small file fast.
+// The 1024×1024 source `logo.png` is 1.6 MB which WhatsApp / Twitter
+// often skip; the favicon-512 was the wrong artwork (simplified mark,
+// no wordmark) so previews didn't match the homepage brand.
+const OG_IMAGE = 'https://bunnypath.com/assets/og-image.png';
 const ACTIVITY_PATH_RE = /^\/a\/([A-Za-z0-9-]+)\/?$/;
 
 export default {
@@ -140,8 +146,8 @@ function buildMeta(activity, canonicalUrl) {
     `<meta property="og:url" content="${u}">`,
     `<meta property="og:site_name" content="Bunny Path">`,
     `<meta property="og:image" content="${OG_IMAGE}">`,
-    `<meta property="og:image:width" content="1024">`,
-    `<meta property="og:image:height" content="1024">`,
+    `<meta property="og:image:width" content="512">`,
+    `<meta property="og:image:height" content="512">`,
     `<meta property="og:image:alt" content="Bunny Path">`,
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta name="twitter:title" content="${t}">`,
