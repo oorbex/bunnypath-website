@@ -1,0 +1,23 @@
+name = "bunnypath-app-review-monitor"
+main = "app-review-monitor.js"
+compatibility_date = "2025-01-01"
+
+# Hourly cron — Apple's RSS reviews feed updates every 10–30 minutes, so
+# 1 hour is the sweet spot between freshness and KV-write/cron-quota
+# noise. Tighten to "*/15 * * * *" if a launch-week PM wants faster pings.
+[triggers]
+crons = ["0 * * * *"]
+
+# KV namespace for the deduped review-id set. Create with:
+#   wrangler kv:namespace create app-review-state
+# Then paste the returned `id` below (and a `preview_id` if you want
+# `wrangler dev --remote` to work without writing to the prod namespace).
+[[kv_namespaces]]
+binding = "REVIEW_STATE"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+# preview_id = "REPLACE_WITH_KV_PREVIEW_ID"
+
+# REVIEW_WEBHOOK_URL is uploaded as a Worker secret, NOT stored here:
+#   wrangler secret put REVIEW_WEBHOOK_URL --config wrangler-app-review-monitor.toml
+# Optional — when unset, the Worker just logs new reviews via console.log
+# (visible with `wrangler tail`).

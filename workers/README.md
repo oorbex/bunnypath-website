@@ -164,3 +164,107 @@ the dashboard restores the previous behavior (GitHub Pages → 404.html
 client-side router) immediately. The fallback static OG tags now in
 `404.html` are a sensible "Bunny Path — Play Ideas for Kids" block, so
 share previews stay generically correct even with the Worker disabled.
+
+---
+
+## Universal Links / Digital Asset Links (AASA + assetlinks.json)
+
+GitHub Pages serves `/.well-known/apple-app-site-association` as
+`text/plain`, which silently breaks iOS Universal Links. Same story for
+Android's `/.well-known/assetlinks.json`. Because this Worker sits on
+the catch-all `bunnypath.com/*` route, it intercepts both well-known
+paths, fetches the static file from origin, and rewrites the response
+with `Content-Type: application/json` + `Cache-Control: public,
+max-age=3600`.
+
+To verify after deploy:
+
+```bash
+curl -sI "https://bunnypath.com/.well-known/apple-app-site-association" \
+  | grep -i content-type
+# Expected: content-type: application/json
+
+curl -sI "https://bunnypath.com/.well-known/assetlinks.json" \
+  | grep -i content-type
+# Expected: content-type: application/json
+```
+
+---
+
+## Security headers
+
+Every successful Worker response carries the following headers (the
+passthrough path layers them on too, so the marketing site's static
+HTML / assets are covered uniformly):
+
+- `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`
+- `Content-Security-Policy: default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://unpkg.com; font-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'none'`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `X-Content-Type-Options: nosniff`
+- `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+
+CSP notes:
+
+- `img-src 'self' data: https:` lets the worker-rendered cards show
+  Apple/Google store badges and Supabase-hosted activity images
+  without per-domain allowlisting.
+- `style-src 'unsafe-inline'` is required because the worker inlines
+  the critical-CSS block in `<head>` for first-paint, and the
+  marketing site itself has inline `<style>` blocks. If/when you move
+  that to an external stylesheet you can drop the `'unsafe-inline'`.
+- `script-src 'self' 'unsafe-inline' https://unpkg.com` covers
+  `index.html`'s inline init scripts and the `lucide` icon CDN
+  (`<script src="https://unpkg.com/lucide@...">`). Tightening to
+  `'self'` would break the homepage; revisit once those move
+  in-tree.
+
+To verify:
+
+```bash
+curl -sI "https://bunnypath.com/" | grep -iE 'strict-transport|content-security|referrer-policy|x-content-type|permissions-policy'
+```
+
+---
+
+## App Store review monitor (separate Worker)
+
+`app-review-monitor.js` is a second, independent Worker that polls
+Apple's iTunes RSS reviews feed for app id `6761960397` once an hour,
+dedupes against a Cloudflare KV namespace, and (optionally) fans new
+reviews out to a webhook URL stored as a secret. See
+`wrangler-app-review-monitor.toml` for the cron + KV binding.
+
+Cross-reference: production-readiness plan §B16 / §6 Q7
+(build vs. Appfigures).
+
+Owner action items:
+
+```bash
+# 1. Create the KV namespace and copy the returned `id` into
+#    wrangler-app-review-monitor.toml under [[kv_namespaces]].
+wrangler kv:namespace create app-review-state
+
+# 2. (Optional) Configure a webhook URL. If unset, the Worker just
+#    console.log's new reviews — you can read them with `wrangler tail`.
+wrangler secret put REVIEW_WEBHOOK_URL --config wrangler-app-review-monitor.toml
+
+# 3. Deploy the Worker. The cron trigger declared in the toml will start
+#    firing on the hour; you can also hit /run on the Worker URL to
+#    trigger a poll manually for debugging.
+wrangler deploy --config wrangler-app-review-monitor.toml
+
+# 4. Tail logs to confirm the first run.
+wrangler tail bunnypath-app-review-monitor
+```
+
+The Worker's behavior:
+
+- Fetches `https://itunes.apple.com/us/rss/customerreviews/id=6761960397/sortBy=mostRecent/json`
+- For each entry with an id not in `KV[seen-review-ids]`, treats it as
+  new: posts to the webhook (if configured) and logs it via
+  `console.log`.
+- Stores the most recent 200 review ids in KV so old entries that
+  briefly drop out of the feed don't re-fire.
+- A non-`/run` HTTP request returns 404; cron is the primary entry
+  point. `/run` is provided for manual debugging only.
+

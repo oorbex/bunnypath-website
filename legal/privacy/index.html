@@ -119,7 +119,7 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
 <header class="page">
   <div class="container">
     <h1>Privacy Policy</h1>
-    <p class="meta">Last updated: May 1, 2026 · Effective May 1, 2026</p>
+    <p class="meta">Last updated: May 2, 2026 · Effective May 1, 2026</p>
   </div>
 </header>
 
@@ -261,14 +261,14 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
           <tr><th>Category</th><th>Retained</th><th>When deleted</th></tr>
         </thead>
         <tbody>
-          <tr><td>Account row in Supabase (email, child name, age band)</td><td>While active + 30 days after delete-account</td><td>Immediate hard-delete on Settings → Delete account</td></tr>
-          <tr><td>Activity completion / saved / streak</td><td>While active</td><td>Immediate hard-delete with account</td></tr>
-          <tr><td>Sentry crash reports</td><td>30 days</td><td>Auto-rolling deletion (free tier)</td></tr>
-          <tr><td>PostHog analytics events</td><td>90 days</td><td>Auto-rolling deletion</td></tr>
-          <tr><td>Cloudflare access logs</td><td>7 days</td><td>Auto-rolling</td></tr>
-          <tr><td>Supabase database backups</td><td>365 days (off-platform R2 dumps)</td><td>Rolling 365-day retention</td></tr>
-          <tr><td>Receipts / subscription records (legal hold for tax)</td><td>7 years</td><td>After 7-year tax retention period</td></tr>
-          <tr><td>Support email correspondence</td><td>2 years</td><td>Manual purge after 2 years</td></tr>
+          <tr><td>Account row in Supabase (email, child name, age band)</td><td>While active + 30 days after delete-account</td><td>Soft-deleted on Settings → Delete account; hard-deleted (with all linked records) 30 days later by a daily cron</td></tr>
+          <tr><td>Activity completion / saved / streak / referral data</td><td>While active</td><td>Cascade-deleted with the account row at the end of the 30-day grace window</td></tr>
+          <tr><td>Sentry crash reports</td><td>30 days (vendor default on our current plan)</td><td>Auto-rolling deletion by Sentry</td></tr>
+          <tr><td>PostHog analytics events</td><td>12 months (vendor default)</td><td>Auto-rolling deletion by PostHog</td></tr>
+          <tr><td>Cloudflare access logs</td><td>Up to 7 days, retained by Cloudflare as part of their service</td><td>Auto-rolling at Cloudflare; we do not separately store or export them</td></tr>
+          <tr><td>Supabase database backups (off-platform R2 dumps)</td><td>90 days</td><td>Daily prune of dumps older than 90 days</td></tr>
+          <tr><td>Receipts / subscription records (legal hold for tax)</td><td>7 years</td><td>Apple and Google retain transaction records under their own policies for tax compliance; we retain summary subscription state alongside the active account, plus an internal audit log of subscription events for up to 7 years to satisfy tax-record obligations</td></tr>
+          <tr><td>Support email correspondence</td><td>Typically up to 2 years</td><td>Retained as long as needed for support continuity and account recovery, and purged on request</td></tr>
         </tbody>
       </table>
       </div>

@@ -31,9 +31,98 @@ const ACTIVITY_PATH_RE = /^\/a\/([A-Za-z0-9-]+)\/?$/;
 // (excludes 0/O, 1/l/I, U for human-readability). Lives at the root path.
 const REFERRAL_PATH_RE = /^\/([abcdefghjkmnpqrstvwxyz23456789]{6})\/?$/i;
 
+// Apple App-Site-Association: must be served as application/json with no
+// extension on the URL. GitHub Pages serves it as text/plain by default,
+// which silently breaks iOS Universal Links. Since this Worker is on the
+// catch-all `bunnypath.com/*` route, we intercept the request, fetch the
+// static file from origin, and rewrite the Content-Type. Same treatment
+// for the Android assetlinks.json (Digital Asset Links — also requires
+// application/json per Google's docs).
+const AASA_PATH = '/.well-known/apple-app-site-association';
+const ASSETLINKS_PATH = '/.well-known/assetlinks.json';
+
+// Security headers applied to every successful Worker response. Factored
+// out so the AASA / referral / activity / fallback paths can't drift.
+//
+// CSP notes:
+// - `default-src 'self'` is the baseline.
+// - `img-src 'self' data: https:` lets the worker-rendered cards show
+//   any HTTPS image (Apple/Google store badges, Supabase-hosted activity
+//   art, etc.) without per-domain allowlisting.
+// - `style-src 'self' 'unsafe-inline'` is required because the worker
+//   inlines critical CSS in <head> for first-paint perf, and the
+//   marketing site has inline <style> blocks too.
+// - `script-src 'self' 'unsafe-inline' https://unpkg.com` covers the
+//   marketing site's inline init scripts and the lucide icon CDN bundle
+//   (`<script src="https://unpkg.com/lucide@..."`). Tightening to
+//   `'self'` would break the homepage; revisit once we self-host lucide
+//   and move inline scripts to external files.
+// - `frame-ancestors 'none'` blocks clickjacking; the marketing site
+//   never embeds itself.
+const SECURITY_HEADERS = {
+  'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+  'content-security-policy':
+    "default-src 'self'; img-src 'self' data: https:; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "script-src 'self' 'unsafe-inline' https://unpkg.com; " +
+    "font-src 'self' data: https:; " +
+    "connect-src 'self' https:; " +
+    "frame-ancestors 'none'",
+  'referrer-policy': 'strict-origin-when-cross-origin',
+  'x-content-type-options': 'nosniff',
+  'permissions-policy': 'camera=(), microphone=(), geolocation=()',
+};
+
+// Apply the security header bundle to a Headers object in place. Only
+// sets keys not already present so callers can override per-route (e.g.
+// AASA wants a stricter cache-control).
+function applySecurityHeaders(headers) {
+  for (const [k, v] of Object.entries(SECURITY_HEADERS)) {
+    if (!headers.has(k)) headers.set(k, v);
+  }
+}
+
+// Wrap a Response, layering on the security headers without mutating the
+// original (Response headers are read-only in some runtimes). Used by the
+// passthrough path so GitHub Pages assets also get HSTS/CSP/etc.
+function withSecurityHeaders(response) {
+  const headers = new Headers(response.headers);
+  applySecurityHeaders(headers);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
+// Serve the AASA / assetlinks files with `Content-Type: application/json`.
+// We pull the bytes from the GitHub Pages origin (so the file stays a
+// single source of truth in the repo), then rebuild the response with a
+// corrected content-type and a sensible cache-control. Apple recommends
+// 1-hour cache for AASA so updates propagate within a reasonable window.
+async function handleWellKnownJson(request) {
+  const upstream = await fetch(request);
+  if (!upstream.ok) {
+    // Pass the upstream error through; nothing we can do without the file.
+    return withSecurityHeaders(upstream);
+  }
+  const body = await upstream.arrayBuffer();
+  const headers = new Headers();
+  headers.set('content-type', 'application/json');
+  headers.set('cache-control', 'public, max-age=3600');
+  applySecurityHeaders(headers);
+  return new Response(body, { status: 200, headers });
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    // Universal Links / Digital Asset Links — fix Content-Type before
+    // anything else can claim the request.
+    if (url.pathname === AASA_PATH || url.pathname === ASSETLINKS_PATH) {
+      return handleWellKnownJson(request);
+    }
 
     const activityMatch = url.pathname.match(ACTIVITY_PATH_RE);
     if (activityMatch) {
@@ -45,7 +134,10 @@ export default {
       return handleReferral(request, referralMatch[1].toLowerCase(), env);
     }
 
-    return fetch(request);
+    // Passthrough — still attach security headers so the marketing site
+    // gets HSTS / CSP / nosniff coverage uniformly.
+    const passthrough = await fetch(request);
+    return withSecurityHeaders(passthrough);
   },
 };
 
@@ -57,7 +149,7 @@ async function handleActivity(request, activityId, url, env) {
   if (!activity) {
     // Couldn't find / load — fall through to the origin's 404.html.
     // Its client-side JS still renders a generic activity card.
-    return fetch(request);
+    return withSecurityHeaders(await fetch(request));
   }
 
   // Parallel: sender name (optional, gated on ?r=) + 3 related activities.
@@ -103,6 +195,7 @@ async function handleActivity(request, activityId, url, env) {
   headers.set('content-type', 'text/html; charset=utf-8');
   headers.set('cache-control', 'public, max-age=300, s-maxage=300');
   headers.set('x-bunnypath-og', 'rendered');
+  applySecurityHeaders(headers);
 
   return new Response(rewritten.body, { status: 200, headers });
 }
@@ -224,6 +317,7 @@ async function handleReferral(request, code, env) {
     headers.set('cache-control', 'public, max-age=300, s-maxage=300');
     headers.set('x-robots-tag', 'noindex, nofollow');
     headers.set('x-bunnypath-og', 'rendered-referral-v5');
+    applySecurityHeaders(headers);
 
     return new Response(rewritten.body, { status: 200, headers });
   } catch (err) {
@@ -248,6 +342,7 @@ async function handleReferral(request, code, env) {
     headers.set('cache-control', 'public, max-age=300, s-maxage=300');
     headers.set('x-robots-tag', 'noindex, nofollow');
     headers.set('x-bunnypath-og', 'rendered-referral-fallback');
+    applySecurityHeaders(headers);
 
     return new Response(rewritten.body, { status: 200, headers });
   }
@@ -1026,12 +1121,15 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
           .map((s, i) => `<li class="step-locked"><span class="step-num">${i + 3}</span><span>${e(String(s))}</span></li>`)
           .join('')
       : '';
-    // Specific gate text per Andrew Chen — name the count, the missing
-    // pieces by category, and the cohort.
-    const gateAge = ageRange ? `ages ${e(ageRange)}` : 'this age range';
+    // Gate text — broadened from the per-activity-age cohort wording to
+    // a corpus-wide "ages 0–12" framing per owner direction (the
+    // referral landing should sell the whole product, not just the
+    // narrow age slice of the activity that was shared). Keeps the
+    // call-to-download but drops the 7-step / age-specific specificity
+    // that was reading as gating rather than inviting.
     const gateText = blurredSteps.length
-      ? `Open the app to see all ${totalSteps} steps + similar activities for ${gateAge}`
-      : `Open the app to see materials, similar activities for ${gateAge}, and more`;
+      ? `Download the app to see all steps + other similar activities for ages 0–12.`
+      : `Download the app to see all steps + other similar activities for ages 0–12.`;
     // The blurred-and-locked block is a separate <ol> after the visible
     // <ol> rather than a <div> nested inside <ol> (which would be invalid
     // markup). The wrapper provides the positioning context for the
@@ -1051,11 +1149,16 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
   }
 
   // ── Benefits (Section 6) ────────────────────────────────────────────
+  // Renders ALL benefits (no slice). Activities typically carry 3–8
+  // benefits; capping at 6 silently dropped longer lists, which the
+  // user-visible page should not do (the in-app detail screen doesn't
+  // truncate, and parents reading the referral page deserve the same
+  // signal).
   const benefitsBlock = benefits.length
     ? `<div class="activity-section">
          <h2 class="activity-section-h">What kids gain</h2>
          <ul class="bullet-list bullet-list-sparkle">
-           ${benefits.slice(0, 6).map((b) => `<li>${e(String(b))}</li>`).join('')}
+           ${benefits.map((b) => `<li>${e(String(b))}</li>`).join('')}
          </ul>
        </div>`
     : '';
@@ -1074,7 +1177,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
   // ── Related (Section 7) ─────────────────────────────────────────────
   const relatedBlock = (related && related.length)
     ? `<div class="activity-section related-section">
-         <h2 class="activity-section-h">More for ages ${e(ageRange || '')}</h2>
+         <h2 class="activity-section-h">More for ages 0-12 years</h2>
          <div class="related-grid">
            ${related.map((r) => {
               const rsid = e(r.short_id || r.id);
@@ -1092,7 +1195,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
   // ── Below-the-fold social proof (Section 10) ────────────────────────
   const socialProof = `
        <div class="social-proof-strip">
-         <p><strong>16,000+ activities curated by parents and child-development specialists.</strong></p>
+         <p><strong>20,000+ activities curated by parents and child-development specialists.</strong></p>
          <p>Off-screen, educational, guilt-free. Built by parents like you 🧡</p>
        </div>`;
 
@@ -1146,7 +1249,43 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
          <span class="btn-icon">&#x1F4AC;</span>
          <span class="btn-label">Text me the link</span>
        </a>
-       <a href="${e(mailHref)}" class="btn-tertiary-link" id="activity-mail-btn">Or email it to yourself</a>
+       <a href="${e(mailHref)}" class="btn-tertiary-link" id="activity-mail-btn" data-activity-url="${e(`${SITE_ORIGIN}/a/${sid}${refCode ? `?r=${refCode}` : ''}`)}">Or email it to yourself</a>
+       <div id="activity-mail-toast" role="status" aria-live="polite" style="position:fixed;left:50%;bottom:80px;transform:translate(-50%,8px);background:rgba(20,20,20,0.92);color:#fff;padding:10px 16px;border-radius:24px;font-family:system-ui,-apple-system,sans-serif;font-size:13px;z-index:9999;pointer-events:none;opacity:0;transition:opacity .18s ease,transform .18s ease;max-width:90vw;text-align:center"></div>
+       <script>(function(){
+         var btn = document.getElementById('activity-mail-btn');
+         var toast = document.getElementById('activity-mail-toast');
+         if (!btn || !toast) return;
+         function showToast(msg){
+           toast.textContent = msg;
+           toast.style.opacity = '1';
+           toast.style.transform = 'translate(-50%,0)';
+           setTimeout(function(){
+             toast.style.opacity = '0';
+             toast.style.transform = 'translate(-50%,8px)';
+           }, 2400);
+         }
+         btn.addEventListener('click', function(ev){
+           // Copy the activity URL to clipboard FIRST so the user
+           // always gets the link even when no mail handler is
+           // configured (common case on desktop where Gmail is just
+           // a tab — mailto: silently does nothing).
+           var url = btn.getAttribute('data-activity-url') || '';
+           if (url && navigator.clipboard && navigator.clipboard.writeText) {
+             try {
+               navigator.clipboard.writeText(url).then(function(){
+                 showToast('Link copied. Paste into your email app.');
+               }).catch(function(){
+                 showToast('Tap-and-hold the link to copy.');
+               });
+             } catch (e) {
+               showToast('Tap-and-hold the link to copy.');
+             }
+           }
+           // Don't preventDefault — let the mailto: still fire for
+           // users who DO have a mail handler. They'll get both: the
+           // compose window opens AND the URL is in their clipboard.
+         });
+       })();</script>
        ${relatedBlock}
        ${socialProof}
        ${dataBlock}
