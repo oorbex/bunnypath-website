@@ -1,0 +1,36 @@
+# Bunny Path security disclosure file (RFC 9116)
+# Last reviewed: 2026-05-01
+# Maintained by: legal@bunnypath.com
+#
+# If you've found a vulnerability, please email security@bunnypath.com.
+# We will acknowledge within 72 hours and will not pursue legal action
+# against good-faith research. See the Policy URL below for full terms.
+#
+# This file is served as text/plain by GitHub Pages by default; no
+# extra MIME configuration is required for the .txt extension.
+
+# Where to send vulnerability reports. Mailbox is monitored by the
+# Bunny Path security team and acknowledged within 72 hours.
+Contact: mailto:security@bunnypath.com
+
+# When this disclosure file expires and must be re-reviewed. Per RFC
+# 9116 this MUST be ISO 8601 and in the future. Refresh ~30 days
+# before this date.
+Expires: 2027-05-01T00:00:00.000Z
+
+# Optional PGP key for encrypted reports. Uncomment after publishing
+# PGP key at /.well-known/pgp-key.txt
+# Encryption: https://bunnypath.com/.well-known/pgp-key.txt
+
+# Languages the security team can read and respond in.
+Preferred-Languages: en
+
+# Self-reference to the canonical location of this file. Helps prevent
+# spoofing on mirrors or scraped copies.
+Canonical: https://bunnypath.com/.well-known/security.txt
+
+# Vulnerability disclosure policy and safe-harbor terms.
+Policy: https://bunnypath.com/legal/privacy#security
+
+# Where researchers who report valid issues are credited.
+Acknowledgments: https://bunnypath.com/legal/privacy#security

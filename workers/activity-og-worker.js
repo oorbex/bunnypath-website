@@ -42,7 +42,7 @@ export default {
 
     const referralMatch = url.pathname.match(REFERRAL_PATH_RE);
     if (referralMatch) {
-      return handleReferral(request, referralMatch[1].toLowerCase());
+      return handleReferral(request, referralMatch[1].toLowerCase(), env);
     }
 
     return fetch(request);
@@ -107,42 +107,694 @@ async function handleActivity(request, activityId, url, env) {
   return new Response(rewritten.body, { status: 200, headers });
 }
 
-async function handleReferral(request, code) {
+async function handleReferral(request, code, env) {
   const upperCode = code.toUpperCase();
-  const originResponse = await fetch(request);
+  const e = htmlEscape;
+  const anonKey = env && env.SUPABASE_ANON_KEY;
+  // Pre-compute the iOS App Store URL with the campaign token so the
+  // top-nav "Get the app" CTA can use it (HTMLRewriter handler below).
+  // The card body recomputes the same URL inside `buildReferralCardBody`
+  // — kept duplicate to avoid a wider refactor; both yield the same URL.
+  const iosUrl = `https://apps.apple.com/app/id${APP_STORE_ID}?mt=8&ct=REF_${e(upperCode)}`;
 
+  // Build the OG/meta block first — it always ships, even if SSR card
+  // generation falls through. Includes the smart app banner with the
+  // ref code in app-argument so iOS Safari surfaces a one-tap install.
+  // The `noindex,nofollow` robots meta is critical: referral landing
+  // pages expose a sender's first name in the OG description, so we
+  // never want them indexed by Google.
+  const appArg = `bunnypath://ref/${upperCode}`;
   const meta = `\n` +
     `<title>You're invited to Bunny Path</title>\n` +
-    `<meta name="description" content="Get a free week of Premium with code ${upperCode}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta name="robots" content="noindex,nofollow">\n` +
+    `<meta name="description" content="Get a free week of Premium with code ${e(upperCode)}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta name="apple-itunes-app" content="app-id=${APP_STORE_ID}, app-argument=${e(appArg)}">\n` +
     `<meta property="og:type" content="website">\n` +
-    `<meta property="og:url" content="${SITE_ORIGIN}/${code}">\n` +
+    `<meta property="og:url" content="${SITE_ORIGIN}/${e(code)}">\n` +
     `<meta property="og:site_name" content="Bunny Path">\n` +
     `<meta property="og:title" content="You're invited to Bunny Path">\n` +
-    `<meta property="og:description" content="Get a free week of Premium with code ${upperCode}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta property="og:description" content="Get a free week of Premium with code ${e(upperCode)}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
     `<meta property="og:image" content="${OG_IMAGE}">\n` +
     `<meta property="og:image:width" content="512">\n` +
     `<meta property="og:image:height" content="512">\n` +
     `<meta property="og:image:alt" content="Bunny Path">\n` +
     `<meta name="twitter:card" content="summary_large_image">\n` +
     `<meta name="twitter:title" content="You're invited to Bunny Path">\n` +
-    `<meta name="twitter:description" content="Get a free week of Premium with code ${upperCode}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta name="twitter:description" content="Get a free week of Premium with code ${e(upperCode)}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
     `<meta name="twitter:image" content="${OG_IMAGE}">\n`;
 
-  const rewritten = new HTMLRewriter()
-    .on('head title', { element(el) { el.remove(); } })
-    .on('head meta[name="description"]', { element(el) { el.remove(); } })
-    .on('head meta[property^="og:"]', { element(el) { el.remove(); } })
-    .on('head meta[name^="twitter:"]', { element(el) { el.remove(); } })
-    .on('head meta[name="robots"]', { element(el) { el.remove(); } })
-    .on('head', { element(el) { el.append(meta, { html: true }); } })
-    .transform(originResponse);
+  // Hide the legacy hidden card siblings so the path-routing JS in the
+  // origin can't race-unhide the wrong card after our SSR'd one paints.
+  const siblingHide = `<style id="bp-ssr-hide">#activity-page,#generic-page{display:none !important;}</style>`;
 
-  const headers = new Headers(rewritten.headers);
-  headers.set('content-type', 'text/html; charset=utf-8');
-  headers.set('cache-control', 'public, max-age=300, s-maxage=300');
-  headers.set('x-bunnypath-og', 'rendered-referral');
+  // Critical CSS for the referral card — injected into <head> per spec
+  // ("single critical CSS block inlined in <head>"), separate from the
+  // body markup so we get a clean paint and valid HTML structure.
+  const referralStyles = buildReferralCardStyles();
 
-  return new Response(rewritten.body, { status: 200, headers });
+  // Kick off origin fetch in parallel with the Supabase calls — they're
+  // independent, no point serializing them.
+  const originPromise = fetch(request);
+
+  try {
+    // Parallel: sender name + curated activities preview. Sender stays
+    // on a tight 2s budget (it gates the entire SSR card paint and is
+    // user-blocking through `Promise.all`); the featured row gets 4s
+    // because the Supabase `activities` query can be cold-slow on the
+    // first call and falls behind a 5-min edge cache once primed.
+    // Either timing out just drops the corresponding section.
+    const [senderName, featured, originResponse] = await Promise.all([
+      // Bumped 2000 → 4000 → 10000ms in stages: 4s was still firing during
+      // the embedding-backfill window because three concurrent UPDATE
+      // streams saturate Supabase's connection pool and slow read-side
+      // fetches. 10s ensures the sender bar renders reliably even under
+      // contention. The card paint waits on this, but Promise.all also
+      // races against the origin fetch + featured query, and warm-cache
+      // requests still resolve in well under 1s.
+      // Bumped 10s → 20s. Embedding backfill loops are still running and
+      // saturate the connection pool intermittently. The edge cache below
+      // (`cf.cacheTtl: 300`) makes this hit DB only once per 5-min window
+      // per code, so the slow path is rare. CF workers have a 30s hard
+      // wall, so 20s leaves margin for the rest of the SSR work.
+      withTimeout((signal) => fetchSenderName(code, anonKey, signal), 20000, null),
+      withTimeout((signal) => fetchFeaturedActivities(anonKey, signal), 20000, []),
+      originPromise,
+    ]);
+
+    const cardBody = buildReferralCardBody({ code, senderName, featured });
+
+    const rewritten = new HTMLRewriter()
+      .on('head title', { element(el) { el.remove(); } })
+      .on('head meta[name="description"]', { element(el) { el.remove(); } })
+      .on('head meta[property^="og:"]', { element(el) { el.remove(); } })
+      .on('head meta[name^="twitter:"]', { element(el) { el.remove(); } })
+      .on('head meta[name="robots"]', { element(el) { el.remove(); } })
+      .on('head meta[name="apple-itunes-app"]', { element(el) { el.remove(); } })
+      .on('head', { element(el) {
+        el.append(meta, { html: true });
+        el.append(referralStyles, { html: true });
+        el.append(siblingHide, { html: true });
+      }})
+      // Swap the 404.html's bare <nav> (logo only) for the index.html
+      // top-nav structure (logo left, "Get Bunny Path" CTA on the right).
+      // Keeps the referral page visually continuous with the marketing
+      // site's top chrome instead of feeling like a one-off page.
+      .on('body > nav', {
+        element(el) {
+          // Logo-only nav. The "Get the app" right-side CTA was removed
+          // per design feedback — the in-card iOS + Android buttons are
+          // already the page's clear primary action; the nav button was
+          // duplicative and crowded the top.
+          el.replace(
+            `<nav class="top"><div class="nav-inner">` +
+              `<a href="/" class="logo" aria-label="Bunny Path"><img src="/assets/logo.png" alt="Bunny Path"></a>` +
+            `</div></nav>`,
+            { html: true },
+          );
+        },
+      })
+      // Replace the hidden #referral-page node with a fully pre-rendered
+      // card. The replacement does NOT carry the `hidden` class, so it
+      // paints on first frame with no JS hydration.
+      .on('#referral-page', { element(el) { el.replace(cardBody, { html: true }); } })
+      .transform(originResponse);
+
+    const headers = new Headers(rewritten.headers);
+    headers.set('content-type', 'text/html; charset=utf-8');
+    headers.set('cache-control', 'public, max-age=300, s-maxage=300');
+    headers.set('x-robots-tag', 'noindex, nofollow');
+    headers.set('x-bunnypath-og', 'rendered-referral-v5');
+
+    return new Response(rewritten.body, { status: 200, headers });
+  } catch (err) {
+    // SSR path failed for some reason — fall back to meta-only swap so
+    // crawlers still get the OG tags and the client-side JS hydrates the
+    // legacy card. Same behavior as before this redesign. Log the error
+    // so it surfaces in `wrangler tail`.
+    console.error('[referral SSR] error:', err);
+    const originResponse = await originPromise;
+    const rewritten = new HTMLRewriter()
+      .on('head title', { element(el) { el.remove(); } })
+      .on('head meta[name="description"]', { element(el) { el.remove(); } })
+      .on('head meta[property^="og:"]', { element(el) { el.remove(); } })
+      .on('head meta[name^="twitter:"]', { element(el) { el.remove(); } })
+      .on('head meta[name="robots"]', { element(el) { el.remove(); } })
+      .on('head meta[name="apple-itunes-app"]', { element(el) { el.remove(); } })
+      .on('head', { element(el) { el.append(meta, { html: true }); } })
+      .transform(originResponse);
+
+    const headers = new Headers(rewritten.headers);
+    headers.set('content-type', 'text/html; charset=utf-8');
+    headers.set('cache-control', 'public, max-age=300, s-maxage=300');
+    headers.set('x-robots-tag', 'noindex, nofollow');
+    headers.set('x-bunnypath-og', 'rendered-referral-fallback');
+
+    return new Response(rewritten.body, { status: 200, headers });
+  }
+}
+
+// Race a fetch-backed task against a timeout, with a real AbortController
+// so the underlying fetch is cancelled when the timer wins (otherwise the
+// abandoned subrequest keeps eating socket + CPU budget on the isolate).
+// `task` is a function `(signal) => Promise<T>`; on timeout we abort the
+// signal and resolve with the fallback. Supabase hiccups should never
+// take down the referral landing page.
+function withTimeout(task, ms, fallback) {
+  return new Promise((resolve) => {
+    const controller = new AbortController();
+    let settled = false;
+    const t = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      try { controller.abort(); } catch (_) { /* no-op */ }
+      resolve(fallback);
+    }, ms);
+    let p;
+    try {
+      p = Promise.resolve(task(controller.signal));
+    } catch (err) {
+      if (!settled) { settled = true; clearTimeout(t); resolve(fallback); }
+      console.error('[withTimeout] task threw synchronously:', err);
+      return;
+    }
+    p.then(
+      (v) => { if (!settled) { settled = true; clearTimeout(t); resolve(v); } },
+      (err) => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(t);
+          resolve(fallback);
+          // Abort errors from our own timer aren't worth logging.
+          if (!(err && err.name === 'AbortError')) {
+            console.error('[withTimeout] task rejected:', err);
+          }
+        }
+      },
+    );
+  });
+}
+
+// Hand-picked short_ids for the referral landing's "what's inside" preview
+// row — one per type so the row reads as a mini-tour of the catalog
+// (Discovery / Active / Creative). These are real curated activities
+// (`is_curated=true`) selected for broad age-range appeal. Fetching by
+// `short_id IN (...)` uses the unique short_id index and consistently
+// returns in <2 s; the previous unfiltered + ordered queries were
+// triggering Supabase statement timeouts and leaving this row empty.
+const FEATURED_SHORT_IDS = ['225zc', '22bkc', '22bks'];
+
+// Pull the curated preview-row activities. Returns [{short_id, emoji,
+// title, age_range}, ...] or [] on any failure.
+async function fetchFeaturedActivities(anonKey, signal) {
+  if (!anonKey) return [];
+  const select = 'short_id,title,type,age_range';
+  const inList = FEATURED_SHORT_IDS.join(',');
+  const endpoint = `${SUPABASE_URL}/rest/v1/activities` +
+    `?short_id=in.(${inList})&select=${select}`;
+  try {
+    const res = await fetch(endpoint, {
+      headers: {
+        apikey: anonKey,
+        authorization: `Bearer ${anonKey}`,
+        accept: 'application/json',
+      },
+      cf: { cacheTtl: 300, cacheEverything: true },
+      signal,
+    });
+    if (!res.ok) return [];
+    const rows = await res.json();
+    if (!Array.isArray(rows)) return [];
+    // Preserve the editorially-chosen order, not whatever order
+    // Postgres returns. Map by short_id, then walk the source list.
+    const byId = new Map();
+    for (const r of rows) {
+      if (r && r.short_id) byId.set(r.short_id, r);
+    }
+    return FEATURED_SHORT_IDS
+      .map((sid) => byId.get(sid))
+      .filter(Boolean)
+      .map((r) => ({
+        short_id: r.short_id || '',
+        emoji: typeEmoji(r.type),
+        title: r.title || '',
+        age_range: r.age_range || '',
+      }));
+  } catch (err) {
+    if (!(err && err.name === 'AbortError')) {
+      console.error('[fetchFeaturedActivities] error:', err);
+    }
+    return [];
+  }
+}
+
+// Critical CSS for the referral card. Returned as a `<style>` block so it
+// can be appended directly into `<head>` via HTMLRewriter (per spec —
+// "single critical CSS block inlined in <head>"). CSS vars fall back via
+// local re-declaration so the card renders correctly even if the host
+// page's :root vars are stripped or overridden.
+function buildReferralCardStyles() {
+  return `
+<style id="rf-styles">
+  :root {
+    --cream:#FFFDF7; --cream-warm:#FFF3D9; --gold-pale:#FFF8ED;
+    --gold:#F5A623; --gold-deep:#C47F0A; --gold-vibrant:#E8960F;
+    --sage-soft:#BDDCC5; --sage-mid:#9CC9A6;
+    --cocoa:#4A2B18;
+    --charcoal:#1F2937; --charcoal-mid:#4B5563; --charcoal-light:#6B7280;
+  }
+  /* Page chrome — warm cream with a soft gold gradient blob top-right
+     and a sage rolling-hill silhouette at the bottom. Mirrors the
+     homepage's underlay rhythm so the referral page feels like the
+     same brand surface, not a Substack post. */
+  html, body { background: var(--cream); }
+  body {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    color: var(--charcoal);
+    background:
+      radial-gradient(60% 50% at 85% 0%, rgba(245,166,35,.18) 0%, rgba(245,166,35,0) 70%),
+      radial-gradient(50% 40% at 10% 20%, rgba(255,231,160,.35) 0%, rgba(255,231,160,0) 70%),
+      var(--cream);
+    background-attachment: fixed;
+  }
+  /* Sage hill silhouette pinned to the bottom-left of the viewport — same
+     palette + curve as the homepage hill stack, just one layer for the
+     referral page to keep payload cheap. */
+  body::after {
+    content: '';
+    position: fixed; left: -10%; right: -10%; bottom: 0;
+    height: 140px;
+    background:
+      radial-gradient(120% 100% at 50% 100%, var(--sage-soft) 0%, var(--sage-soft) 55%, rgba(189,220,197,0) 70%);
+    z-index: 0; pointer-events: none;
+  }
+  /* Origin nav already injects the real Bunny Path wordmark img — keep it
+     visible above the gradient blob. The 404.html stub also includes a
+     <section class="main"><div class="container"> wrapper that we paint
+     our card into. */
+  nav, section.main, .container, footer { position: relative; z-index: 1; }
+  /* Top-nav header (mirrors index.html's .nav.top so the referral page
+     feels continuous with the marketing site). The HTMLRewriter swaps the
+     404.html bare <nav> for an index-style nav.top with a logo on the
+     left and a "Get the app" CTA on the right. */
+  nav.top {
+    position: sticky; top: 0; z-index: 50;
+    padding: 10px 0;
+    background: transparent; border-bottom: none;
+  }
+  nav.top .nav-inner {
+    max-width: 1160px; margin: 0 auto; padding: 0 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  nav.top .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--charcoal);
+  }
+  nav.top .logo img {
+    display: block; height: 150px; width: auto;
+    margin: -22px 0 -50px;
+    position: relative; z-index: 2;
+  }
+  nav.top .nav-right {
+    display: flex; align-items: center; gap: 20px;
+  }
+  nav.top .nav-cta {
+    background: #E37756; color: #fff;
+    padding: 10px 22px; border-radius: 100px;
+    text-decoration: none; font-weight: 700; font-size: 14px;
+    box-shadow: 0 6px 18px rgba(227,119,86,.3);
+    transition: transform .2s ease;
+  }
+  nav.top .nav-cta:hover { transform: translateY(-2px); }
+  @media (max-width: 720px) {
+    nav.top { padding: 8px 0; }
+    nav.top .logo img { height: 92px; margin: -14px 0 -30px; }
+    nav.top .nav-cta { padding: 9px 16px; font-size: 13px; }
+  }
+  /* Drop the activity-share <h1> "You've been invited..." stub that the
+     404.html keeps for no-JS / no-worker fallbacks; our SSR card has its
+     own headline and we don't want it flashing above ours. */
+  h1#ref-heading { display: none; }
+  #referral-page.rf-card {
+    display: block; box-sizing: border-box;
+    width: 100%; max-width: 460px;
+    margin: 8px auto 24px; padding: 8px 4px 32px;
+    background: transparent;
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    color: var(--charcoal);
+    position: relative;
+  }
+  @media (min-width: 720px) {
+    #referral-page.rf-card { max-width: 500px; padding: 16px 16px 48px; margin-top: 24px; }
+  }
+  /* Section A — sender bar. Single-line gold-tinted pill so it reads
+     as a personal handoff, not a notification banner. */
+  .rf-sender {
+    display: flex; align-items: center; gap: 12px;
+    background: linear-gradient(180deg, #FFF8ED 0%, #FFF1D6 100%);
+    border: 1px solid rgba(245,166,35,.30);
+    border-radius: 999px;
+    padding: 10px 18px 10px 10px;
+    margin: 0 0 22px;
+    box-shadow: 0 6px 20px rgba(245,166,35,.14), 0 1px 2px rgba(0,0,0,.04);
+  }
+  .rf-avatar {
+    flex: 0 0 38px; width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-vibrant));
+    color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 18px;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(245,166,35,.45);
+  }
+  .rf-sender-text { flex: 1; font-size: 15.5px; font-weight: 600; color: var(--charcoal); line-height: 1.3; }
+  .rf-sender-text strong { font-weight: 800; }
+  /* Hero card — the one big visual element. Soft warm gradient inside,
+     gold border accent, generous radius. The real Bunny Path logo
+     (PNG) sits inside, top-centered. */
+  .rf-hero-card {
+    background: linear-gradient(180deg, #fff 0%, var(--gold-pale) 100%);
+    border: 1px solid rgba(245,166,35,.22);
+    border-radius: 28px;
+    padding: 28px 24px 32px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(245,166,35,.15), 0 2px 6px rgba(0,0,0,.04);
+    position: relative; overflow: hidden;
+  }
+  @media (min-width: 720px) {
+    .rf-hero-card { padding: 36px 32px 40px; border-radius: 32px; }
+  }
+  .rf-hero-card::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,214,120,.45) 0%, rgba(255,214,120,0) 70%);
+    pointer-events: none;
+  }
+  .rf-logo {
+    display: block; width: 168px; max-width: 60%;
+    height: auto; margin: 0 auto 4px;
+    position: relative; z-index: 1;
+  }
+  @media (min-width: 720px) { .rf-logo { width: 200px; } }
+  .rf-eyebrow {
+    display: inline-block;
+    font-family: 'Nunito', sans-serif; font-weight: 800;
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--gold-deep);
+    background: rgba(245,166,35,.10);
+    border-radius: 100px; padding: 5px 12px;
+    margin: 0 0 14px;
+    position: relative; z-index: 1;
+  }
+  .rf-h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 800; font-size: 32px; line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--cocoa);
+    margin: 0 0 12px;
+    position: relative; z-index: 1;
+  }
+  @media (min-width: 720px) { .rf-h1 { font-size: 40px; } }
+  .rf-h1 em {
+    font-style: italic; font-weight: 600;
+    color: var(--gold-vibrant);
+    background: linear-gradient(120deg, var(--gold-vibrant), var(--gold-deep));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .rf-sub {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500; font-size: 16px;
+    color: var(--charcoal-mid);
+    margin: 0 auto 20px; max-width: 32ch; line-height: 1.5;
+    position: relative; z-index: 1;
+  }
+  .rf-code-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff;
+    border: 2px dashed rgba(245,166,35,.5);
+    color: var(--charcoal);
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px;
+    padding: 9px 16px; border-radius: 12px;
+    letter-spacing: 0.02em;
+    position: relative; z-index: 1;
+  }
+  .rf-code-chip .rf-code-label { color: var(--charcoal-light); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
+  .rf-code-chip strong { color: var(--gold-deep); font-family: 'Fraunces', Georgia, serif; font-weight: 800; font-size: 16px; letter-spacing: .08em; }
+  .rf-code-note {
+    display: block; font-size: 12px;
+    color: var(--charcoal-light); margin-top: 8px;
+    position: relative; z-index: 1;
+  }
+  /* Brand trust microbar — mirrors index.html's .hero-meta row (emoji +
+     bold word + plain word). Sits on the cream surface, not in the hero
+     card, so the hero stays uncluttered. Replaces the older check-mark
+     row; the practical fine print ("No card to start · Cancel anytime")
+     now lives below the CTA buttons in .rf-cta-caption where it acts as
+     last-mile reassurance. */
+  .rf-trust {
+    display: flex; flex-direction: row; flex-wrap: wrap;
+    justify-content: center; gap: 10px 22px;
+    margin: 22px 0 22px;
+    font-family: 'Nunito', sans-serif; font-weight: 600; font-size: 14px;
+    color: var(--charcoal-light);
+  }
+  .rf-trust span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .rf-trust b { color: var(--charcoal); font-weight: 800; }
+  @media (max-width: 379px) {
+    .rf-trust { flex-direction: column; align-items: center; gap: 10px; }
+  }
+  /* Primary CTA stack — iOS + Android, identical height + width.
+     Stacked on every breakpoint so both buttons keep the full headline
+     and never need to truncate. Styling mirrors index.html's hero
+     .store-btn pair: terracotta solid for iOS, white-with-border for
+     Android, so the referral page reads as the same brand surface as
+     the marketing site. */
+  .rf-cta-stack {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-top: 4px;
+  }
+  .rf-cta {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 12px;
+    width: 100%; height: 60px;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 16px;
+    border-radius: 16px;
+    text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .rf-cta-ios {
+    background: #E37756; color: #fff;
+    box-shadow: 0 8px 24px rgba(227,119,86,.32);
+  }
+  .rf-cta-android {
+    background: #fff; color: var(--charcoal);
+    border-color: #E8E5DC;
+    box-shadow: 0 4px 14px rgba(0,0,0,.05);
+  }
+  .rf-cta:hover { transform: translateY(-3px); }
+  .rf-cta-ios:hover { box-shadow: 0 12px 30px rgba(227,119,86,.38); }
+  .rf-cta-android:hover { box-shadow: 0 10px 22px rgba(0,0,0,.08); }
+  .rf-cta-glyph { font-size: 22px; line-height: 1; }
+  /* SVG glyph wrapper — sized to match index.html's .store-btn svg
+     (22x22) so iOS + Android buttons feel like a balanced pair. */
+  .rf-cta-glyph-svg {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; flex-shrink: 0;
+  }
+  .rf-cta-glyph-svg svg { display: block; width: 22px; height: 22px; }
+  .rf-cta-caption {
+    text-align: center; margin: 14px 0 0;
+    font-family: 'Nunito', sans-serif; font-weight: 600; font-size: 13px;
+    color: var(--charcoal-light);
+  }
+  .rf-cta-caption .rf-dot { color: rgba(31,41,55,.25); margin: 0 6px; }
+  /* Featured activities preview — Section E. Soft section header, then a
+     horizontally scrollable row of three cards. Sage-tinted background
+     band sits behind the row to feel like a curated gallery. */
+  .rf-featured-wrap {
+    margin: 36px -8px 0; padding: 22px 8px 8px;
+    background: linear-gradient(180deg, rgba(189,220,197,.18) 0%, rgba(189,220,197,0) 100%);
+    border-radius: 20px;
+  }
+  .rf-featured-h {
+    text-align: center; margin: 0 0 14px;
+    font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 17px;
+    color: var(--cocoa); letter-spacing: -.01em;
+  }
+  .rf-featured-h em {
+    font-style: italic; color: var(--gold-deep); font-weight: 600;
+  }
+  .rf-featured {
+    display: flex; flex-direction: row; gap: 12px;
+    padding: 4px 12px 12px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .rf-featured::-webkit-scrollbar { display: none; }
+  .rf-feat-card {
+    flex: 0 0 150px; width: 150px; min-height: 168px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.05);
+    border-radius: 16px;
+    padding: 14px 14px 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    text-decoration: none; color: var(--charcoal);
+    scroll-snap-align: start;
+    box-shadow: 0 4px 14px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.02);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .rf-feat-card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(245,166,35,.18); }
+  .rf-feat-emoji {
+    font-size: 32px; line-height: 1;
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: var(--gold-pale);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .rf-feat-title {
+    font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 14px;
+    line-height: 1.25; color: var(--cocoa);
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden; text-overflow: ellipsis;
+    flex: 1;
+  }
+  .rf-feat-pill {
+    align-self: flex-start;
+    background: var(--gold-pale); color: var(--gold-deep);
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 11px;
+    padding: 4px 9px; border-radius: 100px;
+    letter-spacing: .02em;
+  }
+  /* Reciprocity microcopy under the featured row. */
+  .rf-reciprocity {
+    text-align: center; margin: 22px 0 0;
+    font-family: 'Nunito', sans-serif; font-weight: 500; font-size: 13px;
+    color: var(--charcoal-light); font-style: italic;
+  }
+  .rf-reciprocity strong { color: var(--gold-deep); font-style: normal; font-weight: 700; }
+  /* Hide the origin's homepage <footer>'s gold-vibrant hover — actually
+     we KEEP the origin footer (single source of truth for nav links)
+     and just style it a touch warmer to match the page. */
+  body > footer {
+    margin-top: 12px;
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  }
+</style>`;
+}
+
+// Card markup (no <style> tag). Returns the full `<div id="referral-page">`
+// body that replaces the hidden stub from the origin's 404.html. Critical
+// CSS lives in `buildReferralCardStyles()` and is injected into <head>
+// separately so we keep <body> free of stray <style> nodes.
+function buildReferralCardBody({ code, senderName, featured }) {
+  const e = htmlEscape;
+  const upperCode = String(code).toUpperCase();
+  const safeName = senderName ? e(senderName) : '';
+  // Surrogate-safe first-character pick: `charAt(0)` returns a lone
+  // surrogate for emoji / supplementary-plane names, which renders as
+  // a broken glyph in the avatar. Iterate the string by code point
+  // instead, then uppercase + escape.
+  const firstChar = senderName ? ([...senderName][0] ?? '?') : '';
+  const initial = senderName ? e(firstChar.toUpperCase()) : '';
+
+  // Section A — sender bar. Drop entirely when there's no real name.
+  // Single-line treatment: gold avatar + "{Name} sent you a free week".
+  // Reverted from the earlier eyebrow + two-line pattern per design
+  // feedback ("the content is right, but the previous look was not great").
+  // Cleaner pill, less notification-banner, more chat-message-preview.
+  const senderBar = senderName
+    ? `<div class="rf-sender">
+         <span class="rf-avatar">${initial}</span>
+         <span class="rf-sender-text"><strong>${safeName}</strong> sent you a free week</span>
+       </div>`
+    : '';
+
+  // Section E — featured activities row. Renders whenever we have at
+  // least one curated activity back from Supabase. Strict-3 gating
+  // (the previous behavior) combined with the now-fixed query was
+  // turning this row off entirely; one or two cards still tells the
+  // "real catalog" story.
+  const featuredCards = (Array.isArray(featured) ? featured : []).filter(
+    (f) => f && f.short_id,
+  );
+  const featuredRow = featuredCards.length
+    ? `<div class="rf-featured-wrap">
+         <h2 class="rf-featured-h">A taste of <em>what's inside</em></h2>
+         <div class="rf-featured">
+           ${featuredCards.map((f) => {
+             const href = `/a/${e(f.short_id)}?r=${e(code)}`;
+             const emoji = f.emoji || '✨';
+             const ageBit = f.age_range ? `<span class="rf-feat-pill">Ages ${e(f.age_range)}</span>` : '';
+             return `<a class="rf-feat-card" href="${e(href)}">
+               <span class="rf-feat-emoji">${emoji}</span>
+               <span class="rf-feat-title">${e(f.title)}</span>
+               ${ageBit}
+             </a>`;
+           }).join('')}
+         </div>
+       </div>`
+    : '';
+
+  // Section F — reciprocity microcopy. Only when senderName is non-null.
+  const reciprocity = senderName
+    ? `<p class="rf-reciprocity"><strong>${safeName} earns a free week too</strong> when you start your trial. Tiny win for both of you.</p>`
+    : '';
+
+  const iosUrl = `https://apps.apple.com/app/id${APP_STORE_ID}?mt=8&ct=REF_${e(upperCode)}`;
+  // Google Play install with the referral code in the `referrer` query
+  // param — the Android app reads this on first run and auto-applies the
+  // promo (mirrors the iOS `ct=` campaign-token pattern).
+  const androidPlayUrl = `https://play.google.com/store/apps/details?id=${ANDROID_BUNDLE}&referrer=${encodeURIComponent(`ref=${e(upperCode)}`)}`;
+
+  // Headline reads warmer + uses an italic emphasis on the gift words
+  // (rendered with a gold gradient via .rf-h1 em). The literal logo
+  // image (the chunky illustrated wordmark, /assets/logo.png — same
+  // asset the homepage nav uses) anchors the hero. We still ship the
+  // origin's <nav> with the logo above the card, but a smaller in-card
+  // logo makes the hero card feel branded on its own when share-card
+  // screenshots crop it out of context.
+  return `
+<div id="referral-page" class="rf-card">
+  ${senderBar}
+  <div class="rf-hero-card">
+    <img class="rf-logo" src="/assets/logo.png" alt="Bunny Path" width="360" height="360" loading="eager" decoding="async">
+    <span class="rf-eyebrow">A little gift</span>
+    <h1 class="rf-h1">A free week of <em>Bunny Path</em> Premium, on us.</h1>
+    <p class="rf-sub">20,000+ off-screen play ideas, hand-picked for ages 0&ndash;12. No more "I'm bored."</p>
+    <span class="rf-code-chip">
+      <span class="rf-code-label">Your code</span>
+      <strong>${e(upperCode)}</strong>
+    </span>
+    <span class="rf-code-note">Auto-pasted when you install &mdash; nothing to type.</span>
+  </div>
+  <div class="rf-trust">
+    <span>&#x2764;&#xFE0F; <b>Built</b> by parents like you</span>
+    <span>&#x1F6E1;&#xFE0F; <b>100%</b> Wholesome</span>
+    <span>&#x2702;&#xFE0F; <b>Zero</b> screen time</span>
+  </div>
+  <div class="rf-cta-stack">
+    <a class="rf-cta rf-cta-ios" href="${e(iosUrl)}" aria-label="Download for iPhone">
+      <span class="rf-cta-glyph rf-cta-glyph-svg" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.45-2.24-4.19-2.27-1.78-.18-3.48 1.05-4.39 1.05-.92 0-2.31-1.03-3.8-1-1.95.03-3.76 1.14-4.76 2.88-2.04 3.54-.52 8.78 1.46 11.66.97 1.41 2.12 3 3.61 2.94 1.45-.06 2-.94 3.75-.94 1.75 0 2.24.94 3.77.91 1.56-.03 2.55-1.44 3.5-2.86 1.12-1.64 1.58-3.23 1.6-3.32-.03-.01-3.06-1.17-3.02-4.7zM14.2 3.9c.8-.97 1.34-2.31 1.19-3.65-1.15.05-2.54.77-3.37 1.73-.74.85-1.4 2.22-1.22 3.53 1.28.1 2.6-.65 3.4-1.61z"/></svg>
+      </span>
+      <span>Download for iPhone</span>
+    </a>
+    <a class="rf-cta rf-cta-android" href="${e(androidPlayUrl)}" aria-label="Download for Android">
+      <span class="rf-cta-glyph rf-cta-glyph-svg" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M3.18 2.57c-.36.36-.56.93-.56 1.67v15.52c0 .74.2 1.31.56 1.67l.09.08 8.7-8.7v-.16L3.27 2.48l-.09.09z" fill="#5BC9F4"/><path d="M15.13 15.69l-2.9-2.9v-.16l2.9-2.9.07.04 3.43 1.95c.98.56.98 1.47 0 2.03l-3.43 1.95-.07-.01z" fill="#FEE101"/><path d="M15.2 15.68L12.23 12.7 3.18 21.77c.33.33.85.37 1.45.04l10.57-6.13" fill="#EA4335"/><path d="M15.2 8.32L4.63 2.19c-.6-.33-1.12-.29-1.45.04l9.05 9.05 2.97-2.96z" fill="#34A853"/></svg>
+      </span>
+      <span>Download for Android</span>
+    </a>
+    <p class="rf-cta-caption">No card to start<span class="rf-dot">&middot;</span>Cancel anytime<span class="rf-dot">&middot;</span>Off-screen only</p>
+  </div>
+  ${featuredRow}
+  ${reciprocity}
+</div>`;
 }
 
 async function fetchActivity(id, anonKey) {
@@ -201,18 +853,34 @@ async function fetchRelated(activity, anonKey) {
   }
 }
 
-async function fetchSenderName(refCode, anonKey) {
-  if (!refCode || !anonKey) return null;
+async function fetchSenderName(refCode, anonKey, signal) {
+  if (!refCode || !anonKey) {
+    console.log('[fetchSenderName] skipped — refCode:', !!refCode, 'anonKey:', !!anonKey);
+    return null;
+  }
   // Defense: reject anything that doesn't fit the 6-char base32 referral
   // shape before we send it to the DB. The RPC also filters internally
   // (it uses upper(trim(?))) but cheap to enforce here too.
-  if (!/^[abcdefghjkmnpqrstvwxyz23456789]{6}$/i.test(refCode)) return null;
+  if (!/^[abcdefghjkmnpqrstvwxyz23456789]{6}$/i.test(refCode)) {
+    console.log('[fetchSenderName] regex reject:', refCode);
+    return null;
+  }
   // Sender attribution goes through `public.get_referrer_first_name`, a
   // SECURITY DEFINER RPC created by migration 027. The function reads
   // past `profiles` RLS *internally* but only returns the first
   // whitespace-token of `name` (e.g. "Sarah Smith" → "Sarah") or null.
   // Callable by anon — no service-role key needed, blast radius is one
   // first name per known referral code even if the Worker is compromised.
+  //
+  // Edge-cache for 5 min per `(code, body)` cache key. The cache is the
+  // critical resilience here: under DB contention (e.g. concurrent
+  // embedding backfill writes saturating Supabase's connection pool),
+  // the first cold-path fetch may take 8-12s; once cached, subsequent
+  // visits to the same /CODE return instantly without touching the DB.
+  // The earlier theory that "the cache is pinning a failed response"
+  // was wrong — the real failure was a stale anon-key secret. Now that
+  // the key is current, the cache is purely a perf win.
+  const t0 = Date.now();
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/rpc/get_referrer_first_name`,
@@ -224,15 +892,24 @@ async function fetchSenderName(refCode, anonKey) {
           'content-type': 'application/json',
         },
         body: JSON.stringify({ p_code: refCode }),
-        cf: { cacheTtl: 300 },  // 5-min edge cache, same as activity lookup
+        cf: { cacheTtl: 300, cacheEverything: true },
+        signal,
       },
     );
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.log('[fetchSenderName] non-ok:', res.status, 'in', Date.now() - t0, 'ms');
+      return null;
+    }
     const result = await res.json();
-    if (typeof result !== 'string') return null;
+    if (typeof result !== 'string') {
+      console.log('[fetchSenderName] non-string result:', JSON.stringify(result).slice(0, 100), 'in', Date.now() - t0, 'ms');
+      return null;
+    }
     const trimmed = result.trim();
+    console.log('[fetchSenderName] ok:', trimmed || '(empty)', 'in', Date.now() - t0, 'ms');
     return trimmed === '' ? null : trimmed;
-  } catch (_) {
+  } catch (err) {
+    console.log('[fetchSenderName] err:', err && err.name, err && err.message, 'in', Date.now() - t0, 'ms');
     return null;
   }
 }

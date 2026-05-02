@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bunny Path — Help &amp; FAQ</title>
+<meta name="description" content="Bunny Path help center. Quick answers about ages, pricing, free trial, cancellation, refunds, privacy, and troubleshooting. Email support@bunnypath.com if you're still stuck.">
+<meta name="theme-color" content="#E37756">
+<meta property="og:title" content="Bunny Path — Help &amp; FAQ">
+<meta property="og:description" content="Quick answers about Bunny Path: ages, pricing, free trial, cancellation, refunds, privacy, and troubleshooting.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bunnypath.com/help/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bunny Path — Help &amp; FAQ">
+<meta name="twitter:description" content="Quick answers about ages, pricing, free trial, cancellation, refunds, privacy, and troubleshooting.">
+<link rel="canonical" href="https://bunnypath.com/help/">
+<link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#E37756">
+<link rel="manifest" href="/assets/favicon/site.webmanifest">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#F5A623; --gold-vibrant:#E8960F; --gold-deep:#C47F0A; --gold-pale:#FFF8ED;
+  --cream:#FFFDF7; --cream-warm:#FFF3D9;
+  --charcoal:#1F2937; --charcoal-mid:#4B5563; --charcoal-light:#6B7280;
+  --meadow:#9CC9A6; --meadow-deep:#6FA77D;
+  --petal:#F7B8B0; --petal-deep:#E8857A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Nunito',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--charcoal); line-height:1.65; background:var(--cream);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif; letter-spacing:-.01em; color:var(--charcoal)}
+a{color:var(--gold-deep)}
+a:hover{color:var(--gold-vibrant)}
+.container{max-width:820px; margin:0 auto; padding:0 28px}
+
+/* Top nav — mirrors privacy/terms layout */
+nav.top{
+  position:sticky; top:0; z-index:50;
+  padding:10px 0;
+  background:transparent; border-bottom:none;
+}
+nav.top .container{max-width:1160px}
+.nav-inner{display:flex; align-items:center; justify-content:space-between}
+.logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--charcoal); font-weight:800; font-size:22px}
+.logo img{display:block; height:150px; width:auto; margin:-22px 0 -50px; position:relative; z-index:2}
+.nav-right{display:flex; align-items:center; gap:20px}
+.nav-link{color:var(--charcoal-mid); text-decoration:none; font-weight:600; font-size:14px}
+.nav-cta{
+  background:#E37756; color:#fff; padding:10px 22px; border-radius:100px;
+  text-decoration:none; font-weight:700; font-size:14px;
+  box-shadow:0 6px 18px rgba(227,119,86,.3); transition:transform .2s;
+}
+.nav-cta:hover{transform:translateY(-2px)}
+@media(max-width:720px){
+  nav.top{padding:8px 0}
+  .logo img{height:92px; margin:-14px 0 -30px}
+  .nav-right{gap:10px}
+  .nav-right .nav-link{display:none}
+}
+
+/* Hero / page header */
+header.page{padding:40px 0 20px; text-align:center}
+header.page h1{font-size:clamp(38px,5vw,58px); font-weight:800; margin-bottom:14px}
+header.page .lede{
+  font-size:clamp(16px,1.6vw,18px); color:var(--charcoal-mid);
+  max-width:620px; margin:0 auto;
+}
+header.page .lede a{color:var(--gold-deep); font-weight:700}
+
+/* Search */
+.search-wrap{padding:24px 0 8px}
+.search-box{
+  display:flex; align-items:center; gap:10px;
+  background:#fff; border:2px solid rgba(245,166,35,.25);
+  border-radius:100px; padding:12px 20px;
+  box-shadow:0 4px 18px rgba(31,41,55,.06);
+  transition:border-color .2s, box-shadow .2s;
+}
+.search-box:focus-within{
+  border-color:var(--gold);
+  box-shadow:0 6px 22px rgba(245,166,35,.18);
+}
+.search-box svg{flex:none; opacity:.55}
+.search-box input{
+  flex:1; border:none; outline:none; background:transparent;
+  font-family:inherit; font-size:16px; color:var(--charcoal);
+}
+.search-box input::placeholder{color:var(--charcoal-light)}
+.search-clear{
+  background:none; border:none; cursor:pointer;
+  color:var(--charcoal-light); font-size:18px; line-height:1;
+  padding:4px 8px; border-radius:50%;
+  display:none;
+}
+.search-clear:hover{color:var(--charcoal); background:rgba(0,0,0,.05)}
+.search-clear.visible{display:inline-flex; align-items:center; justify-content:center}
+.search-empty{
+  display:none; text-align:center; padding:40px 20px;
+  color:var(--charcoal-mid); font-size:15px;
+}
+.search-empty.visible{display:block}
+.search-empty b{color:var(--charcoal); font-weight:800}
+
+/* Main */
+main{padding:24px 0 60px}
+section.cat{margin:36px 0}
+section.cat > h2{
+  font-size:24px; margin:0 0 14px;
+  color:var(--gold-deep);
+}
+.cat-intro{color:var(--charcoal-mid); font-size:14px; margin:-6px 0 14px}
+
+/* FAQ cards */
+.faq{
+  background:#fff;
+  border:1px solid rgba(245,166,35,.18);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:hidden;
+  transition:border-color .2s, box-shadow .2s;
+}
+.faq:hover{border-color:rgba(245,166,35,.4)}
+.faq[open]{
+  border-color:rgba(245,166,35,.5);
+  box-shadow:0 6px 22px rgba(31,41,55,.06);
+}
+.faq summary{
+  list-style:none;
+  cursor:pointer;
+  padding:18px 50px 18px 22px;
+  position:relative;
+  font-weight:700; font-size:16px; color:var(--charcoal);
+  user-select:none;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";
+  position:absolute; right:22px; top:50%; transform:translateY(-50%);
+  font-size:22px; line-height:1; color:var(--gold-deep);
+  font-weight:400; transition:transform .25s;
+  font-family:'Nunito',sans-serif;
+}
+.faq[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq summary:hover{color:var(--gold-deep)}
+.faq summary:focus-visible{outline:2px solid var(--gold); outline-offset:-2px}
+.faq .body{
+  padding:0 22px 20px;
+  color:var(--charcoal-mid);
+  font-size:15px;
+  line-height:1.65;
+}
+.faq .body p{margin-bottom:10px}
+.faq .body p:last-child{margin-bottom:0}
+.faq .body ul, .faq .body ol{margin:6px 0 10px 20px}
+.faq .body li{margin-bottom:6px}
+.faq .body a{color:var(--gold-deep); font-weight:700}
+.faq .body code{
+  background:var(--gold-pale);
+  padding:1px 6px; border-radius:4px; font-size:13px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  color:var(--charcoal);
+}
+.faq .body strong{color:var(--charcoal)}
+
+/* Permalink anchor offset (so sticky nav doesn't cover it) */
+.faq{scroll-margin-top:80px}
+
+/* Final CTA card */
+.still-stuck{
+  margin:60px 0 0; padding:30px;
+  background:linear-gradient(135deg, var(--gold-pale) 0%, #FFF3D9 100%);
+  border:1px solid rgba(245,166,35,.25);
+  border-radius:18px;
+  text-align:center;
+}
+.still-stuck h2{
+  font-size:22px; margin-bottom:8px; color:var(--charcoal);
+}
+.still-stuck p{color:var(--charcoal-mid); margin-bottom:18px; font-size:15px}
+.still-stuck a.btn{
+  display:inline-block;
+  background:#E37756; color:#fff; padding:12px 28px;
+  border-radius:100px; text-decoration:none; font-weight:700; font-size:15px;
+  box-shadow:0 6px 18px rgba(227,119,86,.3);
+  transition:transform .2s;
+}
+.still-stuck a.btn:hover{transform:translateY(-2px); color:#fff}
+
+/* Footer */
+footer.nf{
+  padding:30px 0; border-top:1px solid rgba(245,166,35,.15);
+  font-size:13px; color:var(--charcoal-light);
+}
+footer.nf .nf-inner{
+  max-width:1160px; margin:0 auto; padding:0 28px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+}
+footer.nf .nf-links{display:flex; gap:22px; flex-wrap:wrap}
+footer.nf .nf-links a{color:var(--charcoal-mid); text-decoration:none}
+footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
+@media(max-width:700px){footer.nf .nf-inner{flex-direction:column; text-align:center}}
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="container nav-inner">
+    <a href="/" class="logo" aria-label="Bunny Path"><img src="/assets/logo.png" alt="Bunny Path"></a>
+    <div class="nav-right">
+      <a href="/help/" class="nav-link" aria-current="page">Help</a>
+      <a href="/#download" class="nav-cta">Download free</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="container">
+    <h1>Help &amp; FAQ</h1>
+    <p class="lede">Quick answers below. If you're still stuck, write to <a href="mailto:support@bunnypath.com">support@bunnypath.com</a> — we reply within 48 hours.</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <div class="search-wrap">
+      <label class="search-box" for="faq-search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        <input id="faq-search" type="search" placeholder="Search help (e.g. cancel, refund, ages)…" autocomplete="off" aria-label="Search help articles">
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search">&times;</button>
+      </label>
+    </div>
+
+    <div class="search-empty" id="search-empty">
+      No matches for <b id="search-empty-term"></b>. Try a different term, or email <a href="mailto:support@bunnypath.com">support@bunnypath.com</a>.
+    </div>
+
+    <!-- ───────────── Getting started ───────────── -->
+    <section class="cat" data-cat="Getting started">
+      <h2>Getting started</h2>
+
+      <details class="faq" id="what-is-bunny-path">
+        <summary>What is Bunny Path?</summary>
+        <div class="body">
+          <p>Bunny Path is a parenting app with 20,000+ hand-curated, off-screen play ideas for kids ages 0–12. You tell us your child's age and a few interests, and we surface activities you can do at home today — with stuff you already have.</p>
+          <p>It's designed for parents. Kids don't use the app directly; you pick something and play together (or hand them the prompt and supervise).</p>
+        </div>
+      </details>
+
+      <details class="faq" id="what-ages">
+        <summary>What ages is Bunny Path for?</summary>
+        <div class="body">
+          <p>Bunny Path covers <strong>ages 0 through 12</strong>, split across nine age bands so each activity is matched to a developmental stage:</p>
+          <ul>
+            <li>Under 1 (0–12 mo) · Babies</li>
+            <li>1–2 · Toddler</li>
+            <li>2–3 · Explorer</li>
+            <li>3–4 · Builder</li>
+            <li>4–5 · Creator</li>
+            <li>5–6 · Thinker</li>
+            <li>7–8 · Maker</li>
+            <li>9–10 · Adventurer</li>
+            <li>11–12 · Strategist</li>
+          </ul>
+          <p>You can change your child's age band any time in <strong>Settings → Profile</strong>, and the activity feed will re-tune.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="need-account">
+        <summary>Do I need to create an account?</summary>
+        <div class="body">
+          <p>Yes — a free account is required so your saved activities, child profiles, and subscription state can sync across devices and survive a re-install.</p>
+          <p>You can sign up with Apple, Google, or email. We never ask for a child's last name, school, address, or photo.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="how-daily-works">
+        <summary>How does the daily activity work?</summary>
+        <div class="body">
+          <p>Every morning, Bunny Path picks one activity tailored to your child's age and the focus areas you chose during onboarding (creative, active, discovery, calm, etc.). The pick lands on your home screen and — if you have notifications turned on — comes through as a gentle nudge.</p>
+          <p>Don't love today's pick? Pull-to-refresh for a new one, or open the full library and filter by age, focus, materials, time, or mess level.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ───────────── Subscription & billing ───────────── -->
+    <section class="cat" data-cat="Subscription &amp; billing">
+      <h2>Subscription &amp; billing</h2>
+
+      <details class="faq" id="pricing">
+        <summary>How much does Bunny Path cost?</summary>
+        <div class="body">
+          <p>Bunny Path is free to download with a generous free tier. Bunny Path Premium unlocks the full 20,000+ activity library and removes daily limits.</p>
+          <p>Premium is <strong>$9.99 / month</strong> or <strong>$99.90 / year</strong> (about $8.33 / month when billed annually). Prices are shown in your local currency at checkout and may differ slightly by region — the in-app paywall always shows the exact price you'll be charged.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="free-trial">
+        <summary>Is there a free trial?</summary>
+        <div class="body">
+          <p>Yes — new subscribers get a <strong>7-day free trial</strong> of Bunny Path Premium. You won't be charged until day 7, and you can cancel any time before then with no charge.</p>
+          <p>The trial is offered once per Apple ID / Google account. Restoring purchases won't restart it.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="cancel-subscription">
+        <summary>How do I cancel my subscription?</summary>
+        <div class="body">
+          <p>Subscriptions are managed by Apple or Google — not by Bunny Path directly. To cancel:</p>
+          <p><strong>iPhone / iPad:</strong></p>
+          <ol>
+            <li>Open <strong>Settings</strong> on your device.</li>
+            <li>Tap your name at the top, then tap <strong>Subscriptions</strong>.</li>
+            <li>Tap <strong>Bunny Path</strong>, then <strong>Cancel Subscription</strong>.</li>
+          </ol>
+          <p><strong>Android:</strong></p>
+          <ol>
+            <li>Open the <strong>Google Play Store</strong> app.</li>
+            <li>Tap your profile icon → <strong>Payments &amp; subscriptions</strong> → <strong>Subscriptions</strong>.</li>
+            <li>Tap <strong>Bunny Path</strong>, then <strong>Cancel subscription</strong>.</li>
+          </ol>
+          <p>You'll keep Premium access through the end of the period you've already paid for. Cancelling stops the next renewal — it doesn't issue an immediate refund.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="charged-after-cancel">
+        <summary>I was charged after cancelling — what happened?</summary>
+        <div class="body">
+          <p>Subscriptions auto-renew until cancellation is confirmed by Apple or Google <em>before</em> the renewal date. The most common cause of a surprise charge is that the cancellation was started but not completed, or it was completed after the renewal had already processed.</p>
+          <p>Bunny Path doesn't process the payment, so we can't issue the refund directly. You'll need to request it from the store:</p>
+          <ul>
+            <li><strong>Apple:</strong> <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> — sign in, find the Bunny Path charge, choose <em>Request a refund</em>.</li>
+            <li><strong>Google:</strong> Open Play Store → menu → <strong>Payments &amp; subscriptions</strong> → <strong>Budget &amp; order history</strong> → tap the charge → <strong>Report an issue</strong>.</li>
+          </ul>
+          <p>If the store declines and you genuinely never used the period, email us at <a href="mailto:support@bunnypath.com">support@bunnypath.com</a> and we'll do what we can.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="restore-purchases">
+        <summary>How do I restore purchases on a new device?</summary>
+        <div class="body">
+          <p>Sign in to Bunny Path on the new device using the <strong>same Apple ID or Google account</strong> you used to subscribe, then open <strong>Settings → Subscription → Restore purchases</strong>. Your Premium status will sync within a few seconds.</p>
+          <p>Subscriptions are tied to the store account that paid, not to your Bunny Path login — make sure you're signed into the right Apple ID / Play account on the device.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ───────────── Activities & content ───────────── -->
+    <section class="cat" data-cat="Activities &amp; content">
+      <h2>Activities &amp; content</h2>
+
+      <details class="faq" id="older-kids">
+        <summary>Why don't you have activities for older kids (13+)?</summary>
+        <div class="body">
+          <p>Bunny Path is purpose-built for ages 0–12 — that's where curated, parent-friendly play prompts have the highest impact and where our content review process is tuned to. Activities for teenagers need a very different content model (autonomy, friend dynamics, screen-balance) that we don't want to fake.</p>
+          <p>If you want ideas for an older sibling, the 11–12 band stretches reasonably well, and many activities scale up with materials and complexity.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="safety">
+        <summary>Are the activities safe?</summary>
+        <div class="body">
+          <p>Every activity is written and reviewed by our team before it's added to the catalog. Each one is tagged with an age band and screened against safety rules — including a hard filter for choking, sharp-tool, burn, and toxic-substance hazards relative to the child's age. Materials shown on each activity card are checked for age appropriateness.</p>
+          <p>That said, no rule replaces a parent in the room. Always supervise your child during play, use your judgment about your specific child's abilities, and skip anything that doesn't feel right. If you spot an activity you think is unsafe for the listed age, please tap the report icon on the activity card or email <a href="mailto:support@bunnypath.com">support@bunnypath.com</a> — we re-review every report.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="favorites">
+        <summary>Can I save my favorites?</summary>
+        <div class="body">
+          <p>Yes. Tap the heart icon on any activity to save it. Your saved list lives in <strong>Profile → Saved</strong> and syncs across devices when you're signed in.</p>
+          <p>Free-tier accounts can save a small number of activities; Premium removes the cap.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="report-activity">
+        <summary>I disagreed with an activity — how do I report it?</summary>
+        <div class="body">
+          <p>Open the activity, tap the <strong>•••</strong> menu in the top-right, and choose <strong>Report</strong>. Tell us what felt off — wrong age, unsafe materials, unclear steps, anything. The report includes the activity ID automatically so we can find it instantly.</p>
+          <p>You can also email <a href="mailto:support@bunnypath.com">support@bunnypath.com</a> with the activity title; we'll re-review and update or pull it if needed.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ───────────── Privacy & data ───────────── -->
+    <section class="cat" data-cat="Privacy &amp; data">
+      <h2>Privacy &amp; data</h2>
+
+      <details class="faq" id="data-collected">
+        <summary>What data does Bunny Path collect?</summary>
+        <div class="body">
+          <p>The minimum we need to run the app: your account email, the optional first name / age band you enter for each child, your activity preferences, and standard usage and crash data. We don't ask for last names, school names, addresses, photos, voice recordings, or precise location.</p>
+          <p>Full details are in our <a href="/legal/privacy/">Privacy Policy</a>.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="delete-account">
+        <summary>How do I delete my account?</summary>
+        <div class="body">
+          <p>In the app, go to <strong>Settings → Account → Delete account</strong>. Confirm, and your account and all child profiles are deleted from our active systems immediately. Encrypted backups are purged within 30 days after that.</p>
+          <p>Account deletion is <strong>permanent and unrecoverable</strong> — we can't restore profiles, saved activities, or subscription state once it's done. Cancel any active subscription through the App Store or Play Store first if you don't want it to renew.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="advertisers">
+        <summary>Do you share data with advertisers?</summary>
+        <div class="body">
+          <p>We never share child-related data with anyone for advertising or profiling.</p>
+          <p>The free tier shows non-personalized banner ads through Google AdMob. These ads are configured with the <code>npa=1</code> flag, meaning they're contextual only — based on the app, not on you or your child. Premium subscribers see no ads at all.</p>
+          <p>For the full breakdown, see the <a href="/legal/privacy/">Privacy Policy</a>.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ───────────── Technical issues ───────────── -->
+    <section class="cat" data-cat="Technical issues">
+      <h2>Technical issues</h2>
+
+      <details class="faq" id="crashes">
+        <summary>The app crashes on launch — what do I do?</summary>
+        <div class="body">
+          <p>Try these in order:</p>
+          <ol>
+            <li><strong>Force-quit and reopen.</strong> Swipe Bunny Path out of the app switcher, then tap the icon again.</li>
+            <li><strong>Restart the device.</strong> Clears any stuck background state.</li>
+            <li><strong>Update the app.</strong> Check the App Store / Play Store for a newer build.</li>
+            <li><strong>Reinstall.</strong> Delete the app and download it again. Your account, saves, and subscription will restore once you sign back in.</li>
+          </ol>
+          <p>If it still crashes, email <a href="mailto:support@bunnypath.com">support@bunnypath.com</a> with your <strong>device model</strong> (e.g. iPhone 14, Pixel 8) and <strong>OS version</strong> (e.g. iOS 17.4, Android 14). That's usually enough for us to spot the cause.</p>
+        </div>
+      </details>
+
+      <details class="faq" id="no-reminders">
+        <summary>I'm not getting daily reminders.</summary>
+        <div class="body">
+          <p>Most reminder issues are a notification-permission setting. Check, in this order:</p>
+          <ul>
+            <li><strong>Inside Bunny Path:</strong> <strong>Settings → Notifications</strong> — make sure the daily reminder is on and set to a time you're awake for.</li>
+            <li><strong>iOS:</strong> Phone <strong>Settings → Notifications → Bunny Path</strong> — allow notifications, banners, and sounds.</li>
+            <li><strong>Android:</strong> Phone <strong>Settings → Apps → Bunny Path → Notifications</strong> — allow notifications and disable battery-saver / Doze restrictions for the app.</li>
+            <li><strong>Focus / Do Not Disturb:</strong> If the reminder time falls inside a Focus mode, the notification can get silently filtered. Add Bunny Path to the allowed apps for that mode.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq" id="not-loading">
+        <summary>Activities aren't loading.</summary>
+        <div class="body">
+          <p>Activities are fetched from our servers, so a connection issue is the usual culprit:</p>
+          <ol>
+            <li>Check that your device has internet (try opening a website in your browser).</li>
+            <li>Pull-to-refresh on the home or library screen.</li>
+            <li>Force-quit the app and reopen it.</li>
+            <li>Sign out (Settings → Account → Sign out) and sign back in.</li>
+          </ol>
+          <p>If activities are still blank after that, email <a href="mailto:support@bunnypath.com">support@bunnypath.com</a> — let us know your device, OS, and roughly when it stopped working.</p>
+        </div>
+      </details>
+    </section>
+
+    <div class="still-stuck">
+      <h2>Still need help?</h2>
+      <p>If your question isn't answered here, our support team usually replies within 48 hours.</p>
+      <a class="btn" href="mailto:support@bunnypath.com">Email support@bunnypath.com</a>
+    </div>
+
+  </div>
+</main>
+
+<footer class="nf">
+  <div class="nf-inner">
+    <div>© <span id="currentYear">2026</span> Bunny Path · Made with 🧡 for families everywhere.</div>
+    <div class="nf-links">
+      <a href="/">Home</a>
+      <a href="/help/">Help</a>
+      <a href="/legal/privacy/">Privacy</a>
+      <a href="/legal/terms/">Terms</a>
+      <a href="mailto:hello@bunnypath.com">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Year stamp
+document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+// Client-side filter
+(function(){
+  const input  = document.getElementById('faq-search');
+  const clear  = document.getElementById('search-clear');
+  const empty  = document.getElementById('search-empty');
+  const emptyT = document.getElementById('search-empty-term');
+  const faqs   = Array.from(document.querySelectorAll('.faq'));
+  const cats   = Array.from(document.querySelectorAll('section.cat'));
+
+  // Pre-compute searchable text for each FAQ (lowercased question + body)
+  faqs.forEach(f => {
+    f.dataset.haystack = (f.textContent || '').toLowerCase().replace(/\s+/g,' ');
+  });
+
+  function apply(q){
+    const term = q.trim().toLowerCase();
+    let anyMatch = false;
+
+    faqs.forEach(f => {
+      const hit = !term || f.dataset.haystack.includes(term);
+      f.style.display = hit ? '' : 'none';
+      if (hit) anyMatch = true;
+      // Auto-open matched FAQs only when actively searching
+      if (term && hit) f.setAttribute('open',''); else if (term) f.removeAttribute('open');
+    });
+
+    // Hide categories with no visible FAQs
+    cats.forEach(c => {
+      const visible = c.querySelectorAll('.faq:not([style*="display: none"])').length;
+      c.style.display = (term && visible === 0) ? 'none' : '';
+    });
+
+    if (term && !anyMatch){
+      empty.classList.add('visible');
+      emptyT.textContent = '"' + q.trim() + '"';
+    } else {
+      empty.classList.remove('visible');
+    }
+
+    clear.classList.toggle('visible', !!term);
+  }
+
+  input.addEventListener('input', e => apply(e.target.value));
+  clear.addEventListener('click', () => {
+    input.value = '';
+    apply('');
+    input.focus();
+  });
+
+  // Deep-link: if URL has a hash, open that FAQ on load
+  if (location.hash){
+    const target = document.querySelector(location.hash);
+    if (target && target.classList.contains('faq')){
+      target.setAttribute('open','');
+    }
+  }
+
+  // Update hash when FAQs are toggled, so users can copy a deep link
+  faqs.forEach(f => {
+    f.addEventListener('toggle', () => {
+      if (f.open && f.id && !input.value){
+        history.replaceState(null, '', '#' + f.id);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
