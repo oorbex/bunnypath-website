@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bunny Path — What's New</title>
+<meta name="description" content="Recent improvements to Bunny Path. New activities, better matching, and the bug fixes that came with each TestFlight build.">
+<link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#E37756">
+<link rel="manifest" href="/assets/favicon/site.webmanifest">
+<meta name="theme-color" content="#E37756">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#F5A623; --gold-vibrant:#E8960F; --gold-deep:#C47F0A; --gold-pale:#FFF8ED;
+  --cream:#FFFDF7; --cream-warm:#FFF3D9;
+  --charcoal:#1F2937; --charcoal-mid:#4B5563; --charcoal-light:#6B7280;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Nunito',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--charcoal); line-height:1.65; background:var(--cream);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif; letter-spacing:-.01em; color:var(--charcoal)}
+a{color:var(--gold-deep)}
+a:hover{color:var(--gold-vibrant)}
+.container{max-width:820px; margin:0 auto; padding:0 28px}
+
+nav.top{
+  position:sticky; top:0; z-index:50;
+  padding:10px 0;
+  background:transparent; border-bottom:none;
+}
+nav.top .container{max-width:1160px}
+.nav-inner{display:flex; align-items:center; justify-content:space-between}
+.logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--charcoal); font-weight:800; font-size:22px}
+.logo img{display:block; height:150px; width:auto; margin:-22px 0 -50px; position:relative; z-index:2}
+.nav-right{display:flex; align-items:center; gap:20px}
+.nav-cta{
+  background:#E37756; color:#fff; padding:10px 22px; border-radius:100px;
+  text-decoration:none; font-weight:700; font-size:14px;
+  box-shadow:0 6px 18px rgba(227,119,86,.3); transition:transform .2s;
+}
+.nav-cta:hover{transform:translateY(-2px)}
+@media(max-width:720px){
+  nav.top{padding:8px 0}
+  .logo img{height:92px; margin:-14px 0 -30px}
+  .nav-right{gap:10px}
+}
+
+header.page{padding:60px 0 30px; text-align:center}
+header.page h1{font-size:clamp(36px,5vw,52px); font-weight:800; margin-bottom:12px}
+header.page .meta{color:var(--charcoal-light); font-size:14px}
+
+main{padding:30px 0 80px}
+main section{margin-bottom:36px}
+main h2{font-size:24px; margin:30px 0 4px; color:var(--gold-deep)}
+main h3{font-size:17px; margin:20px 0 8px; font-family:'Nunito',sans-serif; font-weight:800; color:var(--charcoal)}
+main p{margin-bottom:14px; color:var(--charcoal-mid)}
+main ul{margin:0 0 16px 22px}
+main li{margin-bottom:8px; color:var(--charcoal-mid)}
+main .intro{
+  background:var(--gold-pale); border-left:4px solid var(--gold);
+  padding:18px 22px; border-radius:0 14px 14px 0; margin-bottom:24px;
+  color:var(--charcoal); font-weight:600;
+}
+main .toc{
+  background:var(--cream-warm); border:1px solid rgba(245,166,35,.25);
+  padding:18px 22px; border-radius:14px; margin-bottom:32px;
+}
+main .toc h2{font-size:15px; margin:0 0 8px; color:var(--charcoal); font-family:'Nunito',sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:.05em}
+main .toc ol{margin:0 0 0 22px; padding:0}
+main .toc li{margin-bottom:4px; color:var(--charcoal-mid); font-size:14px}
+main .toc a{color:var(--gold-deep); text-decoration:none}
+main .toc a:hover{text-decoration:underline}
+
+.release{
+  border-top:1px solid rgba(245,166,35,.15);
+  padding-top:24px; margin-top:24px;
+}
+.release:first-of-type{border-top:none; padding-top:0; margin-top:0}
+.release .release-meta{
+  display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  margin-bottom:6px;
+}
+.release .build-pill{
+  display:inline-block; background:var(--gold-pale);
+  color:var(--gold-deep); font-weight:800; font-size:13px;
+  padding:4px 12px; border-radius:100px;
+}
+.release .release-date{color:var(--charcoal-light); font-size:14px}
+
+hr{border:none; border-top:1px solid rgba(245,166,35,.15); margin:30px 0}
+
+footer.nf{
+  padding:30px 0; border-top:1px solid rgba(245,166,35,.15);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  font-size:13px; color:var(--charcoal-light);
+}
+footer.nf .nf-links{display:flex; gap:22px; flex-wrap:wrap}
+footer.nf .nf-links a{color:var(--charcoal-mid); text-decoration:none}
+footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
+@media(max-width:700px){footer.nf{flex-direction:column; text-align:center}}
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="container nav-inner">
+    <a href="/" class="logo" aria-label="Bunny Path"><img src="/assets/logo.png" alt="Bunny Path"></a>
+    <div class="nav-right">
+      <a href="/#download" class="nav-cta">Download free</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="container">
+    <h1>What's new in Bunny Path</h1>
+    <p class="meta">A quick log of the changes you'll notice in each TestFlight update.</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <p class="intro">We ship small, frequent updates focused on the moments parents actually use the app — picking a quick activity, marking it done, sharing a favorite. Here's what landed in the most recent builds.</p>
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>Recent builds</h2>
+      <ol>
+        <li><a href="#build-94">Build 94 — stability &amp; safety polish</a></li>
+        <li><a href="#build-93">Build 93 — saved screen &amp; share fixes</a></li>
+        <li><a href="#build-92">Build 92 — faster Home, smoother search</a></li>
+        <li><a href="#build-91">Build 91 — onboarding &amp; profile refinements</a></li>
+        <li><a href="#build-90">Build 90 — tab bar polish &amp; new pedagogies</a></li>
+        <li><a href="#build-89">Build 89 — bunny tab bar fixes</a></li>
+        <li><a href="#build-88">Build 88 — search hotfix</a></li>
+        <li><a href="#build-87">Build 87 — profile &amp; explore</a></li>
+        <li><a href="#build-86">Build 86 — age-aware collections</a></li>
+      </ol>
+    </nav>
+
+    <section id="build-94" class="release">
+      <div class="release-meta">
+        <span class="build-pill">Build 94</span>
+        <span class="release-date">May 2026</span>
+      </div>
+      <h2>Stability &amp; safety polish</h2>
+      <ul>
+        <li>Tightened our review pass on activity descriptions so age guidance and material lists read clearly.</li>
+        <li>Smoothed out a handful of layout glitches reported on smaller iPhones.</li>
+        <li>Background performance work to keep the app snappy as the catalog keeps growing.</li>
+      </ul>
+    </section>
+
+    <section id="build-93" class="release">
+      <div class="release-meta">
+        <span class="build-pill">Build 93</span>
+        <span class="release-date">May 2026</span>
+      </div>
+      <h2>Saved screen &amp; share fixes</h2>
+      <ul>
+        <li>Saved activities now stay sorted the way you left them after coming back to the app.</li>
+        <li>Sharing an activity to Messages or email keeps formatting clean and includes a preview image.</li>
+        <li>Fixed a small flash when opening an activity card from the Home screen.</li>
+      </ul>
+    </section>
+
+    <section id="build-92" class="release">
+      <div class="release-meta">
+        <span class="build-pill">Build 92</span>
+        <span class="release-date">May 2026</span>
+      </div>
+      <h2>Faster Home, smoother search</h2>
+      <ul>
+        <li>Home screen loads noticeably faster on a cold launch.</li>
+        <li>Search results update as you type with less lag, especially when filtering by interest.</li>
+        <li>Resolved a rare crash when switching profiles mid-scroll.</li>
+      </ul>
+    </section>
+
+    <section id="build-91" class="release">
+      <div class="release-meta">
+        <span class="build-pill">Build 91</span>
+        <span class="release-date">May 2026</span>
+      </div>
+      <h2>Onboarding &amp; profile refinements</h2>
+      <ul>
+        <li>The first-time setup flow is shorter and clearer about what each step does.</li>
+        <li>Editing a child's age or interests now updates suggestions immediately — no need to restart the app.</li>
+        <li>Small wording cleanups across Settings so labels match what each toggle actually does.</li>
+      </ul>
+    </section>
+
+    <section id="build-90" class="release">
+      <div class="release-meta">
+        <span class="build-pill">Build 90</span>
+        <span class="release-date">May 2026</span>
+      </div>
+      <h2>Tab bar polish &amp; more learning styles</h2>
+      <ul>
+        <li>Refreshed the bottom tab bar — clearer color contrast and a smoother active-tab indicator.</li>
+        <li>The plus button in the tab bar now pops out cleanly and is easier to hit one-handed.</li>
+        <li>Added five new learning-style filters so you can match activities to how your child actually plays.</li>
+        <li>Quality-of-life cleanups across the activity card and saved screen.</li>
+      </ul>
+    </section>
+
+    <section id="build-89" class="release">
+      <div class="release-meta">
+        <span class="build-pill">Build 89</span>
+        <span class="release-date">May 2026</span>
+      </div>
+      <h2>Bunny tab bar fixes</h2>
+      <ul>
+        <li>Fixed the green ring around the bunny tab so the active state reads correctly in both light and dark mode.</li>
+        <li>Resolved a small inconsistency when carrying tags between screens.</li>
+      </ul>
+    </section>
+
+    <section id="build-88" class="release">
+      <div class="release-meta">
+        <span class="build-pill">Build 88</span>
+        <span class="release-date">April 2026</span>
+      </div>
+      <h2>Search hotfix</h2>
+      <ul>
+        <li>Restored fast tag search results that had regressed in build 87 — searching by interest now feels instant again.</li>
+      </ul>
+    </section>
+
+    <section id="build-87" class="release">
+      <div class="release-meta">
+        <span class="build-pill">Build 87</span>
+        <span class="release-date">April 2026</span>
+      </div>
+      <h2>Profile activities &amp; faster Explore</h2>
+      <ul>
+        <li>Fixed a bug where a child's recently completed activities weren't showing up on their profile.</li>
+        <li>Polished the bottom tab bar (round one).</li>
+        <li>Sped up the Explore tab so similar activities load noticeably faster, especially on older iPhones.</li>
+      </ul>
+    </section>
+
+    <section id="build-86" class="release">
+      <div class="release-meta">
+        <span class="build-pill">Build 86</span>
+        <span class="release-date">April 2026</span>
+      </div>
+      <h2>Age-aware collections + 50+ fixes</h2>
+      <ul>
+        <li>Curated collections (themes, weekend ideas, seasonal lists) now adapt to each child's age band so you stop seeing toddler crafts when your kid is seven.</li>
+        <li>More than 50 small bug fixes across navigation, sharing, and the activity detail screen.</li>
+        <li>Home-screen rings honor your local timezone correctly and share buttons work everywhere they should.</li>
+      </ul>
+    </section>
+
+    <hr>
+    <p style="font-size:14px; color:var(--charcoal-light)">Have feedback on a recent change? Email <a href="mailto:hello@bunnypath.com">hello@bunnypath.com</a> — we read every reply.</p>
+  </div>
+</main>
+
+<footer class="nf">
+  <div class="container" style="max-width:1160px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+    <div>&copy; <span id="currentYear">2026</span> Bunny Path &middot; Made with 🧡 for families everywhere.</div>
+    <div class="nf-links">
+      <a href="/">Home</a>
+      <a href="/help/">Help</a>
+      <a href="/legal/privacy/">Privacy</a>
+      <a href="/legal/terms/">Terms</a>
+      <a href="mailto:hello@bunnypath.com">Contact</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
