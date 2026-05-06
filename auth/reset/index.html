@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Reset your password — Bunny Path</title>
+<meta name="theme-color" content="#FCF7F3">
+<link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+<!-- Smart App Banner — iOS Safari shows a one-tap "OPEN" banner for
+     the Bunny Path app right at the top of this page when the user
+     has the app installed. Acts as the primary "open in app"
+     affordance on iOS Safari. The web form below is the fallback for
+     users who don't have the app installed or are on Gmail/Outlook
+     in-app browsers where the banner doesn't render. -->
+<meta name="apple-itunes-app" content="app-id=6761960397">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#F5A623; --gold-vibrant:#E8960F; --gold-deep:#C47F0A; --gold-pale:#FFF8ED;
+  --cream:#FFFDF7; --charcoal:#1F2937; --charcoal-mid:#4B5563; --charcoal-light:#6B7280;
+  --error:#DC2626; --error-pale:#FEE2E2;
+  --success:#16A34A; --success-pale:#DCFCE7;
+  --peri:#7C84F0; --peri-pale:#EEF0FE;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Nunito',-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;
+  color:var(--charcoal); line-height:1.55; background:#FCF7F3;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+}
+h1,h2{font-family:'Fraunces',Georgia,serif; letter-spacing:-.01em}
+.card{
+  background:#fff; border-radius:24px;
+  box-shadow:0 8px 32px rgba(31,41,55,.08), 0 1px 3px rgba(31,41,55,.04);
+  width:100%; max-width:440px; padding:40px 32px;
+}
+.icon-circle{
+  width:72px; height:72px; border-radius:50%;
+  background:var(--peri-pale);
+  display:flex; align-items:center; justify-content:center;
+  font-size:38px; margin:0 auto 20px;
+}
+h1{font-size:28px; font-weight:600; text-align:center; margin-bottom:10px}
+.subtitle{
+  text-align:center; color:var(--charcoal-mid); font-size:15px;
+  margin-bottom:28px;
+}
+label{
+  display:block; font-size:14px; font-weight:600; margin-bottom:8px;
+  color:var(--charcoal);
+}
+.field-wrap{position:relative; margin-bottom:18px}
+input[type="password"], input[type="text"]{
+  width:100%; padding:14px 44px 14px 16px;
+  border:1.5px solid #E5E7EB; border-radius:12px;
+  font-size:16px; font-family:inherit; color:var(--charcoal);
+  background:#fff; transition:border-color .15s;
+}
+input:focus{outline:none; border-color:var(--gold)}
+.toggle-pw{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer; padding:8px;
+  color:var(--charcoal-light); font-size:18px;
+}
+button.submit{
+  width:100%; padding:16px; margin-top:6px;
+  background:var(--gold-vibrant); color:#fff;
+  border:none; border-radius:100px;
+  font-size:16px; font-weight:700; font-family:inherit;
+  cursor:pointer; transition:background .15s;
+}
+button.submit:hover:not(:disabled){background:var(--gold-deep)}
+button.submit:disabled{background:#D1D5DB; cursor:not-allowed}
+.error-banner{
+  background:var(--error-pale); color:var(--error);
+  padding:12px 14px; border-radius:10px; margin-bottom:18px;
+  font-size:14px; font-weight:500;
+  border:1px solid rgba(220,38,38,.2);
+}
+.success{
+  text-align:center; padding:8px 0 16px;
+}
+.success .icon-circle{background:var(--success-pale)}
+.success h1{margin-bottom:8px}
+.app-link{
+  display:block; text-align:center; margin-top:20px;
+  color:var(--peri); font-weight:700; font-size:14px;
+  text-decoration:none;
+}
+.app-link:hover{text-decoration:underline}
+.fine-print{
+  text-align:center; color:var(--charcoal-light); font-size:12px;
+  margin-top:24px; line-height:1.5;
+}
+.bunny-logo{
+  display:block; width:48px; height:48px; margin:0 auto 16px;
+}
+</style>
+</head>
+<body>
+<main class="card">
+  <img class="bunny-logo" src="/assets/favicon/apple-touch-icon.png" alt="Bunny Path">
+
+  <div id="form-state">
+    <div class="icon-circle">🔐</div>
+    <h1>Set a new password</h1>
+    <p class="subtitle">Choose a new password for your Bunny Path account.</p>
+
+    <div id="error" class="error-banner" style="display:none"></div>
+
+    <form id="reset-form" novalidate>
+      <label for="pw">New password</label>
+      <div class="field-wrap">
+        <input id="pw" type="password" minlength="8" autocomplete="new-password" required placeholder="At least 8 characters">
+        <button type="button" class="toggle-pw" data-target="pw" aria-label="Show password">👁</button>
+      </div>
+
+      <label for="pw2">Confirm password</label>
+      <div class="field-wrap">
+        <input id="pw2" type="password" minlength="8" autocomplete="new-password" required placeholder="Re-enter your password">
+        <button type="button" class="toggle-pw" data-target="pw2" aria-label="Show password">👁</button>
+      </div>
+
+      <button type="submit" class="submit" id="submit-btn" disabled>Save password</button>
+    </form>
+
+    <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app instead →</a>
+
+    <p class="fine-print">If you didn't request this, you can close this page —
+      your current password will keep working.</p>
+  </div>
+
+  <div id="success-state" class="success" style="display:none">
+    <div class="icon-circle">✅</div>
+    <h1>Password updated</h1>
+    <p class="subtitle">You can now sign in to Bunny Path with your new password.</p>
+    <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app →</a>
+  </div>
+
+  <div id="invalid-state" class="success" style="display:none">
+    <div class="icon-circle" style="background:var(--error-pale)">⚠️</div>
+    <h1>Link expired</h1>
+    <p class="subtitle">This reset link has expired or has already been used. Open the app and request a new one.</p>
+    <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app →</a>
+  </div>
+</main>
+
+<script type="module">
+// Supabase JS — pinned to the v2 latest UMD build from esm.sh CDN. Loaded
+// inline rather than bundled because this is a single-purpose static page.
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = 'https://ffffbbmzuwcpwuhodpvb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_yu_WSkvV-p5vnb1mqAbR6g_H5x3FFCK';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    flowType: 'pkce',
+    persistSession: false,
+    detectSessionInUrl: true, // auto-pick up the recovery token
+    autoRefreshToken: false,
+  },
+});
+
+// ────────────── Mobile deep-link bridge ──────────────
+// When the email link was tapped from an in-app webview (Gmail /
+// Outlook on iOS, Gmail on Android) the OS won't intercept the
+// Universal Link / App Link to open the native app. So we try the
+// custom scheme registered in Info.plist + AndroidManifest as a
+// belt-and-braces extra deep-link attempt. If the app is installed,
+// it picks up the URL via deep_link_service and runs the flow
+// natively. If not, the scheme handler does nothing — the form
+// below stays on screen as the fallback.
+//
+// CRITICAL: only fire this on FIRST mount, never on re-render. The
+// `attempted` flag avoids hammering the OS with prompts every time
+// the form re-paints.
+let attempted = false;
+function tryDeepLinkToApp(code) {
+  if (attempted) return;
+  attempted = true;
+  const ua = navigator.userAgent;
+  const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
+  if (!isMobile) return;
+  // Tiny delay so the page has time to paint a fallback before the
+  // OS opens an "Open in Bunny Path?" prompt — better UX than a
+  // blank flash.
+  setTimeout(() => {
+    window.location.href =
+      `io.supabase.bunnypath://reset-password?code=${encodeURIComponent(code)}`;
+  }, 300);
+}
+
+// ────────────── Form state ──────────────
+const $err = document.getElementById('error');
+const $form = document.getElementById('reset-form');
+const $pw = document.getElementById('pw');
+const $pw2 = document.getElementById('pw2');
+const $submit = document.getElementById('submit-btn');
+const $success = document.getElementById('success-state');
+const $formState = document.getElementById('form-state');
+const $invalidState = document.getElementById('invalid-state');
+
+// Show / hide password
+document.querySelectorAll('.toggle-pw').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.target;
+    const input = document.getElementById(id);
+    input.type = input.type === 'password' ? 'text' : 'password';
+    btn.textContent = input.type === 'password' ? '👁' : '🙈';
+  });
+});
+
+function refreshSubmit() {
+  const a = $pw.value;
+  const b = $pw2.value;
+  $submit.disabled = !(a.length >= 8 && a === b);
+}
+$pw.addEventListener('input', refreshSubmit);
+$pw2.addEventListener('input', refreshSubmit);
+
+function showError(msg) {
+  $err.textContent = msg;
+  $err.style.display = 'block';
+}
+
+// ────────────── Code exchange ──────────────
+// Two URL shapes from Supabase:
+//   • PKCE flow (default in Supabase JS v2): ?code=…
+//   • Implicit flow: #access_token=…&type=recovery (auto-handled by
+//     `detectSessionInUrl` above, but we still need to confirm a
+//     recovery session was created).
+const url = new URL(window.location.href);
+const code = url.searchParams.get('code');
+let exchangeReady = false;
+
+async function ensureRecoverySession() {
+  // Detect existing session from URL fragment (#access_token=…)
+  // — the Supabase client picks this up automatically when
+  // `detectSessionInUrl: true`. Wait one tick for the auth state
+  // listener to settle.
+  await new Promise(r => setTimeout(r, 50));
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    exchangeReady = true;
+    return;
+  }
+  // PKCE: exchange `?code=…` for a recovery session.
+  if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) {
+      showInvalid();
+      return;
+    }
+    exchangeReady = true;
+    return;
+  }
+  showInvalid();
+}
+
+function showInvalid() {
+  $formState.style.display = 'none';
+  $invalidState.style.display = 'block';
+}
+
+(async () => {
+  if (code) tryDeepLinkToApp(code);
+  await ensureRecoverySession();
+})();
+
+$form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $err.style.display = 'none';
+  if (!exchangeReady) {
+    showError('Reset link is invalid or expired.');
+    return;
+  }
+  $submit.disabled = true;
+  $submit.textContent = 'Saving…';
+  const { error } = await supabase.auth.updateUser({ password: $pw.value });
+  if (error) {
+    showError(error.message || 'Failed to update password.');
+    $submit.disabled = false;
+    $submit.textContent = 'Save password';
+    return;
+  }
+  // Sign out the recovery session — the user should sign back in
+  // through the app with the new password.
+  await supabase.auth.signOut();
+  $formState.style.display = 'none';
+  $success.style.display = 'block';
+});
+</script>
+</body>
+</html>
