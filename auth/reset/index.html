@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Reset your password — Bunny Path</title>
+<title>Reset your password: Bunny Path</title>
 <meta name="theme-color" content="#FCF7F3">
 <link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
@@ -132,7 +132,7 @@ button.submit:disabled{background:#D1D5DB; cursor:not-allowed}
 
     <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app instead →</a>
 
-    <p class="fine-print">If you didn't request this, you can close this page —
+    <p class="fine-print">If you didn't request this, you can close this page,
       your current password will keep working.</p>
   </div>
 
@@ -152,7 +152,7 @@ button.submit:disabled{background:#D1D5DB; cursor:not-allowed}
 </main>
 
 <script type="module">
-// Supabase JS — pinned to the v2 latest UMD build from esm.sh CDN. Loaded
+// Supabase JS, pinned to the v2 latest UMD build from esm.sh CDN. Loaded
 // inline rather than bundled because this is a single-purpose static page.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
@@ -175,7 +175,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 // custom scheme registered in Info.plist + AndroidManifest as a
 // belt-and-braces extra deep-link attempt. If the app is installed,
 // it picks up the URL via deep_link_service and runs the flow
-// natively. If not, the scheme handler does nothing — the form
+// natively. If not, the scheme handler does nothing, the form
 // below stays on screen as the fallback.
 //
 // CRITICAL: only fire this on FIRST mount, never on re-render. The
@@ -189,7 +189,7 @@ function tryDeepLinkToApp(code) {
   const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
   if (!isMobile) return;
   // Tiny delay so the page has time to paint a fallback before the
-  // OS opens an "Open in Bunny Path?" prompt — better UX than a
+  // OS opens an "Open in Bunny Path?" prompt, better UX than a
   // blank flash.
   setTimeout(() => {
     window.location.href =
@@ -242,7 +242,7 @@ let exchangeReady = false;
 
 async function ensureRecoverySession() {
   // Detect existing session from URL fragment (#access_token=…)
-  // — the Supabase client picks this up automatically when
+  // the Supabase client picks this up automatically when
   // `detectSessionInUrl: true`. Wait one tick for the auth state
   // listener to settle.
   await new Promise(r => setTimeout(r, 50));
@@ -290,7 +290,7 @@ $form.addEventListener('submit', async (e) => {
     $submit.textContent = 'Save password';
     return;
   }
-  // Sign out the recovery session — the user should sign back in
+  // Sign out the recovery session, the user should sign back in
   // through the app with the new password.
   await supabase.auth.signOut();
   $formState.style.display = 'none';

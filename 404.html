@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Bunny Path — Play Ideas for Kids</title>
+  <title>Bunny Path: Play Ideas for Kids</title>
   <meta name="description" content="20,000+ hand-crafted, off-screen activities for kids ages 0-12. Tap to download.">
-  <meta property="og:title" content="Bunny Path — Play Ideas for Kids">
+  <meta property="og:title" content="Bunny Path: Play Ideas for Kids">
   <meta property="og:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0-12. Tap to download.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://bunnypath.com/">
@@ -16,7 +16,7 @@
   <meta property="og:image:height" content="512">
   <meta property="og:image:alt" content="Bunny Path">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Bunny Path — Play Ideas for Kids">
+  <meta name="twitter:title" content="Bunny Path: Play Ideas for Kids">
   <meta name="twitter:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0-12. Tap to download.">
   <meta name="twitter:image" content="https://bunnypath.com/assets/og-image.png">
   <link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
@@ -73,7 +73,7 @@
       text-decoration: none;
       color: var(--charcoal);
     }
-    /* Same logo treatment as the homepage and the legal pages — the
+    /* Same logo treatment as the homepage and the legal pages, the
        wordmark image bleeds slightly outside the nav for a confident
        brand presence rather than a tucked-in emoji. */
     .logo img {
@@ -270,7 +270,7 @@
 
     .hidden { display: none; }
 
-    /* Activity-share landing — pill row + description */
+    /* Activity-share landing: pill row + description */
     .activity-meta {
       display: flex;
       gap: 8px;
@@ -315,7 +315,7 @@
 
     /* ── Rich activity-share landing (Worker-rendered) ──────────────── */
 
-    /* Sender attribution bar — sticky at the top of the card */
+    /* Sender attribution bar, sticky at the top of the card */
     .sender-bar {
       position: sticky;
       top: 0;
@@ -419,7 +419,7 @@
       justify-content: center;
     }
 
-    /* Locked steps — blurred, low-opacity, unselectable, with a card-wide
+    /* Locked steps: blurred, low-opacity, unselectable, with a card-wide
        lock overlay. */
     .step-blur-wrap {
       position: relative;
@@ -503,7 +503,7 @@
       font-weight: 700;
     }
 
-    /* CTA tertiary (Play C — Text me the link) */
+    /* CTA tertiary (Play C: Text me the link) */
     .btn-tertiary {
       display: flex;
       align-items: center;
@@ -665,7 +665,7 @@
         </a>
         <a href="#" class="btn-secondary" onclick="event.preventDefault()">
           <span class="btn-icon">&#x1F4F1;</span>
-          Android — Coming Soon
+          Android: Coming Soon
         </a>
 
         <ul class="features-mini">
@@ -692,7 +692,7 @@
         </a>
         <a href="#" class="btn-secondary" onclick="event.preventDefault()">
           <span class="btn-icon">&#x1F4F1;</span>
-          Android — Coming Soon
+          Android: Coming Soon
         </a>
       </div>
 
@@ -732,12 +732,12 @@
 
       // Supabase REST endpoint + anon key. The anon key is designed for
       // client-side use and only grants the access the table's RLS policy
-      // allows — `activities` is public read-only, same as the Flutter app.
+      // allows, `activities` is public read-only, same as the Flutter app.
       var SUPABASE_URL = 'https://ffffbbmzuwcpwuhodpvb.supabase.co';
       var SUPABASE_ANON_KEY = 'sb_publishable_yu_WSkvV-p5vnb1mqAbR6g_H5x3FFCK';
 
       // Pull `?r=CODE` out of the query string regardless of which branch
-      // we end up taking — it's optional everywhere it appears.
+      // we end up taking, it's optional everywhere it appears.
       function getQueryRefCode() {
         var m = search.match(/[?&]r=([A-Za-z0-9\-]+)/);
         return m ? m[1] : '';
@@ -761,7 +761,7 @@
       function renderReferral(code) {
         document.getElementById('referral-page').classList.remove('hidden');
         document.getElementById('ref-code-display').textContent = code;
-        document.title = 'Bunny Path — You\'re Invited!';
+        document.title = 'Bunny Path: You\'re Invited!';
 
         var ua = navigator.userAgent || '';
         var isAndroid = /Android/i.test(ua);
@@ -782,7 +782,7 @@
         } catch (e) { /* ignore */ }
       }
 
-      // Type-emoji map. Stored types are exactly these three strings — see
+      // Type-emoji map. Stored types are exactly these three strings, see
       // CLAUDE.md schema constraints. Default to a neutral sparkle if a row
       // ever drifts from the allowlist.
       var TYPE_EMOJI = {
@@ -813,14 +813,14 @@
       }
 
       // Hydrate the activity card with real content from Supabase. Silent
-      // on failure — the static fallback copy is already in place when this
+      // on failure, the static fallback copy is already in place when this
       // runs, so a network error / 404 / RLS denial just leaves the generic
       // "Check out this activity" copy visible.
       function fetchAndRenderActivity(activityId) {
         var loadingEl = document.getElementById('activity-loading');
         var fallbackSubtitle = document.getElementById('activity-fallback-subtitle');
         // The route accepts BOTH 36-char UUIDs (legacy share URLs) and
-        // 5-char base32 short_ids (migration 026 — influencer-friendly
+        // 5-char base32 short_ids (migration 026, influencer-friendly
         // share URLs like /a/xqr4j). Pick the right column for the
         // lookup so it hits the appropriate index.
         var isUuid = activityId.length === 36 && activityId.indexOf('-') !== -1;
@@ -884,7 +884,7 @@
           if (hintEl) hintEl.classList.remove('hidden');
 
           if (a.title) {
-            document.title = 'Bunny Path — ' + a.title;
+            document.title = 'Bunny Path: ' + a.title;
           }
         }).catch(function(err) {
           try { console.warn('[bunnypath] activity fetch failed', err); } catch (e) {}
@@ -905,7 +905,7 @@
         var androidUrl = data.androidUrl || '';
         var refCode = (data.refCode || '').toString();
 
-        document.title = 'Bunny Path — Activity';
+        document.title = 'Bunny Path: Activity';
 
         var ua = navigator.userAgent || '';
         var isAndroid = /Android/i.test(ua);
@@ -915,7 +915,7 @@
         var androidBtn = document.getElementById('activity-android-btn');
         if (isAndroid && iosBtn && androidBtn) {
           // Swap order visually by toggling the .btn-primary / .btn-secondary
-          // classes — minimal DOM churn, keeps both buttons present so a
+          // classes, minimal DOM churn, keeps both buttons present so a
           // user can still pick the other store.
           iosBtn.classList.remove('btn-primary');
           iosBtn.classList.add('btn-secondary');
@@ -923,7 +923,7 @@
           androidBtn.classList.add('btn-primary');
         }
 
-        // Floating CTA — primary store target, follows the same UA logic.
+        // Floating CTA: primary store target, follows the same UA logic.
         var floating = document.getElementById('floating-cta');
         if (floating) {
           floating.href = isAndroid ? androidUrl : iosUrl;
@@ -960,7 +960,7 @@
           var labelEl = floating.querySelector('.floating-cta-label');
           if (!labelEl) return;
           if (cohortLabel) {
-            labelEl.textContent = 'Open app — start with ' + cohortLabel;
+            labelEl.textContent = 'Open app: start with ' + cohortLabel;
           } else {
             labelEl.textContent = floating.getAttribute('data-default-label') || 'Open in app';
           }
@@ -968,7 +968,7 @@
 
         // Auto-clipboard the ref code so the deferred-deep-link handoff
         // on first launch can credit the install. Same trick the legacy
-        // minimal card does — kept here for parity.
+        // minimal card does, kept here for parity.
         if (refCode) {
           try {
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -978,7 +978,7 @@
         }
       }
 
-      // Renderer for the activity-share landing — reached when someone taps
+      // Renderer for the activity-share landing, reached when someone taps
       // a `/a/{id}?r={code}` link without the app installed (Universal Links
       // bypass this entirely on iOS when the app is installed). The buttons
       // get wired with full attribution: the activity id AND the referral
@@ -989,9 +989,9 @@
       // Supabase REST endpoint via the anon key.
       function renderActivity(activityId, refCode) {
         document.getElementById('activity-page').classList.remove('hidden');
-        document.title = 'Bunny Path — Activity';
+        document.title = 'Bunny Path: Activity';
 
-        // Kick off the content fetch immediately — the card is already
+        // Kick off the content fetch immediately, the card is already
         // visible with loading copy, and we paint over it when the row
         // resolves.
         fetchAndRenderActivity(activityId);
@@ -1018,7 +1018,7 @@
             iosBtn.innerHTML = '<span class="btn-icon">&#x1F4F1;</span> Download for Android';
           }
         }
-        // Make the secondary "Android — Coming Soon" tile a real link too,
+        // Make the secondary "Android: Coming Soon" tile a real link too,
         // so an iOS user can copy/share the Android URL with a friend.
         var androidBtn = document.querySelector('#activity-page .btn-secondary');
         if (androidBtn) {
@@ -1027,7 +1027,7 @@
           androidBtn.innerHTML = '<span class="btn-icon">&#x1F4F1;</span> Download for Android';
         }
 
-        // Auto-clipboard the ref code if present — same trick the referral
+        // Auto-clipboard the ref code if present, same trick the referral
         // path uses; the deferred-deep-link clipboard read on first app
         // launch will credit the install.
         if (refCode) {
@@ -1062,10 +1062,10 @@
       var actMatch = path.match(/^\/a\/([A-Za-z0-9\-]+)\/?$/);
       if (actMatch) {
         // Two cases:
-        //   (a) Worker pre-rendered the rich card — `#bp-activity-data`
+        //   (a) Worker pre-rendered the rich card, `#bp-activity-data`
         //       is in the DOM. Just wire interactivity (cohort + floating
         //       CTA + UA-aware download targets) and exit.
-        //   (b) Worker didn't fire (local dev / fallback) — render the
+        //   (b) Worker didn't fire (local dev / fallback), render the
         //       legacy minimal client-side card.
         var serverData = document.getElementById('bp-activity-data');
         if (serverData) {

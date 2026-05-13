@@ -1,5 +1,5 @@
 /**
- * Bunny Path — per-activity Open Graph + rich landing-page Worker.
+ * Bunny Path. Per-activity Open Graph + rich landing-page Worker.
  *
  * Route: bunnypath.com/* (dispatch-by-shape)
  *
@@ -14,7 +14,7 @@
  * user gets no hydration flash.
  *
  * Everything outside the activity / referral path shapes is passed
- * straight through to the GitHub Pages origin — index, legal pages,
+ * straight through to the GitHub Pages origin, index, legal pages,
  * AASA, assets, etc. all keep working unchanged.
  */
 
@@ -22,12 +22,12 @@ const SUPABASE_URL = 'https://ffffbbmzuwcpwuhodpvb.supabase.co';
 const SITE_ORIGIN = 'https://bunnypath.com';
 const APP_STORE_ID = '6761960397';
 const ANDROID_BUNDLE = 'com.kodsters.bunnypath';
-// 512×512 ~256 KB — the full Bunny Path wordmark (same artwork as the
+// 512×512 ~256 KB, the full Bunny Path wordmark (same artwork as the
 // homepage nav and `assets/logo.png`), downscaled and saved separately
 // as `og-image.png` so social-preview clients fetch a small file fast.
 const OG_IMAGE = 'https://bunnypath.com/assets/og-image.png';
 const ACTIVITY_PATH_RE = /^\/a\/([A-Za-z0-9-]+)\/?$/;
-// 6-char base32-style referral codes — same alphabet the Flutter app uses
+// 6-char base32-style referral codes, same alphabet the Flutter app uses
 // (excludes 0/O, 1/l/I, U for human-readability). Lives at the root path.
 const REFERRAL_PATH_RE = /^\/([abcdefghjkmnpqrstvwxyz23456789]{6})\/?$/i;
 
@@ -36,7 +36,7 @@ const REFERRAL_PATH_RE = /^\/([abcdefghjkmnpqrstvwxyz23456789]{6})\/?$/i;
 // which silently breaks iOS Universal Links. Since this Worker is on the
 // catch-all `bunnypath.com/*` route, we intercept the request, fetch the
 // static file from origin, and rewrite the Content-Type. Same treatment
-// for the Android assetlinks.json (Digital Asset Links — also requires
+// for the Android assetlinks.json (Digital Asset Links. Also requires
 // application/json per Google's docs).
 const AASA_PATH = '/.well-known/apple-app-site-association';
 const ASSETLINKS_PATH = '/.well-known/assetlinks.json';
@@ -118,7 +118,7 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // Universal Links / Digital Asset Links — fix Content-Type before
+    // Universal Links / Digital Asset Links. Fix Content-Type before
     // anything else can claim the request.
     if (url.pathname === AASA_PATH || url.pathname === ASSETLINKS_PATH) {
       return handleWellKnownJson(request);
@@ -134,7 +134,7 @@ export default {
       return handleReferral(request, referralMatch[1].toLowerCase(), env);
     }
 
-    // Passthrough — still attach security headers so the marketing site
+    // Passthrough. Still attach security headers so the marketing site
     // gets HSTS / CSP / nosniff coverage uniformly.
     const passthrough = await fetch(request);
     return withSecurityHeaders(passthrough);
@@ -147,14 +147,14 @@ async function handleActivity(request, activityId, url, env) {
 
   const activity = await fetchActivity(activityId, anonKey);
   if (!activity) {
-    // Couldn't find / load — fall through to the origin's 404.html.
+    // Couldn't find / load, fall through to the origin's 404.html.
     // Its client-side JS still renders a generic activity card.
     return withSecurityHeaders(await fetch(request));
   }
 
   // Parallel: sender name (optional, gated on ?r=) + 3 related activities.
   // Sender name comes from the SECURITY DEFINER RPC `get_referrer_first_name`
-  // (migration 027) — narrowly-scoped, callable with the anon key, returns
+  // (migration 027), narrowly-scoped, callable with the anon key, returns
   // only the first whitespace-token of `profiles.name`. This replaced an
   // earlier service-role-key path that would have bypassed ALL RLS.
   const [senderName, related] = await Promise.all([
@@ -207,10 +207,10 @@ async function handleReferral(request, code, env) {
   // Pre-compute the iOS App Store URL with the campaign token so the
   // top-nav "Get the app" CTA can use it (HTMLRewriter handler below).
   // The card body recomputes the same URL inside `buildReferralCardBody`
-  // — kept duplicate to avoid a wider refactor; both yield the same URL.
+  // kept duplicate to avoid a wider refactor; both yield the same URL.
   const iosUrl = `https://apps.apple.com/app/id${APP_STORE_ID}?mt=8&ct=REF_${e(upperCode)}`;
 
-  // Build the OG/meta block first — it always ships, even if SSR card
+  // Build the OG/meta block first, it always ships, even if SSR card
   // generation falls through. Includes the smart app banner with the
   // ref code in app-argument so iOS Safari surfaces a one-tap install.
   // The `noindex,nofollow` robots meta is critical: referral landing
@@ -240,12 +240,12 @@ async function handleReferral(request, code, env) {
   // origin can't race-unhide the wrong card after our SSR'd one paints.
   const siblingHide = `<style id="bp-ssr-hide">#activity-page,#generic-page{display:none !important;}</style>`;
 
-  // Critical CSS for the referral card — injected into <head> per spec
+  // Critical CSS for the referral card, injected into <head> per spec
   // ("single critical CSS block inlined in <head>"), separate from the
   // body markup so we get a clean paint and valid HTML structure.
   const referralStyles = buildReferralCardStyles();
 
-  // Kick off origin fetch in parallel with the Supabase calls — they're
+  // Kick off origin fetch in parallel with the Supabase calls, they're
   // independent, no point serializing them.
   const originPromise = fetch(request);
 
@@ -295,7 +295,7 @@ async function handleReferral(request, code, env) {
       .on('body > nav', {
         element(el) {
           // Logo-only nav. The "Get the app" right-side CTA was removed
-          // per design feedback — the in-card iOS + Android buttons are
+          // per design feedback. The in-card iOS + Android buttons are
           // already the page's clear primary action; the nav button was
           // duplicative and crowded the top.
           el.replace(
@@ -321,7 +321,7 @@ async function handleReferral(request, code, env) {
 
     return new Response(rewritten.body, { status: 200, headers });
   } catch (err) {
-    // SSR path failed for some reason — fall back to meta-only swap so
+    // SSR path failed for some reason, fall back to meta-only swap so
     // crawlers still get the OG tags and the client-side JS hydrates the
     // legacy card. Same behavior as before this redesign. Log the error
     // so it surfaces in `wrangler tail`.
@@ -390,7 +390,7 @@ function withTimeout(task, ms, fallback) {
 }
 
 // Hand-picked short_ids for the referral landing's "what's inside" preview
-// row — one per type so the row reads as a mini-tour of the catalog
+// row, one per type so the row reads as a mini-tour of the catalog
 // (Discovery / Active / Creative). These are real curated activities
 // (`is_curated=true`) selected for broad age-range appeal. Fetching by
 // `short_id IN (...)` uses the unique short_id index and consistently
@@ -443,7 +443,7 @@ async function fetchFeaturedActivities(anonKey, signal) {
 }
 
 // Critical CSS for the referral card. Returned as a `<style>` block so it
-// can be appended directly into `<head>` via HTMLRewriter (per spec —
+// can be appended directly into `<head>` via HTMLRewriter (per spec, 
 // "single critical CSS block inlined in <head>"). CSS vars fall back via
 // local re-declaration so the card renders correctly even if the host
 // page's :root vars are stripped or overridden.
@@ -457,7 +457,7 @@ function buildReferralCardStyles() {
     --cocoa:#4A2B18;
     --charcoal:#1F2937; --charcoal-mid:#4B5563; --charcoal-light:#6B7280;
   }
-  /* Page chrome — warm cream with a soft gold gradient blob top-right
+  /* Page chrome, warm cream with a soft gold gradient blob top-right
      and a sage rolling-hill silhouette at the bottom. Mirrors the
      homepage's underlay rhythm so the referral page feels like the
      same brand surface, not a Substack post. */
@@ -471,7 +471,7 @@ function buildReferralCardStyles() {
       var(--cream);
     background-attachment: fixed;
   }
-  /* Sage hill silhouette pinned to the bottom-left of the viewport — same
+  /* Sage hill silhouette pinned to the bottom-left of the viewport, same
      palette + curve as the homepage hill stack, just one layer for the
      referral page to keep payload cheap. */
   body::after {
@@ -482,7 +482,7 @@ function buildReferralCardStyles() {
       radial-gradient(120% 100% at 50% 100%, var(--sage-soft) 0%, var(--sage-soft) 55%, rgba(189,220,197,0) 70%);
     z-index: 0; pointer-events: none;
   }
-  /* Origin nav already injects the real Bunny Path wordmark img — keep it
+  /* Origin nav already injects the real Bunny Path wordmark img. Keep it
      visible above the gradient blob. The 404.html stub also includes a
      <section class="main"><div class="container"> wrapper that we paint
      our card into. */
@@ -541,7 +541,7 @@ function buildReferralCardStyles() {
   @media (min-width: 720px) {
     #referral-page.rf-card { max-width: 500px; padding: 16px 16px 48px; margin-top: 24px; }
   }
-  /* Section A — sender bar. Single-line gold-tinted pill so it reads
+  /* Section A, sender bar. Single-line gold-tinted pill so it reads
      as a personal handoff, not a notification banner. */
   .rf-sender {
     display: flex; align-items: center; gap: 12px;
@@ -564,7 +564,7 @@ function buildReferralCardStyles() {
   }
   .rf-sender-text { flex: 1; font-size: 15.5px; font-weight: 600; color: var(--charcoal); line-height: 1.3; }
   .rf-sender-text strong { font-weight: 800; }
-  /* Hero card — the one big visual element. Soft warm gradient inside,
+  /* Hero card, the one big visual element. Soft warm gradient inside,
      gold border accent, generous radius. The real Bunny Path logo
      (PNG) sits inside, top-centered. */
   .rf-hero-card {
@@ -642,7 +642,7 @@ function buildReferralCardStyles() {
     color: var(--charcoal-light); margin-top: 8px;
     position: relative; z-index: 1;
   }
-  /* Brand trust microbar — mirrors index.html's .hero-meta row (emoji +
+  /* Brand trust microbar, mirrors index.html's .hero-meta row (emoji +
      bold word + plain word). Sits on the cream surface, not in the hero
      card, so the hero stays uncluttered. Replaces the older check-mark
      row; the practical fine print ("No card to start · Cancel anytime")
@@ -660,7 +660,7 @@ function buildReferralCardStyles() {
   @media (max-width: 379px) {
     .rf-trust { flex-direction: column; align-items: center; gap: 10px; }
   }
-  /* Primary CTA stack — iOS + Android, identical height + width.
+  /* Primary CTA stack, iOS + Android, identical height + width.
      Stacked on every breakpoint so both buttons keep the full headline
      and never need to truncate. Styling mirrors index.html's hero
      .store-btn pair: terracotta solid for iOS, white-with-border for
@@ -694,7 +694,7 @@ function buildReferralCardStyles() {
   .rf-cta-ios:hover { box-shadow: 0 12px 30px rgba(227,119,86,.38); }
   .rf-cta-android:hover { box-shadow: 0 10px 22px rgba(0,0,0,.08); }
   .rf-cta-glyph { font-size: 22px; line-height: 1; }
-  /* SVG glyph wrapper — sized to match index.html's .store-btn svg
+  /* SVG glyph wrapper, sized to match index.html's .store-btn svg
      (22x22) so iOS + Android buttons feel like a balanced pair. */
   .rf-cta-glyph-svg {
     display: inline-flex; align-items: center; justify-content: center;
@@ -707,7 +707,7 @@ function buildReferralCardStyles() {
     color: var(--charcoal-light);
   }
   .rf-cta-caption .rf-dot { color: rgba(31,41,55,.25); margin: 0 6px; }
-  /* Featured activities preview — Section E. Soft section header, then a
+  /* Featured activities preview, Section E. Soft section header, then a
      horizontally scrollable row of three cards. Sage-tinted background
      band sits behind the row to feel like a curated gallery. */
   .rf-featured-wrap {
@@ -772,7 +772,7 @@ function buildReferralCardStyles() {
     color: var(--charcoal-light); font-style: italic;
   }
   .rf-reciprocity strong { color: var(--gold-deep); font-style: normal; font-weight: 700; }
-  /* Hide the origin's homepage <footer>'s gold-vibrant hover — actually
+  /* Hide the origin's homepage <footer>'s gold-vibrant hover, actually
      we KEEP the origin footer (single source of truth for nav links)
      and just style it a touch warmer to match the page. */
   body > footer {
@@ -797,7 +797,7 @@ function buildReferralCardBody({ code, senderName, featured }) {
   const firstChar = senderName ? ([...senderName][0] ?? '?') : '';
   const initial = senderName ? e(firstChar.toUpperCase()) : '';
 
-  // Section A — sender bar. Drop entirely when there's no real name.
+  // Section A, sender bar. Drop entirely when there's no real name.
   // Single-line treatment: gold avatar + "{Name} sent you a free week".
   // Reverted from the earlier eyebrow + two-line pattern per design
   // feedback ("the content is right, but the previous look was not great").
@@ -809,7 +809,7 @@ function buildReferralCardBody({ code, senderName, featured }) {
        </div>`
     : '';
 
-  // Section E — featured activities row. Renders whenever we have at
+  // Section E. Featured activities row. Renders whenever we have at
   // least one curated activity back from Supabase. Strict-3 gating
   // (the previous behavior) combined with the now-fixed query was
   // turning this row off entirely; one or two cards still tells the
@@ -835,20 +835,20 @@ function buildReferralCardBody({ code, senderName, featured }) {
        </div>`
     : '';
 
-  // Section F — reciprocity microcopy. Only when senderName is non-null.
+  // Section F, reciprocity microcopy. Only when senderName is non-null.
   const reciprocity = senderName
     ? `<p class="rf-reciprocity"><strong>${safeName} earns a free week too</strong> when you start your trial. Tiny win for both of you.</p>`
     : '';
 
   const iosUrl = `https://apps.apple.com/app/id${APP_STORE_ID}?mt=8&ct=REF_${e(upperCode)}`;
   // Google Play install with the referral code in the `referrer` query
-  // param — the Android app reads this on first run and auto-applies the
+  // param. The Android app reads this on first run and auto-applies the
   // promo (mirrors the iOS `ct=` campaign-token pattern).
   const androidPlayUrl = `https://play.google.com/store/apps/details?id=${ANDROID_BUNDLE}&referrer=${encodeURIComponent(`ref=${e(upperCode)}`)}`;
 
   // Headline reads warmer + uses an italic emphasis on the gift words
   // (rendered with a gold gradient via .rf-h1 em). The literal logo
-  // image (the chunky illustrated wordmark, /assets/logo.png — same
+  // image (the chunky illustrated wordmark, /assets/logo.png, same
   // asset the homepage nav uses) anchors the hero. We still ship the
   // origin's <nav> with the logo above the card, but a smaller in-card
   // logo makes the hero card feel branded on its own when share-card
@@ -950,7 +950,7 @@ async function fetchRelated(activity, anonKey) {
 
 async function fetchSenderName(refCode, anonKey, signal) {
   if (!refCode || !anonKey) {
-    console.log('[fetchSenderName] skipped — refCode:', !!refCode, 'anonKey:', !!anonKey);
+    console.log('[fetchSenderName] skipped, refCode:', !!refCode, 'anonKey:', !!anonKey);
     return null;
   }
   // Defense: reject anything that doesn't fit the 6-char base32 referral
@@ -964,7 +964,7 @@ async function fetchSenderName(refCode, anonKey, signal) {
   // SECURITY DEFINER RPC created by migration 027. The function reads
   // past `profiles` RLS *internally* but only returns the first
   // whitespace-token of `name` (e.g. "Sarah Smith" → "Sarah") or null.
-  // Callable by anon — no service-role key needed, blast radius is one
+  // Callable by anon, no service-role key needed, blast radius is one
   // first name per known referral code even if the Worker is compromised.
   //
   // Edge-cache for 5 min per `(code, body)` cache key. The cache is the
@@ -973,7 +973,7 @@ async function fetchSenderName(refCode, anonKey, signal) {
   // the first cold-path fetch may take 8-12s; once cached, subsequent
   // visits to the same /CODE return instantly without touching the DB.
   // The earlier theory that "the cache is pinning a failed response"
-  // was wrong — the real failure was a stale anon-key secret. Now that
+  // was wrong. The real failure was a stale anon-key secret. Now that
   // the key is current, the cache is purely a perf win.
   const t0 = Date.now();
   try {
@@ -1017,7 +1017,7 @@ function buildCanonicalUrl(id, refCode) {
 function buildMeta(activity, canonicalUrl, refCode) {
   const rawTitle = (activity.title || 'Activity').toString();
   const rawDescription = (activity.description || '').toString();
-  const title = `${rawTitle} — Bunny Path`;
+  const title = `${rawTitle}, Bunny Path`;
   const shortDesc = clip(rawDescription, 150) || 'A hand-crafted, off-screen play idea on Bunny Path.';
   const ogDesc = clip(rawDescription, 200) || 'A hand-crafted, off-screen play idea on Bunny Path.';
 
@@ -1026,7 +1026,7 @@ function buildMeta(activity, canonicalUrl, refCode) {
   const d200 = htmlEscape(ogDesc);
   const u = htmlEscape(canonicalUrl);
 
-  // Smart App Banner — iOS Safari one-tap install. `app-argument` carries
+  // Smart App Banner, iOS Safari one-tap install. `app-argument` carries
   // the activity short_id (and ref code if present) so the app can deep
   // link into the exact activity post-install.
   const sid = activity.short_id || activity.id || '';
@@ -1054,7 +1054,7 @@ function buildMeta(activity, canonicalUrl, refCode) {
   ].join('\n');
 }
 
-// Type-emoji map — types are constrained to these three strings (see CLAUDE.md).
+// Type-emoji map. Types are constrained to these three strings (see CLAUDE.md).
 const TYPE_EMOJI = {
   'Active play': '🏃',
   'Discovery': '🔍',
@@ -1084,7 +1084,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
 
   // ── Sender attribution (Section 1) ───────────────────────────────────
   // Only render when both ?r= and a real name lookup succeeded. Anything
-  // less is silently dropped — never a generic "Someone shared this".
+  // less is silently dropped, never a generic "Someone shared this".
   const senderBar = senderName
     ? `<div class="sender-bar"><strong>${e(senderName)}</strong> shared this with you 🐇</div>`
     : '';
@@ -1095,7 +1095,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
   if (time) pills.push(`<span class="activity-meta-pill">⏱ ${e(time)}</span>`);
   if (ageRange) pills.push(`<span class="activity-meta-pill">👶 Ages ${e(ageRange)}</span>`);
 
-  // ── Description (Section 3) — full, no truncation ───────────────────
+  // ── Description (Section 3), full, no truncation ───────────────────
   const descBlock = description
     ? `<p class="activity-description">${e(description)}</p>`
     : '';
@@ -1110,7 +1110,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
        </div>`
     : '';
 
-  // ── Steps (Section 5) — first 2 clear, rest blurred + locked ────────
+  // ── Steps (Section 5). First 2 clear, rest blurred + locked ────────
   let stepsBlock = '';
   if (steps.length) {
     const visibleHtml = visibleSteps
@@ -1121,7 +1121,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
           .map((s, i) => `<li class="step-locked"><span class="step-num">${i + 3}</span><span>${e(String(s))}</span></li>`)
           .join('')
       : '';
-    // Gate text — broadened from the per-activity-age cohort wording to
+    // Gate text, broadened from the per-activity-age cohort wording to
     // a corpus-wide "ages 0–12" framing per owner direction (the
     // referral landing should sell the whole product, not just the
     // narrow age slice of the activity that was shared). Keeps the
@@ -1163,7 +1163,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
        </div>`
     : '';
 
-  // ── Cohort prompt (Play B) — between benefits and CTAs ──────────────
+  // ── Cohort prompt (Play B), between benefits and CTAs ──────────────
   const cohortPrompt = `
        <div class="cohort-prompt" id="cohort-prompt">
          <p class="cohort-q">Who are you finding activities for?</p>
@@ -1199,10 +1199,10 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
          <p>Off-screen, educational, guilt-free. Built by parents like you 🧡</p>
        </div>`;
 
-  // ── CTA row (Play C) — iPhone / Android / Text me ───────────────────
+  // ── CTA row (Play C), iPhone / Android / Text me ───────────────────
   // Final href values get wired client-side based on userAgent (iOS vs
   // Android), so SSR ships sane defaults; the JS upgrades them.
-  const smsBody = `Bunny Path app — ${SITE_ORIGIN}/a/${sid}${refCode ? `?r=${refCode}` : ''}`;
+  const smsBody = `Bunny Path app, ${SITE_ORIGIN}/a/${sid}${refCode ? `?r=${refCode}` : ''}`;
   const mailBody = `Try this activity: ${SITE_ORIGIN}/a/${sid}${refCode ? `?r=${refCode}` : ''}`;
   const smsHref = `sms:?body=${encodeURIComponent(smsBody)}`;
   const mailHref = `mailto:?subject=${encodeURIComponent('Bunny Path')}&body=${encodeURIComponent(mailBody)}`;
@@ -1213,7 +1213,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
   const androidReferrer = `activity=${activityId}${refCode ? `&ref=${refCode}` : ''}`;
   const androidUrl = `https://play.google.com/store/apps/details?id=${ANDROID_BUNDLE}&referrer=${encodeURIComponent(androidReferrer)}`;
 
-  // Card data — read by the page-side JS (cohort prompt, floating CTA
+  // Card data. Read by the page-side JS (cohort prompt, floating CTA
   // copy updates, UA-based ref-code clipboard handoff).
   const dataBlock = `<script type="application/json" id="bp-activity-data">${
     JSON.stringify({
@@ -1268,7 +1268,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
            // Copy the activity URL to clipboard FIRST so the user
            // always gets the link even when no mail handler is
            // configured (common case on desktop where Gmail is just
-           // a tab — mailto: silently does nothing).
+           // a tab. Mailto: silently does nothing).
            var url = btn.getAttribute('data-activity-url') || '';
            if (url && navigator.clipboard && navigator.clipboard.writeText) {
              try {
@@ -1281,7 +1281,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
                showToast('Tap-and-hold the link to copy.');
              }
            }
-           // Don't preventDefault — let the mailto: still fire for
+           // Don't preventDefault. Let the mailto: still fire for
            // users who DO have a mail handler. They'll get both: the
            // compose window opens AND the URL is in their clipboard.
          });

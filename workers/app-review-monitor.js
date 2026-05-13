@@ -1,8 +1,8 @@
 /**
- * Bunny Path — App Store review monitor.
+ * Bunny Path: App Store review monitor.
  *
  * Cross-reference: production-readiness plan §B16 / §6 Q7
- * (build vs. Appfigures). This is the lightweight in-house alternative —
+ * (build vs. Appfigures). This is the lightweight in-house alternative,
  * a Cloudflare Worker that polls Apple's RSS reviews feed once an hour,
  * dedupes against KV, and either logs new reviews or fans them out to a
  * webhook (Slack / Discord / generic POST).
@@ -10,7 +10,7 @@
  * Why RSS and not the App Store Connect API: RSS is unauthenticated, has
  * no rate limit headache, and is the same feed Appfigures / Sensor Tower
  * scrape. Tradeoff: lags the live store by ~10–60 minutes and only
- * surfaces public reviews. That's fine — we just want a "hey, new 1-star"
+ * surfaces public reviews. That's fine, we just want a "hey, new 1-star"
  * nudge, not a forensic store-ops dashboard.
  *
  * Schedule: hourly cron. Apple's RSS updates roughly every 10–30 minutes;
@@ -28,7 +28,7 @@ const FEED_URL =
   `https://itunes.apple.com/us/rss/customerreviews/id=${APP_STORE_ID}/sortBy=mostRecent/json`;
 
 // KV key for the deduped review-id set. Stored as a JSON array of ids
-// (strings). Capped at the most recent N to keep the value small —
+// (strings). Capped at the most recent N to keep the value small,
 // Apple's RSS feed returns at most ~50 entries anyway, so 200 is plenty
 // of headroom against re-firing for an old review that briefly drops out
 // and reappears.
@@ -42,7 +42,7 @@ export default {
     ctx.waitUntil(pollReviews(env));
   },
 
-  // HTTP entry point — handy for manual triggering during setup
+  // HTTP entry point, handy for manual triggering during setup
   // (`curl https://<worker-url>/run`) without having to wait for the
   // next cron tick. Anything else returns a 404.
   async fetch(request, env, ctx) {
@@ -147,7 +147,7 @@ async function pollReviews(env) {
       r.rating ? `${r.rating}*` : '?',
       `"${(r.title || '').slice(0, 80)}"`,
       'by', r.author || 'anon',
-      '— v' + (r.version || '?'),
+      'v' + (r.version || '?'),
     );
   }
 
