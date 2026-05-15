@@ -60,11 +60,33 @@
       width: 100%;
     }
 
-    nav {
-      padding: 10px 24px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* Top nav — mirrors index.html's nav.top so worker-rendered
+       referral/activity pages share the marketing site's chrome. */
+    nav.top {
+      position: sticky; top: 0; z-index: 50;
+      padding: 10px 0;
+      background: transparent;
+    }
+    nav.top .container {
+      max-width: 1160px; margin: 0 auto; padding: 0 28px;
+    }
+    nav.top .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    nav.top .nav-right {
+      display: flex; align-items: center; gap: 20px;
+    }
+    nav.top .nav-cta {
+      background: #E37756; color: #fff;
+      padding: 10px 22px; border-radius: 100px;
+      text-decoration: none; font-weight: 700; font-size: 14px;
+      box-shadow: 0 6px 18px rgba(227,119,86,.3);
+      transition: transform .2s ease;
+    }
+    nav.top .nav-cta:hover { transform: translateY(-2px); }
+    @media (max-width: 720px) {
+      nav.top { padding: 8px 0; }
+      nav.top .nav-cta { padding: 9px 16px; font-size: 13px; }
     }
     .logo {
       display: flex;
@@ -256,17 +278,30 @@
       opacity: 1;
     }
 
-    footer {
-      padding: 24px;
-      text-align: center;
+    /* Footer — mirrors index.html's .nf-wrap so worker-rendered
+       pages share the marketing site's chrome. */
+    footer.nf-wrap {
+      background: #F5E4D0;
+      border-top: 1px solid rgba(31,41,55,.1);
+      padding: 22px 0;
+      position: relative; z-index: 10;
     }
-    footer a {
-      color: var(--charcoal-light);
+    footer.nf-wrap .container {
+      max-width: 1160px; margin: 0 auto; padding: 0 28px;
+    }
+    footer.nf-wrap .nf {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 14px;
+      font-size: 13px; color: var(--charcoal-light);
+    }
+    footer.nf-wrap .nf-links {
+      display: flex; gap: 22px; flex-wrap: wrap;
+    }
+    footer.nf-wrap .nf-links a {
+      color: var(--charcoal-mid);
       text-decoration: none;
-      font-size: 13px;
-      margin: 0 12px;
     }
-    footer a:hover { color: var(--gold-vibrant); }
+    footer.nf-wrap .nf-links a:hover { color: var(--gold-vibrant); }
 
     .hidden { display: none; }
 
@@ -633,10 +668,15 @@
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/" class="logo" aria-label="Bunny Path">
-      <img src="/assets/logo.png" alt="Bunny Path">
-    </a>
+  <nav class="top">
+    <div class="container nav-inner">
+      <a href="/" class="logo" aria-label="Bunny Path">
+        <img src="/assets/logo.png" alt="Bunny Path">
+      </a>
+      <div class="nav-right">
+        <a href="/" class="nav-cta">Download free</a>
+      </div>
+    </div>
   </nav>
 
   <section class="main">
@@ -712,11 +752,20 @@
 
   <div class="toast" id="toast">Code copied!</div>
 
-  <footer>
-    <a href="/">Home</a>
-    <a href="/legal/privacy">Privacy</a>
-    <a href="/legal/terms">Terms</a>
+  <footer class="nf-wrap">
+    <div class="container">
+      <div class="nf">
+        <div>© <span id="currentYear">2026</span> Bunny Path · Made with 🧡 for families everywhere.</div>
+        <div class="nf-links">
+          <a href="/">Home</a>
+          <a href="/help/">Help</a>
+          <a href="/legal/privacy/">Privacy</a>
+          <a href="/legal/terms/">Terms</a>
+        </div>
+      </div>
+    </div>
   </footer>
+  <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
 
   <script>
     (function() {

@@ -288,19 +288,18 @@ async function handleReferral(request, code, env) {
         el.append(referralStyles, { html: true });
         el.append(siblingHide, { html: true });
       }})
-      // Swap the 404.html's bare <nav> (logo only) for the index.html
-      // top-nav structure (logo left, "Get Bunny Path" CTA on the right).
-      // Keeps the referral page visually continuous with the marketing
-      // site's top chrome instead of feeling like a one-off page.
+      // Match the worker-page nav to index.html's top chrome (logo left,
+      // 'Download free' CTA on the right). Brings the referral page
+      // visually in line with the marketing site so users feel they're
+      // on the same brand surface, not a one-off landing.
       .on('body > nav', {
         element(el) {
-          // Logo-only nav. The "Get the app" right-side CTA was removed
-          // per design feedback. The in-card iOS + Android buttons are
-          // already the page's clear primary action; the nav button was
-          // duplicative and crowded the top.
           el.replace(
-            `<nav class="top"><div class="nav-inner">` +
+            `<nav class="top"><div class="container nav-inner">` +
               `<a href="/" class="logo" aria-label="Bunny Path"><img src="/assets/logo.png" alt="Bunny Path"></a>` +
+              `<div class="nav-right">` +
+                `<a href="/" class="nav-cta">Download free</a>` +
+              `</div>` +
             `</div></nav>`,
             { html: true },
           );
