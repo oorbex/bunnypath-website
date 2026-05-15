@@ -1078,6 +1078,19 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
   const materials = Array.isArray(activity.materials) ? activity.materials : [];
   const steps = Array.isArray(activity.steps) ? activity.steps : [];
   const benefits = Array.isArray(activity.benefits) ? activity.benefits : [];
+
+  // Materials and steps were migrated from text[] to jsonb (migration
+  // 094). New rows store each material as {item, ...} and each step as
+  // {instruction, duration, tip, ...}. Older rows may still be plain
+  // strings. These tiny helpers extract the display string from either
+  // shape — without them, `String(obj)` renders the literal text
+  // '[object Object]' on the share page.
+  const materialText = (m) =>
+    m == null ? '' : (typeof m === 'string' ? m : (m.item || m.material_text || m.text || ''));
+  const stepText = (s) =>
+    s == null ? '' : (typeof s === 'string' ? s : (s.instruction || s.text || ''));
+  const benefitText = (b) =>
+    b == null ? '' : (typeof b === 'string' ? b : (b.benefit_text || b.text || b.title || ''));
   const totalSteps = steps.length;
   const visibleSteps = steps.slice(0, 2);
   const blurredSteps = steps.slice(2);
@@ -1105,7 +1118,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
     ? `<div class="activity-section">
          <h2 class="activity-section-h">You'll need</h2>
          <ul class="bullet-list">
-           ${materials.map((m) => `<li>${e(String(m))}</li>`).join('')}
+           ${materials.map((m) => `<li>${e(materialText(m))}</li>`).join('')}
          </ul>
        </div>`
     : '';
@@ -1114,11 +1127,11 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
   let stepsBlock = '';
   if (steps.length) {
     const visibleHtml = visibleSteps
-      .map((s, i) => `<li><span class="step-num">${i + 1}</span><span>${e(String(s))}</span></li>`)
+      .map((s, i) => `<li><span class="step-num">${i + 1}</span><span>${e(stepText(s))}</span></li>`)
       .join('');
     const blurredHtml = blurredSteps.length
       ? blurredSteps
-          .map((s, i) => `<li class="step-locked"><span class="step-num">${i + 3}</span><span>${e(String(s))}</span></li>`)
+          .map((s, i) => `<li class="step-locked"><span class="step-num">${i + 3}</span><span>${e(stepText(s))}</span></li>`)
           .join('')
       : '';
     // Gate text, broadened from the per-activity-age cohort wording to
@@ -1158,7 +1171,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
     ? `<div class="activity-section">
          <h2 class="activity-section-h">What kids gain</h2>
          <ul class="bullet-list bullet-list-sparkle">
-           ${benefits.map((b) => `<li>${e(String(b))}</li>`).join('')}
+           ${benefits.map((b) => `<li>${e(benefitText(b))}</li>`).join('')}
          </ul>
        </div>`
     : '';
