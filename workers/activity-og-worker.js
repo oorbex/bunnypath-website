@@ -686,12 +686,13 @@ function buildReferralCardStyles() {
     box-shadow: 0 8px 24px rgba(227,119,86,.32);
   }
   .rf-cta-android {
-    background: #E37756; color: #fff;
-    box-shadow: 0 8px 24px rgba(227,119,86,.32);
+    background: #fff; color: var(--charcoal);
+    border-color: #E8E5DC;
+    box-shadow: 0 4px 14px rgba(0,0,0,.05);
   }
   .rf-cta:hover { transform: translateY(-3px); }
   .rf-cta-ios:hover { box-shadow: 0 12px 30px rgba(227,119,86,.38); }
-  .rf-cta-android:hover { box-shadow: 0 12px 30px rgba(227,119,86,.38); }
+  .rf-cta-android:hover { box-shadow: 0 10px 22px rgba(0,0,0,.08); }
   .rf-cta-glyph { font-size: 22px; line-height: 1; }
   /* SVG glyph wrapper, sized to match index.html's .store-btn svg
      (22x22) so iOS + Android buttons feel like a balanced pair. */
