@@ -37,7 +37,12 @@ a:hover{color:var(--gold-vibrant)}
 nav.top{
   position:sticky; top:0; z-index:50;
   padding:10px 0;
-  background:transparent; border-bottom:none;
+  /* Frosted-glass band — see index.html for the design rationale.
+     Replaces the prior `background:transparent` dead-click zone. */
+  background: rgba(255, 252, 245, 0.72);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid rgba(31, 41, 55, 0.06);
 }
 nav.top .container{max-width:1160px}
 .nav-inner{display:flex; align-items:center; justify-content:space-between}

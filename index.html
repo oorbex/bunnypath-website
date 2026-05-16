@@ -49,7 +49,18 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif; letter-spacing:-.01em}
 nav.top{
   position:sticky; top:0; z-index:50;
   padding:10px 0;
-  background:transparent; border-bottom:none;
+  /* Frosted-glass band: translucent cream + backdrop blur. Was
+     `background:transparent` previously, which created a dead-click
+     zone — the nav still intercepted pointer-events in its middle gap
+     because z-index:50 sits above content, but with no visible band
+     users had no affordance that the area was non-interactive. The
+     translucent layer + 1px bottom border give a clear "this is a
+     header" cue while letting the warm page background show through.
+     saturate(140%) adds vibrancy through the blur (Apple HIG-style). */
+  background: rgba(255, 252, 245, 0.72);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid rgba(31, 41, 55, 0.06);
 }
 .nav-inner{display:flex; align-items:center; justify-content:space-between}
 .logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--charcoal); font-weight:800; font-size:22px}
