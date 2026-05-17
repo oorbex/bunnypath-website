@@ -182,18 +182,40 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 // `attempted` flag avoids hammering the OS with prompts every time
 // the form re-paints.
 let attempted = false;
-function tryDeepLinkToApp(code) {
+function tryDeepLinkToApp() {
   if (attempted) return;
-  attempted = true;
   const ua = navigator.userAgent;
   const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
   if (!isMobile) return;
+
+  // Two URL shapes can be passed through to the app via the custom
+  // scheme:
+  //   1. PKCE: ?code=<pkce_code>
+  //   2. Implicit flow: #access_token=<jwt>&refresh_token=<rt>&type=recovery
+  //
+  // Supabase Auth's `/auth/v1/recover` endpoint (and the magic-link
+  // path) emits implicit-flow URLs by default — the PKCE flow is
+  // only used when the originating SDK client signed the request
+  // with a code_verifier. So in practice the fragment path is what
+  // fires most of the time. App-side, deep_link_service.dart parses
+  // either shape and installs the recovery session.
+  let deepLink = null;
+  if (code) {
+    deepLink = `io.supabase.bunnypath://reset-password?code=${encodeURIComponent(code)}`;
+  } else if (window.location.hash && window.location.hash.includes('access_token=')) {
+    // Pass the entire fragment through verbatim — preserves
+    // access_token, refresh_token, type, expires_at, etc.
+    deepLink = `io.supabase.bunnypath://reset-password${window.location.hash}`;
+  } else {
+    return; // No auth payload to deep-link with.
+  }
+
+  attempted = true;
   // Tiny delay so the page has time to paint a fallback before the
   // OS opens an "Open in Bunny Path?" prompt, better UX than a
-  // blank flash.
+  // blank flash if the app is installed.
   setTimeout(() => {
-    window.location.href =
-      `io.supabase.bunnypath://reset-password?code=${encodeURIComponent(code)}`;
+    window.location.href = deepLink;
   }, 300);
 }
 
@@ -270,7 +292,10 @@ function showInvalid() {
 }
 
 (async () => {
-  if (code) tryDeepLinkToApp(code);
+  // Fire the custom-scheme deep-link attempt regardless of which
+  // flow (PKCE or implicit) we got — function self-checks for the
+  // right URL shape and no-ops on desktop / unknown shapes.
+  tryDeepLinkToApp();
   await ensureRecoverySession();
 })();
 
