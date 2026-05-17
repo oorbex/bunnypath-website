@@ -68,8 +68,8 @@
      success/error card below. -->
 <div id="loading-state" class="card">
   <div class="icon-circle">🐰</div>
-  <h1>Opening Bunny Path…</h1>
-  <p class="subtitle">Hang tight, we're handing you off to the app.</p>
+  <h1>Confirming…</h1>
+  <p class="subtitle">Hang tight, we're confirming your account.</p>
   <div class="spinner"></div>
 </div>
 
@@ -111,14 +111,19 @@
 //     follow-up page (/auth/reset/ for recovery, app-store link for
 //     signup, etc.).
 //
-//   - On mobile, the custom-scheme deep link is fired FIRST and the
-//     web verification is GATED behind a 1.8s visibility check. If
-//     the OS hands the user to the app (page goes hidden / pagehide),
-//     we exit without ever touching /auth/v1/verify on the web — the
-//     token stays unspent for the app to consume and the user never
-//     sees the web success card. If the app doesn't intercept, the
-//     web does verifyOTP itself and renders the in-page card with an
-//     App Store handoff for the no-app-installed case.
+//   - On mobile, the web does the verify FIRST (one and only
+//     consumption of the token), then deep-links to the app via the
+//     custom scheme with the resulting session in the fragment
+//     (`io.supabase.bunnypath://verify#access_token=…&refresh_token=…`).
+//     The app's deep_link_service.dart Path B calls setSession()
+//     with the refresh token — no second verify, no race. Earlier
+//     iterations did mobile-first (deep-link the raw token_hash) +
+//     visibility-check fallback, but iOS doesn't reliably fire
+//     visibilitychange when its "Open in Bunny Path?" prompt is up,
+//     so the web AND the app both called verifyOTP on the same
+//     token. Whoever lost got "expired or already used" and the
+//     user saw "Link expired" on a fresh link. Verifying first
+//     eliminates the race outright.
 // ───────────────────────────────────────────────────────────────
 
 // Direct fetch against Supabase's /auth/v1/verify — no SDK import.
@@ -203,72 +208,33 @@ async function verifyTokenHash(tokenHash, type) {
   }
 }
 
-// Try to hand the auth payload to the native app via the custom
-// scheme registered in Info.plist / AndroidManifest, BEFORE we
-// attempt any verification on the web. Builds one of two URL shapes
-// depending on which flow this is:
+// Hand a minted session off to the native app via the custom-scheme
+// deep link. Called AFTER web verification has consumed the token and
+// minted an access_token + refresh_token. We never deep-link the raw
+// token_hash anymore — that path used to race with the web's own
+// verify call (both consumed the token, one got "expired or already
+// used") and produced the "Link expired" error users were seeing on
+// freshly-issued links.
 //
-//   - token_hash flow: io.supabase.bunnypath://verify?token_hash=&type=
-//     App's deep_link_service Path 0 calls auth.verifyOTP server-side.
+// The app's deep_link_service.dart Path B parses the fragment and
+// calls setSession(refreshToken). Supabase fires the right event
+// (signedIn for signup/magiclink, passwordRecovery for recovery,
+// userUpdated for email_change), and the in-app auth state listener
+// picks it up — same as if the app had received the original token.
 //
-//   - implicit (fragment) flow: io.supabase.bunnypath://verify#access_token=&refresh_token=&type=
-//     App's deep_link_service.dart Path B parses the fragment and
-//     calls setSession(refreshToken) — session installed without a
-//     round-trip to Supabase, since the token is already minted.
-//
-// Resolves to `true` if the OS switched the user into the app
-// (pagehide / visibilitychange → hidden within 1.8s), `false` if
-// nothing intercepted.
-//
-// 1.8s is the empirically-tuned window: long enough for iOS to render
-// its "Open in Bunny Path?" confirmation dialog (older iOS versions
-// require an extra tap) and for the app to come to the foreground
-// from a cold start; short enough that a user without the app
-// installed doesn't perceive a stall before the web fallback kicks
-// in. Below ~1s, iOS sometimes misses the page-hidden signal even
-// when the app DID open, causing the web to also burn the token.
-function tryDeepLinkToApp() {
-  return new Promise((resolve) => {
-    const ua = navigator.userAgent;
-    const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
-    if (!isMobile) {
-      resolve(false);
-      return;
-    }
-    let appOpened = false;
-    const markOpened = () => {
-      if (document.hidden) appOpened = true;
-    };
-    document.addEventListener('visibilitychange', markOpened);
-    const onPageHide = () => { appOpened = true; };
-    window.addEventListener('pagehide', onPageHide, { once: true });
-
-    // Pick the URL shape based on which inputs we have.
-    let deepLink;
-    if (tokenHash) {
-      deepLink =
-        `io.supabase.bunnypath://verify?token_hash=${encodeURIComponent(tokenHash)}&type=${encodeURIComponent(type || '')}`;
-    } else if (fragAccessToken && fragRefreshToken) {
-      // Fragment is passed VERBATIM — the app's deep_link_service
-      // expects to find access_token + refresh_token + type in the
-      // fragment exactly as Supabase emitted them.
-      deepLink = `io.supabase.bunnypath://verify#${rawFragment}`;
-    } else {
-      // No auth payload to send — let the caller fall through to its
-      // error path.
-      document.removeEventListener('visibilitychange', markOpened);
-      window.removeEventListener('pagehide', onPageHide);
-      resolve(false);
-      return;
-    }
-    window.location.href = deepLink;
-
-    setTimeout(() => {
-      document.removeEventListener('visibilitychange', markOpened);
-      window.removeEventListener('pagehide', onPageHide);
-      resolve(appOpened);
-    }, 1800);
-  });
+// Fire-and-forget: this navigation is just a hint to the OS to
+// foreground the app. We never wait on it.
+function deepLinkSessionToApp(session, flowType) {
+  const ua = navigator.userAgent;
+  const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
+  if (!isMobile) return;
+  if (!session || !session.access_token || !session.refresh_token) return;
+  const frag = new URLSearchParams({
+    access_token: session.access_token,
+    refresh_token: session.refresh_token,
+    type: flowType || '',
+  }).toString();
+  window.location.href = `io.supabase.bunnypath://verify#${frag}`;
 }
 
 // Click-handler for the "Open the Bunny Path app →" buttons on the
@@ -314,36 +280,22 @@ function wireAppOpenButtons() {
     return;
   }
 
-  // Step 1 — mobile-first: try to hand the auth payload off to the
-  // native app. iOS Universal Links / Android App Links would
-  // normally intercept BEFORE this page even loads, but they fail to
-  // fire from in-app webviews (Gmail / Outlook on iOS) which is the
-  // dominant "saw the web page" path. The custom-scheme attempt is
-  // the only way out of those webviews into the native app. If it
-  // works, this page goes hidden and we exit — no web verification,
-  // no success screen ever shown.
-  const appOpened = await tryDeepLinkToApp();
-  if (appOpened) {
-    return;
-  }
-
-  // Step 2 — web fallback (desktop, or mobile without the app
-  // installed). What we do next depends on which URL shape we got:
-  //
-  //   token_hash flow → call /auth/v1/verify ourselves to consume the
-  //                     token and pick up the session data; then
-  //                     route based on `type`.
-  //
-  //   implicit flow → Supabase already verified server-side before
-  //                   redirecting here, so there's no API call to
-  //                   make. Just route to the success card for the
-  //                   given type.
   wireAppOpenButtons();
 
-  let data = null;
+  // ───── Step 1: get a session (consume the token EXACTLY ONCE).
+  //
+  // The previous "mobile-first deep link" pattern raced the web's
+  // own verify against the app's deep_link_service: both surfaces
+  // called auth.verifyOTP with the same token, whoever lost got an
+  // "expired or already used" error and the user saw "Link expired"
+  // on a brand-new link. By doing the verify ONCE on the web and
+  // then forwarding the resulting session to the app, the app never
+  // touches the token at all — it just installs the session via
+  // setSession() (deep_link_service.dart Path B).
+  let session = null;
   if (hasTokenHash) {
     try {
-      data = await verifyTokenHash(tokenHash, type);
+      session = await verifyTokenHash(tokenHash, type);
     } catch (e) {
       const msg = (e && e.name === 'AbortError')
         ? 'Verification timed out. Open the Bunny Path app to retry.'
@@ -352,14 +304,33 @@ function wireAppOpenButtons() {
       return;
     }
   } else {
-    // Implicit flow already validated by Supabase — adopt the
-    // fragment tokens as the "data" payload so the recovery branch
-    // (the only branch that reads `data.access_token`) keeps working.
-    data = {
+    // Implicit flow — Supabase already minted the session server-
+    // side and 302-redirected here with the tokens in the fragment.
+    // No API call needed.
+    session = {
       access_token: fragAccessToken,
       refresh_token: fragRefreshToken,
     };
   }
+
+  // ───── Step 2: hand the session to the native app (mobile only).
+  //
+  // Fire-and-forget. If the app intercepts, iOS foregrounds it and
+  // the user lands in-app with the verified session installed; the
+  // web success card flashes only briefly in the background. If the
+  // app isn't installed (or this is desktop), nothing happens and
+  // the success card simply renders below.
+  //
+  // Skip the deep link entirely for `recovery` — the recovery branch
+  // already redirects to /auth/reset/ which fires its own deep link.
+  // Firing here too would race the redirect.
+  if (type !== 'recovery') {
+    deepLinkSessionToApp(session, type);
+  }
+
+  // Keep `data` for the recovery branch's existing fragment-relay
+  // logic below — same field names as the Supabase REST response.
+  const data = session;
 
   // Route based on flow type.
   // recovery → /auth/reset/ for the set-new-password form
