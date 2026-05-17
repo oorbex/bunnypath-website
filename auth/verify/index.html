@@ -61,11 +61,15 @@
 </head>
 <body>
 
-<!-- Default: loading state. Swapped in by JS based on flow + outcome. -->
+<!-- Default: loading state. Swapped in by JS based on flow + outcome.
+     On mobile, this card shows for ~1.8s while we try to hand off
+     to the native app via the custom-scheme deep link. If the app
+     picks up, the user never sees this; if not, we render a real
+     success/error card below. -->
 <div id="loading-state" class="card">
   <div class="icon-circle">🐰</div>
-  <h1>Verifying…</h1>
-  <p class="subtitle">Hold on, we're checking your link.</p>
+  <h1>Opening Bunny Path…</h1>
+  <p class="subtitle">Hang tight, we're handing you off to the app.</p>
   <div class="spinner"></div>
 </div>
 
@@ -107,11 +111,14 @@
 //     follow-up page (/auth/reset/ for recovery, app-store link for
 //     signup, etc.).
 //
-//   - On mobile, try-deep-link is attempted FIRST in case the user
-//     has the app but iOS/Android didn't intercept (e.g. opened from
-//     Gmail's in-app webview). If the custom-scheme handler picks
-//     up, the user lands in the app; otherwise the web fallback
-//     continues after a 500ms timeout.
+//   - On mobile, the custom-scheme deep link is fired FIRST and the
+//     web verification is GATED behind a 1.8s visibility check. If
+//     the OS hands the user to the app (page goes hidden / pagehide),
+//     we exit without ever touching /auth/v1/verify on the web — the
+//     token stays unspent for the app to consume and the user never
+//     sees the web success card. If the app doesn't intercept, the
+//     web does verifyOTP itself and renders the in-page card with an
+//     App Store handoff for the no-app-installed case.
 // ───────────────────────────────────────────────────────────────
 
 // Direct fetch against Supabase's /auth/v1/verify — no SDK import.
@@ -134,18 +141,6 @@ function showError(msg) {
   document.getElementById('loading-state').style.display = 'none';
   document.getElementById('error-state').style.display = 'block';
   if (msg) document.getElementById('error-message').textContent = msg;
-}
-
-function tryDeepLinkToApp() {
-  const ua = navigator.userAgent;
-  const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
-  if (!isMobile) return;
-  // Pass the entire query through — app deep_link_service routes by
-  // type and calls verifyOTP.
-  setTimeout(() => {
-    window.location.href =
-      `io.supabase.bunnypath://verify?token_hash=${encodeURIComponent(tokenHash)}&type=${encodeURIComponent(type)}`;
-  }, 300);
 }
 
 // Direct REST call to Supabase's /auth/v1/verify endpoint. Returns
@@ -178,17 +173,105 @@ async function verifyTokenHash(tokenHash, type) {
   }
 }
 
+// On mobile, try to hand the token to the native app via the custom
+// scheme registered in Info.plist / AndroidManifest BEFORE we attempt
+// any verification on the web. Resolves to `true` if the OS switched
+// the user into the app (page went hidden / pagehide fired within
+// 1.8s), `false` if nothing intercepted.
+//
+// 1.8s is the empirically-tuned window: long enough for iOS to render
+// its "Open in Bunny Path?" confirmation dialog (older iOS versions
+// require an extra tap) and for the app to come to the foreground
+// from a cold start; short enough that a user without the app
+// installed doesn't perceive a stall before the web fallback kicks
+// in. Below ~1s, iOS sometimes misses the page-hidden signal even
+// when the app DID open, causing the web to also burn the token.
+function tryDeepLinkToApp() {
+  return new Promise((resolve) => {
+    const ua = navigator.userAgent;
+    const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
+    if (!isMobile) {
+      resolve(false);
+      return;
+    }
+    let appOpened = false;
+    const markOpened = () => {
+      if (document.hidden) appOpened = true;
+    };
+    document.addEventListener('visibilitychange', markOpened);
+    const onPageHide = () => { appOpened = true; };
+    window.addEventListener('pagehide', onPageHide, { once: true });
+
+    // Fire the custom-scheme deep link. The app's deep_link_service
+    // parses ?token_hash=&type= and runs auth.verifyOTP server-side,
+    // so the token is consumed inside the app's session.
+    window.location.href =
+      `io.supabase.bunnypath://verify?token_hash=${encodeURIComponent(tokenHash)}&type=${encodeURIComponent(type)}`;
+
+    setTimeout(() => {
+      document.removeEventListener('visibilitychange', markOpened);
+      window.removeEventListener('pagehide', onPageHide);
+      resolve(appOpened);
+    }, 1800);
+  });
+}
+
+// Click-handler for the "Open the Bunny Path app →" buttons on the
+// success cards. Web-fallback success means the token has already
+// been spent, so the deep link target here is the BARE app launch
+// scheme (no token_hash), not the verify path — we just want to
+// foreground the app so the user can sign in. Falls back to the App
+// Store after 1.5s if the app didn't intercept (no-app-installed
+// case, the dominant path for users who hit the web fallback in the
+// first place).
+function wireAppOpenButtons() {
+  const links = document.querySelectorAll('a.app-link');
+  links.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const ua = navigator.userAgent;
+      const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
+      if (!isMobile) return; // desktop: let apps.apple.com link fire normally
+      e.preventDefault();
+      const fallback = setTimeout(() => {
+        window.location.href = 'https://apps.apple.com/app/id6761960397';
+      }, 1500);
+      const cancel = () => clearTimeout(fallback);
+      document.addEventListener(
+        'visibilitychange',
+        () => { if (document.hidden) cancel(); },
+        { once: true },
+      );
+      window.addEventListener('pagehide', cancel, { once: true });
+      window.location.href = 'io.supabase.bunnypath://';
+    });
+  });
+}
+
 (async () => {
   if (!tokenHash || !type) {
     showError('Missing token. The link may be malformed.');
     return;
   }
-  // Mobile + app-installed users: best UX is opening in the app.
-  // Universal Link / App Link MAY have already done this; for the
-  // cases where it didn't, the custom-scheme attempt is our last
-  // shot. If it doesn't open the app within ~500ms, the page
-  // continues with the web fallback.
-  tryDeepLinkToApp();
+
+  // Step 1 — mobile-first: try to hand the entire verification flow
+  // off to the native app. iOS Universal Links / Android App Links
+  // would normally intercept BEFORE this page even loads, but they
+  // fail to fire from in-app webviews (Gmail / Outlook on iOS) which
+  // is the dominant "saw the web page" path. The custom-scheme
+  // attempt is the only way out of those webviews into the native
+  // app. If it works, this page goes hidden and we exit without
+  // touching Supabase — the token is consumed inside the app's
+  // session, the user lands in-app, no web success screen ever shown.
+  const appOpened = await tryDeepLinkToApp();
+  if (appOpened) {
+    return;
+  }
+
+  // Step 2 — web fallback (desktop, or mobile without the app
+  // installed). Now we hit Supabase ourselves and render an in-page
+  // success card, with the "Open the Bunny Path app" buttons wired
+  // for the App Store handoff.
+  wireAppOpenButtons();
 
   let data;
   try {
