@@ -44,12 +44,30 @@
   // 301 response drops the URL fragment — so a redirect target of
   // `/auth/reset` (no trailing slash) would lose `#access_token=…`
   // mid-flight and the destination page can't complete the flow.
+  // All auth flows except password-recovery converge on /auth/verify/
+  // — that page handles both URL shapes (query `?token_hash=&type=`
+  // from the modern token-hash flow, and fragment `#access_token=...`
+  // from the legacy implicit flow), tries the custom-scheme deep link
+  // first, and renders the right success card if the app isn't
+  // installed.
+  //
+  // Recovery routes to its own page because it needs the set-new-
+  // password form, which /auth/verify/ doesn't host.
+  //
+  // Prior versions of this router pointed signup/invite/email_change/
+  // magiclink at /auth/confirmed/, /auth/email-changed/, and
+  // /auth/magic-link/ — none of which actually exist as static files,
+  // so every implicit-flow tap dead-ended on the 404 page ("This
+  // bunny trail leads nowhere"). Consolidating onto /auth/verify
+  // means a single page owns the auth-success UX and there's no way
+  // to add a new auth type and accidentally route it to a missing
+  // page.
   const routes = {
     'recovery': '/auth/reset/',
-    'signup': '/auth/confirmed/',
-    'invite': '/auth/confirmed/',
-    'email_change': '/auth/email-changed/',
-    'magiclink': '/auth/magic-link/',
+    'signup': '/auth/verify/',
+    'invite': '/auth/verify/',
+    'email_change': '/auth/verify/',
+    'magiclink': '/auth/verify/',
   };
   const target = routes[type];
   if (!target) return; // Unknown type — let the homepage render as-is.

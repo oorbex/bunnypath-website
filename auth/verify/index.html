@@ -133,9 +133,39 @@
 const SUPABASE_URL = 'https://ffffbbmzuwcpwuhodpvb.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_yu_WSkvV-p5vnb1mqAbR6g_H5x3FFCK';
 
+// Two URL shapes converge on this page:
+//
+//   1. Modern token-hash flow (Supabase email templates we maintain):
+//      /auth/verify?token_hash=<hash>&type=<flow>
+//      The page calls /auth/v1/verify itself (or hands the token to
+//      the app via the custom scheme).
+//
+//   2. Legacy implicit flow (Supabase default `{{ .ConfirmationURL }}`
+//      and the few flows where we can't avoid it — e.g. some OAuth
+//      providers): Supabase has already verified the token server-
+//      side and 302-redirected the user to bunnypath.com with the
+//      session in the URL fragment:
+//        /auth/verify/#access_token=<jwt>&refresh_token=<rt>&type=<flow>
+//      The homepage's auth-fragment router (see index.html) forwards
+//      these here, so we need to handle them too.
 const params = new URLSearchParams(window.location.search);
-const tokenHash = params.get('token_hash');
-const type = params.get('type');
+let tokenHash = params.get('token_hash');
+let type = params.get('type');
+
+// Implicit-flow inputs (from the URL fragment). Parsed only when the
+// query-string flow isn't present, so the new flow stays unchanged.
+const rawFragment = window.location.hash.replace(/^#/, '');
+const fragParams = rawFragment ? new URLSearchParams(rawFragment) : null;
+const fragAccessToken = fragParams ? fragParams.get('access_token') : null;
+const fragRefreshToken = fragParams ? fragParams.get('refresh_token') : null;
+if (!tokenHash && fragAccessToken) {
+  // Adopt the type from the fragment so the success-card routing
+  // below can pick the right copy ("Email confirmed" vs "Email
+  // updated", etc.). Verification itself has already been done by
+  // Supabase; we just need to render the right UI and try the app
+  // handoff.
+  type = type || (fragParams ? fragParams.get('type') : null);
+}
 
 function showError(msg) {
   document.getElementById('loading-state').style.display = 'none';
@@ -173,11 +203,22 @@ async function verifyTokenHash(tokenHash, type) {
   }
 }
 
-// On mobile, try to hand the token to the native app via the custom
-// scheme registered in Info.plist / AndroidManifest BEFORE we attempt
-// any verification on the web. Resolves to `true` if the OS switched
-// the user into the app (page went hidden / pagehide fired within
-// 1.8s), `false` if nothing intercepted.
+// Try to hand the auth payload to the native app via the custom
+// scheme registered in Info.plist / AndroidManifest, BEFORE we
+// attempt any verification on the web. Builds one of two URL shapes
+// depending on which flow this is:
+//
+//   - token_hash flow: io.supabase.bunnypath://verify?token_hash=&type=
+//     App's deep_link_service Path 0 calls auth.verifyOTP server-side.
+//
+//   - implicit (fragment) flow: io.supabase.bunnypath://verify#access_token=&refresh_token=&type=
+//     App's deep_link_service.dart Path B parses the fragment and
+//     calls setSession(refreshToken) — session installed without a
+//     round-trip to Supabase, since the token is already minted.
+//
+// Resolves to `true` if the OS switched the user into the app
+// (pagehide / visibilitychange → hidden within 1.8s), `false` if
+// nothing intercepted.
 //
 // 1.8s is the empirically-tuned window: long enough for iOS to render
 // its "Open in Bunny Path?" confirmation dialog (older iOS versions
@@ -202,11 +243,25 @@ function tryDeepLinkToApp() {
     const onPageHide = () => { appOpened = true; };
     window.addEventListener('pagehide', onPageHide, { once: true });
 
-    // Fire the custom-scheme deep link. The app's deep_link_service
-    // parses ?token_hash=&type= and runs auth.verifyOTP server-side,
-    // so the token is consumed inside the app's session.
-    window.location.href =
-      `io.supabase.bunnypath://verify?token_hash=${encodeURIComponent(tokenHash)}&type=${encodeURIComponent(type)}`;
+    // Pick the URL shape based on which inputs we have.
+    let deepLink;
+    if (tokenHash) {
+      deepLink =
+        `io.supabase.bunnypath://verify?token_hash=${encodeURIComponent(tokenHash)}&type=${encodeURIComponent(type || '')}`;
+    } else if (fragAccessToken && fragRefreshToken) {
+      // Fragment is passed VERBATIM — the app's deep_link_service
+      // expects to find access_token + refresh_token + type in the
+      // fragment exactly as Supabase emitted them.
+      deepLink = `io.supabase.bunnypath://verify#${rawFragment}`;
+    } else {
+      // No auth payload to send — let the caller fall through to its
+      // error path.
+      document.removeEventListener('visibilitychange', markOpened);
+      window.removeEventListener('pagehide', onPageHide);
+      resolve(false);
+      return;
+    }
+    window.location.href = deepLink;
 
     setTimeout(() => {
       document.removeEventListener('visibilitychange', markOpened);
@@ -248,40 +303,62 @@ function wireAppOpenButtons() {
 }
 
 (async () => {
-  if (!tokenHash || !type) {
+  // Accept EITHER URL shape: token_hash (modern) OR implicit-flow
+  // fragment (legacy `{{ .ConfirmationURL }}` redirects + a few
+  // unavoidable third-party flows). Without one of these we have no
+  // way to identify the flow, so it's a malformed link.
+  const hasTokenHash = !!(tokenHash && type);
+  const hasFragmentSession = !!(fragAccessToken && fragRefreshToken);
+  if (!hasTokenHash && !hasFragmentSession) {
     showError('Missing token. The link may be malformed.');
     return;
   }
 
-  // Step 1 — mobile-first: try to hand the entire verification flow
-  // off to the native app. iOS Universal Links / Android App Links
-  // would normally intercept BEFORE this page even loads, but they
-  // fail to fire from in-app webviews (Gmail / Outlook on iOS) which
-  // is the dominant "saw the web page" path. The custom-scheme
-  // attempt is the only way out of those webviews into the native
-  // app. If it works, this page goes hidden and we exit without
-  // touching Supabase — the token is consumed inside the app's
-  // session, the user lands in-app, no web success screen ever shown.
+  // Step 1 — mobile-first: try to hand the auth payload off to the
+  // native app. iOS Universal Links / Android App Links would
+  // normally intercept BEFORE this page even loads, but they fail to
+  // fire from in-app webviews (Gmail / Outlook on iOS) which is the
+  // dominant "saw the web page" path. The custom-scheme attempt is
+  // the only way out of those webviews into the native app. If it
+  // works, this page goes hidden and we exit — no web verification,
+  // no success screen ever shown.
   const appOpened = await tryDeepLinkToApp();
   if (appOpened) {
     return;
   }
 
   // Step 2 — web fallback (desktop, or mobile without the app
-  // installed). Now we hit Supabase ourselves and render an in-page
-  // success card, with the "Open the Bunny Path app" buttons wired
-  // for the App Store handoff.
+  // installed). What we do next depends on which URL shape we got:
+  //
+  //   token_hash flow → call /auth/v1/verify ourselves to consume the
+  //                     token and pick up the session data; then
+  //                     route based on `type`.
+  //
+  //   implicit flow → Supabase already verified server-side before
+  //                   redirecting here, so there's no API call to
+  //                   make. Just route to the success card for the
+  //                   given type.
   wireAppOpenButtons();
 
-  let data;
-  try {
-    data = await verifyTokenHash(tokenHash, type);
-  } catch (e) {
-    const msg = (e && e.name === 'AbortError')
-      ? 'Verification timed out. Open the Bunny Path app to retry.'
-      : (e && e.message) || 'This link is no longer valid.';
-    showError(msg);
-    return;
+  let data = null;
+  if (hasTokenHash) {
+    try {
+      data = await verifyTokenHash(tokenHash, type);
+    } catch (e) {
+      const msg = (e && e.name === 'AbortError')
+        ? 'Verification timed out. Open the Bunny Path app to retry.'
+        : (e && e.message) || 'This link is no longer valid.';
+      showError(msg);
+      return;
+    }
+  } else {
+    // Implicit flow already validated by Supabase — adopt the
+    // fragment tokens as the "data" payload so the recovery branch
+    // (the only branch that reads `data.access_token`) keeps working.
+    data = {
+      access_token: fragAccessToken,
+      refresh_token: fragRefreshToken,
+    };
   }
 
   // Route based on flow type.
