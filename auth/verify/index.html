@@ -114,19 +114,17 @@
 //     continues after a 500ms timeout.
 // ───────────────────────────────────────────────────────────────
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+// Direct fetch against Supabase's /auth/v1/verify — no SDK import.
+// Dropped esm.sh + @supabase/supabase-js after the first attempt
+// hung indefinitely on iOS Safari (combination of esm.sh latency +
+// a method-name typo: supabase-js uses `verifyOtp` not `verifyOTP`,
+// which threw an uncaught TypeError that the async wrapper swallowed
+// silently). Hitting the REST endpoint directly is smaller (~0 KB
+// vs ~140 KB), faster (no CDN dependency), and easier to reason
+// about — same POST that the SDK makes under the hood.
 
 const SUPABASE_URL = 'https://ffffbbmzuwcpwuhodpvb.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_yu_WSkvV-p5vnb1mqAbR6g_H5x3FFCK';
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    flowType: 'pkce',
-    persistSession: false,
-    detectSessionInUrl: false, // we drive verifyOTP manually
-    autoRefreshToken: false,
-  },
-});
 
 const params = new URLSearchParams(window.location.search);
 const tokenHash = params.get('token_hash');
@@ -150,6 +148,36 @@ function tryDeepLinkToApp() {
   }, 300);
 }
 
+// Direct REST call to Supabase's /auth/v1/verify endpoint. Returns
+// the parsed JSON (session + user) on success, throws on error.
+async function verifyTokenHash(tokenHash, type) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+  try {
+    const resp = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ type, token_hash: tokenHash }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    if (!resp.ok) {
+      const errBody = await resp.json().catch(() => ({}));
+      throw new Error(
+        errBody.error_description || errBody.msg ||
+        errBody.error || `HTTP ${resp.status}`,
+      );
+    }
+    return await resp.json();
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 (async () => {
   if (!tokenHash || !type) {
     showError('Missing token. The link may be malformed.');
@@ -162,12 +190,14 @@ function tryDeepLinkToApp() {
   // continues with the web fallback.
   tryDeepLinkToApp();
 
-  const { data, error } = await supabase.auth.verifyOTP({
-    type,
-    token_hash: tokenHash,
-  });
-  if (error) {
-    showError(error.message || 'This link is no longer valid.');
+  let data;
+  try {
+    data = await verifyTokenHash(tokenHash, type);
+  } catch (e) {
+    const msg = (e && e.name === 'AbortError')
+      ? 'Verification timed out. Open the Bunny Path app to retry.'
+      : (e && e.message) || 'This link is no longer valid.';
+    showError(msg);
     return;
   }
 
@@ -181,11 +211,15 @@ function tryDeepLinkToApp() {
       // Hand off the session to /auth/reset/ via the URL fragment so
       // that page's existing logic can pick it up (or just deep-link
       // to app). Keep tokens out of the query string.
-      const session = data && data.session;
-      if (session) {
+      //
+      // /auth/v1/verify returns access_token/refresh_token at root,
+      // NOT nested under .session. (The SDK's verifyOtp wraps the
+      // raw response into AuthResponse with .session; we're calling
+      // the REST endpoint directly so we get the raw shape.)
+      if (data && data.access_token && data.refresh_token) {
         const params = new URLSearchParams({
-          access_token: session.access_token,
-          refresh_token: session.refresh_token,
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
           type: 'recovery',
         }).toString();
         window.location.replace(`/auth/reset/#${params}`);
