@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Verifying… — Bunny Path</title>
+<link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#F5A623; --gold-deep:#C47F0A; --cream:#FFFDF7;
+    --charcoal:#1F2937; --charcoal-mid:#374151; --charcoal-light:#6B7280;
+    --error:#DC2626; --error-pale:#FEE2E2;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:var(--cream); color:var(--charcoal)}
+  body{
+    font-family:'Nunito',system-ui,-apple-system,sans-serif;
+    min-height:100vh; display:grid; place-items:center;
+    padding:40px 24px;
+  }
+  .card{
+    max-width:480px; width:100%; padding:40px 32px;
+    background:#FFFFFF; border-radius:24px;
+    box-shadow:0 12px 40px rgba(31,41,55,.08), 0 2px 8px rgba(31,41,55,.04);
+    text-align:center;
+  }
+  .icon-circle{
+    width:96px; height:96px; border-radius:50%;
+    background:#FFF8ED; display:grid; place-items:center;
+    margin:0 auto 24px; font-size:48px; line-height:1;
+  }
+  h1{
+    font-family:'Fraunces',Georgia,serif; font-weight:800;
+    font-size:28px; letter-spacing:-.01em; margin:0 0 12px;
+  }
+  .subtitle{
+    color:var(--charcoal-light); font-size:16px; line-height:1.5;
+    margin:0 0 24px;
+  }
+  .spinner{
+    display:inline-block; width:40px; height:40px;
+    border:3px solid #F5E1AE; border-top-color:var(--gold);
+    border-radius:50%; animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .app-link{
+    display:inline-block; margin-top:16px;
+    color:var(--gold-deep); font-weight:700; text-decoration:none;
+    font-size:15px;
+  }
+  .app-link:hover{text-decoration:underline}
+  .err-card .icon-circle{background:var(--error-pale)}
+  .err-card h1{color:var(--charcoal)}
+  .fine-print{
+    font-size:13px; color:var(--charcoal-light);
+    margin-top:24px; line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<!-- Default: loading state. Swapped in by JS based on flow + outcome. -->
+<div id="loading-state" class="card">
+  <div class="icon-circle">🐰</div>
+  <h1>Verifying…</h1>
+  <p class="subtitle">Hold on, we're checking your link.</p>
+  <div class="spinner"></div>
+</div>
+
+<div id="success-signup" class="card" style="display:none">
+  <div class="icon-circle">✅</div>
+  <h1>Email confirmed</h1>
+  <p class="subtitle">Welcome to Bunny Path. You can sign in to the app now.</p>
+  <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app →</a>
+</div>
+
+<div id="success-emailchange" class="card" style="display:none">
+  <div class="icon-circle">✅</div>
+  <h1>Email updated</h1>
+  <p class="subtitle">Your new email is now active on your Bunny Path account.</p>
+  <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app →</a>
+</div>
+
+<div id="error-state" class="card err-card" style="display:none">
+  <div class="icon-circle">⚠️</div>
+  <h1>Link expired</h1>
+  <p class="subtitle" id="error-message">This link has expired or has already been used. Open the Bunny Path app and request a new one.</p>
+  <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app →</a>
+</div>
+
+<script type="module">
+// ───────────────────────────────────────────────────────────────
+// /auth/verify — Universal-Link entry + desktop / no-app-installed
+// fallback for the token-hash verification flow.
+//
+// Architecture (2026-05):
+//   - Supabase email templates point at this URL with ?token_hash=&type=
+//   - iOS Universal Links / Android App Links intercept the tap and
+//     open the BunnyPath app directly; the app calls auth.verifyOTP()
+//     server-side and routes the user to the right in-app screen.
+//   - For users without the app installed (desktop, web-only, app
+//     uninstalled) the iOS / Android OS falls through to the browser,
+//     which loads THIS page. The script below does the same
+//     auth.verifyOTP() call from JS, then routes to the appropriate
+//     follow-up page (/auth/reset/ for recovery, app-store link for
+//     signup, etc.).
+//
+//   - On mobile, try-deep-link is attempted FIRST in case the user
+//     has the app but iOS/Android didn't intercept (e.g. opened from
+//     Gmail's in-app webview). If the custom-scheme handler picks
+//     up, the user lands in the app; otherwise the web fallback
+//     continues after a 500ms timeout.
+// ───────────────────────────────────────────────────────────────
+
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = 'https://ffffbbmzuwcpwuhodpvb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_yu_WSkvV-p5vnb1mqAbR6g_H5x3FFCK';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    flowType: 'pkce',
+    persistSession: false,
+    detectSessionInUrl: false, // we drive verifyOTP manually
+    autoRefreshToken: false,
+  },
+});
+
+const params = new URLSearchParams(window.location.search);
+const tokenHash = params.get('token_hash');
+const type = params.get('type');
+
+function showError(msg) {
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('error-state').style.display = 'block';
+  if (msg) document.getElementById('error-message').textContent = msg;
+}
+
+function tryDeepLinkToApp() {
+  const ua = navigator.userAgent;
+  const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
+  if (!isMobile) return;
+  // Pass the entire query through — app deep_link_service routes by
+  // type and calls verifyOTP.
+  setTimeout(() => {
+    window.location.href =
+      `io.supabase.bunnypath://verify?token_hash=${encodeURIComponent(tokenHash)}&type=${encodeURIComponent(type)}`;
+  }, 300);
+}
+
+(async () => {
+  if (!tokenHash || !type) {
+    showError('Missing token. The link may be malformed.');
+    return;
+  }
+  // Mobile + app-installed users: best UX is opening in the app.
+  // Universal Link / App Link MAY have already done this; for the
+  // cases where it didn't, the custom-scheme attempt is our last
+  // shot. If it doesn't open the app within ~500ms, the page
+  // continues with the web fallback.
+  tryDeepLinkToApp();
+
+  const { data, error } = await supabase.auth.verifyOTP({
+    type,
+    token_hash: tokenHash,
+  });
+  if (error) {
+    showError(error.message || 'This link is no longer valid.');
+    return;
+  }
+
+  // Route based on flow type.
+  // recovery → /auth/reset/ for the set-new-password form
+  // signup    → success-signup state on THIS page (no further form)
+  // magiclink → user is signed in; show app-link prompt
+  // email_change → success-emailchange state on this page
+  const routes = {
+    'recovery': () => {
+      // Hand off the session to /auth/reset/ via the URL fragment so
+      // that page's existing logic can pick it up (or just deep-link
+      // to app). Keep tokens out of the query string.
+      const session = data && data.session;
+      if (session) {
+        const params = new URLSearchParams({
+          access_token: session.access_token,
+          refresh_token: session.refresh_token,
+          type: 'recovery',
+        }).toString();
+        window.location.replace(`/auth/reset/#${params}`);
+      } else {
+        window.location.replace('/auth/reset/');
+      }
+    },
+    'signup': () => {
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('success-signup').style.display = 'block';
+    },
+    'magiclink': () => {
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('success-signup').style.display = 'block'; // same UI
+    },
+    'email_change': () => {
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('success-emailchange').style.display = 'block';
+    },
+  };
+  const handler = routes[type];
+  if (handler) {
+    handler();
+  } else {
+    // Unknown type — show generic success
+    document.getElementById('loading-state').style.display = 'none';
+    document.getElementById('success-signup').style.display = 'block';
+  }
+})();
+</script>
+</body>
+</html>

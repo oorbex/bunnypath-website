@@ -13,6 +13,10 @@
             "comment": "Activity share links — open the app"
           },
           {
+            "/": "/auth/*",
+            "comment": "Auth-flow URLs (recovery, signup, magic-link, email-change). /auth/verify is the canonical entry — deep_link_service parses ?token_hash=&type= and calls auth.verifyOTP() to install the session. /auth/reset/ remains as the desktop / no-app-installed fallback."
+          },
+          {
             "/": "/legal/*",
             "exclude": true,
             "comment": "Marketing/legal pages stay in browser"
