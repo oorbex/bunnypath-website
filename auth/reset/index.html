@@ -130,7 +130,7 @@ button.submit:disabled{background:#D1D5DB; cursor:not-allowed}
       <button type="submit" class="submit" id="submit-btn" disabled>Save password</button>
     </form>
 
-    <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app instead →</a>
+    <a id="app-link" href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app instead →</a>
 
     <p class="fine-print">If you didn't request this, you can close this page,
       your current password will keep working.</p>
@@ -151,75 +151,47 @@ button.submit:disabled{background:#D1D5DB; cursor:not-allowed}
   </div>
 </main>
 
-<script type="module">
-// Supabase JS, pinned to the v2 latest UMD build from esm.sh CDN. Loaded
-// inline rather than bundled because this is a single-purpose static page.
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+<script>
+// ───────────────────────────────────────────────────────────────
+// /auth/reset — Set-new-password fallback page (desktop / no-app /
+// in-app webview where the Universal Link didn't intercept).
+//
+// Entry contract (2026-05, Build 178+):
+//   - User taps email link → iOS / Android Universal Link routes to
+//     the app (best UX, this page never loads).
+//   - Otherwise the link resolves to /auth/verify which calls
+//     /auth/v1/verify (token_hash → session), then redirects here
+//     with the session embedded in the URL fragment:
+//     /auth/reset/#access_token=...&refresh_token=...&type=recovery
+//
+// No SDK import — dropped supabase-js v2 from esm.sh after it
+// repeatedly hung iOS Safari module loads, which silently killed
+// every event-listener registration below it (form button never
+// became enabled even with matching passwords typed). Same pattern
+// as /auth/verify/index.html: direct REST against the Supabase
+// /auth/v1 endpoints with the anon key + bearer token.
+// ───────────────────────────────────────────────────────────────
 
 const SUPABASE_URL = 'https://ffffbbmzuwcpwuhodpvb.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_yu_WSkvV-p5vnb1mqAbR6g_H5x3FFCK';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    flowType: 'pkce',
-    persistSession: false,
-    detectSessionInUrl: true, // auto-pick up the recovery token
-    autoRefreshToken: false,
-  },
-});
-
-// ────────────── Mobile deep-link bridge ──────────────
-// When the email link was tapped from an in-app webview (Gmail /
-// Outlook on iOS, Gmail on Android) the OS won't intercept the
-// Universal Link / App Link to open the native app. So we try the
-// custom scheme registered in Info.plist + AndroidManifest as a
-// belt-and-braces extra deep-link attempt. If the app is installed,
-// it picks up the URL via deep_link_service and runs the flow
-// natively. If not, the scheme handler does nothing, the form
-// below stays on screen as the fallback.
-//
-// CRITICAL: only fire this on FIRST mount, never on re-render. The
-// `attempted` flag avoids hammering the OS with prompts every time
-// the form re-paints.
-let attempted = false;
-function tryDeepLinkToApp() {
-  if (attempted) return;
-  const ua = navigator.userAgent;
-  const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
-  if (!isMobile) return;
-
-  // Two URL shapes can be passed through to the app via the custom
-  // scheme:
-  //   1. PKCE: ?code=<pkce_code>
-  //   2. Implicit flow: #access_token=<jwt>&refresh_token=<rt>&type=recovery
-  //
-  // Supabase Auth's `/auth/v1/recover` endpoint (and the magic-link
-  // path) emits implicit-flow URLs by default — the PKCE flow is
-  // only used when the originating SDK client signed the request
-  // with a code_verifier. So in practice the fragment path is what
-  // fires most of the time. App-side, deep_link_service.dart parses
-  // either shape and installs the recovery session.
-  let deepLink = null;
-  if (code) {
-    deepLink = `io.supabase.bunnypath://reset-password?code=${encodeURIComponent(code)}`;
-  } else if (window.location.hash && window.location.hash.includes('access_token=')) {
-    // Pass the entire fragment through verbatim — preserves
-    // access_token, refresh_token, type, expires_at, etc.
-    deepLink = `io.supabase.bunnypath://reset-password${window.location.hash}`;
-  } else {
-    return; // No auth payload to deep-link with.
-  }
-
-  attempted = true;
-  // Tiny delay so the page has time to paint a fallback before the
-  // OS opens an "Open in Bunny Path?" prompt, better UX than a
-  // blank flash if the app is installed.
-  setTimeout(() => {
-    window.location.href = deepLink;
-  }, 300);
+// Parse the URL fragment populated by /auth/verify after a successful
+// /auth/v1/verify call. Shape: #access_token=...&refresh_token=...&type=recovery
+function parseSessionFromFragment() {
+  const hash = (window.location.hash || '').replace(/^#/, '');
+  if (!hash) return null;
+  const params = new URLSearchParams(hash);
+  const access_token = params.get('access_token');
+  const refresh_token = params.get('refresh_token');
+  const type = params.get('type');
+  if (!access_token || !refresh_token) return null;
+  return { access_token, refresh_token, type };
 }
 
-// ────────────── Form state ──────────────
+const session = parseSessionFromFragment();
+const exchangeReady = !!session;
+
+// ────────────── DOM refs ──────────────
 const $err = document.getElementById('error');
 const $form = document.getElementById('reset-form');
 const $pw = document.getElementById('pw');
@@ -228,6 +200,7 @@ const $submit = document.getElementById('submit-btn');
 const $success = document.getElementById('success-state');
 const $formState = document.getElementById('form-state');
 const $invalidState = document.getElementById('invalid-state');
+const $appLink = document.getElementById('app-link');
 
 // Show / hide password
 document.querySelectorAll('.toggle-pw').forEach(btn => {
@@ -246,44 +219,17 @@ function refreshSubmit() {
 }
 $pw.addEventListener('input', refreshSubmit);
 $pw2.addEventListener('input', refreshSubmit);
+// iOS password-AutoFill sometimes populates fields without firing
+// 'input' — listen for 'change' and 'blur' as belt-and-braces so the
+// button enables either way.
+$pw.addEventListener('change', refreshSubmit);
+$pw2.addEventListener('change', refreshSubmit);
+$pw.addEventListener('blur', refreshSubmit);
+$pw2.addEventListener('blur', refreshSubmit);
 
 function showError(msg) {
   $err.textContent = msg;
   $err.style.display = 'block';
-}
-
-// ────────────── Code exchange ──────────────
-// Two URL shapes from Supabase:
-//   • PKCE flow (default in Supabase JS v2): ?code=…
-//   • Implicit flow: #access_token=…&type=recovery (auto-handled by
-//     `detectSessionInUrl` above, but we still need to confirm a
-//     recovery session was created).
-const url = new URL(window.location.href);
-const code = url.searchParams.get('code');
-let exchangeReady = false;
-
-async function ensureRecoverySession() {
-  // Detect existing session from URL fragment (#access_token=…)
-  // the Supabase client picks this up automatically when
-  // `detectSessionInUrl: true`. Wait one tick for the auth state
-  // listener to settle.
-  await new Promise(r => setTimeout(r, 50));
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session) {
-    exchangeReady = true;
-    return;
-  }
-  // PKCE: exchange `?code=…` for a recovery session.
-  if (code) {
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (error) {
-      showInvalid();
-      return;
-    }
-    exchangeReady = true;
-    return;
-  }
-  showInvalid();
 }
 
 function showInvalid() {
@@ -291,36 +237,100 @@ function showInvalid() {
   $invalidState.style.display = 'block';
 }
 
-(async () => {
-  // Fire the custom-scheme deep-link attempt regardless of which
-  // flow (PKCE or implicit) we got — function self-checks for the
-  // right URL shape and no-ops on desktop / unknown shapes.
-  tryDeepLinkToApp();
-  await ensureRecoverySession();
+// ────────────── Open-in-app deep link ──────────────
+// Smart fallback: tap the link → fire the custom scheme; if the app
+// opens, the page goes hidden so we cancel the App Store fallback.
+// If nothing opens within ~1.5s the user lands on the App Store
+// listing instead of a blank Safari page (the iOS bug where tapping
+// apps.apple.com directly sometimes leaves Safari on a white page
+// mid-universal-link handoff to the App Store app).
+function fireDeepLinkWithFallback() {
+  const fallbackTimer = setTimeout(() => {
+    window.location.href = 'https://apps.apple.com/app/id6761960397';
+  }, 1500);
+  const cancel = () => clearTimeout(fallbackTimer);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) cancel(); }, { once: true });
+  window.addEventListener('pagehide', cancel, { once: true });
+  const hash = window.location.hash || '';
+  window.location.href = `io.supabase.bunnypath://reset-password${hash}`;
+}
+
+if ($appLink) {
+  $appLink.addEventListener('click', (e) => {
+    const ua = navigator.userAgent;
+    const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
+    if (!isMobile) return; // desktop: let the apps.apple.com link work as a regular anchor
+    e.preventDefault();
+    fireDeepLinkWithFallback();
+  });
+}
+
+// On first paint, also auto-attempt the deep link if we have a
+// session fragment — this handles the "user tapped the email from
+// Gmail's in-app webview" case where Universal Links don't intercept
+// but the custom scheme still pops the app to the foreground.
+(function autoTryDeepLink() {
+  const ua = navigator.userAgent;
+  const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
+  if (!isMobile) return;
+  if (!session) return;
+  setTimeout(() => {
+    window.location.href = `io.supabase.bunnypath://reset-password${window.location.hash}`;
+  }, 300);
 })();
 
+// ────────────── Form submit ──────────────
+// Calls Supabase's PUT /auth/v1/user directly with the access_token
+// as Bearer. Equivalent to supabase.auth.updateUser({ password })
+// in the SDK — the SDK is just a wrapper around the same REST call.
 $form.addEventListener('submit', async (e) => {
   e.preventDefault();
   $err.style.display = 'none';
-  if (!exchangeReady) {
+  if (!exchangeReady || !session) {
     showError('Reset link is invalid or expired.');
     return;
   }
   $submit.disabled = true;
   $submit.textContent = 'Saving…';
-  const { error } = await supabase.auth.updateUser({ password: $pw.value });
-  if (error) {
-    showError(error.message || 'Failed to update password.');
+  try {
+    const resp = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      method: 'PUT',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${session.access_token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password: $pw.value }),
+    });
+    if (!resp.ok) {
+      const errBody = await resp.json().catch(() => ({}));
+      const msg = errBody.error_description || errBody.msg ||
+                  errBody.error || `HTTP ${resp.status}`;
+      showError(msg);
+      $submit.disabled = false;
+      $submit.textContent = 'Save password';
+      return;
+    }
+    // Strip the access_token from the URL bar so the page can't be
+    // re-submitted with a stale token / shared by accident.
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+    $formState.style.display = 'none';
+    $success.style.display = 'block';
+  } catch (err) {
+    showError((err && err.message) || 'Failed to update password.');
     $submit.disabled = false;
     $submit.textContent = 'Save password';
-    return;
   }
-  // Sign out the recovery session, the user should sign back in
-  // through the app with the new password.
-  await supabase.auth.signOut();
-  $formState.style.display = 'none';
-  $success.style.display = 'block';
 });
+
+// Boot decision: no session in the fragment → show "link expired"
+// state immediately. With a valid fragment the form is already
+// rendered as the default markup state.
+if (!exchangeReady) {
+  showInvalid();
+}
 </script>
 </body>
 </html>
