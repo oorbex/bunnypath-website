@@ -39,12 +39,17 @@
   const type = params.get('type');
   // Map auth-flow type → handler page on this site.
   // Add a new entry here when Supabase introduces a new flow type.
+  // IMPORTANT: trailing slashes are required. Cloudflare Pages
+  // auto-301s `/path` → `/path/` for directory-style URLs, and the
+  // 301 response drops the URL fragment — so a redirect target of
+  // `/auth/reset` (no trailing slash) would lose `#access_token=…`
+  // mid-flight and the destination page can't complete the flow.
   const routes = {
-    'recovery': '/auth/reset',
-    'signup': '/auth/confirmed',
-    'invite': '/auth/confirmed',
-    'email_change': '/auth/email-changed',
-    'magiclink': '/auth/magic-link',
+    'recovery': '/auth/reset/',
+    'signup': '/auth/confirmed/',
+    'invite': '/auth/confirmed/',
+    'email_change': '/auth/email-changed/',
+    'magiclink': '/auth/magic-link/',
   };
   const target = routes[type];
   if (!target) return; // Unknown type — let the homepage render as-is.
