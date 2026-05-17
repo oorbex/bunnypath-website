@@ -2,6 +2,57 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+// ─────────────────────────────────────────────────────────────────
+// Auth-fragment router (2026-05).
+//
+// Supabase Auth's email-link flow uses the implicit grant — when a
+// user clicks a "Reset password" / "Confirm email" / "Magic link"
+// email button, Supabase redirects to `site_url` (or an allow-listed
+// redirect_to) with the auth payload in the URL fragment:
+//
+//   https://bunnypath.com/#access_token=…&type=recovery&…
+//
+// `site_url` is the homepage (here), so by default every auth flow
+// dumps the user on this page with no UI to actually complete the
+// flow. This script inspects the fragment as the FIRST thing in
+// <head> and routes to the appropriate handler page (which has the
+// JS to parse the tokens + render the right form).
+//
+// Why on the homepage and not via Supabase's allow-list:
+// - The allow list has fragile glob semantics that we couldn't get
+//   to honor `redirect_to=/auth/reset` reliably (2026-05 debug
+//   session — the admin generate_link endpoint consistently
+//   truncated redirect_to to site_url even with the URL in the
+//   allow list). This is the more durable fix.
+// - Future auth flow types (anonymous signup, OAuth, etc.) only
+//   need a new entry in the routes map below — no Supabase config
+//   change.
+//
+// Runs synchronously, before any meta tags or rendering, so users
+// never see a homepage flash.
+(function() {
+  const hash = window.location.hash;
+  if (!hash || hash.length < 10 || !hash.includes('access_token=')) return;
+  // Parse the fragment as a query string (Supabase formats it that way).
+  const params = new URLSearchParams(hash.slice(1));
+  const type = params.get('type');
+  // Map auth-flow type → handler page on this site.
+  // Add a new entry here when Supabase introduces a new flow type.
+  const routes = {
+    'recovery': '/auth/reset',
+    'signup': '/auth/confirmed',
+    'invite': '/auth/confirmed',
+    'email_change': '/auth/email-changed',
+    'magiclink': '/auth/magic-link',
+  };
+  const target = routes[type];
+  if (!target) return; // Unknown type — let the homepage render as-is.
+  // Preserve the full fragment so the destination page can parse the
+  // tokens and complete the flow.
+  window.location.replace(target + hash);
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Bunny Path: Play ideas for kids 0–12</title>
