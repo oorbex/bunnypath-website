@@ -1,0 +1,15 @@
+# Cloudflare Pages redirects — Netlify-style syntax.
+# https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# 301 = permanent (browser-cached, SEO-friendly: search engines update
+# the canonical URL to the new location).
+#
+# Both the no-trailing-slash and trailing-slash variants are listed
+# explicitly because the _redirects matcher is path-exact unless you
+# use a wildcard, and overly-greedy patterns risk catching e.g.
+# /privacy-policy-archive or /terms-of-service-2024.
+
+/privacy   /legal/privacy   301
+/privacy/  /legal/privacy   301
+/terms     /legal/terms     301
+/terms/    /legal/terms     301
