@@ -258,6 +258,44 @@
       margin-right: 10px;
     }
 
+    /* Recovery tiles — quick-jump shortcuts for the 404 state. Reuses
+       the brand gold-pale + charcoal palette so the visual system
+       matches the referral / share state. 2-up on mobile, 4-up ≥ 640px. */
+    .recovery-tiles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 24px 0 0;
+    }
+    @media (min-width: 640px) {
+      .recovery-tiles { grid-template-columns: repeat(4, 1fr); }
+    }
+    .recovery-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 12px;
+      background: var(--gold-pale);
+      border: 1px solid rgba(245, 166, 35, 0.18);
+      border-radius: 14px;
+      color: var(--charcoal);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+    .recovery-tile:hover {
+      background: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(245, 166, 35, 0.18);
+    }
+    .recovery-tile-emoji {
+      font-size: 28px;
+      line-height: 1;
+    }
+
     .toast {
       position: fixed;
       bottom: 32px;
@@ -739,11 +777,37 @@
       <!-- GENERIC / 404 PAGE -->
       <div class="card hidden" id="generic-page">
         <span class="card-emoji">&#x1F407;</span>
-        <h1 id="generic-heading">Looking for Bunny Path?</h1>
+        <h1 id="generic-heading">Looks like this bunny hopped off the trail.</h1>
         <p class="card-subtitle" id="generic-subtitle">20,000+ off-screen activities for your little one.</p>
+        <p class="card-note">The page you were looking for doesn't exist — or it may have moved. Try one of these instead:</p>
 
-        <a href="/" class="btn-primary" style="margin-top: 28px;">
-          Go to Homepage
+        <div class="recovery-tiles">
+          <a class="recovery-tile" href="/">
+            <span class="recovery-tile-emoji">&#x1F3E0;</span>
+            <span>Home</span>
+          </a>
+          <a class="recovery-tile" href="/help/">
+            <span class="recovery-tile-emoji">&#x2753;</span>
+            <span>Help</span>
+          </a>
+          <a class="recovery-tile" href="/legal/privacy/">
+            <span class="recovery-tile-emoji">&#x1F512;</span>
+            <span>Privacy</span>
+          </a>
+          <a class="recovery-tile" href="/legal/terms/">
+            <span class="recovery-tile-emoji">&#x1F4DC;</span>
+            <span>Terms</span>
+          </a>
+        </div>
+
+        <a href="https://apps.apple.com/app/id6761960397?mt=8&amp;ct=web_404"
+           class="btn-primary" style="margin-top: 28px;">
+          <span class="btn-icon">&#xF8FF;</span>
+          Download for iPhone
+        </a>
+        <a href="#" class="btn-secondary" onclick="event.preventDefault()">
+          <span class="btn-icon">&#x1F4F1;</span>
+          Android: Coming Soon
         </a>
       </div>
 
