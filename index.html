@@ -590,6 +590,24 @@ nav.top{
   box-shadow:0 10px 24px rgba(31,41,55,.25), 0 0 0 3px rgba(245,166,35,.4);
 }
 
+/* ──────────────── SCIENCE / DEVELOPMENTAL BACKING ──────────────── */
+.science{padding:100px 0; background:linear-gradient(180deg,#FFFDF7 0%, #FFF8ED 100%)}
+.science h2{font-size:clamp(32px,4vw,52px); font-weight:800; text-align:center; margin-bottom:14px; color:#4A2B18}
+.science h2 em{color:#8BA44C; font-weight:800; font-style:italic}
+.science .science-sub{text-align:center; color:var(--charcoal-mid); font-size:17px; margin:0 auto 44px; max-width:660px}
+.sci-stats{display:flex; flex-wrap:wrap; justify-content:center; gap:18px; margin-bottom:52px}
+.sci-stat{background:#fff; border:1px solid rgba(31,41,55,.06); border-radius:18px; padding:18px 30px; text-align:center; box-shadow:0 8px 22px rgba(245,166,35,.08); min-width:150px}
+.sci-stat .sci-num{font-family:'Fraunces',Georgia,serif; font-size:34px; font-weight:800; color:#E37756; line-height:1}
+.sci-stat .sci-lbl{font-size:13.5px; color:var(--charcoal-mid); font-weight:600; margin-top:6px}
+.science .feature-icon{background:var(--gold-pale); font-size:30px; line-height:1; display:flex; align-items:center; justify-content:center}
+.sci-frameworks{margin-top:54px; text-align:center}
+.sci-fw-label{font-weight:700; color:var(--charcoal); font-size:15px; margin-bottom:18px}
+.sci-chips{display:flex; flex-wrap:wrap; justify-content:center; gap:10px; max-width:940px; margin:0 auto}
+.sci-chip{background:#fff; border:1px solid rgba(31,41,55,.10); color:var(--charcoal-mid); border-radius:100px; padding:8px 16px; font-size:13.5px; font-weight:600}
+.sci-foot{text-align:center; color:var(--charcoal-light); font-size:12.5px; margin:26px auto 0; max-width:700px; line-height:1.55}
+.nf-fine{margin-top:16px; font-size:11.5px; color:var(--charcoal-light); line-height:1.55; max-width:820px; opacity:.9}
+@media(max-width:600px){.nf-fine{text-align:center; margin-left:auto; margin-right:auto}}
+
 /* Activity reveal card */
 .activity-reveal{
   position:absolute; top:50%; left:50%;
@@ -1709,6 +1727,7 @@ nav.top{
       <span>❤️ <b>Built</b> by parents like you</span>
       <span>🛡️ <b>100%</b> Wholesome</span>
       <span>✂️ <b>Zero</b> screen time</span>
+      <span>🔬 <b>Grounded</b> in child-development science</span>
     </div>
   </div>
 </section>
@@ -2114,6 +2133,56 @@ nav.top{
   </div>
 </section>
 
+<!-- ============ SCIENCE / DEVELOPMENTAL BACKING ============ -->
+<section class="science" data-stop="science" aria-label="The science behind the play">
+  <div class="container">
+    <h2>The science <em>behind the play</em>.</h2>
+    <p class="science-sub">We didn't invent our own idea of "good for kids." Every Bunny Path activity is tagged with the specific skills it builds &mdash; mapped to a rigorous framework of hundreds of developmental benefits across 11 domains, drawing on the science that pediatric therapists, researchers, and educators rely on.</p>
+
+    <div class="sci-stats">
+      <div class="sci-stat"><div class="sci-num">11</div><div class="sci-lbl">developmental domains</div></div>
+      <div class="sci-stat"><div class="sci-num">300+</div><div class="sci-lbl">specific skills mapped</div></div>
+      <div class="sci-stat"><div class="sci-num">20K+</div><div class="sci-lbl">activities, each tagged</div></div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">🏃</div><h3>Physical &amp; Motor</h3><p>Fundamental movement skills and physical literacy &mdash; the building blocks of an active, capable body.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">✋</div><h3>Sensory &amp; Body</h3><p>Rich touch, movement, and balance play that helps children organize what their bodies feel.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">🧠</div><h3>Cognitive &amp; STEM</h3><p>Executive function &mdash; focus, working memory, self-control &mdash; plus next-generation science practices and early-math reasoning.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">💬</div><h3>Language &amp; Literacy</h3><p>From first words to real conversations &mdash; and the five pillars of reading.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">❤️</div><h3>Social-Emotional</h3><p>The five core competencies of social-emotional learning: self-awareness, self-management, social awareness, relationship skills, and responsible decisions.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">🌱</div><h3>Character &amp; Growth</h3><p>Character strengths like curiosity, perseverance, and kindness &mdash; plus a growth mindset and grit.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">🎨</div><h3>Creative &amp; Expressive</h3><p>The create, perform, respond, and connect of arts learning &mdash; and the building blocks of creativity.</p></div>
+      <div class="feature-card"><div class="feature-icon" aria-hidden="true">🌍</div><h3>Knowledge &amp; Life Skills</h3><p>Real-world science, world cultures, and the practical know-how children grow through play.</p></div>
+    </div>
+
+    <div class="sci-frameworks">
+      <div class="sci-fw-label">Informed by widely-used frameworks and research, including:</div>
+      <div class="sci-chips">
+        <span class="sci-chip">Head Start Early Learning Outcomes Framework</span>
+        <span class="sci-chip">The five pillars of reading</span>
+        <span class="sci-chip">Scarborough's Reading Rope</span>
+        <span class="sci-chip">CASEL social-emotional competencies</span>
+        <span class="sci-chip">Fundamental movement skills &amp; physical literacy</span>
+        <span class="sci-chip">Next-generation science practices</span>
+        <span class="sci-chip">National Core Arts Standards</span>
+        <span class="sci-chip">Early-math standards (NCTM &amp; Common Core)</span>
+        <span class="sci-chip">Communication milestones (ASHA)</span>
+        <span class="sci-chip">VIA character strengths</span>
+        <span class="sci-chip">Piaget's stages of cognitive development</span>
+        <span class="sci-chip">Vygotsky's zone of proximal development</span>
+        <span class="sci-chip">Erikson's stages of psychosocial development</span>
+        <span class="sci-chip">Bloom's Taxonomy</span>
+        <span class="sci-chip">Parten's stages of play</span>
+        <span class="sci-chip">Dweck's growth mindset</span>
+        <span class="sci-chip">Csikszentmihalyi's concept of flow</span>
+        <span class="sci-chip">Duckworth's research on grit</span>
+      </div>
+      <p class="sci-foot">Bunny Path is independent and is not affiliated with, endorsed by, or certified by these organizations or frameworks. It is designed to support healthy development through play and is not a medical, diagnostic, or therapeutic tool.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ TRUST STRIP ============ -->
 <section class="trust" data-stop="trust" aria-label="Privacy &amp; safety">
   <div class="container">
@@ -2168,6 +2237,7 @@ nav.top{
         <a href="/legal/terms/">Terms</a>
       </div>
     </div>
+    <div class="nf-fine">Bunny Path's activity benefits are informed by widely-used child-development frameworks and are intended to support healthy development through play. Bunny Path is not affiliated with, endorsed by, or certified by any organization or framework referenced, and is not a medical, diagnostic, or therapeutic product. All trademarks are the property of their respective owners.</div>
   </div>
 </footer>
 

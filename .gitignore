@@ -1,0 +1,5 @@
+# Cloudflare Wrangler local build/cache artifacts
+.wrangler/
+
+# OS cruft
+.DS_Store
