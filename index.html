@@ -1658,7 +1658,14 @@ nav.top{
   margin-left:auto; font-family:'Fraunces', serif; font-size:18px; font-weight:800;
   color:var(--gold-vibrant);
 }
-.cat-pill .cat-ic{font-size:16px}
+.cat-pill .cat-ic{font-size:16px; display:inline-flex; align-items:center}
+/* Inline brand-SVG icons (replacing emoji) sized per context */
+.chip .chip-icon{display:inline-flex; align-items:center}
+.chip .chip-icon svg{width:15px; height:15px; display:block}
+.mstat .m-emoji svg{width:20px; height:20px; display:block}
+.mirror-streak svg{width:14px; height:14px; display:block}
+.mini-pol-img svg{width:60%; height:60%; display:block}
+.cat-pill .cat-ic svg{width:18px; height:18px; display:block}
 
 /* ─── TRUST STRIP ─────────────────────────────── */
 .trust{
@@ -1870,14 +1877,14 @@ nav.top{
 
     <div class="filter-demo">
       <div class="chip-row" id="chipRow">
-        <button class="chip active" data-filter="quick" type="button"><span class="chip-icon">⚡</span>Under 5 min<span class="chip-check">✓</span></button>
-        <button class="chip active" data-filter="noprep" type="button"><span class="chip-icon">🎒</span>No prep<span class="chip-check">✓</span></button>
-        <button class="chip" data-filter="noscreens" type="button"><span class="chip-icon">🚫</span>No props<span class="chip-check">✓</span></button>
-        <button class="chip" data-filter="quiet" type="button"><span class="chip-icon">🤫</span>Quiet activity<span class="chip-check">✓</span></button>
-        <button class="chip" data-filter="independent" type="button"><span class="chip-icon">🧍</span>Independent play<span class="chip-check">✓</span></button>
-        <button class="chip" data-filter="outdoor" type="button"><span class="chip-icon">🌳</span>Outdoor<span class="chip-check">✓</span></button>
-        <button class="chip" data-filter="lowmess" type="button"><span class="chip-icon">🧼</span>Low mess<span class="chip-check">✓</span></button>
-        <span class="chip chip-count" aria-label="1000 plus filters available"><span class="chip-icon">✨</span>1000+ filters</span>
+        <button class="chip active" data-filter="quick" type="button"><span class="chip-icon"><svg viewBox="0 0 32 32" fill="none"><path d="M18 3 L8 18 L15 18 L13 29 L24 13 L17 13 Z" fill="#FFE7A8" stroke="#4A2B18" stroke-width="1.6" stroke-linejoin="round"/></svg></span>Under 5 min<span class="chip-check">✓</span></button>
+        <button class="chip active" data-filter="noprep" type="button"><span class="chip-icon"><svg viewBox="0 0 32 32" fill="none"><path d="M8 12 C8 8, 11 6, 16 6 C21 6, 24 8, 24 12 L24 26 C24 27, 23 28, 22 28 L10 28 C9 28, 8 27, 8 26 Z" fill="#8BA44C" stroke="#4A2B18" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6 C12 3, 20 3, 20 6" stroke="#4A2B18" stroke-width="1.6" fill="none"/><rect x="12" y="16" width="8" height="7" rx="1.5" fill="#FFFBEF" stroke="#4A2B18" stroke-width="1.4"/></svg></span>No prep<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="noscreens" type="button"><span class="chip-icon"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" fill="#FBD8D3" stroke="#4A2B18" stroke-width="1.8"/><path d="M8.5 8.5 L23.5 23.5" stroke="#E37756" stroke-width="2.4" stroke-linecap="round"/></svg></span>No props<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="quiet" type="button"><span class="chip-icon"><svg viewBox="0 0 32 32" fill="none"><path d="M6 12 L11 12 L17 7 L17 25 L11 20 L6 20 Z" fill="#CFE6F7" stroke="#4A2B18" stroke-width="1.6" stroke-linejoin="round"/><path d="M21 12 L26 20 M26 12 L21 20" stroke="#4A2B18" stroke-width="1.8" stroke-linecap="round"/></svg></span>Quiet activity<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="independent" type="button"><span class="chip-icon"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="8" r="4" fill="#E8960F" stroke="#4A2B18" stroke-width="1.6"/><path d="M9 27 C9 19, 12 15, 16 15 C20 15, 23 19, 23 27 Z" fill="#E8960F" stroke="#4A2B18" stroke-width="1.6" stroke-linejoin="round"/></svg></span>Independent play<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="outdoor" type="button"><span class="chip-icon"><svg viewBox="0 0 32 32" fill="none"><path d="M16 4 C10 4, 7 9, 9 14 C5 14, 4 19, 8 21 L24 21 C28 19, 27 14, 23 14 C25 9, 22 4, 16 4 Z" fill="#8BA44C" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 21 L16 28" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/></svg></span>Outdoor<span class="chip-check">✓</span></button>
+        <button class="chip" data-filter="lowmess" type="button"><span class="chip-icon"><svg viewBox="0 0 32 32" fill="none"><path d="M16 5 C16 5, 7 15, 7 21 C7 26, 11 28, 16 28 C21 28, 25 26, 25 21 C25 15, 16 5, 16 5 Z" fill="#9FCDF0" stroke="#4A2B18" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 21 C12 23.5, 13.5 25, 15.5 25" stroke="#FFFBEF" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg></span>Low mess<span class="chip-check">✓</span></button>
+        <span class="chip chip-count" aria-label="1000 plus filters available"><span class="chip-icon"><svg viewBox="0 0 32 32" fill="none"><path d="M16 5 C17 11, 19 13, 25 14 C19 15, 17 17, 16 23 C15 17, 13 15, 7 14 C13 13, 15 11, 16 5 Z" fill="#FFE7A8" stroke="#4A2B18" stroke-width="1.4" stroke-linejoin="round"/><path d="M24 20 C24.5 22.5, 25.5 23.5, 28 24 C25.5 24.5, 24.5 25.5, 24 28 C23.5 25.5, 22.5 24.5, 20 24 C22.5 23.5, 23.5 22.5, 24 20 Z" fill="#E8960F" stroke="#4A2B18" stroke-width="1.1" stroke-linejoin="round"/></svg></span>1000+ filters</span>
       </div>
 
       <div class="filter-results">
@@ -1930,10 +1937,10 @@ nav.top{
         <p class="mirror-sub">At 2am your brain says "we barely did anything this week." Bunny Path's mirror shows you the truth. Your history. Every polaroid, every category, every little win. Quiet proof you can trust.</p>
 
         <div class="mirror-stats">
-          <div class="mstat"><span class="m-emoji">🎨</span><div class="m-num">4</div><div class="m-lbl">Creative</div></div>
-          <div class="mstat"><span class="m-emoji">🔬</span><div class="m-num">3</div><div class="m-lbl">Science</div></div>
-          <div class="mstat"><span class="m-emoji">🏃</span><div class="m-num">6</div><div class="m-lbl">Movement</div></div>
-          <div class="mstat"><span class="m-emoji">📚</span><div class="m-num">5</div><div class="m-lbl">Reading</div></div>
+          <div class="mstat"><span class="m-emoji"><svg viewBox="0 0 32 32" fill="none"><path d="M16 5 C9 5, 4 10, 4 16 C4 21, 8 24, 12 24 C14 24, 14 22, 15 21 C16 20, 18 20, 18 22 C18 25, 21 25, 23 24 C26 22, 28 19, 28 15 C28 9, 23 5, 16 5 Z" fill="#FFFBEF" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><circle cx="10" cy="13" r="1.6" fill="#E37756"/><circle cx="15" cy="10" r="1.6" fill="#E8960F"/><circle cx="21" cy="11" r="1.6" fill="#8BA44C"/><circle cx="23" cy="16" r="1.6" fill="#5BC9F4"/></svg></span><div class="m-num">4</div><div class="m-lbl">Creative</div></div>
+          <div class="mstat"><span class="m-emoji"><svg viewBox="0 0 32 32" fill="none"><path d="M13 5 L13 13 L7 24 C6 26, 7 27, 9 27 L23 27 C25 27, 26 26, 25 24 L19 13 L19 5" fill="#CFE6F7" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 5 L21 5" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M9.5 20 L22.5 20" stroke="#4A2B18" stroke-width="1.3"/><circle cx="14" cy="23" r="1.3" fill="#E8960F"/><circle cx="18" cy="24" r="1.1" fill="#E37756"/></svg></span><div class="m-num">3</div><div class="m-lbl">Science</div></div>
+          <div class="mstat"><span class="m-emoji"><svg viewBox="0 0 32 32" fill="none"><circle cx="20" cy="7" r="3" fill="#E37756" stroke="#4A2B18" stroke-width="1.5"/><path d="M20 10 C18 13, 16 14, 13 14" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M20 10 L18 18 L22 17" stroke="#4A2B18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 18 L14 25" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M22 17 L24 24" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M20 12 L25 10" stroke="#8BA44C" stroke-width="2" stroke-linecap="round"/></svg></span><div class="m-num">6</div><div class="m-lbl">Movement</div></div>
+          <div class="mstat"><span class="m-emoji"><svg viewBox="0 0 32 32" fill="none"><path d="M16 8 C13 6, 8 6, 6 7 L6 24 C8 23, 13 23, 16 25 C19 23, 24 23, 26 24 L26 7 C24 6, 19 6, 16 8 Z" fill="#FFFBEF" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 8 L16 25" stroke="#4A2B18" stroke-width="1.5"/><path d="M9 11 L13 11 M9 14 L13 14 M19 11 L23 11 M19 14 L23 14" stroke="#8BA44C" stroke-width="1.4" stroke-linecap="round"/></svg></span><div class="m-num">5</div><div class="m-lbl">Reading</div></div>
         </div>
       </div>
 
@@ -1941,27 +1948,27 @@ nav.top{
       <div class="mirror-screen">
         <div class="mirror-screen-head">
           <div class="mirror-week">Week of Oct 7 – 13</div>
-          <div class="mirror-streak">🔥 12-day streak</div>
+          <div class="mirror-streak"><svg viewBox="0 0 32 32" fill="none"><path d="M16 3 C16 9, 9 11, 9 19 C9 24, 12 28, 16 28 C20 28, 23 24, 23 19 C23 16, 21 14, 20 13 C20 16, 18 17, 18 17 C19 13, 16 7, 16 3 Z" fill="#E8960F" stroke="#4A2B18" stroke-width="1.4" stroke-linejoin="round"/></svg> 12-day streak</div>
         </div>
         <div class="mirror-hero-line">You did <em>18 things</em> with Emma this week.</div>
         <div class="mirror-hero-sub">Across 7 categories. That's a lot of tiny wins. Be proud.</div>
 
         <div class="mirror-polaroids" aria-label="Activities completed">
-          <div class="mini-pol" style="--r:-3deg"><div class="mini-pol-img">🫧</div><div class="mini-pol-label">Bubble lab</div></div>
-          <div class="mini-pol" style="--r:2deg"><div class="mini-pol-img">🎨</div><div class="mini-pol-label">Leaf rubbing</div></div>
-          <div class="mini-pol" style="--r:-1deg"><div class="mini-pol-img">📚</div><div class="mini-pol-label">Story nest</div></div>
-          <div class="mini-pol" style="--r:3deg"><div class="mini-pol-img">🏃</div><div class="mini-pol-label">Animal yoga</div></div>
-          <div class="mini-pol" style="--r:2deg"><div class="mini-pol-img">🍪</div><div class="mini-pol-label">Cookie math</div></div>
-          <div class="mini-pol" style="--r:-2deg"><div class="mini-pol-img">🔭</div><div class="mini-pol-label">Cloud spotting</div></div>
-          <div class="mini-pol" style="--r:1deg"><div class="mini-pol-img">🎵</div><div class="mini-pol-label">Pots drum</div></div>
-          <div class="mini-pol" style="--r:-3deg"><div class="mini-pol-img">🌱</div><div class="mini-pol-label">Bean grow</div></div>
+          <div class="mini-pol" style="--r:-3deg"><div class="mini-pol-img"><svg viewBox="0 0 32 32" fill="none"><circle cx="12" cy="14" r="6" fill="#CFE6F7" stroke="#4A2B18" stroke-width="1.5"/><circle cx="22" cy="20" r="4.5" fill="#9FCDF0" stroke="#4A2B18" stroke-width="1.5"/><circle cx="21" cy="10" r="3" fill="#E7F2FB" stroke="#4A2B18" stroke-width="1.3"/><circle cx="10" cy="12" r="1.4" fill="#fff"/></svg></div><div class="mini-pol-label">Bubble lab</div></div>
+          <div class="mini-pol" style="--r:2deg"><div class="mini-pol-img"><svg viewBox="0 0 32 32" fill="none"><path d="M24 6 C12 6, 6 14, 6 24 C16 24, 24 18, 24 6 Z" fill="#8BA44C" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><path d="M21 9 C16 14, 11 19, 8 23" stroke="#4A2B18" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg></div><div class="mini-pol-label">Leaf rubbing</div></div>
+          <div class="mini-pol" style="--r:-1deg"><div class="mini-pol-img"><svg viewBox="0 0 32 32" fill="none"><path d="M16 8 C13 6, 8 6, 6 7 L6 24 C8 23, 13 23, 16 25 C19 23, 24 23, 26 24 L26 7 C24 6, 19 6, 16 8 Z" fill="#FFFBEF" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 8 L16 25" stroke="#4A2B18" stroke-width="1.5"/><path d="M9 11 L13 11 M9 14 L13 14 M19 11 L23 11 M19 14 L23 14" stroke="#8BA44C" stroke-width="1.4" stroke-linecap="round"/></svg></div><div class="mini-pol-label">Story nest</div></div>
+          <div class="mini-pol" style="--r:3deg"><div class="mini-pol-img"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="8" r="3" fill="#E37756" stroke="#4A2B18" stroke-width="1.5"/><path d="M16 11 L16 17" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M16 14 L10 16 M16 14 L22 16" stroke="#8BA44C" stroke-width="2" stroke-linecap="round"/><path d="M16 17 C12 17, 9 20, 8 24 L24 24 C23 20, 20 17, 16 17 Z" fill="none" stroke="#4A2B18" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mini-pol-label">Animal yoga</div></div>
+          <div class="mini-pol" style="--r:2deg"><div class="mini-pol-img"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" fill="#E8B66A" stroke="#4A2B18" stroke-width="1.5"/><circle cx="12" cy="13" r="1.6" fill="#6B4A2B"/><circle cx="19" cy="12" r="1.4" fill="#6B4A2B"/><circle cx="20" cy="19" r="1.6" fill="#6B4A2B"/><circle cx="13" cy="20" r="1.3" fill="#6B4A2B"/></svg></div><div class="mini-pol-label">Cookie math</div></div>
+          <div class="mini-pol" style="--r:-2deg"><div class="mini-pol-img"><svg viewBox="0 0 32 32" fill="none"><path d="M10 22 C6 22, 4 19, 4 16 C4 13, 7 11, 10 12 C11 8, 15 6, 19 8 C22 6, 27 8, 27 13 C29 14, 29 22, 24 22 Z" fill="#FFFBEF" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="mini-pol-label">Cloud spotting</div></div>
+          <div class="mini-pol" style="--r:1deg"><div class="mini-pol-img"><svg viewBox="0 0 32 32" fill="none"><path d="M13 22 L13 8 L23 6 L23 19" stroke="#4A2B18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><ellipse cx="10.5" cy="22" rx="3.5" ry="3" fill="#E37756" stroke="#4A2B18" stroke-width="1.5"/><ellipse cx="20.5" cy="19" rx="3.5" ry="3" fill="#E37756" stroke="#4A2B18" stroke-width="1.5"/></svg></div><div class="mini-pol-label">Pots drum</div></div>
+          <div class="mini-pol" style="--r:-3deg"><div class="mini-pol-img"><svg viewBox="0 0 32 32" fill="none"><path d="M16 27 L16 14" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M16 17 C 10 17, 8 12, 9 8 C 13 8, 16 11, 16 17 Z" fill="#8BA44C" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 14 C 22 14, 24 9, 23 5 C 19 5, 16 8, 16 14 Z" fill="#B8D070" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 28 Q 16 25 23 28" stroke="#4A2B18" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="mini-pol-label">Bean grow</div></div>
         </div>
 
         <div class="mirror-categories">
-          <div class="cat-pill"><span class="cat-ic">🎨</span>Creative<span class="cat-count">4</span></div>
-          <div class="cat-pill"><span class="cat-ic">🔬</span>Science<span class="cat-count">3</span></div>
-          <div class="cat-pill"><span class="cat-ic">🏃</span>Movement<span class="cat-count">6</span></div>
-          <div class="cat-pill"><span class="cat-ic">📚</span>Reading<span class="cat-count">5</span></div>
+          <div class="cat-pill"><span class="cat-ic"><svg viewBox="0 0 32 32" fill="none"><path d="M16 5 C9 5, 4 10, 4 16 C4 21, 8 24, 12 24 C14 24, 14 22, 15 21 C16 20, 18 20, 18 22 C18 25, 21 25, 23 24 C26 22, 28 19, 28 15 C28 9, 23 5, 16 5 Z" fill="#FFFBEF" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><circle cx="10" cy="13" r="1.6" fill="#E37756"/><circle cx="15" cy="10" r="1.6" fill="#E8960F"/><circle cx="21" cy="11" r="1.6" fill="#8BA44C"/><circle cx="23" cy="16" r="1.6" fill="#5BC9F4"/></svg></span>Creative<span class="cat-count">4</span></div>
+          <div class="cat-pill"><span class="cat-ic"><svg viewBox="0 0 32 32" fill="none"><path d="M13 5 L13 13 L7 24 C6 26, 7 27, 9 27 L23 27 C25 27, 26 26, 25 24 L19 13 L19 5" fill="#CFE6F7" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 5 L21 5" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M9.5 20 L22.5 20" stroke="#4A2B18" stroke-width="1.3"/><circle cx="14" cy="23" r="1.3" fill="#E8960F"/><circle cx="18" cy="24" r="1.1" fill="#E37756"/></svg></span>Science<span class="cat-count">3</span></div>
+          <div class="cat-pill"><span class="cat-ic"><svg viewBox="0 0 32 32" fill="none"><circle cx="20" cy="7" r="3" fill="#E37756" stroke="#4A2B18" stroke-width="1.5"/><path d="M20 10 C18 13, 16 14, 13 14" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M20 10 L18 18 L22 17" stroke="#4A2B18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 18 L14 25" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M22 17 L24 24" stroke="#4A2B18" stroke-width="2" stroke-linecap="round"/><path d="M20 12 L25 10" stroke="#8BA44C" stroke-width="2" stroke-linecap="round"/></svg></span>Movement<span class="cat-count">6</span></div>
+          <div class="cat-pill"><span class="cat-ic"><svg viewBox="0 0 32 32" fill="none"><path d="M16 8 C13 6, 8 6, 6 7 L6 24 C8 23, 13 23, 16 25 C19 23, 24 23, 26 24 L26 7 C24 6, 19 6, 16 8 Z" fill="#FFFBEF" stroke="#4A2B18" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 8 L16 25" stroke="#4A2B18" stroke-width="1.5"/><path d="M9 11 L13 11 M9 14 L13 14 M19 11 L23 11 M19 14 L23 14" stroke="#8BA44C" stroke-width="1.4" stroke-linecap="round"/></svg></span>Reading<span class="cat-count">5</span></div>
         </div>
       </div>
 
