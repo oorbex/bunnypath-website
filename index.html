@@ -541,6 +541,10 @@ nav.top{
   color:#fff; font-size:10px; font-weight:800;
   display:flex; align-items:center; justify-content:center;
 }
+/* Step numbers cycle the bunny-logo palette (gold, coral, meadow, sky) */
+.detail-steps li:nth-child(4n+2)::before{background:linear-gradient(135deg,var(--petal),var(--petal-deep))}
+.detail-steps li:nth-child(4n+3)::before{background:linear-gradient(135deg,var(--meadow),var(--meadow-deep))}
+.detail-steps li:nth-child(4n+4)::before{background:linear-gradient(135deg,var(--sky-deep),#5BC9F4)}
 
 /* Default placeholder in right phone */
 .detail-empty{
