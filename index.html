@@ -82,7 +82,7 @@
 <meta name="description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Personalized play ideas at your fingertips. Download free for iPhone and Android.">
 <meta name="theme-color" content="#FFFDF7">
 <meta property="og:title" content="Bunny Path: Play ideas for kids 0–12">
-<meta property="og:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Creative, active, discovery, and brain-games play for your child's age.">
+<meta property="og:description" content="20,000+ hand-crafted, off-screen activities for kids ages 0–12. Play, create, discover and solve activities and brain games for your child's age.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bunnypath.com">
 <meta name="twitter:card" content="summary_large_image">
@@ -2085,7 +2085,7 @@ nav.top{
           </svg>
         </div>
         <h3>Balanced daily</h3>
-        <p>One creative, one active, one discovery, one brain game, well-rounded play without you planning a thing.</p>
+        <p>One to play, one to create, one to discover, one to solve, well-rounded days without you planning a thing.</p>
       </div>
       <div class="feature-card fc-time">
         <div class="feature-icon" aria-hidden="true">
@@ -2518,7 +2518,7 @@ const FLOATY_BY_AGE = {
   })[t] || '';
 
   // Uppercase eyebrow label per type (brain = "Brain Games"); falls back to the raw type.
-  const AC_LABEL = {active:'Active Play', brain:'Brain Games'};
+  const AC_LABEL = {creative:'Create', discovery:'Discover', active:'Play', brain:'Brain Games'};
 
   const defaultCards = [
     {type:"creative", tc:"c", emoji:"🎨", title:"Rainbow Sponge Stamps", meta:"15 min · No mess"},
@@ -2879,7 +2879,7 @@ const FLOATY_BY_AGE = {
     const cards = CARDS_BY_AGE[age] || data.cards;
     const CARD_BG = {creative:'#FFF5F5', discovery:'#EFF6FF', active:'#ECFDF5', brain:'#F7F3FD'};
     const CARD_FG = {creative:'#F43F5E', discovery:'#3B82F6', active:'#10B981', brain:'#7C4DBB'};
-    const CARD_LABEL = {active:'Active Play', brain:'Brain Games'};
+    const CARD_LABEL = {creative:'Create', discovery:'Discover', active:'Play', brain:'Brain Games'};
     cardsEl.innerHTML = cards.map(c=>`
       <div class="kid-card ac-${c.type}" style="background:${CARD_BG[c.type]||'#fff'}">
         <div class="kc-emoji">${kcIcon(c.type)}</div>

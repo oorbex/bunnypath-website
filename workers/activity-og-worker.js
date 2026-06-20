@@ -1064,6 +1064,20 @@ function typeEmoji(type) {
   return TYPE_EMOJI[type] || '✨';
 }
 
+// User-facing verb labels for the stored DB type values. DB keeps
+// 'Active play' / 'Discovery' / 'Creative' / 'Puzzle'; customers see
+// Play / Discover / Create / Solve (matches the app's displayLabel and 404.html).
+const TYPE_LABEL = {
+  'Active play': 'Play',
+  'Discovery': 'Discover',
+  'Creative': 'Create',
+  'Puzzle': 'Solve',
+};
+
+function typeLabel(type) {
+  return TYPE_LABEL[type] || type;
+}
+
 function buildActivityCardHtml({ activity, activityId, refCode, senderName, related }) {
   const e = htmlEscape;
   const title = activity.title || 'A play idea';
@@ -1103,7 +1117,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
 
   // ── Hero (Section 2) ─────────────────────────────────────────────────
   const pills = [];
-  if (type) pills.push(`<span class="activity-meta-pill">${typeEmoji(type)} ${e(type)}</span>`);
+  if (type) pills.push(`<span class="activity-meta-pill">${typeEmoji(type)} ${e(typeLabel(type))}</span>`);
   if (time) pills.push(`<span class="activity-meta-pill">⏱ ${e(time)}</span>`);
   if (ageRange) pills.push(`<span class="activity-meta-pill">👶 Ages ${e(ageRange)}</span>`);
 
@@ -1197,7 +1211,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
               return `<a class="related-card" href="${e(rurl)}">
                 <span class="related-emoji">${typeEmoji(r.type)}</span>
                 <span class="related-title">${e(r.title || '')}</span>
-                ${r.type ? `<span class="related-pill">${e(r.type)}</span>` : ''}
+                ${r.type ? `<span class="related-pill">${e(typeLabel(r.type))}</span>` : ''}
               </a>`;
            }).join('')}
          </div>

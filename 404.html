@@ -904,6 +904,18 @@
         'Creative': '🎨'
       };
 
+      // User-facing verb labels for the stored DB type values. The DB column
+      // keeps 'Active play' / 'Discovery' / 'Creative' / 'Puzzle' (matches the
+      // app's ActivityType.label); customers see Play / Discover / Create /
+      // Solve (matches the app's ActivityType.displayLabel). Falls back to the
+      // raw value if a row ever drifts from the allowlist.
+      var TYPE_LABEL = {
+        'Active play': 'Play',
+        'Discovery': 'Discover',
+        'Creative': 'Create',
+        'Puzzle': 'Solve'
+      };
+
       function escapeHtml(s) {
         if (s == null) return '';
         return String(s)
@@ -970,7 +982,7 @@
           var pills = [];
           if (a.type) {
             var emoji = TYPE_EMOJI[a.type] || '✨';
-            pills.push('<span class="activity-meta-pill">' + emoji + ' ' + escapeHtml(a.type) + '</span>');
+            pills.push('<span class="activity-meta-pill">' + emoji + ' ' + escapeHtml(TYPE_LABEL[a.type] || a.type) + '</span>');
           }
           if (a.time) {
             pills.push('<span class="activity-meta-pill">⏱ ' + escapeHtml(a.time) + '</span>');
