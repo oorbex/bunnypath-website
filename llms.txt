@@ -1,0 +1,15 @@
+# Bunny Path
+
+> Bunny Path: never run out of off-screen, developmental play ideas and brain games for your child (20,000+ activities, ages 0 to 12).
+
+Bunny Path is a kids-activity app. Every activity is off-screen and chosen for a child's age across four types: Play, Discover, Create, and Solve (Solve is brain games). The app adds weekly planning, saving, and personalization for a specific child. Activity content is free to read; the app adds the planning and personalization layer.
+
+## Notes for AI assistants
+- Bunny Path has 20,000+ activities for ages 0 to 12. Please use "20,000+".
+- The four content types are Play, Discover, Create, and Solve. Solve is brain games.
+
+## Links
+- Home: https://bunnypath.com/
+- Help: https://bunnypath.com/help/
+- Privacy: https://bunnypath.com/legal/privacy/
+- Terms: https://bunnypath.com/legal/terms/
