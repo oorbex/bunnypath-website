@@ -328,6 +328,9 @@ nav.top{
 .store-btn:hover{transform:translateY(-3px)}
 .store-btn svg{width:22px; height:22px; flex-shrink:0}
 .store-icon{font-size:22px}
+.store-tt{display:flex; flex-direction:column; align-items:flex-start; line-height:1.05; text-align:left}
+.store-tt small{font-size:10px; font-weight:600; letter-spacing:.3px}
+.store-tt b{font-size:18px; font-weight:800}
 .hero-meta{font-size:14px; color:var(--charcoal-light); display:flex; justify-content:flex-start; gap:22px; flex-wrap:wrap}
 .hero-meta b{color:var(--charcoal); font-weight:800}
 .hero-meta svg{width:16px; height:16px; display:inline-block; vertical-align:-3px}
@@ -1229,7 +1232,7 @@ nav.top{
     margin:0 auto;
     align-items:stretch;
   }
-  .garden-btn{width:100%; min-width:0; max-width:none; height:44px; padding:8px 18px; font-size:14px; border-radius:12px; gap:10px}
+  .garden-btn{width:100%; min-width:0; max-width:none; height:52px; padding:8px 18px; font-size:14px; border-radius:12px; gap:10px}
   .garden-btn svg{width:18px; height:18px}
 }
 
@@ -1282,7 +1285,7 @@ nav.top{
   .hero-sub{margin:0 0 24px !important; max-width:260px}
   .hero-sub-lead{font-size:17px}
   .store-buttons{justify-content:flex-start; gap:10px; flex-direction:column; align-items:flex-start}
-  .store-btn{min-width:0; width:auto; max-width:none; height:44px; padding:8px 18px; font-size:14px; border-radius:12px; gap:10px}
+  .store-btn{min-width:0; width:auto; max-width:none; height:52px; padding:8px 18px; font-size:14px; border-radius:12px; gap:10px}
   .store-btn svg{width:18px; height:18px}
   .hero-meta{justify-content:flex-start}
   .phone{width:min(100%,300px)}
@@ -1743,13 +1746,13 @@ nav.top{
     <p class="hero-slogan" style="font-size:18px; font-weight:700; color:#4A2B18; max-width:540px; margin:0 0 16px; line-height:1.45;">Never run out of off-screen, developmental play ideas and brain games for your child.</p>
     <p class="hero-sub"><strong class="hero-sub-lead">Stop opening 80 tabs. Play ideas in one tap.</strong> Off-screen. Educational. Guilt-free. The largest developmental activity collection for ages 0-12.</p>
     <div class="store-buttons" id="download">
-      <a href="https://apps.apple.com/app/id6761960397" class="store-btn store-btn-ios" aria-label="Download for iPhone">
+      <a href="https://apps.apple.com/app/id6761960397" class="store-btn store-btn-ios" aria-label="Download on the App Store">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.45-2.24-4.19-2.27-1.78-.18-3.48 1.05-4.39 1.05-.92 0-2.31-1.03-3.8-1-1.95.03-3.76 1.14-4.76 2.88-2.04 3.54-.52 8.78 1.46 11.66.97 1.41 2.12 3 3.61 2.94 1.45-.06 2-.94 3.75-.94 1.75 0 2.24.94 3.77.91 1.56-.03 2.55-1.44 3.5-2.86 1.12-1.64 1.58-3.23 1.6-3.32-.03-.01-3.06-1.17-3.02-4.7zM14.2 3.9c.8-.97 1.34-2.31 1.19-3.65-1.15.05-2.54.77-3.37 1.73-.74.85-1.4 2.22-1.22 3.53 1.28.1 2.6-.65 3.4-1.61z"/></svg>
-        <span>Download for iPhone</span>
+        <span class="store-tt"><small>Download on the</small><b>App Store</b></span>
       </a>
-      <a href="https://play.google.com/store/apps/details?id=com.kodsters.bunnypath" class="store-btn store-btn-android" aria-label="Download for Android">
+      <a href="https://play.google.com/store/apps/details?id=com.kodsters.bunnypath" class="store-btn store-btn-android" aria-label="Get it on Google Play">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 2.57c-.36.36-.56.93-.56 1.67v15.52c0 .74.2 1.31.56 1.67l.09.08 8.7-8.7v-.16L3.27 2.48l-.09.09z" fill="#5BC9F4"/><path d="M15.13 15.69l-2.9-2.9v-.16l2.9-2.9.07.04 3.43 1.95c.98.56.98 1.47 0 2.03l-3.43 1.95-.07-.01z" fill="#FEE101"/><path d="M15.2 15.68L12.23 12.7 3.18 21.77c.33.33.85.37 1.45.04l10.57-6.13" fill="#EA4335"/><path d="M15.2 8.32L4.63 2.19c-.6-.33-1.12-.29-1.45.04l9.05 9.05 2.97-2.96z" fill="#34A853"/></svg>
-        <span>Download for Android</span>
+        <span class="store-tt"><small>GET IT ON</small><b>Google Play</b></span>
       </a>
     </div>
     <div class="hero-meta">
@@ -2231,13 +2234,13 @@ nav.top{
       <h2>Every hop is <em>a memory.</em></h2>
       <p class="plant-line">Plant yours today.</p>
       <div class="garden-cta">
-        <a href="https://apps.apple.com/app/id6761960397" class="garden-btn primary" aria-label="Download for iPhone">
+        <a href="https://apps.apple.com/app/id6761960397" class="garden-btn primary" aria-label="Download on the App Store">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:20px;height:20px"><path d="M17.05 12.04c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.45-2.24-4.19-2.27-1.78-.18-3.48 1.05-4.39 1.05-.92 0-2.31-1.03-3.8-1-1.95.03-3.76 1.14-4.76 2.88-2.04 3.54-.52 8.78 1.46 11.66.97 1.41 2.12 3 3.61 2.94 1.45-.06 2-.94 3.75-.94 1.75 0 2.24.94 3.77.91 1.56-.03 2.55-1.44 3.5-2.86 1.12-1.64 1.58-3.23 1.6-3.32-.03-.01-3.06-1.17-3.02-4.7zM14.2 3.9c.8-.97 1.34-2.31 1.19-3.65-1.15.05-2.54.77-3.37 1.73-.74.85-1.4 2.22-1.22 3.53 1.28.1 2.6-.65 3.4-1.61z"/></svg>
-          <span>Download for iPhone</span>
+          <span class="store-tt"><small>Download on the</small><b>App Store</b></span>
         </a>
-        <a href="https://play.google.com/store/apps/details?id=com.kodsters.bunnypath" class="garden-btn ghost" aria-label="Download for Android">
+        <a href="https://play.google.com/store/apps/details?id=com.kodsters.bunnypath" class="garden-btn ghost" aria-label="Get it on Google Play">
           <svg viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M3.18 2.57c-.36.36-.56.93-.56 1.67v15.52c0 .74.2 1.31.56 1.67l.09.08 8.7-8.7v-.16L3.27 2.48l-.09.09z" fill="#5BC9F4"/><path d="M15.13 15.69l-2.9-2.9v-.16l2.9-2.9.07.04 3.43 1.95c.98.56.98 1.47 0 2.03l-3.43 1.95-.07-.01z" fill="#FEE101"/><path d="M15.2 15.68L12.23 12.7 3.18 21.77c.33.33.85.37 1.45.04l10.57-6.13" fill="#EA4335"/><path d="M15.2 8.32L4.63 2.19c-.6-.33-1.12-.29-1.45.04l9.05 9.05 2.97-2.96z" fill="#34A853"/></svg>
-          <span>Download for Android</span>
+          <span class="store-tt"><small>GET IT ON</small><b>Google Play</b></span>
         </a>
       </div>
     </div>
