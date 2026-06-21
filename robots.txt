@@ -1,2 +1,25 @@
+# Pre-launch: the entire site is intentionally blocked from crawling until the
+# Bunny Path app is live on the App Store and Google Play. Keep the Disallow
+# below active until launch. The homepage also serves meta robots noindex,nofollow,
+# and the staged activity pages render noindex by default (BUNNYPATH_LAUNCHED unset).
 User-agent: *
 Disallow: /
+
+# ============================================================================
+# LAUNCH-DAY robots.txt - DO NOT activate until the app is live on the stores.
+# At launch, delete the "Disallow: /" block above and uncomment the block below.
+# Rationale (SEO/architecture review; see
+# docs/web_page_generation_architecture_plan.md section 7.5):
+#   - Allow the catalog to be crawled so each page's per-page noindex can be read.
+#     Never pair Disallow with noindex on the same URLs: Disallow blocks the crawl
+#     that would read the noindex, and Google can then index the URL with no snippet.
+#   - Reference the sitemap index: it aids Bing/IndexNow discovery and hides nothing
+#     (the real enumeration control is the lean, index-only sitemap, not concealment).
+# ============================================================================
+# User-agent: *
+# Allow: /activity/
+# Allow: /activities/
+# Disallow: /a/
+# Disallow: /app/
+#
+# Sitemap: https://bunnypath.com/sitemap-index.xml
