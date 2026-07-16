@@ -1,11 +1,13 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.kodsters.bunnypath",
       "sha256_cert_fingerprints": [
-        "REPLACE_WITH_PLAY_APP_SIGNING_SHA256"
+        "CD:59:C4:D6:CC:D5:7D:1F:26:3B:8C:77:D2:C9:95:ED:67:5D:17:0F:0B:21:10:79:2C:0D:56:13:9C:EC:C8:07"
       ]
     }
   }

@@ -14,7 +14,15 @@ routes = [
   # (WhatsApp/Slack/iMessage) skip OG fetching, so referral links
   # generate no preview at all. The Worker dispatches by path shape:
   # activity / referral / passthrough.
-  { pattern = "bunnypath.com/*", zone_name = "bunnypath.com" }
+  { pattern = "bunnypath.com/*", zone_name = "bunnypath.com" },
+  # www MUST also hit the Worker: GitHub Pages 301-redirects www -> apex,
+  # but Android's Digital Asset Links verifier and Apple's AASA fetcher
+  # refuse redirects on /.well-known/* — so www App/Universal Links
+  # silently fail verification unless the Worker serves those files
+  # directly from the apex origin (see handleWellKnownJson). This was
+  # half of the Play Console "2 deep links failing" alert: bunnypath.com
+  # (placeholder cert) + www.bunnypath.com (redirect).
+  { pattern = "www.bunnypath.com/*", zone_name = "bunnypath.com" }
 ]
 
 # SUPABASE_ANON_KEY is uploaded as a secret, not stored here:

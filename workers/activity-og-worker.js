@@ -41,6 +41,83 @@ const REFERRAL_PATH_RE = /^\/([abcdefghjkmnpqrstvwxyz23456789]{6})\/?$/i;
 const AASA_PATH = '/.well-known/apple-app-site-association';
 const ASSETLINKS_PATH = '/.well-known/assetlinks.json';
 
+// ---------------------------------------------------------------------------
+// Edge analytics (PostHog, server-to-server)
+// ---------------------------------------------------------------------------
+// This Worker is the ONLY code that runs on every request (the topology is
+// Worker -> GitHub Pages origin, so Cloudflare Pages Functions never
+// execute), which makes it the one honest place to measure the marketing
+// site: zero client bytes, ad-blocker-proof, and it sees bots, RSS readers
+// and JS-disabled clients too. Captures `web.pageview` for HTML page loads
+// and `web.404` for not-found responses, with UTM params + referrer so
+// channel attribution survives to PostHog.
+//
+// `phc_…` keys are PostHog's PUBLIC ingest keys — write-only, designed to
+// ship in client code (already present verbatim in the app's Info.plist /
+// AndroidManifest.xml). Override via the POSTHOG_PUBLIC_KEY Worker env var
+// if you ever rotate.
+const POSTHOG_KEY_DEFAULT = 'phc_vEovTPz4D8NcwWX6AkPFWNrdJKPLPZ9AMp5QM2SUYFRn';
+const POSTHOG_HOST = 'https://us.i.posthog.com';
+const UTM_KEYS = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term',
+];
+
+/// Fire-and-forget pageview/404 capture. Never throws, never blocks the
+/// response — telemetry must not be able to break a user-facing page.
+function capturePageview(request, url, response, env, ctx) {
+  try {
+    if (request.method !== 'GET') return;
+    const is404 = response.status === 404;
+    const contentType = response.headers.get('content-type') || '';
+    // Only page navigations are interesting: HTML responses, plus every
+    // 404 regardless of type (broken backlinks matter even for assets).
+    if (!is404 && !contentType.includes('text/html')) return;
+
+    const cf = request.cf || {};
+    const properties = {
+      path: url.pathname,
+      query: url.search || null,
+      referrer: request.headers.get('referer') || null,
+      user_agent: request.headers.get('user-agent') || null,
+      country: cf.country || null,
+      colo: cf.colo || null,
+      // Cloudflare bot-management verdict — keep the raw signal and
+      // filter post-hoc in PostHog rather than at the edge.
+      bot_score: cf.botManagement && cf.botManagement.score,
+      status: response.status,
+      // Whether this response was SSR'd by the worker (activity/referral
+      // card) or passed through from the origin.
+      served: response.headers.get('x-bunnypath-og') ? 'og-worker' : 'origin',
+    };
+    for (const key of UTM_KEYS) {
+      const value = url.searchParams.get(key);
+      if (value) properties[key] = value.slice(0, 120);
+    }
+
+    // Daily-rotating anon id — no cookies, no IP retention.
+    const distinctId = `web-${new Date().toISOString().slice(0, 10)}`;
+
+    ctx.waitUntil(
+      fetch(`${POSTHOG_HOST}/capture/`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          api_key: (env && env.POSTHOG_PUBLIC_KEY) || POSTHOG_KEY_DEFAULT,
+          event: is404 ? 'web.404' : 'web.pageview',
+          distinct_id: distinctId,
+          properties,
+        }),
+      }).catch(() => {}),
+    );
+  } catch (_) {
+    // Swallow everything: analytics can never break serving.
+  }
+}
+
 // Security headers applied to every successful Worker response. Factored
 // out so the AASA / referral / activity / fallback paths can't drift.
 //
@@ -101,7 +178,14 @@ function withSecurityHeaders(response) {
 // corrected content-type and a sensible cache-control. Apple recommends
 // 1-hour cache for AASA so updates propagate within a reasonable window.
 async function handleWellKnownJson(request) {
-  const upstream = await fetch(request);
+  // Always fetch from the APEX origin, whatever host the request came in
+  // on. GitHub Pages 301-redirects www -> apex, and both Android's Digital
+  // Asset Links verifier and Apple's AASA fetcher refuse redirects on
+  // /.well-known/* — a www request passed through verbatim would surface
+  // that 301 and silently break App/Universal Link verification for the
+  // www host (half of the Play Console "deep links failing" alert).
+  const path = new URL(request.url).pathname;
+  const upstream = await fetch(`${SITE_ORIGIN}${path}`);
   if (!upstream.ok) {
     // Pass the upstream error through; nothing we can do without the file.
     return withSecurityHeaders(upstream);
@@ -119,25 +203,33 @@ export default {
     const url = new URL(request.url);
 
     // Universal Links / Digital Asset Links. Fix Content-Type before
-    // anything else can claim the request.
+    // anything else can claim the request. Not analytics-worthy.
     if (url.pathname === AASA_PATH || url.pathname === ASSETLINKS_PATH) {
       return handleWellKnownJson(request);
     }
 
+    // Route, then run the edge pageview/404 capture on the outgoing
+    // response (fire-and-forget; see capturePageview).
+    let response;
     const activityMatch = url.pathname.match(ACTIVITY_PATH_RE);
+    const referralMatch =
+      activityMatch ? null : url.pathname.match(REFERRAL_PATH_RE);
     if (activityMatch) {
-      return handleActivity(request, activityMatch[1], url, env);
+      response = await handleActivity(request, activityMatch[1], url, env);
+    } else if (referralMatch) {
+      response = await handleReferral(
+        request,
+        referralMatch[1].toLowerCase(),
+        env,
+      );
+    } else {
+      // Passthrough. Still attach security headers so the marketing site
+      // gets HSTS / CSP / nosniff coverage uniformly.
+      response = withSecurityHeaders(await fetch(request));
     }
 
-    const referralMatch = url.pathname.match(REFERRAL_PATH_RE);
-    if (referralMatch) {
-      return handleReferral(request, referralMatch[1].toLowerCase(), env);
-    }
-
-    // Passthrough. Still attach security headers so the marketing site
-    // gets HSTS / CSP / nosniff coverage uniformly.
-    const passthrough = await fetch(request);
-    return withSecurityHeaders(passthrough);
+    capturePageview(request, url, response, env, ctx);
+    return response;
   },
 };
 
