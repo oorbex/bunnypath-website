@@ -1,13 +1,15 @@
 [
   {
     "relation": [
-      "delegate_permission/common.handle_all_urls"
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
     ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.kodsters.bunnypath",
       "sha256_cert_fingerprints": [
-        "CD:59:C4:D6:CC:D5:7D:1F:26:3B:8C:77:D2:C9:95:ED:67:5D:17:0F:0B:21:10:79:2C:0D:56:13:9C:EC:C8:07"
+        "CD:59:C4:D6:CC:D5:7D:1F:26:3B:8C:77:D2:C9:95:ED:67:5D:17:0F:0B:21:10:79:2C:0D:56:13:9C:EC:C8:07",
+        "8F:EF:58:32:03:5E:EB:5A:98:C0:F5:E4:C3:43:65:AC:1F:55:DD:18:E0:AF:F2:FB:3D:45:A6:35:A3:FF:CE:4D"
       ]
     }
   }
