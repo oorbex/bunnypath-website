@@ -152,6 +152,20 @@ nav.top{
   backdrop-filter: saturate(140%) blur(14px);
   border-bottom: 1px solid rgba(31, 41, 55, 0.06);
 }
+/* In-page anchor targets must land below the sticky frosted nav band. */
+#download, #how, #hero-section{scroll-margin-top:104px}
+@media(max-width:900px){#download, #how, #hero-section{scroll-margin-top:68px}}
+/* Users with reduced-motion enabled get a still page: infinite decorative
+   loops freeze, entry animations complete instantly (all entries use
+   forwards/both fill or a visible base state, so nothing disappears). */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
 .nav-inner{display:flex; align-items:center; justify-content:space-between}
 .logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--charcoal); font-weight:800; font-size:22px}
 .logo img{display:block; height:150px; width:auto; margin:-22px 0 -50px; position:relative; z-index:2}
@@ -714,7 +728,7 @@ nav.top{
   padding:100px 0; position:relative;
   background:
     linear-gradient(180deg, rgba(255,253,247,.5) 0%, rgba(255,253,247,.2) 40%, rgba(255,253,247,0) 100%),
-    url('assets/pickakid-bg-v2.png') center bottom / cover no-repeat,
+    url('assets/pickakid-bg-v2.webp') center bottom / cover no-repeat,
     #FDE8E0;
 }
 .pickakid-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center}
@@ -1044,7 +1058,7 @@ nav.top{
   /* Image is 1536×1024 (3:2). Use `contain` so the entire scene, including the
      bottom row of polaroid cards, is always visible. Height = viewport-width × 2/3
      so the image fits exactly with no letterboxing; a cream matte fills any extra. */
-  background:#FBEFE3 url('assets/garden-scene.png') center top/100% auto no-repeat;
+  background:#FBEFE3 url('assets/garden-scene.webp') center top/100% auto no-repeat;
   color:var(--charcoal);
   padding:0 0 40px;
   min-height:calc(100vw * 2 / 3);
@@ -1210,7 +1224,7 @@ nav.top{
     content:""; display:block;
     position:absolute; left:0; right:0; bottom:0;
     height:140px;
-    background:url('assets/garden-scene.png') center bottom/200% auto no-repeat;
+    background:url('assets/garden-scene.webp') center bottom/200% auto no-repeat;
     opacity:.55;
     pointer-events:none;
     mask-image:linear-gradient(to bottom, transparent 0%, #000 40%, #000 100%);
@@ -1722,7 +1736,7 @@ nav.top{
 <!-- NAV -->
 <nav class="top">
   <div class="container nav-inner">
-    <a href="#" class="logo" aria-label="Bunny Path"><img src="assets/logo.png" alt="Bunny Path"></a>
+    <a href="#" class="logo" aria-label="Bunny Path"><img src="assets/logo.webp" alt="Bunny Path"></a>
     <div class="nav-right">
       <a href="https://app.bunnypath.com" class="nav-link">Log in</a>
       <a href="#download" class="nav-cta">Download free</a>
@@ -1733,7 +1747,7 @@ nav.top{
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero-section" data-stop="hero">
   <div class="diorama">
-    <img class="diorama-underlay" src="assets/hero-underlay.png" alt="" aria-hidden="true">
+    <img class="diorama-underlay" src="assets/hero-underlay.webp" alt="" aria-hidden="true" fetchpriority="high">
   </div>
 
   <div class="container">
@@ -1765,7 +1779,7 @@ nav.top{
 
 <!-- ============ TAP-TO-PREVIEW PHONES ============ -->
 <section class="mockups" data-stop="demo">
-  <img class="mockups-underlay" src="assets/mockups-underlay.png" alt="" aria-hidden="true">
+  <img class="mockups-underlay" src="assets/mockups-underlay.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
   <div class="container">
     <div class="mockups-grid">
       <div class="mockups-copy">
@@ -1887,8 +1901,8 @@ nav.top{
 <section class="filters" data-stop="filters" id="filters">
   <div class="container">
     <div class="filters-head">
-      <img class="filters-glass" src="assets/magnifying-glass.png" alt="" aria-hidden="true">
-      <img class="filters-backpack" src="assets/backpack-star.png" alt="" aria-hidden="true">
+      <img class="filters-glass" src="assets/magnifying-glass.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img class="filters-backpack" src="assets/backpack-star.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
       <span class="eyebrow">5 minutes. Nothing to buy.</span>
       <h2>Search and filter by what you <em>actually have</em> <span class="meadow">(or want).</span></h2>
       <p class="filters-sub">Tight budget. Tight timeline. Tight bandwidth. Filter or search in thousands of ways.</p>
@@ -2498,7 +2512,9 @@ const FLOATY_BY_AGE = {
   reset(); window.addEventListener('resize', reset);
 
   let hopTimer=null;
+  const lbReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.addEventListener('mousemove', (e)=>{
+    if(lbReducedMotion) return;
     // pupils follow the cursor within each eye
     pupils.forEach(p=>{
       const r = p.getBoundingClientRect();
@@ -2837,10 +2853,11 @@ const FLOATY_BY_AGE = {
   window.addEventListener('touchmove', onMove, {passive:true});
   window.addEventListener('touchend', onUp);
 
-  // Auto-rotate
+  // Auto-rotate (disabled for reduced-motion users; drag still works)
+  const tilesReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function raf(){
     const paused = reveal && reveal.classList.contains('show');
-    if(exploded && !isDragging && !paused){
+    if(exploded && !isDragging && !paused && !tilesReducedMotion){
       rotateY += 0.25 + dragVelocity*0.04;
       dragVelocity *= 0.92;
       updateTiles();
