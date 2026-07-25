@@ -327,6 +327,31 @@ nav.top{
   25%{transform:rotate(-8deg)}
   75%{transform:rotate(8deg)}
 }
+/* ──────────── PRIMARY HERO ACTION (web-first) ────────────
+   One coral action per hero block. Coral appears exactly once here so
+   nothing competes with it — the store badges that used to live in this
+   slot were the page's only CTA and pointed at listings that are not
+   public yet. */
+.hero-cta{margin-bottom:32px}
+.hero-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding:0 34px; height:60px; border-radius:100px;
+  background:#E37756; color:#fff;
+  text-decoration:none; font-weight:800; font-size:18px;
+  box-shadow:0 10px 26px rgba(227,119,86,.34);
+  transition:transform .2s, box-shadow .2s;
+}
+.hero-btn svg{width:20px; height:20px; flex-shrink:0; transition:transform .2s}
+.hero-btn:hover{transform:translateY(-2px); box-shadow:0 14px 30px rgba(227,119,86,.4)}
+.hero-btn:hover svg{transform:translateX(3px)}
+.hero-reassure{
+  margin:12px 0 0; font-size:14px; font-weight:600;
+  color:var(--charcoal-light);
+}
+@media(max-width:640px){
+  .hero-btn{width:100%; max-width:420px; font-size:17px; padding:0 24px}
+  .hero-reassure{font-size:13.5px}
+}
 .store-buttons{display:flex; gap:14px; justify-content:flex-start; flex-wrap:wrap; margin-bottom:32px}
 .store-btn{
   display:inline-flex; align-items:center; justify-content:center; gap:12px;
@@ -1739,7 +1764,7 @@ nav.top{
     <a href="#" class="logo" aria-label="Bunny Path"><img src="assets/logo.webp" alt="Bunny Path"></a>
     <div class="nav-right">
       <a href="https://app.bunnypath.com" class="nav-link">Log in</a>
-      <a href="#download" class="nav-cta">Download free</a>
+      <a href="https://app.bunnypath.com" class="nav-cta" data-app-cta data-cta-slot="nav">Start free</a>
     </div>
   </div>
 </nav>
@@ -1758,15 +1783,15 @@ nav.top{
       in your pocket
     </h1>
     <p class="hero-sub"><strong class="hero-sub-lead">Stop opening 80 tabs. Play ideas in one tap.</strong> Off-screen. Educational. Guilt-free. The largest developmental activity collection for ages 0-12.</p>
-    <div class="store-buttons" id="download">
-      <a href="https://apps.apple.com/app/id6761960397?mt=8&amp;ct=web_home_hero" class="store-btn store-btn-ios" aria-label="Download on the App Store">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.45-2.24-4.19-2.27-1.78-.18-3.48 1.05-4.39 1.05-.92 0-2.31-1.03-3.8-1-1.95.03-3.76 1.14-4.76 2.88-2.04 3.54-.52 8.78 1.46 11.66.97 1.41 2.12 3 3.61 2.94 1.45-.06 2-.94 3.75-.94 1.75 0 2.24.94 3.77.91 1.56-.03 2.55-1.44 3.5-2.86 1.12-1.64 1.58-3.23 1.6-3.32-.03-.01-3.06-1.17-3.02-4.7zM14.2 3.9c.8-.97 1.34-2.31 1.19-3.65-1.15.05-2.54.77-3.37 1.73-.74.85-1.4 2.22-1.22 3.53 1.28.1 2.6-.65 3.4-1.61z"/></svg>
-        <span class="store-tt"><small>Download on the</small><b>App Store</b></span>
+    <!-- Primary action: start in the browser. The app stores are NOT linked
+         here — the listings are not public yet, so a badge would be a dead
+         end. They come back as a quiet secondary option at store launch. -->
+    <div class="hero-cta" id="download">
+      <a href="https://app.bunnypath.com" class="hero-btn" data-app-cta data-cta-slot="hero">
+        Find something to do now
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
       </a>
-      <a href="https://play.google.com/store/apps/details?id=com.kodsters.bunnypath&amp;referrer=utm_source%3Dbunnypath_web%26utm_medium%3Dreferral%26utm_campaign%3Dhome_hero" class="store-btn store-btn-android" aria-label="Get it on Google Play">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.18 2.57c-.36.36-.56.93-.56 1.67v15.52c0 .74.2 1.31.56 1.67l.09.08 8.7-8.7v-.16L3.27 2.48l-.09.09z" fill="#5BC9F4"/><path d="M15.13 15.69l-2.9-2.9v-.16l2.9-2.9.07.04 3.43 1.95c.98.56.98 1.47 0 2.03l-3.43 1.95-.07-.01z" fill="#FEE101"/><path d="M15.2 15.68L12.23 12.7 3.18 21.77c.33.33.85.37 1.45.04l10.57-6.13" fill="#EA4335"/><path d="M15.2 8.32L4.63 2.19c-.6-.33-1.12-.29-1.45.04l9.05 9.05 2.97-2.96z" fill="#34A853"/></svg>
-        <span class="store-tt"><small>GET IT ON</small><b>Google Play</b></span>
-      </a>
+      <p class="hero-reassure">Free to start. No credit card.</p>
     </div>
     <div class="hero-meta">
       <span><svg viewBox="0 0 32 32" fill="none"><path d="M16 26 C16 26, 5 19, 5 11.5 C5 7.5, 8 5, 11 5 C13.5 5, 16 7, 16 7 C16 7, 18.5 5, 21 5 C24 5, 27 7.5, 27 11.5 C27 19, 16 26, 16 26 Z" fill="#F7B8B0" stroke="#4A2B18" stroke-width="1.6" stroke-linejoin="round"/></svg> <b>Built</b> by parents like you</span>
@@ -2247,13 +2272,9 @@ nav.top{
       <h2>Every hop is <em>a memory.</em></h2>
       <p class="plant-line">Plant yours today.</p>
       <div class="garden-cta">
-        <a href="https://apps.apple.com/app/id6761960397?mt=8&amp;ct=web_home_footer" class="garden-btn primary" aria-label="Download on the App Store">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:20px;height:20px"><path d="M17.05 12.04c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.45-2.24-4.19-2.27-1.78-.18-3.48 1.05-4.39 1.05-.92 0-2.31-1.03-3.8-1-1.95.03-3.76 1.14-4.76 2.88-2.04 3.54-.52 8.78 1.46 11.66.97 1.41 2.12 3 3.61 2.94 1.45-.06 2-.94 3.75-.94 1.75 0 2.24.94 3.77.91 1.56-.03 2.55-1.44 3.5-2.86 1.12-1.64 1.58-3.23 1.6-3.32-.03-.01-3.06-1.17-3.02-4.7zM14.2 3.9c.8-.97 1.34-2.31 1.19-3.65-1.15.05-2.54.77-3.37 1.73-.74.85-1.4 2.22-1.22 3.53 1.28.1 2.6-.65 3.4-1.61z"/></svg>
-          <span class="store-tt"><small>Download on the</small><b>App Store</b></span>
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=com.kodsters.bunnypath&amp;referrer=utm_source%3Dbunnypath_web%26utm_medium%3Dreferral%26utm_campaign%3Dhome_footer" class="garden-btn ghost" aria-label="Get it on Google Play">
-          <svg viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M3.18 2.57c-.36.36-.56.93-.56 1.67v15.52c0 .74.2 1.31.56 1.67l.09.08 8.7-8.7v-.16L3.27 2.48l-.09.09z" fill="#5BC9F4"/><path d="M15.13 15.69l-2.9-2.9v-.16l2.9-2.9.07.04 3.43 1.95c.98.56.98 1.47 0 2.03l-3.43 1.95-.07-.01z" fill="#FEE101"/><path d="M15.2 15.68L12.23 12.7 3.18 21.77c.33.33.85.37 1.45.04l10.57-6.13" fill="#EA4335"/><path d="M15.2 8.32L4.63 2.19c-.6-.33-1.12-.29-1.45.04l9.05 9.05 2.97-2.96z" fill="#34A853"/></svg>
-          <span class="store-tt"><small>GET IT ON</small><b>Google Play</b></span>
+        <a href="https://app.bunnypath.com" class="garden-btn primary" data-app-cta data-cta-slot="footer">
+          Start free
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
         </a>
       </div>
     </div>
@@ -3380,15 +3401,33 @@ const FLOATY_BY_AGE = {
 })();
 </script>
 <script>
-  // Channel attribution: carry inbound UTM params through the store handoff.
-  // A visitor landing from a UTM-tagged link (ad, UGC post, newsletter) gets
-  // the campaign woven into the App Store `ct=` token and the Play
-  // `referrer=` payload, so the install is attributable to the channel that
-  // drove it. Without UTMs, the static per-surface tokens above stand.
+  // Channel attribution across the marketing -> web-app handoff.
+  //
+  // Every `[data-app-cta]` link gets utm_* stamped onto it so a signup at
+  // app.bunnypath.com is attributable to the channel that drove it. The
+  // slot (nav / hero / footer) rides along in utm_content, so we can tell
+  // which CTA position actually converts. Inbound UTMs win when present;
+  // otherwise the visit is tagged as direct from the marketing site.
+  //
+  // The store-link branch below is dormant by design: no store badges are
+  // rendered while the listings are unpublished, so querySelectorAll finds
+  // nothing. It stays wired for the store-launch wave.
   (function () {
     try {
       var params = new URLSearchParams(location.search);
       var source = params.get('utm_source');
+
+      document.querySelectorAll('a[data-app-cta]').forEach(function (a) {
+        try {
+          var u = new URL(a.href);
+          u.searchParams.set('utm_source', source || 'bunnypath_web');
+          u.searchParams.set('utm_medium', params.get('utm_medium') || 'marketing_site');
+          u.searchParams.set('utm_campaign', params.get('utm_campaign') || 'web_first');
+          u.searchParams.set('utm_content', a.getAttribute('data-cta-slot') || 'cta');
+          a.href = u.toString();
+        } catch (e) {}
+      });
+
       if (!source) return;
       var campaign = [source, params.get('utm_campaign')]
         .filter(Boolean).join('_')
