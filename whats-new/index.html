@@ -108,6 +108,11 @@ footer.nf .nf-links a{color:var(--charcoal-mid); text-decoration:none}
 footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
 @media(max-width:700px){footer.nf{flex-direction:column; text-align:center}}
 </style>
+<!-- Marketing-site analytics: PostHog, same project key as the app, so the
+     pre-click half of the funnel joins the in-app half. autocapture off,
+     no session replay, identified_only person profiles. See the file for
+     the full privacy rationale. Deliberately NOT loaded on /auth/*. -->
+<script src="/assets/analytics.js" defer></script>
 </head>
 <body>
 <nav class="top">

@@ -193,6 +193,11 @@ footer.nf .nf-links a{color:var(--charcoal-mid); text-decoration:none}
 footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
 @media(max-width:700px){footer.nf .nf-inner{flex-direction:column; text-align:center}}
 </style>
+<!-- Marketing-site analytics: PostHog, same project key as the app, so the
+     pre-click half of the funnel joins the in-app half. autocapture off,
+     no session replay, identified_only person profiles. See the file for
+     the full privacy rationale. Deliberately NOT loaded on /auth/*. -->
+<script src="/assets/analytics.js" defer></script>
 </head>
 <body>
 <nav class="top">
@@ -283,22 +288,25 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
         <summary>How much does Bunny Path cost?</summary>
         <div class="body">
           <p>Bunny Path is free to download with a generous free tier. Bunny Path Premium unlocks the full 20,000+ activity library and removes daily limits.</p>
-          <p>Premium pricing is shown in the in-app paywall in your local currency at the time of purchase. The price you see in the app at checkout is the price you'll be charged, taxes (where applicable) are added by Apple or Google.</p>
+          <p>Premium pricing is shown in your local currency before you confirm, in the in-app paywall or on the web checkout page. The price you see at checkout is the price you'll be charged. Taxes (where applicable) are added by Apple or Google on an in-app purchase, and by us on a web purchase.</p>
         </div>
       </details>
 
       <details class="faq" id="free-trial">
         <summary>Is there a free trial?</summary>
         <div class="body">
-          <p>Yes, new subscribers get a <strong>7-day free trial</strong> of Bunny Path Premium. You won't be charged until day 7, and you can cancel any time before then with no charge.</p>
-          <p>The trial is offered once per Apple ID / Google account. Restoring purchases won't restart it.</p>
+          <p>Yes. Every new account gets <strong>7 days of Premium, free</strong>, the moment you sign up. <strong>No credit card required</strong> &mdash; we never ask for a payment method to start it.</p>
+          <p>Because there is no card on file, the trial <strong>cannot turn into a charge</strong>. There is nothing to cancel: when the 7 days are up your account simply moves to the free tier, and you subscribe only if you decide to.</p>
+          <p>The welcome trial is granted once per account.</p>
         </div>
       </details>
 
       <details class="faq" id="cancel-subscription">
         <summary>How do I cancel my subscription?</summary>
         <div class="body">
-          <p>Subscriptions are managed by Apple or Google, not by Bunny Path directly. To cancel:</p>
+          <p>It depends on where you subscribed.</p>
+          <p><strong>Subscribed on the web (app.bunnypath.com)?</strong> We bill that one directly, so you cancel it with us: open <strong>Settings &rarr; Subscription</strong> and tap <strong>Cancel subscription</strong>. Apple and Google have no record of it.</p>
+          <p><strong>Subscribed inside the app?</strong> Apple or Google manages that one, and you cancel it there:</p>
           <p><strong>iPhone / iPad:</strong></p>
           <ol>
             <li>Open <strong>Settings</strong> on your device.</li>
@@ -319,7 +327,8 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
         <summary>I was charged after cancelling, what happened?</summary>
         <div class="body">
           <p>Subscriptions auto-renew until cancellation is confirmed by Apple or Google <em>before</em> the renewal date. The most common cause of a surprise charge is that the cancellation was started but not completed, or it was completed after the renewal had already processed.</p>
-          <p>Bunny Path doesn't process the payment, so we can't issue the refund directly. You'll need to request it from the store:</p>
+          <p>If you subscribed <strong>on the web</strong>, we took the payment and we can refund it: email <a href="mailto:hello@bunnypath.com">hello@bunnypath.com</a> from the address on your account.</p>
+          <p>If you subscribed <strong>inside the app</strong>, Apple or Google processed the payment, so the refund has to come from the store:</p>
           <ul>
             <li><strong>Apple:</strong> <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>, sign in, find the Bunny Path charge, choose <em>Request a refund</em>.</li>
             <li><strong>Google:</strong> Open Play Store → menu → <strong>Payments &amp; subscriptions</strong> → <strong>Budget &amp; order history</strong> → tap the charge → <strong>Report an issue</strong>.</li>
@@ -331,7 +340,8 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
         <summary>How do I restore purchases on a new device?</summary>
         <div class="body">
           <p>Sign in to Bunny Path on the new device using the <strong>same Apple ID or Google account</strong> you used to subscribe, then open <strong>Settings → Subscription → Restore purchases</strong>. Your Premium status will sync within a few seconds.</p>
-          <p>Subscriptions are tied to the store account that paid, not to your Bunny Path login. Make sure you're signed into the right Apple ID / Play account on the device.</p>
+          <p>A store subscription is tied to the store account that paid, not to your Bunny Path login, so make sure you're signed into the right Apple ID / Play account on the device.</p>
+          <p>A <strong>web subscription</strong> needs no restoring: it is tied to your Bunny Path account, so it follows you to any device the moment you sign in.</p>
         </div>
       </details>
     </section>
@@ -359,8 +369,8 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
       <details class="faq" id="favorites">
         <summary>Can I save my favorites?</summary>
         <div class="body">
-          <p>Saving favorites is a <strong>Premium</strong> feature. Tap the heart icon on any activity to save it &mdash; your saved list lives in <strong>Profile → Saved</strong> and syncs across devices when you're signed in.</p>
-          <p>Premium accounts get <strong>unlimited saves</strong>. Free accounts don't have access to Saved; upgrade anytime to start building your library.</p>
+          <p>Yes. Tap the heart icon on any activity to save it &mdash; your saved list lives in <strong>Profile → Saved</strong> and syncs across devices when you're signed in.</p>
+          <p>Free accounts can save <strong>3 activities</strong> in total, and Premium accounts get <strong>unlimited saves</strong>. Your saved list stays put either way; upgrade anytime to keep building it.</p>
         </div>
       </details>
 

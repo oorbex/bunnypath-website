@@ -704,6 +704,11 @@
       .floating-cta { padding: 12px 22px; font-size: 15px; bottom: 16px; }
     }
   </style>
+<!-- Marketing-site analytics: PostHog, same project key as the app, so the
+     pre-click half of the funnel joins the in-app half. autocapture off,
+     no session replay, identified_only person profiles. See the file for
+     the full privacy rationale. Deliberately NOT loaded on /auth/*. -->
+<script src="/assets/analytics.js" defer></script>
 </head>
 <body>
   <nav class="top">
@@ -735,7 +740,7 @@
           Copy Code
         </button>
 
-        <p class="card-note" id="ref-note">Download the app, tap "Have a referral code?" on the welcome screen, and paste this code to get <strong>1 free week of Premium</strong>.</p>
+        <p class="card-note" id="ref-note">Download the app, tap "Have a referral code?" on the welcome screen, and paste this code to get <strong>30 free days of Premium</strong>.</p>
 
         <a href="#" class="btn-primary" id="ref-ios-btn">
           <span class="btn-icon">&#xF8FF;</span>
@@ -748,9 +753,9 @@
 
         <ul class="features-mini">
           <li>Unlimited play ideas for Premium members</li>
-          <li>6,800+ activities</li>
+          <li>20,000+ activities</li>
           <li>Track streaks and earn badges</li>
-          <li>7-day free trial included</li>
+          <li>7-day free trial, no credit card</li>
         </ul>
       </div>
 
