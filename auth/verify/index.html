@@ -76,22 +76,22 @@
 <div id="success-signup" class="card" style="display:none">
   <div class="icon-circle">✅</div>
   <h1>Email confirmed</h1>
-  <p class="subtitle">Welcome to Bunny Path. You can sign in to the app now.</p>
-  <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app →</a>
+  <p class="subtitle">Welcome to Bunny Path. You can sign in now.</p>
+  <a href="https://app.bunnypath.com/?utm_source=bunnypath_web&amp;utm_medium=auth&amp;utm_campaign=email_verification&amp;utm_content=verify_signup" class="app-link">Sign in to Bunny Path →</a>
 </div>
 
 <div id="success-emailchange" class="card" style="display:none">
   <div class="icon-circle">✅</div>
   <h1>Email updated</h1>
   <p class="subtitle">Your new email is now active on your Bunny Path account.</p>
-  <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app →</a>
+  <a href="https://app.bunnypath.com/?utm_source=bunnypath_web&amp;utm_medium=auth&amp;utm_campaign=email_verification&amp;utm_content=verify_email_change" class="app-link">Sign in to Bunny Path →</a>
 </div>
 
 <div id="error-state" class="card err-card" style="display:none">
   <div class="icon-circle">⚠️</div>
   <h1>Link expired</h1>
-  <p class="subtitle" id="error-message">This link has expired or has already been used. Open the Bunny Path app and request a new one.</p>
-  <a href="https://apps.apple.com/app/id6761960397" class="app-link">Open the Bunny Path app →</a>
+  <p class="subtitle" id="error-message">This link has expired or has already been used. Open Bunny Path and request a new one.</p>
+  <a href="https://app.bunnypath.com/?utm_source=bunnypath_web&amp;utm_medium=auth&amp;utm_campaign=email_verification&amp;utm_content=verify_expired" class="app-link">Go to Bunny Path →</a>
 </div>
 
 <script type="module">
@@ -241,20 +241,20 @@ function deepLinkSessionToApp(session, flowType) {
 // success cards. Web-fallback success means the token has already
 // been spent, so the deep link target here is the BARE app launch
 // scheme (no token_hash), not the verify path — we just want to
-// foreground the app so the user can sign in. Falls back to the App
-// Store after 1.5s if the app didn't intercept (no-app-installed
-// case, the dominant path for users who hit the web fallback in the
-// first place).
+// foreground the app so the user can sign in. Falls back to the web
+// app after 1.5s if the app didn't intercept (no-app-installed case,
+// the dominant path for users who hit the web fallback in the first
+// place), which is exactly where the anchor already points.
 function wireAppOpenButtons() {
   const links = document.querySelectorAll('a.app-link');
   links.forEach((link) => {
     link.addEventListener('click', (e) => {
       const ua = navigator.userAgent;
       const isMobile = /(iPhone|iPad|iPod|Android)/i.test(ua);
-      if (!isMobile) return; // desktop: let apps.apple.com link fire normally
+      if (!isMobile) return; // desktop: let the web-app link fire normally
       e.preventDefault();
       const fallback = setTimeout(() => {
-        window.location.href = 'https://apps.apple.com/app/id6761960397';
+        window.location.href = link.href;
       }, 1500);
       const cancel = () => clearTimeout(fallback);
       document.addEventListener(
