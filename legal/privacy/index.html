@@ -258,8 +258,9 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
           <tr><th>Category</th><th>Retained</th><th>When deleted</th></tr>
         </thead>
         <tbody>
-          <tr><td>Account row in Supabase (email, child name, age band)</td><td>While active + 30 days after delete-account</td><td>Soft-deleted on Settings → Delete account; hard-deleted (with all linked records) 30 days later by a daily cron</td></tr>
+          <tr><td>Account row in Supabase (email, child name, age band)</td><td>While active + 30 days after delete-account</td><td>Soft-deleted on Settings → Delete account; hard-deleted 30 days later by a daily cron, together with all linked records except the welcome-trial eligibility record below</td></tr>
           <tr><td>Activity completion / saved / streak / referral data</td><td>While active</td><td>Cascade-deleted with the account row at the end of the 30-day grace window</td></tr>
+          <tr><td>Welcome-trial eligibility record</td><td>Indefinitely, including after account deletion</td><td>Not deleted on a schedule, and deliberately not removed when you delete your account, because that would make deletion a way to reset the free welcome week. We store a one-way hash of your email address rather than the address itself; the hash is pseudonymous rather than anonymous, so we still treat it as personal data and will erase it on request to <a href="mailto:privacy@bunnypath.com">privacy@bunnypath.com</a></td></tr>
           <tr><td>Sentry crash reports</td><td>30 days (vendor default on our current plan)</td><td>Auto-rolling deletion by Sentry</td></tr>
           <tr><td>PostHog analytics events</td><td>12 months (vendor default)</td><td>Auto-rolling deletion by PostHog</td></tr>
           <tr><td>Cloudflare access logs</td><td>Up to 7 days, retained by Cloudflare as part of their service</td><td>Auto-rolling at Cloudflare; we do not separately store or export them</td></tr>
