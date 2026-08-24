@@ -77,21 +77,21 @@
   <div class="icon-circle">✅</div>
   <h1>Email confirmed</h1>
   <p class="subtitle">Welcome to Bunny Path. You can sign in now.</p>
-  <a href="https://app.bunnypath.com/?utm_source=bunnypath_web&amp;utm_medium=auth&amp;utm_campaign=email_verification&amp;utm_content=verify_signup" class="app-link">Sign in to Bunny Path →</a>
+  <a href="https://app.bunnypath.com/sign-in?utm_source=bunnypath_web&amp;utm_medium=auth&amp;utm_campaign=email_verification&amp;utm_content=verify_signup" class="app-link">Sign in to Bunny Path →</a>
 </div>
 
 <div id="success-emailchange" class="card" style="display:none">
   <div class="icon-circle">✅</div>
   <h1>Email updated</h1>
   <p class="subtitle">Your new email is now active on your Bunny Path account.</p>
-  <a href="https://app.bunnypath.com/?utm_source=bunnypath_web&amp;utm_medium=auth&amp;utm_campaign=email_verification&amp;utm_content=verify_email_change" class="app-link">Sign in to Bunny Path →</a>
+  <a href="https://app.bunnypath.com/sign-in?utm_source=bunnypath_web&amp;utm_medium=auth&amp;utm_campaign=email_verification&amp;utm_content=verify_email_change" class="app-link">Sign in to Bunny Path →</a>
 </div>
 
 <div id="error-state" class="card err-card" style="display:none">
   <div class="icon-circle">⚠️</div>
   <h1>Link expired</h1>
-  <p class="subtitle" id="error-message">This link has expired or has already been used. Open Bunny Path and request a new one.</p>
-  <a href="https://app.bunnypath.com/?utm_source=bunnypath_web&amp;utm_medium=auth&amp;utm_campaign=email_verification&amp;utm_content=verify_expired" class="app-link">Go to Bunny Path →</a>
+  <p class="subtitle" id="error-message">This link has expired or has already been used. Sign in and Bunny Path will offer to send you a fresh confirmation email.</p>
+  <a href="https://app.bunnypath.com/sign-in?utm_source=bunnypath_web&amp;utm_medium=auth&amp;utm_campaign=email_verification&amp;utm_content=verify_expired" class="app-link">Go to sign in →</a>
 </div>
 
 <script type="module">
@@ -237,7 +237,7 @@ function deepLinkSessionToApp(session, flowType) {
   window.location.href = `io.supabase.bunnypath://verify#${frag}`;
 }
 
-// Click-handler for the "Open the Bunny Path app →" buttons on the
+// Click-handler for the sign-in buttons on the
 // success cards. Web-fallback success means the token has already
 // been spent, so the deep link target here is the BARE app launch
 // scheme (no token_hash), not the verify path — we just want to
