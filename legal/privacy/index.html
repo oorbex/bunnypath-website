@@ -110,8 +110,8 @@ footer.nf .nf-links a{color:var(--charcoal-mid); text-decoration:none}
 footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
 @media(max-width:700px){footer.nf{flex-direction:column; text-align:center}}
 </style>
-<!-- Marketing-site analytics: PostHog, same project key as the app, so the
-     pre-click half of the funnel joins the in-app half. autocapture off,
+<!-- Marketing-site analytics: same product-analytics project key as the app, so
+     the pre-click half of the funnel joins the in-app half. autocapture off,
      no session replay, identified_only person profiles. See the file for
      the full privacy rationale. Deliberately NOT loaded on /auth/*. -->
 <script src="/assets/analytics.js" defer></script>
@@ -162,7 +162,8 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
       <h2>1. Information We Collect</h2>
       <h3>Information You Provide</h3>
       <ul>
-        <li><b>Account Information.</b> When you create an account, we collect your name, email address, and authentication credentials (or tokens from Apple Sign-In or Google Sign-In). We do not store credit card numbers.</li>
+        <li><b>Account Information.</b> When you create an account, we collect your name, email address, and authentication credentials (or an authentication token, if you sign in through a third-party sign-in provider). We do not store credit card numbers.</li>
+        <li><b>Payment and Billing Details.</b> If you subscribe on the web, you enter your card details directly on our payment processor's own hosted checkout page. We never receive or store your full card number; we keep only a payment token, the card brand and last four digits, and the billing country we need for tax. If you subscribe inside the app, the app store takes the payment and we receive only the resulting purchase record.</li>
         <li><b>Household Profile Fields.</b> You may enter a first name or nickname and an age range for each child to help surface age-appropriate activities. These are optional parent-supplied labels used only inside your own account.</li>
         <li><b>Activity Preferences.</b> You may tell us about the kinds of activities and focus areas your household is interested in.</li>
         <li><b>User-Submitted Content.</b> You may optionally provide written feedback and ratings on activities. The app does not collect or upload photos.</li>
@@ -187,6 +188,7 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
         <li><b>Personalize Activity Suggestions.</b> Your child's age and preferences surface age-appropriate ideas from our catalog.</li>
         <li><b>Improve the App.</b> Aggregated and anonymized usage helps us develop new functionality.</li>
         <li><b>Communicate With You.</b> We use your email for transactional messages and, if you opt in, promotional content.</li>
+        <li><b>Process Payments and Subscriptions.</b> We use billing details and purchase records to take payment, keep your subscription and entitlements current, handle renewals and refunds, and keep the tax records we are legally required to hold.</li>
         <li><b>Provide Customer Support.</b> If you contact us, we use your information to respond.</li>
       </ul>
     </section>
@@ -217,31 +219,34 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
 
     <section id="sub-processors">
       <h2>5. Sub-processors</h2>
-      <p>We rely on a small set of vetted service providers to operate Bunny Path. Each is bound by a data-processing agreement that limits how they may use the data we share.</p>
+      <p>We rely on a small set of vetted service providers to operate Bunny Path. We describe them here by the function they perform for us rather than by brand name, which is the "categories of recipients" disclosure that GDPR Article 13(1)(e) and the CCPA both provide for. Each provider is bound by a data-processing agreement that limits it to the purpose shown below.</p>
       <div class="scroll-x">
       <table class="policy">
         <thead>
-          <tr><th>Provider</th><th>Purpose</th><th>Region</th><th>Privacy policy</th></tr>
+          <tr><th>Category of recipient</th><th>Purpose</th><th>Region</th><th>What we share</th></tr>
         </thead>
         <tbody>
-          <tr><td>Apple</td><td>App distribution (App Store), Sign in with Apple, push notifications (APNs), in-app purchases / subscriptions</td><td>USA / global</td><td><a href="https://www.apple.com/legal/privacy/" rel="noopener">apple.com/legal/privacy</a></td></tr>
-          <tr><td>Google</td><td>Play Store distribution, Sign in with Google, Firebase Cloud Messaging (Android push)</td><td>USA / global</td><td><a href="https://policies.google.com/privacy" rel="noopener">policies.google.com/privacy</a></td></tr>
-          <tr><td>Supabase</td><td>Primary database, authentication, file storage, row-level security</td><td>USA</td><td><a href="https://supabase.com/privacy" rel="noopener">supabase.com/privacy</a></td></tr>
-          <tr><td>Cloudflare</td><td>CDN, edge worker (marketing site &amp; deep-link handler), R2 backup storage, DDoS protection</td><td>Global</td><td><a href="https://www.cloudflare.com/privacypolicy/" rel="noopener">cloudflare.com/privacypolicy</a></td></tr>
-          <tr><td>Sentry</td><td>Crash reporting and error monitoring</td><td>USA</td><td><a href="https://sentry.io/privacy/" rel="noopener">sentry.io/privacy</a></td></tr>
-          <tr><td>PostHog</td><td>Product analytics (aggregated, no profiling)</td><td>USA / EU</td><td><a href="https://posthog.com/privacy" rel="noopener">posthog.com/privacy</a></td></tr>
-          <tr><td>Qonversion</td><td>Subscription management and receipt validation</td><td>USA</td><td><a href="https://qonversion.io/privacy/" rel="noopener">qonversion.io/privacy</a></td></tr>
-          <tr><td>OpenRouter</td><td>Back-office only. Model routing for our internal catalog-generation pipeline. No end-user personal data is sent to OpenRouter.</td><td>USA</td><td><a href="https://openrouter.ai/privacy" rel="noopener">openrouter.ai/privacy</a></td></tr>
+          <tr><td>App store distribution and in-app purchases</td><td>Distributing the mobile apps, and selling, billing, and validating subscriptions bought inside the app</td><td>USA / global</td><td>The purchase and subscription record tied to your store account. The store takes the payment, so we never receive your card details.</td></tr>
+          <tr><td>Payment processing (web subscriptions)</td><td>Taking card payments for subscriptions bought on the web, processing renewals and refunds, and issuing receipts</td><td>USA / global</td><td>Your name, email address, billing country, and the card details you enter on the processor's own hosted checkout page. We never see or store your full card number; we keep only a payment token plus the card brand and last four digits. The processor handles your payment details under its own privacy terms as well as under its agreement with us, including for fraud prevention and its own regulatory obligations.</td></tr>
+          <tr><td>Third-party sign-in providers</td><td>Letting you create and access your account with an existing platform identity instead of a password</td><td>USA / global</td><td>Only what passes at the moment you sign in: the authentication token and the email address you choose to share.</td></tr>
+          <tr><td>Push notification delivery</td><td>Delivering push notifications to your device</td><td>USA / global</td><td>A device push identifier and the content of the notification.</td></tr>
+          <tr><td>Cloud database, authentication, and file storage</td><td>Hosting our primary database, account authentication, and stored files under row-level security</td><td>USA</td><td>Your account record and the household profile, preference, and activity data described in &sect;1.</td></tr>
+          <tr><td>Content delivery, edge compute, and DDoS protection</td><td>Serving the marketing site, running our edge worker and deep-link handler, absorbing attacks, and holding off-platform database backups</td><td>Global</td><td>Request metadata such as IP address, user agent, and the URL requested, plus backup copies of the database.</td></tr>
+          <tr><td>Crash and error monitoring</td><td>Diagnosing crashes and errors so we can fix them</td><td>USA</td><td>Anonymized crash logs and diagnostics, device model, OS version, and app version.</td></tr>
+          <tr><td>Product analytics</td><td>Aggregated product analytics, with no profiling and no advertising use</td><td>USA / EU</td><td>Pseudonymous usage events: features used, activities viewed or saved, and session duration.</td></tr>
+          <tr><td>Subscription and entitlement management</td><td>Validating purchase receipts and keeping your Premium entitlement in sync across your devices</td><td>USA</td><td>Your account identifier and purchase or receipt metadata. No card details.</td></tr>
+          <tr><td>Back-office AI model routing</td><td>Back-office only. Model routing for our internal catalog-generation pipeline</td><td>USA</td><td>Nothing about you. No end-user personal data is sent to this category of provider.</td></tr>
         </tbody>
       </table>
       </div>
-      <p>We will update this list when we add or replace a sub-processor; material changes will be communicated through the app or by email before they take effect.</p>
+      <p>These categories cover every third party that receives personal data from Bunny Path; there is no further recipient that this table leaves out. Because the table describes functions rather than brands, changing which specific provider sits inside a category does not change the table, and any such change is still made under a data-processing agreement on the same terms. We will update the table if we add a new category of recipient, or if what an existing category receives changes; material changes will be communicated through the app or by email before they take effect.</p>
+      <p>If you want to know the specific providers we currently use inside any of these categories, email <a href="mailto:privacy@bunnypath.com">privacy@bunnypath.com</a> and we will tell you.</p>
     </section>
 
     <section id="data-storage-security">
       <h2>6. Data Storage and Security</h2>
       <ul>
-        <li>Data is stored on a secure cloud database platform (Supabase, see <a href="#sub-processors">Sub-processors</a>).</li>
+        <li>Data is stored on a secure managed cloud database platform (see <a href="#sub-processors">Sub-processors</a>).</li>
         <li>All data is encrypted at rest (AES-256) and in transit (TLS 1.2+).</li>
         <li>Access is restricted to authorized personnel on a need-to-know basis with row-level security.</li>
         <li>Passwords are hashed and never stored in plain text.</li>
@@ -258,14 +263,14 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
           <tr><th>Category</th><th>Retained</th><th>When deleted</th></tr>
         </thead>
         <tbody>
-          <tr><td>Account row in Supabase (email, child name, age band)</td><td>While active + 30 days after delete-account</td><td>Soft-deleted on Settings → Delete account; hard-deleted 30 days later by a daily cron, together with all linked records except the welcome-trial eligibility record below</td></tr>
+          <tr><td>Account record in our cloud database (email, child name, age band)</td><td>While active + 30 days after delete-account</td><td>Soft-deleted on Settings → Delete account; hard-deleted 30 days later by a daily cron, together with all linked records except the welcome-trial eligibility record below</td></tr>
           <tr><td>Activity completion / saved / streak / referral data</td><td>While active</td><td>Cascade-deleted with the account row at the end of the 30-day grace window</td></tr>
           <tr><td>Welcome-trial eligibility record</td><td>Indefinitely, including after account deletion</td><td>Not deleted on a schedule, and deliberately not removed when you delete your account, because that would make deletion a way to reset the free welcome week. We store a one-way hash of your email address rather than the address itself; the hash is pseudonymous rather than anonymous, so we still treat it as personal data and will erase it on request to <a href="mailto:privacy@bunnypath.com">privacy@bunnypath.com</a></td></tr>
-          <tr><td>Sentry crash reports</td><td>30 days (vendor default on our current plan)</td><td>Auto-rolling deletion by Sentry</td></tr>
-          <tr><td>PostHog analytics events</td><td>12 months (vendor default)</td><td>Auto-rolling deletion by PostHog</td></tr>
-          <tr><td>Cloudflare access logs</td><td>Up to 7 days, retained by Cloudflare as part of their service</td><td>Auto-rolling at Cloudflare; we do not separately store or export them</td></tr>
-          <tr><td>Supabase database backups (off-platform R2 dumps)</td><td>90 days</td><td>Daily prune of dumps older than 90 days</td></tr>
-          <tr><td>Receipts / subscription records (legal hold for tax)</td><td>7 years</td><td>Apple and Google retain transaction records under their own policies for tax compliance; we retain summary subscription state alongside the active account, plus an internal audit log of subscription events for up to 7 years to satisfy tax-record obligations</td></tr>
+          <tr><td>Crash and error reports</td><td>30 days (provider default on our current plan)</td><td>Auto-rolling deletion by the crash-monitoring provider</td></tr>
+          <tr><td>Product analytics events</td><td>12 months (provider default)</td><td>Auto-rolling deletion by the analytics provider</td></tr>
+          <tr><td>Edge and CDN access logs</td><td>Up to 7 days, retained by our content-delivery provider as part of its service</td><td>Auto-rolling at that provider; we do not separately store or export them</td></tr>
+          <tr><td>Database backups (off-platform object-storage dumps)</td><td>90 days</td><td>Daily prune of dumps older than 90 days</td></tr>
+          <tr><td>Receipts / subscription records (legal hold for tax)</td><td>7 years</td><td>The transaction record itself sits with whoever took the payment and is retained under that provider's own policy for tax compliance: the app store for a purchase made inside the app, or our payment processor for a web subscription. In both cases we retain summary subscription state alongside the active account, plus an internal audit log of subscription events for up to 7 years to satisfy tax-record obligations</td></tr>
           <tr><td>Support email correspondence</td><td>Typically up to 2 years</td><td>Retained as long as needed for support continuity and account recovery, and purged on request</td></tr>
         </tbody>
       </table>
@@ -303,7 +308,7 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
         <li><b>Identifiers</b> (name, email, account ID, and a device identifier used for push notifications), to operate your account, authenticate you, and send transactional and (with consent) promotional messages.</li>
         <li><b>Customer records</b> (parent-supplied child first name and age band, activity preferences), to surface age-appropriate activities inside your account.</li>
         <li><b>Internet/network activity</b> (features used, activity views, session duration, crash diagnostics), to operate, debug, and improve the app.</li>
-        <li><b>Commercial information</b> (subscription status, receipt metadata), to fulfill purchases and keep tax records.</li>
+        <li><b>Commercial information</b> (subscription status, receipt metadata, and for web subscriptions your billing country plus a payment token with the card brand and last four digits), to fulfill purchases, process renewals and refunds, and keep tax records.</li>
         <li><b>Geolocation</b>, coarse, derived from IP only; we do not collect precise geolocation.</li>
       </ul>
       <p>We retain each category for the period described in <a href="#data-retention">How long we keep your data</a>.</p>
@@ -333,7 +338,7 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
       <h3>EU / UK contact and representation</h3>
       <p>We will appoint a formal Article 27 EU representative once user volume warrants it. Until then, the contact for EU and UK privacy matters is <a href="mailto:privacy@bunnypath.com">privacy@bunnypath.com</a>.</p>
       <h3>International transfers</h3>
-      <p>Most of our sub-processors (Supabase, Sentry, PostHog, Qonversion, OpenRouter, Apple, Google) operate in or transfer data to the United States. Where personal data is transferred out of the EEA / UK / Switzerland, we rely on the European Commission's Standard Contractual Clauses (SCCs) and the UK International Data Transfer Addendum, plus supplementary measures such as encryption in transit and at rest. The full sub-processor list is in <a href="#sub-processors">Sub-processors</a>.</p>
+      <p>Most of the recipient categories listed in <a href="#sub-processors">Sub-processors</a> operate in or transfer data to the United States. That includes cloud database, authentication, and file storage; payment processing; app store distribution and in-app purchases; third-party sign-in; push notification delivery; crash and error monitoring; product analytics; subscription and entitlement management; and our back-office model routing. Content delivery and edge compute is global. Where personal data is transferred out of the EEA / UK / Switzerland, we rely on the European Commission's Standard Contractual Clauses (SCCs) and the UK International Data Transfer Addendum, plus supplementary measures such as encryption in transit and at rest. The full list of recipient categories is in <a href="#sub-processors">Sub-processors</a>.</p>
     </section>
 
     <section id="push-email">
@@ -367,7 +372,7 @@ footer.nf .nf-links a:hover{color:var(--gold-vibrant)}
         <li>Data storage, anything that could expose, modify, or delete other users' data.</li>
         <li>Payment integrity (subscription state, receipt validation).</li>
         <li>Ad-network integrity (mis-attribution, click fraud against our account).</li>
-        <li>Server-side configuration of <code>bunnypath.com</code>, the marketing site, and the Cloudflare worker.</li>
+        <li>Server-side configuration of <code>bunnypath.com</code>, the marketing site, and our edge worker.</li>
       </ul>
       <h3>Out of scope</h3>
       <ul>
