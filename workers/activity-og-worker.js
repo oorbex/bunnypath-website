@@ -312,20 +312,20 @@ async function handleReferral(request, code, env) {
   const meta = `\n` +
     `<title>You're invited to Bunny Path</title>\n` +
     `<meta name="robots" content="noindex,nofollow">\n` +
-    `<meta name="description" content="Get a free week of Premium with code ${e(upperCode)}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta name="description" content="Get a free month of Premium with code ${e(upperCode)}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
     `<meta name="apple-itunes-app" content="app-id=${APP_STORE_ID}, app-argument=${e(appArg)}">\n` +
     `<meta property="og:type" content="website">\n` +
     `<meta property="og:url" content="${SITE_ORIGIN}/${e(code)}">\n` +
     `<meta property="og:site_name" content="Bunny Path">\n` +
     `<meta property="og:title" content="You're invited to Bunny Path">\n` +
-    `<meta property="og:description" content="Get a free week of Premium with code ${e(upperCode)}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta property="og:description" content="Get a free month of Premium with code ${e(upperCode)}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
     `<meta property="og:image" content="${OG_IMAGE}">\n` +
     `<meta property="og:image:width" content="512">\n` +
     `<meta property="og:image:height" content="512">\n` +
     `<meta property="og:image:alt" content="Bunny Path">\n` +
     `<meta name="twitter:card" content="summary_large_image">\n` +
     `<meta name="twitter:title" content="You're invited to Bunny Path">\n` +
-    `<meta name="twitter:description" content="Get a free week of Premium with code ${e(upperCode)}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
+    `<meta name="twitter:description" content="Get a free month of Premium with code ${e(upperCode)}. 20,000+ off-screen play ideas for kids 0-12.">\n` +
     `<meta name="twitter:image" content="${OG_IMAGE}">\n`;
 
   // Hide the legacy hidden card siblings so the path-routing JS in the
@@ -889,14 +889,14 @@ function buildReferralCardBody({ code, senderName, featured }) {
   const initial = senderName ? e(firstChar.toUpperCase()) : '';
 
   // Section A, sender bar. Drop entirely when there's no real name.
-  // Single-line treatment: gold avatar + "{Name} sent you a free week".
+  // Single-line treatment: gold avatar + "{Name} sent you a free month".
   // Reverted from the earlier eyebrow + two-line pattern per design
   // feedback ("the content is right, but the previous look was not great").
   // Cleaner pill, less notification-banner, more chat-message-preview.
   const senderBar = senderName
     ? `<div class="rf-sender">
          <span class="rf-avatar">${initial}</span>
-         <span class="rf-sender-text"><strong>${safeName}</strong> sent you a free week</span>
+         <span class="rf-sender-text"><strong>${safeName}</strong> sent you a free month</span>
        </div>`
     : '';
 
@@ -928,7 +928,7 @@ function buildReferralCardBody({ code, senderName, featured }) {
 
   // Section F, reciprocity microcopy. Only when senderName is non-null.
   const reciprocity = senderName
-    ? `<p class="rf-reciprocity"><strong>${safeName} earns a free week too</strong> when you start your trial. Tiny win for both of you.</p>`
+    ? `<p class="rf-reciprocity"><strong>${safeName} earns a free month too</strong> once you have been here a week. Tiny win for both of you.</p>`
     : '';
 
   const iosUrl = `https://apps.apple.com/app/id${APP_STORE_ID}?mt=8&ct=REF_${e(upperCode)}`;
@@ -950,7 +950,7 @@ function buildReferralCardBody({ code, senderName, featured }) {
   <div class="rf-hero-card">
     <img class="rf-logo" src="/assets/logo.png" alt="Bunny Path" width="360" height="360" loading="eager" decoding="async">
     <span class="rf-eyebrow">A little gift</span>
-    <h1 class="rf-h1">A free week of <em>Bunny Path</em> Premium, on us.</h1>
+    <h1 class="rf-h1">A free month of <em>Bunny Path</em> Premium, on us.</h1>
     <p class="rf-sub">20,000+ off-screen play ideas, hand-picked for ages 0&ndash;12. No more "I'm bored."</p>
     <span class="rf-code-chip">
       <span class="rf-code-label">Your code</span>
