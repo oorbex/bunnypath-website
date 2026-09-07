@@ -764,7 +764,7 @@ nav.top{
 .ar-start:hover{transform:translateY(-2px)}
 .ar-start svg{width:16px; height:16px; flex-shrink:0}
 /* Backdrop dim when card is open */
-.explosion-stage.reveal-open .explosion-tile{opacity:.18 !important; filter:blur(1px); transition:opacity .3s, filter .3s}
+.explosion-stage.reveal-open .explosion-tile{opacity:.18 !important; filter:blur(1px); transition:opacity .3s, filter .3s; cursor:default}
 .explosion-stage.reveal-open .explosion-tile.active-tile{opacity:0 !important}
 .explosion-stage.reveal-open .explosion-cta{opacity:.2; pointer-events:none}
 .explosion-cta{
@@ -3572,13 +3572,15 @@ const FLOATY_BY_AGE = {
     showActivity(tile);
   });
   arClose.addEventListener('click', hideActivity);
-  // Click outside card (but inside stage) closes
-  stage.addEventListener('click', (e)=>{
+  // Click ANYWHERE outside the card closes it (founder 2026-09-06): the
+  // page, the stage, or a dimmed tile. Capture phase, so the tile's own
+  // click handler never opens a second card on the way out.
+  document.addEventListener('click', (e)=>{
     if(!reveal.classList.contains('show')) return;
     if(e.target.closest('.activity-reveal')) return;
-    if(e.target.closest('.explosion-tile')) return;
+    e.stopPropagation();
     hideActivity();
-  });
+  }, true);
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideActivity(); });
 
   // Cloud is always exploded. No open/reset buttons anymore.
