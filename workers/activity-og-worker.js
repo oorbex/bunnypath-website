@@ -976,7 +976,7 @@ function buildReferralCardBody({ code, senderName, featured }) {
       </span>
       <span>Download for Android</span>
     </a>
-    <p class="rf-cta-caption">No card to start<span class="rf-dot">&middot;</span>Cancel anytime<span class="rf-dot">&middot;</span>Off-screen only</p>
+    <p class="rf-cta-caption">No card to start<span class="rf-dot">&middot;</span>Cancel anytime<span class="rf-dot">&middot;</span>Screen-free only</p>
   </div>
   ${featuredRow}
   ${reciprocity}
@@ -1314,7 +1314,7 @@ function buildActivityCardHtml({ activity, activityId, refCode, senderName, rela
   const socialProof = `
        <div class="social-proof-strip">
          <p><strong>20,000+ activities curated by parents and child-development specialists.</strong></p>
-         <p>Off-screen, educational, guilt-free. Built by parents like you 🧡</p>
+         <p>Screen-free, educational. Built by parents like you 🧡</p>
        </div>`;
 
   // ── CTA row (Play C), iPhone / Android / Text me ───────────────────
