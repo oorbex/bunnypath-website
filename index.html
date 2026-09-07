@@ -79,7 +79,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Bunny Path: Play ideas for kids 0-12</title>
-<meta name="description" content="21,431+ off-screen, developmental play ideas and brain games for kids ages 0 to 12, matched to your child. Free on iPhone and Android.">
+<meta name="description" content="21,431+ screen-free, developmental play ideas and brain games for kids ages 0 to 12, matched to your child. Free on iPhone and Android.">
 <meta name="theme-color" content="#FFFDF7">
 <meta property="og:title" content="Bunny Path: Play ideas for kids 0-12">
 <meta property="og:description" content="Stop opening 80 tabs. Play ideas in one tap. Screen-free, educational. The largest developmental activity collection for ages 0-12. 21,431+ ideas.">
@@ -98,7 +98,7 @@
   "url": "https://bunnypath.com/",
   "logo": "https://bunnypath.com/assets/logo.png",
   "slogan": "Stop opening 80 tabs. Play ideas in one tap.",
-  "description": "Bunny Path is a kids-activity app with 21,431+ off-screen, developmental activities and brain games for children ages 0 to 12, matched to a child's age across Play, Discover, Create, and Solve.",
+  "description": "Bunny Path is a kids-activity app with 21,431+ screen-free, developmental activities and brain games for children ages 0 to 12, matched to a child's age across Play, Discover, Create, and Solve.",
   "sameAs": [
     "https://apps.apple.com/app/id6761960397",
     "https://play.google.com/store/apps/details?id=com.kodsters.bunnypath"
@@ -676,7 +676,21 @@ nav.top{
 .sci-frameworks{margin-top:54px; text-align:center}
 .sci-fw-label{font-weight:700; color:var(--charcoal); font-size:15px; margin-bottom:18px}
 .sci-chips{display:flex; flex-wrap:wrap; justify-content:center; gap:10px; max-width:940px; margin:0 auto}
-.sci-chip{background:#fff; border:1px solid rgba(31,41,55,.10); color:var(--charcoal-mid); border-radius:100px; padding:8px 16px; font-size:13.5px; font-weight:600}
+.sci-chip{background:#fff; border:1px solid rgba(31,41,55,.10); color:var(--charcoal-mid); border-radius:100px; padding:8px 16px; font-size:13.5px; font-weight:600; cursor:pointer; transition:transform .15s, box-shadow .15s, border-color .15s}
+.sci-chip:hover, .sci-chip:focus-visible{transform:translateY(-2px); box-shadow:0 8px 20px rgba(31,41,55,.10); border-color:rgba(245,166,35,.45); outline:none}
+/* Framework popup (founder 2026-09-06): summary + developmental benefits per framework */
+.fw-backdrop{position:fixed; inset:0; background:rgba(31,41,55,.35); z-index:900; opacity:0; pointer-events:none; transition:opacity .25s}
+.fw-backdrop.show{opacity:1; pointer-events:auto}
+.fw-pop{position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(.92); width:min(92vw,520px); max-height:86vh; overflow-y:auto; overscroll-behavior:contain; background:#fff; border-radius:24px; border:2px solid rgba(245,166,35,.25); box-shadow:0 30px 80px rgba(31,41,55,.28); padding:28px 28px 24px; z-index:901; opacity:0; pointer-events:none; transition:opacity .25s, transform .35s cubic-bezier(.3,1.5,.5,1); text-align:left}
+.fw-pop.show{opacity:1; transform:translate(-50%,-50%) scale(1); pointer-events:auto}
+.fw-kicker{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.14em; color:var(--gold-deep); margin-bottom:8px}
+.fw-title{font-family:'Fraunces', serif; font-size:24px; font-weight:700; line-height:1.15; color:var(--charcoal); margin:0 34px 12px 0; text-wrap:pretty}
+.fw-sum{font-size:14.5px; line-height:1.55; color:var(--charcoal-mid); margin:0}
+.fw-h{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.14em; color:var(--charcoal-light); margin:16px 0 8px}
+.fw-list{margin:0; padding-left:20px; display:grid; gap:6px}
+.fw-list li{font-size:13.5px; line-height:1.5; color:var(--charcoal-mid)}
+.fw-list li::marker{color:var(--gold-deep)}
+.fw-use{font-size:13.5px; line-height:1.55; color:var(--charcoal-mid); padding-top:12px; border-top:1px dashed rgba(31,41,55,.1); margin-top:16px}
 .sci-foot{text-align:center; color:var(--charcoal-light); font-size:12.5px; margin:26px auto 0; max-width:700px; line-height:1.55}
 .nf-fine{margin-top:16px; font-size:11.5px; color:var(--charcoal-light); line-height:1.55; max-width:820px; opacity:.9}
 @media(max-width:600px){.nf-fine{text-align:center; margin-left:auto; margin-right:auto}}
@@ -729,7 +743,20 @@ nav.top{
 .ar-desc{
   font-size:14px; color:var(--charcoal-mid); line-height:1.5;
   padding-top:12px; border-top:1px dashed rgba(31,41,55,.1);
+  margin-top:14px;
 }
+/* Steps + materials inside the card (founder 2026-09-06): the card scrolls
+   inside the stage instead of growing past it. */
+.activity-reveal{max-height:calc(100% - 24px); overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch}
+.ar-section{margin-top:14px}
+.ar-h{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.14em; color:var(--charcoal-light); margin-bottom:8px}
+.ar-list{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+.ar-list li{background:var(--cream-warm); border:1px solid rgba(245,166,35,.18); border-radius:100px; padding:5px 11px; font-size:12.5px; font-weight:600; color:var(--charcoal-mid)}
+.ar-steps{margin:0; padding-left:22px; display:grid; gap:8px}
+.ar-steps li{font-size:13.5px; line-height:1.5; color:var(--charcoal-mid)}
+.ar-steps li::marker{font-weight:800; color:var(--gold-deep)}
+.ar-start{display:flex; width:100%; min-width:0; margin-top:16px; padding:16px 20px; font-size:16px}
+.ar-start svg{width:18px; height:18px; flex-shrink:0}
 /* Backdrop dim when card is open */
 .explosion-stage.reveal-open .explosion-tile{opacity:.18 !important; filter:blur(1px); transition:opacity .3s, filter .3s}
 .explosion-stage.reveal-open .explosion-tile.active-tile{opacity:0 !important}
@@ -1920,7 +1947,13 @@ nav.top{
           <span class="ar-chip" id="arDuration"><span>⏱</span><span>10 min</span></span>
           <span class="ar-chip" id="arMaterials"><span>🎒</span><span>No prep</span></span>
         </div>
+        <div class="ar-section"><div class="ar-h">What you need</div><ul class="ar-list" id="arMats"></ul></div>
+        <div class="ar-section"><div class="ar-h">The steps</div><ol class="ar-steps" id="arSteps"></ol></div>
         <div class="ar-desc" id="arDesc">One of 21,431+ hand-picked activities in the Bunny Path library.</div>
+        <a href="https://app.bunnypath.com" class="garden-btn primary ar-start" data-app-cta data-cta-slot="library">
+          Start free
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+        </a>
       </div>
     </div>
     <p class="explosion-hint">Drag to spin the cloud. Each tile is a real activity.</p>
@@ -1974,6 +2007,16 @@ nav.top{
         <span class="sci-chip">Dweck's growth mindset</span>
         <span class="sci-chip">Csikszentmihalyi's concept of flow</span>
         <span class="sci-chip">Duckworth's research on grit</span>
+      </div>
+      <div class="fw-backdrop" id="fwBackdrop"></div>
+      <div class="fw-pop" id="fwPop" role="dialog" aria-modal="true" aria-labelledby="fwTitle">
+        <button class="ar-close" id="fwClose" aria-label="Close">×</button>
+        <div class="fw-kicker">Framework</div>
+        <h3 class="fw-title" id="fwTitle"></h3>
+        <p class="fw-sum" id="fwSum"></p>
+        <div class="fw-h">What it builds in your child</div>
+        <ul class="fw-list" id="fwBenefits"></ul>
+        <div class="fw-use" id="fwUse"></div>
       </div>
       <p class="sci-foot">Bunny Path is independent and not affiliated with or endorsed by the frameworks referenced.</p>
     </div>
@@ -2175,7 +2218,7 @@ nav.top{
 <section class="features" data-stop="features">
   <div class="container">
     <h2>Built like a real <em>play ritual</em>.</h2>
-    <p class="features-sub">No more doom scrolling in search of play ideas. A guilt-free, off-screen world of play ideas one tap away.</p>
+    <p class="features-sub">No more doom scrolling in search of play ideas. A screen-free world of play ideas one tap away.</p>
     <div class="feature-grid">
       <div class="feature-card fc-target">
         <div class="feature-icon" aria-hidden="true">
@@ -2680,36 +2723,710 @@ const FLOATY_BY_AGE = {
     {bg:'#F3F4F6', fg:'#6B7280', emoji:'📚'},
   ];
   const ACTIVITIES = [
-    {emoji:'🎨', name:'Finger Paint Rainbows', cat:'Creative', age:'Ages 2–4', time:'15 min', prep:'Paint + paper'},
-    {emoji:'🧪', name:'Bubbling Volcano', cat:'Science', age:'Ages 5–8', time:'20 min', prep:'Baking soda'},
-    {emoji:'🏃', name:'Hop-the-Floor Tape Maze', cat:'Gross motor', age:'Ages 3–6', time:'10 min', prep:'Masking tape'},
-    {emoji:'🔭', name:'Backyard Stargazing', cat:'Discovery', age:'Ages 6–10', time:'30 min', prep:'Clear night'},
-    {emoji:'🫧', name:'Giant Bubble Wand Party', cat:'Outdoor', age:'Ages 3–8', time:'20 min', prep:'Dish soap'},
-    {emoji:'🎭', name:'Pillow-Fort Puppet Show', cat:'Pretend play', age:'Ages 4–7', time:'25 min', prep:'Socks + pillows'},
-    {emoji:'🧩', name:'DIY Puzzle from a Photo', cat:'Problem solving', age:'Ages 5–9', time:'20 min', prep:'Printed photo'},
-    {emoji:'🌸', name:'Flower-Petal Suncatcher', cat:'Nature craft', age:'Ages 4–8', time:'30 min', prep:'Contact paper'},
-    {emoji:'🌱', name:'Sprout a Bean in a Jar', cat:'Science', age:'Ages 3–7', time:'5 min (+ days)', prep:'Cotton ball + bean'},
-    {emoji:'🦋', name:'Symmetry Butterfly Prints', cat:'Creative', age:'Ages 3–6', time:'15 min', prep:'Paint + fold'},
-    {emoji:'🎵', name:'Kitchen Pot Drum Line', cat:'Music', age:'Ages 1–4', time:'10 min', prep:'Pots + spoon'},
-    {emoji:'📚', name:'Make-Your-Own Story Book', cat:'Literacy', age:'Ages 4–8', time:'30 min', prep:'Paper + stapler'},
-    {emoji:'🚀', name:'Straw Rocket Launch', cat:'STEM', age:'Ages 5–9', time:'15 min', prep:'Paper + straw'},
-    {emoji:'🏰', name:'Cardboard Box Castle', cat:'Building', age:'Ages 3–7', time:'45 min', prep:'Big box'},
-    {emoji:'🪁', name:'Paper Bag Kite', cat:'Outdoor', age:'Ages 5–9', time:'20 min', prep:'Paper bag + string'},
-    {emoji:'🌈', name:'Skittles Rainbow Diffusion', cat:'Science', age:'Ages 4–8', time:'10 min', prep:'Skittles + plate'},
-    {emoji:'🧸', name:'Teddy Bear Tea Party', cat:'Pretend play', age:'Ages 2–5', time:'20 min', prep:'Stuffies + cups'},
-    {emoji:'🧁', name:'Sprinkle Math Cupcakes', cat:'Math + baking', age:'Ages 5–8', time:'40 min', prep:'Cupcake mix'},
-    {emoji:'🎲', name:'Roll-a-Story Dice Game', cat:'Storytelling', age:'Ages 5–10', time:'15 min', prep:'Dice + words'},
-    {emoji:'⭐', name:'Glow-in-the-Dark Ceiling Stars', cat:'Calm time', age:'Ages 3–9', time:'15 min', prep:'Star stickers'},
-    {emoji:'🔔', name:'Jingle-Bell Balance Walk', cat:'Motor skills', age:'Ages 2–5', time:'10 min', prep:'Bells + string'},
-    {emoji:'🎪', name:'Living Room Circus', cat:'Pretend play', age:'Ages 4–8', time:'30 min', prep:'Costumes'},
-    {emoji:'🖌️', name:'Q-Tip Pointillism Art', cat:'Creative', age:'Ages 4–8', time:'25 min', prep:'Q-tips + paint'},
-    {emoji:'🧱', name:'Spaghetti Marshmallow Tower', cat:'Engineering', age:'Ages 6–10', time:'20 min', prep:'Spaghetti + marsh.'},
-    {emoji:'🧬', name:'DNA Ladder from Candy', cat:'Science', age:'Ages 7–10', time:'25 min', prep:'Twizzlers + gummies'},
-    {emoji:'🔍', name:'Backyard Bug Safari', cat:'Nature', age:'Ages 3–7', time:'30 min', prep:'Magnifier'},
-    {emoji:'🎤', name:'Living Room Karaoke', cat:'Music', age:'Ages 4–10', time:'20 min', prep:'Any song'},
-    {emoji:'🌊', name:'Ocean in a Bottle', cat:'Science', age:'Ages 3–7', time:'10 min', prep:'Oil + water + bottle'},
-    {emoji:'🍃', name:'Leaf Rubbing Collage', cat:'Nature craft', age:'Ages 3–7', time:'20 min', prep:'Crayons + leaves'},
-    {emoji:'🔮', name:'Glitter Calm-Down Jar', cat:'Mindfulness', age:'Ages 3–8', time:'15 min', prep:'Glitter + bottle'},
+  {
+  "emoji": "🎨",
+  "name": "Finger Paint Rainbow Swirl",
+  "cat": "Creative",
+  "age": "Ages 2–3",
+  "time": "20 min",
+  "prep": "washable finger paints in ",
+  "materials": [
+  "washable finger paints in primary colors",
+  "large paper or cardboard",
+  "plastic tablecloth or tray",
+  "smock or old shirt"
+  ],
+  "steps": [
+  "Cover the surface with plastic and tape paper down.",
+  "Put on a smock and squirt red yellow and blue paint on paper.",
+  "Let your toddler smear and swirl with fingers and palms.",
+  "Point out new colors as they appear from mixing.",
+  "Make handprints in the paint before cleaning up."
+  ],
+  "sid": "jh7jj"
+  },
+  {
+  "emoji": "🧪",
+  "name": "Exploding Volcano Fizz",
+  "cat": "Science",
+  "age": "Ages 3–7",
+  "time": "25 min",
+  "prep": "small plastic cup",
+  "materials": [
+  "small plastic cup",
+  "baking tray",
+  "play dough or damp sand",
+  "baking soda",
+  "white vinegar",
+  "dish soap",
+  "red food coloring",
+  "spoon"
+  ],
+  "steps": [
+  "Place a small plastic cup in the middle of a baking tray and pack play dough or damp sand around it to form a volcano.",
+  "Spoon two tablespoons of baking soda into the cup inside the volcano.",
+  "Squirt a blob of dish soap and five drops of red food coloring on top of the baking soda.",
+  "Pour a half cup of vinegar slowly into the volcano mouth and stand back to watch.",
+  "Cheer as frothy red lava erupts, runs down the slopes, and puddles at the base of the mountain.",
+  "Reload the cup with more baking soda and repeat the eruption three more times for second lava runs."
+  ],
+  "sid": "axtzq"
+  },
+  {
+  "emoji": "🏃",
+  "name": "Super Tape Maze Mission",
+  "cat": "Gross motor",
+  "age": "Ages 3–8",
+  "time": "25 min",
+  "prep": "painter tape",
+  "materials": [
+  "painter tape",
+  "small sticker for the finish"
+  ],
+  "steps": [
+  "Plan a tape maze on paper first with two dead ends.",
+  "Stick the maze onto the floor using long tape strips.",
+  "Mark the start with a sticker and the finish with a different sticker.",
+  "Walk heel to toe through the maze without stepping off the line.",
+  "Backtrack if a dead end is reached and try a new path.",
+  "Let kids redesign the maze for a second round."
+  ],
+  "sid": "4qamc"
+  },
+  {
+  "emoji": "🔭",
+  "name": "Magical Backyard Stargazing",
+  "cat": "Discovery",
+  "age": "Ages 5–11",
+  "time": "40 min",
+  "prep": "large blanket or sleeping ",
+  "materials": [
+  "large blanket or sleeping bag",
+  "flashlight with red film over lens",
+  "star map printout or app",
+  "warm jackets"
+  ],
+  "steps": [
+  "Wait until full dark, put on warm jackets, and bring the blanket outside to a spot away from bright porch lights.",
+  "Lay down side by side and let eyes adjust to the dark for three quiet minutes.",
+  "Use the star map or app to find the Big Dipper and Dad traces it with a red-film flashlight.",
+  "Take turns picking any random star and making up a story about the world that orbits it.",
+  "Name one brand-new invisible constellation together that only you two will remember.",
+  "End with a shared wish whispered on the brightest star you can both spot."
+  ],
+  "sid": "fgjda"
+  },
+  {
+  "emoji": "🫧",
+  "name": "Giant Bubble Car-Wash Party",
+  "cat": "Outdoor",
+  "age": "Ages 3–9",
+  "time": "50 min",
+  "prep": "two buckets",
+  "materials": [
+  "two buckets",
+  "car wash soap or mild dish soap",
+  "two sponges",
+  "garden hose",
+  "old towels",
+  "swimsuits or clothes that can get soaked"
+  ],
+  "steps": [
+  "Set up two soapy buckets on the driveway and assign zones: Dad takes top half, kid takes lower half.",
+  "Spray the car lightly with the hose to coat it so suds stick when sponges arrive.",
+  "Squish sponges into bubbles and scrub in big swirling circles, making foam mountains on the hood.",
+  "Have a surprise splash-off where Dad sprays a rainbow arc over the kid's giggles.",
+  "Rinse the car together, starting at the roof and letting water trickle down in waterfalls.",
+  "Towel-dry with old towels side by side and name the freshly clean car something glorious like Blue Thunder."
+  ],
+  "sid": "3375f"
+  },
+  {
+  "emoji": "🎭",
+  "name": "Wild Sock Puppet Showtime",
+  "cat": "Pretend play",
+  "age": "Ages 3–7",
+  "time": "20 min",
+  "prep": "clean sock for each side",
+  "materials": [
+  "clean sock for each side",
+  "googly eyes or marker features optional",
+  "blanket as a curtain"
+  ],
+  "steps": [
+  "Each side decorates or picks a sock puppet with googly eyes or marker features before the call starts.",
+  "Hold up the blanket as a curtain in front of the camera lens.",
+  "Take turns introducing each puppet in a wild, squeaky voice.",
+  "Build a two-scene story by passing dialog back and forth through the screen.",
+  "Raise the curtain blanket with a whoosh at the very end for a bow.",
+  "Clap for both puppet troupes before retiring the socks for the night."
+  ],
+  "sid": "tzfck"
+  },
+  {
+  "emoji": "🧩",
+  "name": "Magical Jigsaw Photo Maker",
+  "cat": "Problem solving",
+  "age": "Ages 5–10",
+  "time": "45 min",
+  "prep": "printed photo + cardboard",
+  "materials": [
+  "printed photo",
+  "cardboard",
+  "glue stick",
+  "pencil",
+  "scissors"
+  ],
+  "steps": [
+  "Choose a favorite family photo and print it on standard paper or use a magazine picture.",
+  "Spread glue evenly on cardboard and press the photo flat to stick with no wrinkles.",
+  "Let the glue dry for five minutes while you plan wavy puzzle lines in pencil.",
+  "Cut along each pencil line carefully to create 12 to 20 interlocking pieces with scissors.",
+  "Shuffle the pieces on the table and time yourself reassembling the puzzle.",
+  "Store finished puzzle in a labeled envelope so you can solve it again tomorrow."
+  ],
+  "sid": "7bggq"
+  },
+  {
+  "emoji": "🌸",
+  "name": "Frozen flower ice suncatchers",
+  "cat": "Nature craft",
+  "age": "Ages 2–8",
+  "time": "15 min",
+  "prep": "fresh flowers, leaves, her",
+  "materials": [
+  "fresh flowers, leaves, herbs, or petals",
+  "muffin tin, cake pan, or pie dish",
+  "water",
+  "string or ribbon",
+  "freezer space"
+  ],
+  "steps": [
+  "Collect flowers, petals, leaves, and interesting nature items.",
+  "Arrange them artistically in muffin tin cups or a shallow pan.",
+  "Lay a loop of string into each mold with ends sticking out for hanging.",
+  "Fill with water and carefully place in the freezer overnight.",
+  "Pop out the frozen discs and hang them from trees, fences, or hooks outdoors.",
+  "Watch them catch the sunlight and slowly melt throughout the day."
+  ],
+  "sid": "6y6xf"
+  },
+  {
+  "emoji": "🌱",
+  "name": "Magic Bean Sprout Science",
+  "cat": "Science",
+  "age": "Ages 3–9",
+  "time": "15 min",
+  "prep": "dried bean seeds",
+  "materials": [
+  "dried bean seeds",
+  "zip-lock bag",
+  "paper towel",
+  "water",
+  "tape",
+  "sunny window"
+  ],
+  "steps": [
+  "Wet a paper towel until damp but not dripping, then fold it in half with water.",
+  "Place 2-3 bean seeds along the edge of the folded towel so they are visible through the bag.",
+  "Slide the towel into the zip-lock bag and seal it almost all the way, leaving a tiny air gap.",
+  "Tape the bag to a sunny window with the seeds facing outward.",
+  "Check every morning and draw what you see in a sprout journal. Roots come first, then the shoot, then leaves."
+  ],
+  "sid": "535qf"
+  },
+  {
+  "emoji": "🦋",
+  "name": "Symmetry Butterfly Squish Painting",
+  "cat": "Creative",
+  "age": "Ages 2–6",
+  "time": "15 min",
+  "prep": "white cardstock",
+  "materials": [
+  "white cardstock",
+  "washable tempera paint",
+  "spoons for dropping paint",
+  "pencil",
+  "scissors",
+  "pipe cleaners for antennae"
+  ],
+  "steps": [
+  "Fold a piece of white cardstock in half and then open it flat.",
+  "Drop several blobs of different colored paint on one half of the paper only.",
+  "Refold the paper along the crease and press firmly all over with hands.",
+  "Open the paper slowly to reveal a perfectly symmetrical paint pattern.",
+  "Let dry completely with scissors then cut out a butterfly shape around the pattern.",
+  "Add pipe cleaner antennae with a pencil and draw details with marker if desired."
+  ],
+  "sid": "vdpyp"
+  },
+  {
+  "emoji": "🎵",
+  "name": "Kitchen pot drum stomp",
+  "cat": "Music",
+  "age": "Ages 1–2",
+  "time": "4 min",
+  "prep": "sturdy metal or plastic po",
+  "materials": [
+  "sturdy metal or plastic pot"
+  ],
+  "steps": [
+  "Place the pot upside down in the middle of the kitchen floor.",
+  "Show your toddler how to stomp around it in a circle.",
+  "Step onto the pot for one solid thwack, then off again.",
+  "Stomp double-time, then slow-motion, alternating tempos.",
+  "Lift the pot off the floor and wave bye-bye to the drum."
+  ],
+  "sid": "xbf6d"
+  },
+  {
+  "emoji": "📚",
+  "name": "What If Story Book",
+  "cat": "Literacy",
+  "age": "Ages 4–7",
+  "time": "25 min",
+  "prep": "White paper",
+  "materials": [
+  "White paper",
+  "Crayons or pencils"
+  ],
+  "steps": [
+  "Fold and stack paper into a booklet; write.",
+  "Together brainstorm five.",
+  "Write or dictate one.",
+  "Read the completed book aloud, pausing dramatically before each answer page."
+  ],
+  "sid": "wvqyx"
+  },
+  {
+  "emoji": "🚀",
+  "name": "Magical Straw Rocket Laboratory",
+  "cat": "STEM",
+  "age": "Ages 4–9",
+  "time": "30 min",
+  "prep": "printer paper",
+  "materials": [
+  "printer paper",
+  "plastic straw",
+  "tape",
+  "pencil",
+  "scissors"
+  ],
+  "steps": [
+  "Wrap a strip of paper loosely around a pencil.",
+  "Tape the seam and slide the tube off the pencil.",
+  "Fold or tape the top end to seal the nose.",
+  "Cut triangle fins with scissors and tape them to the bottom.",
+  "Slide the rocket over a straw and puff to launch.",
+  "Adjust fin size and retest for straighter flight."
+  ],
+  "sid": "657z2"
+  },
+  {
+  "emoji": "🏰",
+  "name": "Cardboard Box Castle",
+  "cat": "Building",
+  "age": "Ages 4–9",
+  "time": "45 min",
+  "prep": "large cardboard box",
+  "materials": [
+  "large cardboard box",
+  "smaller cardboard pieces",
+  "paint",
+  "markers",
+  "scissors",
+  "glue",
+  "string",
+  "newspaper"
+  ],
+  "steps": [
+  "Open the top of a large box and cut battlements along the top edge with scissors.",
+  "Cut a drawbridge flap in the front and thread string through holes to raise and lower it.",
+  "Paint the outside walls gray and let dry.",
+  "Use a marker to draw stone block patterns across the walls with markers.",
+  "Add a smaller box tower to one corner with glued tabs.",
+  "Cut a flag from newspaper, color it, and tape to a straw stuck in the top."
+  ],
+  "sid": "q7bth"
+  },
+  {
+  "emoji": "🪁",
+  "name": "Paper Bag Kite Festival",
+  "cat": "Outdoor",
+  "age": "Ages 3–7",
+  "time": "20 min",
+  "prep": "large paper bag",
+  "materials": [
+  "large paper bag",
+  "markers or paint",
+  "crepe paper strips",
+  "string",
+  "tape",
+  "hole punch"
+  ],
+  "steps": [
+  "Lay the paper bag flat and draw bold colorful designs on both sides with markers or paint.",
+  "Tape 5–6 long strips of crepe paper to the bottom edge as the tail.",
+  "Use a hole punch to make two holes near the top opening of the bag.",
+  "Thread string through both holes and tie securely to form a V-shaped bridle.",
+  "Tie a long flying string to the midpoint of the V.",
+  "Go outside on a windy day and run to launch the kite!",
+  "See how high it flies and compare with other family kites."
+  ],
+  "sid": "ydrfz"
+  },
+  {
+  "emoji": "🌈",
+  "name": "Exploding Skittles Color Wheel",
+  "cat": "Science",
+  "age": "Ages 4–7",
+  "time": "10 min",
+  "prep": "one bag of skittles",
+  "materials": [
+  "one bag of skittles",
+  "white plate",
+  "warm water",
+  "measuring cup"
+  ],
+  "steps": [
+  "Sort your skittles into color piles so you can build a neat rainbow ring.",
+  "Arrange the candies in a circle around the edge of a white plate in rainbow order.",
+  "Slowly pour warm water (using a measuring cup) into the center of the plate until it just touches the skittle ring.",
+  "Stand back and count to ten while the colored sugar coatings start to bleed inward in streaks.",
+  "Watch the streaks crackle toward the middle forming a perfect color wheel with no mixing.",
+  "Snap a photo before stirring and compare to what happens when the colors finally swirl."
+  ],
+  "sid": "6evpw"
+  },
+  {
+  "emoji": "🧸",
+  "name": "Teddy Bear Tea Party",
+  "cat": "Pretend play",
+  "age": "Ages 2–3",
+  "time": "20 min",
+  "prep": "toy tea set or small cups",
+  "materials": [
+  "toy tea set or small cups",
+  "water or pretend tea",
+  "stuffed animals",
+  "small blanket as tablecloth",
+  "crackers or small snack"
+  ],
+  "steps": [
+  "Spread a blanket and arrange stuffed animals in a circle.",
+  "Set each place with a cup and plate.",
+  "Let your toddler pour tea for each guest carefully.",
+  "Practice saying please and thank you during serving.",
+  "Enjoy a snack together with the stuffed animal friends."
+  ],
+  "sid": "3gh7r"
+  },
+  {
+  "emoji": "🧁",
+  "name": "Muffin Math Measurement Challenge",
+  "cat": "Math + baking",
+  "age": "Ages 5–9",
+  "time": "50 min",
+  "prep": "2 cups flour",
+  "materials": [
+  "2 cups flour",
+  "1/2 cup sugar",
+  "2 tsp baking powder",
+  "1 cup milk",
+  "1/3 cup melted butter",
+  "1 cup blueberries",
+  "measuring cups and spoons",
+  "muffin tin"
+  ],
+  "steps": [
+  "Read the full recipe together before starting, identify all the fractions: 1/2 cup, 1/3 cup, 2/3 cup.",
+  "Use only measuring cups and spoons to portion every ingredient with precision. Explain that baking can't be guessed.",
+  "Combine dry ingredients in one bowl and wet in another. Talk about why we keep them separate until the last second.",
+  "Fold wet into dry with just 10-12 strokes. Explain overmixing develops tough gluten and makes muffins rubbery.",
+  "Fill muffin cups 2/3 full (another fraction!) and bake at 400°F for 20 minutes until golden."
+  ],
+  "sid": "kja2y"
+  },
+  {
+  "emoji": "🎲",
+  "name": "Super Roll A Story Dice",
+  "cat": "Storytelling",
+  "age": "Ages 4–8",
+  "time": "25 min",
+  "prep": "one regular die + paper",
+  "materials": [
+  "one regular die",
+  "paper",
+  "pencil",
+  "chair and table"
+  ],
+  "steps": [
+  "On a piece of paper write six numbered characters such as one ninja and two wizard.",
+  "On another paper list six numbered settings like one rooftop and two underwater cave.",
+  "On a third paper list six numbered problems like lost shoe or giant sneeze.",
+  "Roll the die once for each chart and circle the matching result with a pencil.",
+  "Stand up from your chair and table, then tell the story out loud using all three rolled picks as the main ingredients.",
+  "Roll everything again for a brand-new story and challenge a family member to beat your plot."
+  ],
+  "sid": "446fg"
+  },
+  {
+  "emoji": "⭐",
+  "name": "Glowing Ceiling Star Quest",
+  "cat": "Calm time",
+  "age": "Ages 4–9",
+  "time": "30 min",
+  "prep": "pack of glow-in-the-dark s",
+  "materials": [
+  "pack of glow-in-the-dark stars",
+  "flashlight",
+  "paper and pencil",
+  "blanket"
+  ],
+  "steps": [
+  "Peel and stick twenty glow stars onto the bedroom ceiling in a rough circle during daylight.",
+  "Turn off the lights after dinner and lie on the bed looking up at the glowing dots.",
+  "Lie on a blanket and connect three stars with your finger to invent a new constellation and give it a name.",
+  "Draw the constellation on paper and write a short story about the hero it represents.",
+  "Shake a flashlight beam across the ceiling for pretend shooting stars and make a wish.",
+  "Take a final quiet minute just to breathe and watch the stars fade as eyes adjust."
+  ],
+  "sid": "c3yqd"
+  },
+  {
+  "emoji": "🔔",
+  "name": "Jingle Anklet Dance Band",
+  "cat": "Motor skills",
+  "age": "Ages 2–4",
+  "time": "20 min",
+  "prep": "jingle bells",
+  "materials": [
+  "jingle bells",
+  "ribbon or shoelace",
+  "music"
+  ],
+  "steps": [
+  "Thread 3-4 jingle bells onto ribbon and loosely tie around child's ankle. Check tightness. Snug but two fingers should fit underneath.",
+  "Ask your child to walk slowly. Listen together to the quiet jingle. Whisper 'What does slow sound like?'",
+  "Now run in place. Bells rattle and jingle fast. Talk about the difference. Use the words fast and slow deliberately each time.",
+  "Play 'freeze dance'. When music (or singing) stops, feet freeze and bells stop. Dramatic freeze is as fun as the dancing.",
+  "Try tiptoe vs stomp. Bells are almost silent on tiptoe, jingle loudly with stomps. This teaches dynamic control through body awareness."
+  ],
+  "sid": "byahs"
+  },
+  {
+  "emoji": "🎪",
+  "name": "Circus Ring Performance",
+  "cat": "Pretend play",
+  "age": "Ages 3–8",
+  "time": "25 min",
+  "prep": "tape or string + pillows",
+  "materials": [
+  "tape or string",
+  "pillows",
+  "stuffed animals",
+  "dress-up accessories"
+  ],
+  "steps": [
+  "Create a circus ring on the floor using tape or string in a large circle.",
+  "Put on dress-up accessories and the ringmaster (parent) announces: 'Ladies and gentlemen, welcome to the Greatest Show!'",
+  "Act 1: Walk the tightrope. Balance carefully along a tape line on the floor.",
+  "Act 2: The strongman, dramatically lift heavy pillows overhead.",
+  "Act 3: Animal trainer. Guide stuffed animals through tricks with commands.",
+  "Grand finale: Everyone takes a bow and the audience (family) applauds wildly."
+  ],
+  "sid": "c3jzd"
+  },
+  {
+  "emoji": "🖌️",
+  "name": "Pointillism Dot Art with Cotton Swabs",
+  "cat": "Creative",
+  "age": "Ages 4–12",
+  "time": "35 min",
+  "prep": "cotton swabs",
+  "materials": [
+  "cotton swabs",
+  "washable tempera paint",
+  "paper or cardstock",
+  "paper plates for paint",
+  "pencil for light sketch",
+  "printed pointillism reference images"
+  ],
+  "steps": [
+  "Lightly sketch a simple outline on paper like a tree, sunset, or animal.",
+  "Squeeze small amounts of paint colors onto a paper plate palette.",
+  "Dip one cotton swab end into paint and dot it onto the paper.",
+  "Use different swabs for each color to keep colors clean.",
+  "Build up the image entirely with dots filling large areas with same-color dots.",
+  "Step back frequently to see how the dots blend together from a distance."
+  ],
+  "sid": "k3tmn"
+  },
+  {
+  "emoji": "🧱",
+  "name": "Impossible Spaghetti Skyscraper",
+  "cat": "Engineering",
+  "age": "Ages 6–10",
+  "time": "45 min",
+  "prep": "uncooked spaghetti",
+  "materials": [
+  "uncooked spaghetti",
+  "mini marshmallows",
+  "ruler",
+  "paper plate base"
+  ],
+  "steps": [
+  "Press four marshmallows into a square on the plate to anchor the first level.",
+  "Poke four spaghetti strands up from the marshmallows as vertical supports.",
+  "Add diagonal spaghetti braces between the supports to see how triangles stiffen the tower.",
+  "Build a second level with four more marshmallows and shorter spaghetti pieces.",
+  "Keep climbing, measuring the height every two levels with a ruler and fixing any wobbles.",
+  "Photograph the tallest version, then gently snap it down and compare designs."
+  ],
+  "sid": "xdapm"
+  },
+  {
+  "emoji": "🧬",
+  "name": "Giant Plant Cell Candy Model",
+  "cat": "Science",
+  "age": "Ages 5–6",
+  "time": "45 min",
+  "prep": "green jello",
+  "materials": [
+  "green jello",
+  "square baking pan",
+  "large grape or jawbreaker",
+  "small gummies of different shapes",
+  "licorice strips",
+  "cell organelle label cards"
+  ],
+  "steps": [
+  "Make green jello according to package directions and let it cool to room temperature. Adult step: prepare jello 30 min before activity. Kids help stir as it cools.",
+  "Pour jello into square pan. Discuss: the green jello is the cytoplasm, the watery gel inside a plant cell. Compare it to the 'filling' of the cell, everything floats inside it.",
+  "Before jello sets, place the large grape in the center for the nucleus, the cell's control center. Ask: 'What does a boss do? The nucleus is the cell's boss!'",
+  "Add small gummies as organelles: round gummies = mitochondria, flat gummies = chloroplasts. Chloroplasts make food from sunlight, plant cells have these, but animal cells don't!",
+  "Lay licorice around the edge for the cell wall. Label each part, then refrigerate and eat! Quiz kids on each part before eating, 'What does THIS candy do?'"
+  ],
+  "sid": "xfbg7"
+  },
+  {
+  "emoji": "🔍",
+  "name": "Bug Safari Expedition",
+  "cat": "Nature",
+  "age": "Ages 3–5",
+  "time": "25 min",
+  "prep": "magnifying glasses",
+  "materials": [
+  "magnifying glasses",
+  "bug identification guide",
+  "journal",
+  "crayons",
+  "bug observation container"
+  ],
+  "steps": [
+  "Pack safari gear: magnifying glass, journal, and guide.",
+  "Explore the yard, turning over rocks and peering in bushes.",
+  "Observe each bug closely with crayons and draw it in your field journal.",
+  "Release any caught bugs back to their habitat gently."
+  ],
+  "sid": "6vjas"
+  },
+  {
+  "emoji": "🎤",
+  "name": "Wild Karaoke Solo Spotlight",
+  "cat": "Music",
+  "age": "Ages 5–7",
+  "time": "20–30 min",
+  "prep": "printed song lyrics",
+  "materials": [
+  "printed song lyrics",
+  "wooden spoon",
+  "flashlight",
+  "music speaker",
+  "stool"
+  ],
+  "steps": [
+  "Print the lyrics of one favorite age-appropriate song in large letters.",
+  "Set a stool in the middle of the room, that is the singer's spot.",
+  "Aim the flashlight from across the room as a 'spotlight' on the stool.",
+  "Press play and sing the chorus into the wooden-spoon mic with big feelings.",
+  "Add three movements during the song: a lean, a knee bounce, a final arm raise.",
+  "Take a bow when the music fades and let the audience whoop and clap."
+  ],
+  "sid": "w24ph"
+  },
+  {
+  "emoji": "🌊",
+  "name": "Ocean Wave Bottle Works",
+  "cat": "Science",
+  "age": "Ages 6–8",
+  "time": "20 min",
+  "prep": "clear narrow-neck bottle w",
+  "materials": [
+  "clear narrow-neck bottle with cap",
+  "funnel",
+  "cooking oil",
+  "food coloring",
+  "tray"
+  ],
+  "steps": [
+  "Tint a cup of water blue with one drop of food coloring.",
+  "Have your child hold the funnel steady in the bottle neck with one hand.",
+  "Have your child pour the blue water through the funnel until the bottle is two thirds full.",
+  "Have your child pour cooking oil through the funnel slowly until the bottle is nearly full.",
+  "Seal the cap tightly yourself and dry the outside of the bottle.",
+  "Have your child tip the bottle slowly from side to side to launch the wave."
+  ],
+  "sid": "m2iu5"
+  },
+  {
+  "emoji": "🍃",
+  "name": "Leaf Rubbings Nature Gallery",
+  "cat": "Nature craft",
+  "age": "Ages 2–7",
+  "time": "25 min",
+  "prep": "various fallen leaves",
+  "materials": [
+  "various fallen leaves",
+  "white paper",
+  "peeled crayons in fall colors",
+  "tape",
+  "string for display"
+  ],
+  "steps": [
+  "Go outside and collect 5-10 leaves of different shapes and sizes.",
+  "Tape a leaf vein-side-up to the table to keep it still.",
+  "Lay white paper over the leaf and rub the side of a peeled crayon in fall colors back and forth.",
+  "Watch the leaf's shape and veins appear like magic!",
+  "Create a gallery with multiple leaves and hang on a string with clothespins."
+  ],
+  "sid": "rn4ga"
+  },
+  {
+  "emoji": "🔮",
+  "name": "Glowing Glitter Jar Dreams",
+  "cat": "Mindfulness",
+  "age": "Ages 4–9",
+  "time": "20 min",
+  "prep": "clear glass jar with lid",
+  "materials": [
+  "clear glass jar with lid",
+  "glow sticks",
+  "silver glitter",
+  "scissors",
+  "dark towel",
+  "protective gloves"
+  ],
+  "steps": [
+  "Put on gloves and snip the tip of two glow sticks over an open jar to release the liquid inside with scissors.",
+  "Shake the glow liquid down so it pools at the bottom of the jar.",
+  "Sprinkle a teaspoon of silver glitter into the jar and screw the lid on tight.",
+  "Turn off the lights and hold the jar against a dark towel so the glow stands out.",
+  "Swirl the jar gently and watch flashes of light sparkle like lightning inside the glitter storm.",
+  "Shake harder for a bigger storm then set it down to watch the calm fade back to darkness."
+  ],
+  "sid": "zpan2"
+  }
   ];
 
   // Scale tile count + spread to viewport. On wide screens we push tiles almost to the edges;
@@ -2809,6 +3526,9 @@ const FLOATY_BY_AGE = {
   const arAge = document.getElementById('arAge');
   const arDuration = document.getElementById('arDuration');
   const arMaterials = document.getElementById('arMaterials');
+  const arMats = document.getElementById('arMats');
+  const arSteps = document.getElementById('arSteps');
+  const escHtml = (v) => String(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   function showActivity(tileEl){
     const idx = parseInt(tileEl.dataset.idx, 10);
@@ -2824,6 +3544,9 @@ const FLOATY_BY_AGE = {
     arAge.innerHTML = '<span>👶</span><span>'+act.age+'</span>';
     arDuration.innerHTML = '<span>⏱</span><span>'+act.time+'</span>';
     arMaterials.innerHTML = '<span>🎒</span><span>'+act.prep+'</span>';
+    arMats.innerHTML = (act.materials || []).map(m => '<li>' + escHtml(m) + '</li>').join('');
+    arSteps.innerHTML = (act.steps || []).map(st => '<li>' + escHtml(st) + '</li>').join('');
+    reveal.scrollTop = 0;
     // Dim other tiles, hide this one
     stage.querySelectorAll('.explosion-tile.active-tile').forEach(t=>t.classList.remove('active-tile'));
     tileEl.classList.add('active-tile');
@@ -2884,7 +3607,7 @@ const FLOATY_BY_AGE = {
   function raf(){
     const paused = reveal && reveal.classList.contains('show');
     if(exploded && !isDragging && !paused && !tilesReducedMotion){
-      rotateY += 0.25 + dragVelocity*0.04;
+      rotateY += 0.2 + dragVelocity*0.04;   // slightly slower (founder 2026-09-06)
       dragVelocity *= 0.92;
       updateTiles();
     }
@@ -3455,6 +4178,35 @@ const FLOATY_BY_AGE = {
       });
     } catch (e) {}
   })();
+</script>
+<script>
+/* Framework popups: summary + developmental benefits for each research chip */
+(function frameworkPops(){
+  const FW = {"Head Start Early Learning Outcomes Framework": {"sum": "The U.S. Office of Head Start's map of what children learn from birth to age five, organized into five domains: approaches to learning, social and emotional development, language and literacy, cognition, and perceptual, motor and physical development.", "benefits": ["Self-regulation and curiosity, the approaches-to-learning skills that predict school readiness", "Language, early literacy and early math in age-appropriate steps", "Gross and fine motor control alongside social skills, not instead of them"], "use": "Every activity for ages 0 to 5 is tagged to the sub-domains it builds, which is why a two-year-old and a four-year-old get different steps for the same idea."}, "The five pillars of reading": {"sum": "The National Reading Panel's five evidence-based components of learning to read: phonemic awareness, phonics, fluency, vocabulary and comprehension.", "benefits": ["Hearing and playing with the sounds in words before print makes sense", "Vocabulary that grows through talk, songs and stories", "Comprehension habits: predicting, retelling and asking why"], "use": "Literacy activities name the pillar they serve, so rhyming games, letter hunts and story retells add up to a whole reader instead of one skill."}, "Scarborough's Reading Rope": {"sum": "Hollis Scarborough's model of skilled reading as two strands woven together: word recognition (sound awareness, decoding, sight words) and language comprehension (background knowledge, vocabulary, sentence structure, verbal reasoning).", "benefits": ["Background knowledge from hands-on experiences that later makes text understandable", "Verbal reasoning and inference through play talk", "Decoding practice woven into games instead of drills"], "use": "The Reading Rope strands sit behind the tags on discovery and story activities, which is why a cooking or nature activity can count toward reading."}, "CASEL social-emotional competencies": {"sum": "The Collaborative for Academic, Social, and Emotional Learning's five competencies: self-awareness, self-management, social awareness, relationship skills and responsible decision-making.", "benefits": ["Naming feelings and calming down on purpose", "Taking turns, cooperating and repairing after a conflict", "Making choices and owning the result"], "use": "Feelings, sharing and cooperative-play activities are tagged to the competency they practice, so social growth is planned rather than accidental."}, "Fundamental movement skills & physical literacy": {"sum": "The building blocks of all later sport and activity: locomotor skills like running and jumping, stability skills like balancing, and object-control skills like throwing and catching, plus the confidence and motivation to use them.", "benefits": ["Balance, coordination and body awareness", "Confidence to try physical challenges", "Habits that make an active life feel normal"], "use": "Active-play activities are tagged by the movement skill they train, so a week of play covers running, balancing and throwing instead of only one."}, "Next-generation science practices": {"sum": "The eight practices at the heart of the Next Generation Science Standards: asking questions, developing models, planning investigations, analyzing data, using math, constructing explanations, arguing from evidence and communicating information.", "benefits": ["Curiosity turned into testable questions", "Predicting, observing and explaining as a habit", "Comfort with being wrong and trying again"], "use": "Discovery experiments call out the practice in play, so a volcano or a float-or-sink test is a science lesson with a name, not just a mess."}, "National Core Arts Standards": {"sum": "The U.S. framework for arts education built on four artistic processes: creating, performing or presenting, responding and connecting, across visual arts, music, dance, theatre and media arts.", "benefits": ["Creative confidence and original ideas", "Fine motor control through making", "Reflecting on one's own work and other people's"], "use": "Creative activities are tagged by artistic process, so children also present, respond and connect instead of only producing a craft."}, "Early-math standards (NCTM & Common Core)": {"sum": "The National Council of Teachers of Mathematics and Common Core expectations for young children: counting and cardinality, operations, patterns, measurement, geometry and data, learned with real objects before symbols.", "benefits": ["Number sense from counting real things", "Patterns, shapes and measurement in everyday play", "Problem solving and talking about math"], "use": "Math shows up in cooking, building and sorting activities tagged to the standard they touch, so parents can see the math inside the play."}, "Communication milestones (ASHA)": {"sum": "The American Speech-Language-Hearing Association's age-by-age milestones for hearing, understanding and talking, from first sounds to full conversation.", "benefits": ["Receptive language: following directions and understanding stories", "Expressive language: words, sentences and questions", "Social communication: turn-taking, gestures and eye contact"], "use": "Language activities are matched to the milestone for the child's age, which is why a 12-month-old and a 3-year-old get different versions of the same game."}, "VIA character strengths": {"sum": "The VIA Institute's classification of 24 character strengths, such as curiosity, perseverance, kindness, creativity and self-regulation, grouped under six virtues.", "benefits": ["Noticing and naming what a child is good at", "Practicing kindness, fairness and gratitude", "Persistence framed as a strength that grows"], "use": "Activities are tagged with the character strengths they exercise, so families can pick play that stretches a strength they want to grow."}, "Piaget's stages of cognitive development": {"sum": "Jean Piaget's four stages of thinking: sensorimotor (birth to 2), preoperational (2 to 7), concrete operational (7 to 11) and formal operational (12 and up), each with its own way of understanding the world.", "benefits": ["Play pitched to how a child actually thinks at that age", "Object permanence, symbolic play and logical reasoning, each in its season", "Less frustration from tasks that are too abstract too soon"], "use": "Age matching in Bunny Path follows these stages, which is why a sorting game for a 3-year-old is about categories and for a 9-year-old about rules and strategy."}, "Vygotsky's zone of proximal development": {"sum": "Lev Vygotsky's idea that children learn best on tasks they cannot yet do alone but can do with a little help, supported by scaffolding from an adult or a more capable peer.", "benefits": ["Just-right challenge that keeps a child engaged", "Learning through guided participation, then independence", "Confidence from succeeding with support"], "use": "Every activity includes the adult's role and a way to make it easier or harder, so parents can scaffold instead of taking over."}, "Erikson's stages of psychosocial development": {"sum": "Erik Erikson's model of development as a series of life stages, each with a central challenge; in childhood these are trust, autonomy, initiative and industry.", "benefits": ["Trust and security from responsive play with a caregiver", "Autonomy and initiative from real choices and pretend play", "Competence from finishing real projects"], "use": "Activities note the stage they support, so toddler play leans on autonomy and school-age projects on industry and mastery."}, "Bloom's Taxonomy": {"sum": "A ladder of thinking skills from remembering and understanding, through applying and analyzing, to evaluating and creating.", "benefits": ["Moving from recall to real understanding", "Analysis and judgment through questions like why and what if", "Creating something new as the highest form of learning"], "use": "Step prompts are written to climb the ladder, ending with a create-or-evaluate moment instead of stopping at recall."}, "Parten's stages of play": {"sum": "Mildred Parten's six stages of social play: unoccupied, solitary, onlooker, parallel, associative and cooperative, describing how children learn to play with others.", "benefits": ["Realistic expectations for toddlers who play alongside others, not yet with them", "A gentle path toward sharing and cooperating", "Social skills that grow through play rather than instruction"], "use": "Play activities are tagged with the social stage they suit, so a parallel-play idea goes to a 2-year-old and a cooperative game to a 5-year-old."}, "Dweck's growth mindset": {"sum": "Carol Dweck's research showing that children who believe abilities grow with effort persist longer and learn more than children who believe abilities are fixed.", "benefits": ["Effort and strategy praised instead of talent", "Mistakes treated as information", "Willingness to attempt hard things"], "use": "Activity language avoids fixed-ability praise and builds in a try-again step, and the app's own encouragement follows the same rule."}, "Csikszentmihalyi's concept of flow": {"sum": "Mihaly Csikszentmihalyi's concept of flow, the absorbed state that happens when a challenge closely matches a person's skill and feedback is immediate.", "benefits": ["Deep, self-directed focus", "Motivation that comes from the activity itself, not rewards", "Calm that follows absorbing play"], "use": "Activities are sized so the challenge fits the age, with clear goals and quick feedback, the three ingredients of flow."}, "Duckworth's research on grit": {"sum": "Angela Duckworth's research on grit, the combination of passion and perseverance for long-term goals, as a predictor of achievement.", "benefits": ["Sticking with a project across sessions", "Interest that deepens with practice", "Resilience when the first try fails"], "use": "Multi-session activities and projects with a visible finish line are tagged for perseverance, so grit gets practiced in small, winnable doses."}};
+  const pop = document.getElementById('fwPop'), back = document.getElementById('fwBackdrop');
+  if(!pop || !back) return;
+  const t = document.getElementById('fwTitle'), s = document.getElementById('fwSum');
+  const b = document.getElementById('fwBenefits'), u = document.getElementById('fwUse');
+  const esc = (v) => String(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function open(name){
+    const d = FW[name]; if(!d) return;
+    t.textContent = name; s.textContent = d.sum;
+    b.innerHTML = d.benefits.map(x => '<li>' + esc(x) + '</li>').join('');
+    u.textContent = d.use;
+    pop.classList.add('show'); back.classList.add('show'); pop.scrollTop = 0;
+  }
+  function close(){ pop.classList.remove('show'); back.classList.remove('show'); }
+  document.querySelectorAll('.sci-chip').forEach(c => {
+    const name = c.textContent.trim();
+    if(!FW[name]) return;
+    c.setAttribute('role', 'button'); c.tabIndex = 0;
+    c.addEventListener('click', () => open(name));
+    c.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(name); } });
+  });
+  back.addEventListener('click', close);
+  document.getElementById('fwClose').addEventListener('click', close);
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+})();
 </script>
 </body>
 </html>
