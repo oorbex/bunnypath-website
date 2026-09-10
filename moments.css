@@ -1,0 +1,74 @@
+/* Waiting becomes a place to play: a contained, touch-friendly miniature stage. */
+.moments-section{background:#f8ecd9;border-top:1px solid #e8dcc8;border-bottom:1px solid #e8dcc8;overflow:clip}
+.moments-heading{text-align:center;max-width:810px;margin:0 auto 48px}
+.moments-heading .eyebrow{justify-content:center;font-size:12px;line-height:1.6;letter-spacing:.12em;margin-bottom:24px}
+.moments-heading h2{font-size:clamp(2.7rem,5.3vw,5rem)}
+.moments-heading h2 em{color:#a54b31}
+.moments-heading p{font-size:17px;line-height:1.75;max-width:660px;margin:24px auto 0;color:#58634e}
+.moments-heading p+p{max-width:640px;margin-top:12px}
+.moments-experience{--moment-accent:#a54b31;--moment-wash:#f4ddc1;position:relative}
+.moments-experience[data-setting=waiting]{--moment-accent:#536c42;--moment-wash:#dfe7cb}
+.moments-experience[data-setting=journey]{--moment-accent:#456c73;--moment-wash:#d8e8e4}
+.moments-settings{display:flex;justify-content:center;gap:8px;max-width:640px;margin:0 auto 12px;padding:7px;background:#fffaf2;border:1px solid #e1d8c7;border-radius:100px;box-shadow:0 8px 28px #67472a06}
+.moments-settings button{display:flex;align-items:center;justify-content:center;gap:10px;flex:1;min-height:48px;padding:11px 16px;border-radius:100px;background:transparent;font-size:14px;line-height:1.3;transition:background .25s,color .25s}
+.moments-settings button span{font-size:12px;opacity:.65}
+.moments-settings button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.moments-settings button:hover:not([aria-pressed=true]){background:#eee8dc}
+.moments-stage{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.85fr);align-items:center;gap:40px;min-width:0;padding:18px 0 30px}
+.moments-world{position:relative;min-width:0;perspective:1000px;isolation:isolate}
+.moments-scene{position:relative;width:100%;aspect-ratio:1;transform:rotateX(var(--moment-x,0deg)) rotateY(var(--moment-y,0deg));transition:transform .4s ease-out;mix-blend-mode:multiply}
+.moments-scene-camera{position:absolute;inset:0;perspective:1000px}
+.moments-art{position:absolute;inset:0;opacity:0;background-image:url('/assets/waiting-worlds.png');background-size:300% 100%;background-repeat:no-repeat;border-radius:28px;will-change:transform,opacity}
+.moments-art[data-moment-art=restaurant]{background-position:0 50%}
+.moments-art[data-moment-art=waiting]{background-position:50% 50%}
+.moments-art[data-moment-art=journey]{background-position:100% 50%}
+.moments-art.is-current{opacity:1}
+.moments-discoveries{position:absolute;inset:0 0 42px;transform:rotateX(var(--moment-x,0deg)) rotateY(var(--moment-y,0deg));transition:transform .4s ease-out;pointer-events:none}
+.moments-spot{position:absolute;left:var(--spot-x);top:var(--spot-y);width:44px;height:44px;display:grid;place-items:center;border:2px solid #fffdf8;border-radius:50%;background:var(--ink);color:#fffdf8;font-size:24px;line-height:1;transform:translate(-50%,-50%);box-shadow:0 0 0 8px #fffdf854,0 5px 18px #243e3529;pointer-events:auto;animation:moment-glimmer 1.8s ease-out var(--spot-delay) 3;transition:background .2s,box-shadow .2s}
+.moments-spot[aria-pressed=true]{background:#fffdf8;color:var(--ink);box-shadow:0 0 0 5px #fffdf83b}
+.moments-spot-label{display:none;position:absolute;bottom:calc(100% + 13px);left:50%;transform:translateX(-50%);padding:7px 13px;border-radius:30px;background:var(--ink);color:white;font-size:14px;white-space:nowrap;line-height:1.2}
+.moments-spot:hover .moments-spot-label,.moments-spot:focus-visible .moments-spot-label{display:block}
+.moments-scene-caption{height:42px;display:flex;align-items:center;justify-content:center;gap:15px;font-size:14px;color:#526049;text-align:center}
+.moments-chapter{font-size:12px;white-space:nowrap;border-right:1px solid #b9c0a5;padding-right:15px;letter-spacing:.06em}
+.moments-story{min-width:0;padding:32px;background:#fffdf8;border:1px solid #e7ddc9;border-radius:28px;box-shadow:0 22px 55px #7653300c;position:relative}
+.moments-context{display:flex;align-items:center;gap:10px;padding-bottom:22px;margin-bottom:25px;border-bottom:1px solid #e7e6d9;font-size:14px;color:#64705b}
+.moments-context>span:first-child{font-size:23px;color:var(--moment-accent)}
+.moments-kicker{display:block;font-size:12px;line-height:1.5;font-weight:700;letter-spacing:.09em;color:var(--moment-accent);margin-bottom:14px}
+.moments-story h3{font:600 clamp(1.8rem,2.7vw,2.7rem)/1.12 var(--serif);letter-spacing:-.045em;color:var(--ink);text-wrap:balance}
+.moments-story p{font-size:16px;line-height:1.75;color:#63705e}
+.moments-invitation p{margin-top:22px}
+.moments-tags{display:flex;flex-wrap:wrap;gap:8px;margin:17px 0}
+.moments-tags span{background:var(--moment-wash);padding:5px 10px;border-radius:20px;font-size:12px;color:var(--ink)}
+.moments-story .moments-adapt{font-size:14px;margin-top:16px;padding-left:14px;border-left:2px solid var(--moment-wash)}
+.moments-go{width:100%;margin:27px 0 0;padding:16px 18px;justify-content:space-between;font-size:15px;gap:12px;line-height:1.4;text-align:left}
+.moments-go>span{flex-shrink:0}
+.moments-response{min-height:76px;margin-top:20px;font-size:14px;line-height:1.6;color:#63705e}
+.moments-response:has(#moments-response:empty){display:none}
+.moments-takeaway{display:flex;align-items:center;justify-content:center;gap:23px;border-top:1px solid #cdd1bb;padding-top:32px;margin-top:10px}
+.moments-takeaway>span{font:48px/1 var(--serif);color:var(--moment-accent)}
+.moments-takeaway p{font-size:16px;line-height:1.65;color:#64705b}
+.moments-takeaway strong{color:var(--ink);font-weight:600}
+.moments-takeaway a{font-weight:600;border-bottom:1px solid #8e9e78;margin-left:35px;padding:5px 0;white-space:nowrap;font-size:16px}
+.moments-takeaway a span{margin-left:18px}
+@keyframes moment-glimmer{0%,100%{box-shadow:0 0 0 7px #fffdf840,0 4px 18px #243e3529}50%{box-shadow:0 0 0 15px #fffdf80a,0 4px 18px #243e3529}}
+@media(min-width:1100px){.moments-world{margin-left:-30px;margin-right:-20px}.moments-story{margin-right:15px}.moments-invitation,.moments-idea{min-height:276px}}
+@media(max-width:900px){.moments-stage{gap:22px;grid-template-columns:minmax(0,1fr) minmax(0,.95fr)}.moments-story{padding:24px}.moments-scene-caption{font-size:12px;gap:8px}.moments-chapter{padding-right:8px}.moments-go{font-size:14px}}
+@media(max-width:700px){.moments-heading{margin-bottom:30px}.moments-heading .eyebrow{font-size:11px;max-width:340px;margin-left:auto;margin-right:auto}.moments-heading h2{font-size:clamp(2.5rem,7.6vw,3.7rem)}.moments-heading p{font-size:16px}.moments-heading p br{display:none}.moments-settings{gap:3px;padding:5px}.moments-settings button{font-size:13px;min-height:48px;padding:9px 10px}.moments-settings button span{display:none}.moments-stage{grid-template-columns:1fr;gap:28px;padding-top:4px}.moments-world{max-width:520px;width:100%;margin:0 auto}.moments-scene-caption{font-size:13px}.moments-story{max-width:520px;width:100%;margin:auto;padding:26px}.moments-story h3{font-size:2.15rem}.moments-context{margin-bottom:22px;padding-bottom:18px}.moments-invitation,.moments-idea{min-height:0}.moments-go{font-size:15px}.moments-response{min-height:68px}.moments-takeaway{gap:15px;flex-wrap:wrap;text-align:center;padding-top:25px}.moments-takeaway>span{display:none}.moments-takeaway p{width:100%;font-size:16px}.moments-takeaway a{margin-left:0}.moments-spot{width:40px;height:40px;font-size:22px}}
+@media(prefers-reduced-motion:reduce){.moments-spot{animation:none}.moments-scene,.moments-discoveries,.moments-settings button{transition:none}.moments-art{will-change:auto}}
+
+/* Obvious scene navigation remains beside the artwork on every viewport. */
+.moments-picker-label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;max-width:620px;margin:0 auto 14px;padding:0 9px}
+.moments-picker-label b{font-size:16px;font-weight:600;color:var(--ink)}
+.moments-picker-label>span{font-size:14px;color:#65705b}
+.moments-visual{position:relative;aspect-ratio:1;perspective:1000px}
+.moments-visual .moments-discoveries{inset:0}
+.moments-scene-caption{height:auto;min-height:100px;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;padding-top:14px}
+.moments-scene-nav{display:flex;align-items:center;justify-content:center;gap:18px}
+.moments-scene-nav .moments-chapter{border:0;padding:0;min-width:68px;font-size:14px;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.moments-scene-nav button{display:grid;place-items:center;width:46px;height:46px;border:1px solid #aeb99d;border-radius:50%;background:#fffaf2;color:var(--ink);box-shadow:0 3px 0 #d5dac526;transition:background .2s,transform .2s}
+.moments-scene-nav button span{font-size:27px;line-height:1;font-family:var(--sans);transform:translateY(-1px)}
+.moments-scene-nav button:hover{background:var(--ink);color:#fffaf2;transform:translateY(-2px)}
+.moments-scene-nav button:active{transform:translateY(0)}
+#moments-scene-line{font-size:14px;line-height:1.6;max-width:100%;padding:0 10px}
+@media(max-width:450px){.moments-picker-label{flex-direction:column;align-items:center;gap:3px}.moments-scene-nav{gap:22px}.moments-scene-caption{padding-top:10px;gap:11px}}
+@media(prefers-reduced-motion:reduce){.moments-scene-nav button{transition:none}.moments-scene-nav button:hover{transform:none}}
