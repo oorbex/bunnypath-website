@@ -5,7 +5,7 @@ export function initWorlds(){
  const preference=matchMedia('(prefers-reduced-motion: reduce)');let reduced=preference.matches,visible=true,frame=0,disposed=false;
  const heroHost=document.querySelector('#hero-canvas'),worldHost=document.querySelector('#library-canvas'),universe=document.querySelector('#universe');
  let heroRenderer,worldRenderer;
- try{worldRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});heroRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'})}catch{worldRenderer?.dispose();document.querySelector('#universe-hint').textContent='Choose a category and tap an activity to explore.';return}
+ try{worldRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});heroRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'})}catch{worldRenderer?.dispose();document.querySelector('#universe-hint').textContent='Tap an activity to explore.';return}
  for(const r of [heroRenderer,worldRenderer]){r.setPixelRatio(Math.min(devicePixelRatio,1.6));r.setClearColor(0,0);r.outputColorSpace=THREE.SRGBColorSpace}
  heroHost.append(heroRenderer.domElement);worldHost.append(worldRenderer.domElement);universe.classList.add('webgl-ready');
  const heroScene=new THREE.Scene(),scene=new THREE.Scene();const heroCamera=new THREE.PerspectiveCamera(35,1,.1,100),camera=new THREE.PerspectiveCamera(35,1,.1,100);heroCamera.position.z=12;camera.position.z=12;
@@ -59,7 +59,7 @@ export function initWorlds(){
  const lostContexts=new Set();
  function startFrames(){if(disposed||lostContexts.size||frame)return;frame=requestAnimationFrame(tick)}
  function stopFrames(){if(frame)cancelAnimationFrame(frame);frame=0}
- function showFallback(){universe.classList.remove('webgl-ready');document.querySelector('#universe-hint').textContent='Choose a category and tap an activity to explore.';heroRenderer.domElement.style.visibility='hidden';worldRenderer.domElement.style.visibility='hidden'}
+ function showFallback(){universe.classList.remove('webgl-ready');document.querySelector('#universe-hint').textContent='Tap an activity to explore.';heroRenderer.domElement.style.visibility='hidden';worldRenderer.domElement.style.visibility='hidden'}
  for(const r of [heroRenderer,worldRenderer]){
   r.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();lostContexts.add(r);stopFrames();cancelDrag();showFallback()});
   r.domElement.addEventListener('webglcontextrestored',()=>{lostContexts.delete(r);if(lostContexts.size||disposed)return;universe.classList.add('webgl-ready');document.querySelector('#universe-hint').textContent='Press and drag up or down to travel. Tap a card to explore.';heroRenderer.domElement.style.visibility='';worldRenderer.domElement.style.visibility='';last=0;resize();startFrames()});

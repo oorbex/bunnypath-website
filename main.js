@@ -1,4 +1,4 @@
-import {getCategory,filterActivities,agePreview,ageStage,normalizeActivity} from './activity-model.js';
+import {filterActivities,agePreview,ageStage,normalizeActivity} from './activity-model.js';
 import {details,library,ageCards,frameworks} from './content.js';
 import {initAgeWorld} from './age-world.js';
 import {initOpening} from './opening.js';
@@ -24,10 +24,6 @@ let ageOffset=0;const slider=document.querySelector('#age-slider');
 const ageWorld=initAgeWorld();
 function renderAge(){const age=Number(slider.value);ageWorld.setAge(age);const label=age===0?'Under 1 year':age===1?'1 year old':`${age} years old`;document.querySelector('#age-readout').textContent=label;slider.setAttribute('aria-valuetext',label);slider.style.background=`linear-gradient(to right,var(--coral) ${age/12*100}%,#d9dfc9 ${age/12*100}%)`;document.querySelector('#age-stage').textContent=ageStage(age);document.querySelector('#age-badge').textContent=age===0?'UNDER 1':`AGE ${age}`;const el=document.querySelector('#age-cards');el.innerHTML=agePreview(age,ageOffset).map(a=>`<button class="age-card" data-kind="${esc(a.type)}" data-detail="${esc(a.title)}"><span class="emoji" aria-hidden="true">${a.emoji}</span><span><small>${ageLabels[a.type]}</small><h3>${esc(a.title)}</h3><p>${esc(a.meta)}</p></span><span aria-hidden="true">↗</span></button>`).join('');animateRefresh(el)}
 slider.addEventListener('input',()=>{ageOffset=0;renderAge()});document.querySelector('#age-surprise').textContent='Shuffle these ideas ↻';document.querySelector('#age-surprise').onclick=()=>{ageOffset++;renderAge()};renderAge();
-let category='all',libraryOffset=0;
-function renderLibrary(){const list=library.filter(a=>category==='all'||getCategory(a)===category);document.querySelector('#library-examples').innerHTML=Array.from({length:Math.min(3,list.length)},(_,i)=>list[(i+libraryOffset)%list.length]).map(a=>`<button class="library-example" data-detail="${esc(a.name)}"><span class="emoji" aria-hidden="true">${a.emoji}</span><span><b>${esc(a.name)}</b><small>${esc(a.age)} · ${esc(a.time)}</small></span><span aria-hidden="true">↗</span></button>`).join('');window.dispatchEvent(new CustomEvent('library-category',{detail:category}))}
-document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{category=b.dataset.category;libraryOffset=0;document.querySelectorAll('[data-category]').forEach(t=>t.setAttribute('aria-pressed',String(t===b)));renderLibrary()});renderLibrary();
-document.querySelector('#library-more').onclick=()=>{libraryOffset+=3;renderLibrary()};
 document.querySelector('#universe-fallback').innerHTML=library.slice(0,12).map(a=>`<button data-detail="${esc(a.name)}"><span aria-hidden="true">${a.emoji}</span><b>${esc(a.name)}</b></button>`).join('');window.addEventListener('show-activity',e=>showDetail(e.detail));
 let filterLimit=6;const filterState=new Set();const search=document.querySelector('#activity-search');
 function renderFilters(){const list=filterActivities(search.value,[...filterState]);document.querySelector('#filter-more').hidden=list.length<=filterLimit;document.querySelector('#filter-count').textContent=`Showing ${Math.min(filterLimit,list.length)} of ${list.length} examples`;document.querySelector('#filter-grid').innerHTML=list.length?list.slice(0,filterLimit).map(a=>`<button class="filter-card" data-detail="${esc(a.name)}"><span class="emoji" aria-hidden="true">${a.emoji}</span><span class="card-arrow" aria-hidden="true">↗</span><h3>${esc(a.name)}</h3><p>${esc(a.age)} · ${esc(a.time)}</p></button>`).join(''):'<div class="empty-results"><b>A little more room to play?</b><p>Try a different search or fewer filters.</p><button class="text-button" data-reset>Clear filters and search ↺</button></div>'}
@@ -49,7 +45,7 @@ document.querySelector('#year').textContent=new Date().getFullYear();
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 if(!reducedMotion.matches&&'IntersectionObserver' in window){document.body.classList.add('motion-ready');const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px 30px 0px'});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el))}
 // Decorative WebGL is isolated from the site's controls and content.
-import('./world.js').then(m=>m.initWorlds()).catch(()=>{document.querySelector('#motion-toggle').hidden=true;document.querySelector('#universe-hint').textContent='Choose a category and tap an activity to explore.'});
+import('./world.js').then(m=>m.initWorlds()).catch(()=>{document.querySelector('#universe-hint').textContent='Tap an activity to explore.'});
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){menu.setAttribute('aria-expanded','false');document.querySelector('.nav-links').classList.remove('open')}});
 
