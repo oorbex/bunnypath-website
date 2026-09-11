@@ -333,3 +333,5 @@ button.calendar-scroll-hint:focus-visible{outline:2px solid #edb68e;outline-offs
 .calendar-sheet:focus-visible{outline:2px solid #edb68e;outline-offset:6px}
 @media(max-width:760px){button.calendar-scroll-hint{margin-left:auto;margin-right:auto}}
 @media(prefers-reduced-motion:reduce){button.calendar-scroll-hint>span{display:grid;transition:none}button.calendar-scroll-hint:hover>span{transform:none}}
+
+.age-control .age-slider-help{margin:16px 0 0;font-size:14px;line-height:1.65;color:#60714f;text-align:left}
