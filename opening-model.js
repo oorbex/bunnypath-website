@@ -17,4 +17,3 @@ export function flightState(source,target,scroll,viewport,mobile=false,{arcSide=
   rotate:mix(startRotate,0,p)+arc*(mobile?5:13)*arcSide,turn:arc*(mobile?-12:-32)*arcSide,
   label:clamp01((p-.25)/.45)};
 }
-export const searchPrompts = ['Indoor activities for kids','Something with no prep','What can we make?','Easy science ideas','Rainy-day inspiration','Games for a 3-year-old','Something screen-free','Play with cardboard','Quick activities at home','Ideas for after school','Things to do together','What should we play?'];
