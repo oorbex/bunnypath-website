@@ -7,17 +7,17 @@ export function initMoments(){
  const tabs=[...root.querySelectorAll('.moments-settings button')];
  const arts=[...root.querySelectorAll('[data-moment-art]')];
  const scene=$('.moments-scene'), world=$('.moments-world');
- const hotspots=$('.moments-discoveries'), go=$('#moments-go');
+ const hotspots=$('.moments-discoveries');
  const response=$('#moments-response');
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
- let key='restaurant',round=-1,found=new Set(),animations=[];
+ let key='restaurant',found=new Set(),animations=[];
  function cancel(){animations.forEach(a=>a.cancel());animations=[]}
  function animate(el,frames,options){if(!motion.matches&&el.animate)animations.push(el.animate(frames,options))}
  function select(next){
   const old=momentState(key).index;
   const {setting,index}=momentState(next);
-  key=setting.key;round=-1;found.clear();cancel();
-  root.dataset.setting=key;root.classList.remove('is-playing');
+  key=setting.key;found.clear();cancel();
+  root.dataset.setting=key;
   tabs.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.setting===key)));
   arts.forEach((art,i)=>art.classList.toggle('is-current',i===index));
   if(old!==index){
@@ -31,22 +31,14 @@ export function initMoments(){
   $('#moments-next').setAttribute('aria-label',`Next scene: ${momentState(tabs[(index+1)%tabs.length].dataset.setting).setting.label}`);
   $('#moments-context').textContent=setting.context;
   $('#moments-scene-line').textContent=setting.line;
-  $('#moments-invite-copy').textContent=setting.intro;
-  $('.moments-invitation').hidden=false;$('.moments-idea').hidden=true;
-  hotspots.hidden=true;hotspots.replaceChildren();
-  go.innerHTML='Find an idea for this moment <span aria-hidden="true">↗</span>';
-  response.textContent='Choose a setting. Discover a little possibility.';
+  showIdea(setting);
  }
- function discover(){
-  round++;found.clear();cancel();
-  const {setting,idea}=momentState(key,round);
-  root.classList.add('is-playing');
-  $('.moments-invitation').hidden=true;$('.moments-idea').hidden=false;
+ function showIdea(setting){
+  const {idea}=momentState(key);
   $('#moments-idea-title').textContent=idea.title;
   $('#moments-idea-copy').textContent=idea.copy;
   $('#moments-adapt').textContent=idea.adapt;
-  go.innerHTML='Another little idea <span aria-hidden="true">↻</span>';
-  response.textContent='Tap the three glimmers for a little inspiration.';
+  response.textContent='';
   hotspots.replaceChildren();hotspots.hidden=false;
   setting.spots.forEach((spot,i)=>{
    const button=document.createElement('button');
@@ -63,7 +55,6 @@ export function initMoments(){
    hotspots.append(button);
   });
   animate($('.moments-idea'),[{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'translateY(0)'}],{duration:500,easing:'ease-out'});
-  animate(arts[momentState(key).index],[{transform:'scale(1)'},{transform:'scale(1.045)',offset:.5},{transform:'scale(1)'}],{duration:1000,easing:'ease-in-out'});
  }
  tabs.forEach((button,i)=>{
   button.addEventListener('click',()=>select(button.dataset.setting));
@@ -78,7 +69,6 @@ export function initMoments(){
  });
  $('#moments-prev').addEventListener('click',()=>select(tabs[(momentState(key).index+tabs.length-1)%tabs.length].dataset.setting));
  $('#moments-next').addEventListener('click',()=>select(tabs[(momentState(key).index+1)%tabs.length].dataset.setting));
- go.addEventListener('click',discover);
  function recenter(){world.style.setProperty('--moment-x','0deg');world.style.setProperty('--moment-y','0deg')}
  world.addEventListener('pointermove',e=>{
   if(motion.matches||e.pointerType!=='mouse')return;
@@ -90,5 +80,5 @@ export function initMoments(){
  motion.addEventListener('change',()=>{cancel();recenter()});
  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancel();recenter()}});
  select(key);
- return {select,discover};
+ return {select};
 }
