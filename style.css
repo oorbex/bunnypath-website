@@ -338,3 +338,6 @@ button.calendar-scroll-hint:focus-visible{outline:2px solid #edb68e;outline-offs
 
 .library-gallery.universe{touch-action:auto}
 #library-canvas canvas{touch-action:pan-x pinch-zoom}
+
+.popup-icon{display:block;width:18px;height:18px;flex-shrink:0}
+.card-arrow:has(.popup-icon),.mini-arrow:has(.popup-icon),.calendar-activity-arrow:has(.popup-icon),.journey-arrow:has(.popup-icon){display:grid;place-items:center}

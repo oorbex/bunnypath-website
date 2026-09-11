@@ -1,3 +1,4 @@
+import {popupIcon} from './ui-icons.js';
 import {flightState,flightArrivalScroll} from './opening-model.js';
 
 export function initOpening({refreshIdeas}) {
@@ -16,7 +17,7 @@ export function initOpening({refreshIdeas}) {
   const source=document.querySelector(config.selector);
   const flight=document.createElement('div');flight.className='play-journey';flight.setAttribute('aria-hidden','true');flight.hidden=true;
   flight.dataset.kind=config.targetIndex===0?'create':'discover';
-  flight.innerHTML=`<span class="journey-icon">${config.icon}</span><span class="journey-labels"><span class="journey-intro"><small>${config.intro}</small><b>${config.title}</b></span><span class="journey-activity"><b></b><small></small></span></span><span class="journey-arrow">↗</span>`;
+  flight.innerHTML=`<span class="journey-icon">${config.icon}</span><span class="journey-labels"><span class="journey-intro"><small>${config.intro}</small><b>${config.title}</b></span><span class="journey-activity"><b></b><small></small></span></span><span class="journey-arrow">${popupIcon}</span>`;
   document.body.append(flight);
   return {...config,source,flight};
  }).filter(j=>j.source);
