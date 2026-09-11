@@ -1,7 +1,7 @@
 // Small, self-contained play prompts for this website experience.
 // These are not represented as entries from the app's activity collection.
 export const settings = [
- {key:'restaurant', label:'Restaurant', description:'A miniature restaurant with a bunny parent and child at a table', context:'The food is on its way. Eventually.', line:'Same table. A whole new possibility.', intro:'A napkin. A cup. A curious little mind. You already have more to play with than you think.', spots:[
+ {key:'restaurant', label:'Restaurant', description:'A miniature restaurant with a bunny parent and child at a table', context:'The food is on its way. Eventually.', line:'', intro:'A napkin. A cup. A curious little mind. You already have more to play with than you think.', spots:[
   {x:44,y:67,label:'Napkin',clue:'A napkin can be a tiny blanket for an imaginary guest.'},
   {x:40,y:50,label:'Cup',clue:'A cup has a circle hiding at the top. What else is round?'},
   {x:58,y:54,label:'Plant',clue:'How many different greens can you spot in those leaves?'}

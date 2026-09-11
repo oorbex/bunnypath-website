@@ -71,3 +71,5 @@
 @media(prefers-reduced-motion:reduce){.moments-scene-nav button{transition:none}.moments-scene-nav button:hover{transform:none}}
 
 .moments-caption-invite{font-size:14px;line-height:1.6;margin:0;color:#526049}
+
+#moments-scene-line:empty{display:none}
