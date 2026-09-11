@@ -2,11 +2,10 @@ import * as THREE from './vendor/three.module.min.js';
 import {library} from './content.js';
 import {getCategory} from './activity-model.js';
 export function initWorlds(){
- const preference=matchMedia('(prefers-reduced-motion: reduce)');let reduced=preference.matches,paused=false,visible=true,frame=0,disposed=false;
- const toggle=document.querySelector('#motion-toggle');toggle.setAttribute('aria-pressed',String(reduced));toggle.innerHTML=reduced?'Play motion <span aria-hidden="true">▷</span>':'Pause motion <span aria-hidden="true">Ⅱ</span>';
+ const preference=matchMedia('(prefers-reduced-motion: reduce)');let reduced=preference.matches,visible=true,frame=0,disposed=false;
  const heroHost=document.querySelector('#hero-canvas'),worldHost=document.querySelector('#library-canvas'),universe=document.querySelector('#universe');
  let heroRenderer,worldRenderer;
- try{worldRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});heroRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'})}catch{worldRenderer?.dispose();toggle.hidden=true;document.querySelector('#universe-hint').textContent='Choose a category and tap an activity to explore.';return}
+ try{worldRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});heroRenderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'})}catch{worldRenderer?.dispose();document.querySelector('#universe-hint').textContent='Choose a category and tap an activity to explore.';return}
  for(const r of [heroRenderer,worldRenderer]){r.setPixelRatio(Math.min(devicePixelRatio,1.6));r.setClearColor(0,0);r.outputColorSpace=THREE.SRGBColorSpace}
  heroHost.append(heroRenderer.domElement);worldHost.append(worldRenderer.domElement);universe.classList.add('webgl-ready');
  const heroScene=new THREE.Scene(),scene=new THREE.Scene();const heroCamera=new THREE.PerspectiveCamera(35,1,.1,100),camera=new THREE.PerspectiveCamera(35,1,.1,100);heroCamera.position.z=12;camera.position.z=12;
@@ -24,7 +23,7 @@ export function initWorlds(){
  const ease=t=>1-Math.pow(1-THREE.MathUtils.clamp(t,0,1),3);
  function arrange(){
   const rows=Math.ceil(cards.length/columns),length=rows*2.55;
-  const opening=reduced||paused?1:ease(reveal);
+  const opening=reduced?1:ease(reveal);
   group.userData.travel=travel;
   for(const [i,c] of cards.entries()){
    const row=Math.floor(i/columns),col=i%columns;
@@ -45,29 +44,25 @@ export function initWorlds(){
  let pointerX=0,pointerY=0,dragging=false,down=null,moved=false,selectedCategory='all',hovered=null;
  const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
  function hit(e){const rect=worldRenderer.domElement.getBoundingClientRect();pointer.set((e.clientX-rect.left)/rect.width*2-1,-(e.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);return raycaster.intersectObjects(cards.filter(c=>c.visible&&c.material.opacity>.45))[0]?.object}
- const canvas=worldRenderer.domElement;canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;dragging=true;moved=false;down={x:e.clientX,y:e.clientY,travel:targetTravel};try{canvas.setPointerCapture(e.pointerId)}catch{cancelDrag()}});
- canvas.addEventListener('pointermove',e=>{if(dragging&&down){const dx=e.clientX-down.x,dy=e.clientY-down.y;if(Math.abs(dx)+Math.abs(dy)>7)moved=true;targetTravel=down.travel-dx*.022;if(reduced||paused)render()}else{hovered=hit(e);canvas.style.cursor=hovered?'pointer':'grab';if(reduced||paused)render()}});
- function cancelDrag(){dragging=false;down=null;hovered=null}
+ const canvas=worldRenderer.domElement;canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;dragging=true;moved=false;targetTravel=travel;canvas.style.cursor='grabbing';down={x:e.clientX,y:e.clientY,travel};try{canvas.setPointerCapture(e.pointerId)}catch{cancelDrag()}});
+ canvas.addEventListener('pointermove',e=>{if(dragging&&down){const dx=e.clientX-down.x,dy=e.clientY-down.y;if(Math.abs(dx)+Math.abs(dy)>7)moved=true;targetTravel=down.travel+dy*.022;render()}else{hovered=hit(e);canvas.style.cursor=hovered?'pointer':'grab';if(reduced)render()}});
+ function cancelDrag(){dragging=false;down=null;hovered=null;canvas.style.cursor='grab'}
  function release(e){const shouldOpen=dragging&&!moved;cancelDrag();if(shouldOpen){const card=hit(e);if(card)window.dispatchEvent(new CustomEvent('show-activity',{detail:card.userData.activity.name}))}}
- canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',cancelDrag);canvas.addEventListener('lostpointercapture',cancelDrag);window.addEventListener('pointerup',()=>{cancelDrag()});window.addEventListener('blur',cancelDrag);canvas.addEventListener('pointerleave',()=>{hovered=null;if(reduced||paused)render()});
+ canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',cancelDrag);canvas.addEventListener('lostpointercapture',cancelDrag);window.addEventListener('pointerup',()=>{cancelDrag()});window.addEventListener('blur',cancelDrag);canvas.addEventListener('pointerleave',()=>{hovered=null;if(reduced)render()});
  document.querySelector('.hero-world').addEventListener('pointermove',e=>{const rect=heroHost.getBoundingClientRect();pointerX=(e.clientX-rect.left)/rect.width-.5;pointerY=(e.clientY-rect.top)/rect.height-.5});document.querySelector('.hero-world').addEventListener('pointerleave',()=>{pointerX=0;pointerY=0});
  window.addEventListener('library-category',e=>{selectedCategory=e.detail;const options=library.map((a,i)=>({a,i})).filter(({a})=>selectedCategory==='all'||getCategory(a)===selectedCategory);if(!options.length)return;cards.forEach((c,i)=>{const entry=options[i%options.length];c.userData.activity=entry.a;c.material.map=textures[entry.i];c.material.needsUpdate=true});render()});
- const next=document.querySelector('#gallery-next'),replay=document.querySelector('#gallery-replay');
- if(next)next.onclick=()=>{targetTravel+=7.65;if(reduced||paused)travel=targetTravel;render()};
- if(replay)replay.onclick=()=>{if(reduced||paused){targetTravel=0;travel=0;reveal=1}else{reveal=0;revealStarted=true}render()};
- toggle.onclick=()=>{paused=!(paused||reduced);reduced=false;toggle.setAttribute('aria-pressed',String(paused));toggle.innerHTML=paused?'Play motion <span aria-hidden="true">▷</span>':'Pause motion <span aria-hidden="true">Ⅱ</span>';render()};
- preference.addEventListener('change',e=>{reduced=e.matches;toggle.setAttribute('aria-pressed',String(reduced||paused));toggle.innerHTML=reduced||paused?'Play motion <span aria-hidden="true">▷</span>':'Pause motion <span aria-hidden="true">Ⅱ</span>';render()});
- function render(t=0){if(disposed||lostContexts.size)return;if(reduced||paused)travel=targetTravel;else travel+=(targetTravel-travel)*.085;arrange();scene.updateMatrixWorld(true);if(inWorld)worldRenderer.render(scene,camera);if(inHero){if(!reduced){heroGroup.rotation.y+=(pointerX*.25-heroGroup.rotation.y)*.04;heroGroup.rotation.x+=(-pointerY*.15-heroGroup.rotation.x)*.04;}heroRenderer.render(heroScene,heroCamera)}}
- let last=0;function tick(time){frame=0;if(disposed||lostContexts.size)return;frame=requestAnimationFrame(tick);if(!visible||reduced||paused||time-last<30)return;const dt=Math.min((time-last)/1000,.05);last=time;if(!reduced&&!paused){if(inWorld&&revealStarted){reveal=Math.min(1,reveal+dt*.44);if(!dragging)targetTravel+=dt*.52;}if(inHero)heroGroup.children.forEach(m=>{m.position.y=m.userData.baseY+Math.sin(time*.0007+m.userData.index)*.075;m.rotation.x+=dt*.12;m.rotation.z+=dt*.08})}if(inWorld||inHero)render(time)}
+ preference.addEventListener('change',e=>{reduced=e.matches;cancelDrag();render()});
+ function render(t=0){if(disposed||lostContexts.size)return;if(reduced||dragging)travel=targetTravel;else travel+=(targetTravel-travel)*.085;arrange();scene.updateMatrixWorld(true);if(inWorld)worldRenderer.render(scene,camera);if(inHero){if(!reduced){heroGroup.rotation.y+=(pointerX*.25-heroGroup.rotation.y)*.04;heroGroup.rotation.x+=(-pointerY*.15-heroGroup.rotation.x)*.04;}heroRenderer.render(heroScene,heroCamera)}}
+ let last=0;function tick(time){frame=0;if(disposed||lostContexts.size)return;frame=requestAnimationFrame(tick);if(!visible||reduced||time-last<30)return;const dt=Math.min((time-last)/1000,.05);last=time;if(!reduced){if(inWorld&&revealStarted){reveal=Math.min(1,reveal+dt*.44);if(!dragging)targetTravel+=dt*.52;}if(inHero)heroGroup.children.forEach(m=>{m.position.y=m.userData.baseY+Math.sin(time*.0007+m.userData.index)*.075;m.rotation.x+=dt*.12;m.rotation.z+=dt*.08})}if(inWorld||inHero)render(time)}
  document.addEventListener('visibilitychange',()=>{visible=!document.hidden;cancelDrag();last=0;if(visible&&!disposed){resize();startFrames()}});
  // Keep the scene alive across tab changes, history navigation and recoverable context loss.
  const lostContexts=new Set();
  function startFrames(){if(disposed||lostContexts.size||frame)return;frame=requestAnimationFrame(tick)}
  function stopFrames(){if(frame)cancelAnimationFrame(frame);frame=0}
- function showFallback(){universe.classList.remove('webgl-ready');toggle.hidden=true;document.querySelector('#universe-hint').textContent='Choose a category and tap an activity to explore.';heroRenderer.domElement.style.visibility='hidden';worldRenderer.domElement.style.visibility='hidden'}
+ function showFallback(){universe.classList.remove('webgl-ready');document.querySelector('#universe-hint').textContent='Choose a category and tap an activity to explore.';heroRenderer.domElement.style.visibility='hidden';worldRenderer.domElement.style.visibility='hidden'}
  for(const r of [heroRenderer,worldRenderer]){
   r.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();lostContexts.add(r);stopFrames();cancelDrag();showFallback()});
-  r.domElement.addEventListener('webglcontextrestored',()=>{lostContexts.delete(r);if(lostContexts.size||disposed)return;universe.classList.add('webgl-ready');toggle.hidden=false;document.querySelector('#universe-hint').textContent='Drag sideways to travel. Tap a card to explore.';heroRenderer.domElement.style.visibility='';worldRenderer.domElement.style.visibility='';last=0;resize();startFrames()});
+  r.domElement.addEventListener('webglcontextrestored',()=>{lostContexts.delete(r);if(lostContexts.size||disposed)return;universe.classList.add('webgl-ready');document.querySelector('#universe-hint').textContent='Press and drag up or down to travel. Tap a card to explore.';heroRenderer.domElement.style.visibility='';worldRenderer.domElement.style.visibility='';last=0;resize();startFrames()});
  }
  resize();startFrames();
  window.addEventListener('pagehide',e=>{
