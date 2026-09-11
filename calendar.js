@@ -107,10 +107,6 @@ export function initCalendar() {
     if (seed && !motion.matches) seed.style.setProperty('--seed-opacity','0');
     render(value);
   }
-  $('.calendar-scroll-hint').addEventListener('click',()=>{
-    sheet.focus({preventScroll:true});
-    window.scrollBy({top:Math.max(0,sheet.getBoundingClientRect().top-inset),behavior:motion.matches?'instant':'smooth'});
-  });
   slider.addEventListener('input',()=>explore(slider.value));
   grid.addEventListener('click',event=>{const b=event.target.closest('[data-day]');if(b)explore(b.dataset.day)});
   $('#calendar-prev').addEventListener('click',()=>explore(adjacentMonth(current,-1)));
